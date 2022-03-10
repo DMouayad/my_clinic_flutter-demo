@@ -5,15 +5,15 @@ import 'package:equatable/equatable.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit(this.authRepository) : super(AuthHasNoLoggedInUser());
+  AuthCubit(this.authRepository) : super(const AuthInitial());
   final BaseAuthRepository authRepository;
 
   Future<void> loadCurrentUser() async {
     await authRepository.init();
     if (authRepository.hasLoggedInUser()) {
-      emit(AuthHasLoggedInUser());
+      emit(const AuthHasLoggedInUser());
     } else {
-      emit(AuthHasNoLoggedInUser());
+      emit(const AuthHasNoLoggedInUser());
     }
   }
 }

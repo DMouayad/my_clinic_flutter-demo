@@ -18,4 +18,26 @@ mixin ResponsiveMixin {
 
   bool isDesktop(BuildContext context) =>
       MediaQuery.of(context).size.width >= 1100;
+
+  Widget buildWidget(BuildContext context) {
+    assert(
+      builder(context) != null ||
+          mobile(context) != null ||
+          tablet(context) != null ||
+          desktop(context) != null,
+    );
+
+    if (isMobile(context) && mobile(context) != null) {
+      return mobile(context)!;
+    } else if (isTablet(context) && tablet(context) != null) {
+      return tablet(context)!;
+    } else if (isDesktop(context) && desktop(context) != null) {
+      return desktop(context)!;
+    } else {
+      return mobile(context) ??
+          tablet(context) ??
+          desktop(context) ??
+          builder(context)!;
+    }
+  }
 }

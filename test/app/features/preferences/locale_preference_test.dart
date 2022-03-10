@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  group('App locale & PreferencesCubit tests', () {
+  group('App locale using PreferencesCubit', () {
     PreferencesCubit? preferencesCubit;
     late ClinicApp myApp;
 
@@ -23,10 +23,10 @@ void main() {
 
     tearDown(() => preferencesCubit!.close());
     //
-    group('Verify initial locale based on device locale', () {
+    group('Verify initial locale based on the device locale', () {
       testWidgets(
         "Device locales contains only one supported locale"
-        " which assigned to the app locale",
+        " which should be assigned to the app locale",
         (WidgetTester tester) async {
           // ARRANGE
           const deviceLocales = [Locale('ar')];
@@ -55,14 +55,17 @@ void main() {
 
           // ACT
           await tester.pumpWidget(myApp);
-
+// print(            supportedLocales
+          // .firstWhere((element) => deviceLocales.contains(element)));
           // EXPECT
           expect(
             tester
                 .widget<MaterialApp>(find.byType(MaterialApp))
                 .localeListResolutionCallback!(deviceLocales, supportedLocales),
-            // deviceLocales.first
-            const Locale('en'),
+
+            deviceLocales
+                .firstWhere((element) => supportedLocales.contains(element)),
+            // const Locale('en'),
           );
         },
       );

@@ -22,7 +22,7 @@ void main() {
 
     tearDown(() => preferencesCubit!.close());
 
-    testWidgets('Verify initial [themMode] is [ThemeMode.system] ',
+    testWidgets('Verify initial [themeMode] is [ThemeMode.system] ',
         (WidgetTester tester) async {
       await tester.pumpWidget(myApp);
 
@@ -34,7 +34,7 @@ void main() {
     });
     testWidgets(
         '[PreferencesCubit] should emit [ThemeModePreferenceProvided]'
-        'when calling [provideThemeMode] and App them mode is updated',
+        'when calling [provideThemeMode] and app theme mode is updated',
         (WidgetTester tester) async {
       // ARRANGE
       const newThemeMode = ThemeMode.dark;

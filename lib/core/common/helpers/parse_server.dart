@@ -3,10 +3,8 @@ import 'dart:io';
 
 import 'package:clinic_v2/core/common/models/custom_response.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:mockito/annotations.dart';
 
 /// A [Parse] server which connects to a 'Back4App' database.
-@GenerateMocks([ParseServer])
 class ParseServer {
   static const _appID = 'v4pEePO9kYDmIrY5eG5tZV4MvbvuBIjeXl4Ut577';
   static const _serverURL = 'https://parseapi.back4app.com';

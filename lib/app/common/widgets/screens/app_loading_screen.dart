@@ -8,20 +8,17 @@ class LoadingAppScreen extends ResponsiveScreen {
 
   @override
   Widget mobile(context) {
-    return MediaQuery(
-      data: MediaQuery.of(context),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Components.appNameText(),
-          // const Spacer(),
-          LoadingIndicator(
-            currentDotColor: AppColorScheme.primary(context)!,
-            defaultDotColor: AppColorScheme.primaryContainer(context)!,
-            numDots: 5,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Components.appNameText(),
+        const Spacer(),
+        LoadingIndicator(
+          currentDotColor: AppColorScheme.primary(context)!,
+          defaultDotColor: AppColorScheme.primaryContainer(context)!,
+          numDots: 5,
+        ),
+      ],
     );
   }
 }
