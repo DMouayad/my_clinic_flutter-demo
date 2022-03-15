@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/view/login/login_screen.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
-import 'package:clinic_v2/app/features/login/view/login_screen.dart';
 import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
@@ -80,7 +80,7 @@ void main() {
       );
     });
     group('Startup success scenario', () {
-      // in this test [ClinicApp] is needed to verify the correct route is pushed based on
+      // in this test group [ClinicApp] is needed to verify the correct route is pushed based on
       // [AuthCubit] state
       late ClinicApp clinicApp;
       setUp(
@@ -94,6 +94,7 @@ void main() {
             ],
             child: const StartupScreen(),
           );
+
           clinicApp = ClinicApp(
             PreferencesCubit(),
             home: startupScreenMock,

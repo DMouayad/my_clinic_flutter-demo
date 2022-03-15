@@ -31,6 +31,7 @@ class StartupScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
+          print(state);
           if (state is StartupFailure) {
             return ErrorStartingAppScreen(state.error);
           }
@@ -49,6 +50,7 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
   @override
   Widget mobile(context) {
     return Scaffold(
+      backgroundColor: Colors.red,
       body: Column(),
     );
   }

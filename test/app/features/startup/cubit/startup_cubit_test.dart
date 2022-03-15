@@ -28,7 +28,7 @@ void main() {
           <StartupState>[StartupInProgress(), StartupFailure(connectionError)],
     );
     blocTest<StartupCubit, StartupState>(
-      'should emits [StartupSuccess] when [initServerConnection] was  successful',
+      'should emits [StartupSuccess] when [initServerConnection] was successful',
       setUp: () => setupStartupCubitForStartupSuccess(startupCubit),
       build: () => startupCubit,
       act: (cubit) {

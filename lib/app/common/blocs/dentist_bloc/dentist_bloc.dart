@@ -5,7 +5,6 @@ import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
 import 'package:clinic_v2/core/features/users/domain/dentist_contracts.dart';
 
 part 'dentist_event.dart';
-
 part 'dentist_state.dart';
 
 class DentistBloc extends UserBloc<DentistEvent, DentistState> {

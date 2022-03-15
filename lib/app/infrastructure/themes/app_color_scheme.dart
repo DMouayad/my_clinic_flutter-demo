@@ -1,20 +1,20 @@
+import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 import 'md3_color_scheme.dart';
+// extension ThemeExtension on BuildContext {
+//   /// similar to [MediaQuery.of(context).theme]
+//   ThemeData get theme => Theme.of(this);
 
-extension ThemeExtension on BuildContext {
-  /// similar to [MediaQuery.of(context).theme]
-  ThemeData get theme => Theme.of(this);
+//   /// Check if dark mode theme is enable
+//   bool get isDarkMode => (theme.brightness == Brightness.dark);
 
-  /// Check if dark mode theme is enable
-  bool get isDarkMode => (theme.brightness == Brightness.dark);
+//   /// give access to Theme.of(context).iconTheme.color
+//   Color? get iconColor => theme.iconTheme.color;
 
-  /// give access to Theme.of(context).iconTheme.color
-  Color? get iconColor => theme.iconTheme.color;
-
-  /// similar to [MediaQuery.of(context).padding]
-  TextTheme get textTheme => Theme.of(this).textTheme;
-}
+//   /// similar to [MediaQuery.of(context).padding]
+//   TextTheme get textTheme => Theme.of(this).textTheme;
+// }
 
 class AppColorScheme {
   // static bool  isDarkMode

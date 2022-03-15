@@ -2,12 +2,10 @@
 // in clinic_v2/test/app/features/auth/auth_cubit_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i6;
+import 'dart:async' as _i5;
 
-import 'package:bloc/bloc.dart' as _i8;
-import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart' as _i5;
 import 'package:clinic_v2/core/common/models/custom_response.dart' as _i2;
-import 'package:clinic_v2/core/common/utilities/enums.dart' as _i7;
+import 'package:clinic_v2/core/common/utilities/enums.dart' as _i6;
 import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart'
     as _i4;
 import 'package:clinic_v2/core/features/users/domain/src/entities/base_server_user.dart'
@@ -26,11 +24,6 @@ import 'package:mockito/mockito.dart' as _i1;
 class _FakeCustomResponse_0<T> extends _i1.Fake
     implements _i2.CustomResponse<T> {}
 
-class _FakeBaseAuthRepository_1<T extends _i3.BaseServerUser> extends _i1.Fake
-    implements _i4.BaseAuthRepository<T> {}
-
-class _FakeAuthState_2 extends _i1.Fake implements _i5.AuthState {}
-
 /// A class which mocks [BaseAuthRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -45,102 +38,73 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
       super.noSuchMethod(Invocation.setter(#currentUser, _currentUser),
           returnValueForMissingStub: null);
   @override
-  _i6.Future<dynamic> init() =>
+  _i5.Future<dynamic> init() =>
       (super.noSuchMethod(Invocation.method(#init, []),
-          returnValue: Future<dynamic>.value()) as _i6.Future<dynamic>);
+          returnValue: Future<dynamic>.value()) as _i5.Future<dynamic>);
   @override
   bool hasLoggedInUser() =>
       (super.noSuchMethod(Invocation.method(#hasLoggedInUser, []),
           returnValue: false) as bool);
   @override
-  _i6.Future<_i2.CustomResponse<_i2.NoResult>> resetUserPassword(
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> resetUserPassword(
           String? emailAddress) =>
       (super.noSuchMethod(Invocation.method(#resetUserPassword, [emailAddress]),
               returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
                   _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i6.Future<_i2.CustomResponse<_i2.NoResult>>);
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
   @override
-  _i6.Future<_i2.CustomResponse<_i2.NoResult>> logoutUser() =>
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> logoutUser() =>
       (super.noSuchMethod(Invocation.method(#logoutUser, []),
               returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
                   _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i6.Future<_i2.CustomResponse<_i2.NoResult>>);
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
   @override
-  _i6.Future<_i2.CustomResponse<_i2.NoResult>> login(
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> login(
           {String? username, String? password}) =>
       (super.noSuchMethod(
               Invocation.method(
                   #login, [], {#username: username, #password: password}),
               returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
                   _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i6.Future<_i2.CustomResponse<_i2.NoResult>>);
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
   @override
-  _i6.Future<_i2.CustomResponse<_i2.NoResult>> addUserByAdmin(
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> addUserByAdmin(
           {String? username,
           String? password,
           String? emailAddress,
-          String? appUserId,
-          _i7.UserRole? userRole}) =>
+          _i6.UserRole? userRole}) =>
       (super.noSuchMethod(
               Invocation.method(#addUserByAdmin, [], {
                 #username: username,
                 #password: password,
                 #emailAddress: emailAddress,
-                #appUserId: appUserId,
                 #userRole: userRole
               }),
               returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
                   _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i6.Future<_i2.CustomResponse<_i2.NoResult>>);
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
 }
 
-/// A class which mocks [AuthCubit].
+/// A class which mocks [BaseServerUser].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthCubit extends _i1.Mock implements _i5.AuthCubit {
-  MockAuthCubit() {
+class MockBaseServerUser extends _i1.Mock implements _i3.BaseServerUser {
+  MockBaseServerUser() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.BaseAuthRepository<_i3.BaseServerUser> get authRepository =>
-      (super.noSuchMethod(Invocation.getter(#authRepository),
-              returnValue: _FakeBaseAuthRepository_1<_i3.BaseServerUser>())
-          as _i4.BaseAuthRepository<_i3.BaseServerUser>);
+  String get appUserId =>
+      (super.noSuchMethod(Invocation.getter(#appUserId), returnValue: '')
+          as String);
   @override
-  _i5.AuthState get state => (super.noSuchMethod(Invocation.getter(#state),
-      returnValue: _FakeAuthState_2()) as _i5.AuthState);
+  String get name =>
+      (super.noSuchMethod(Invocation.getter(#name), returnValue: '') as String);
   @override
-  _i6.Stream<_i5.AuthState> get stream => (super.noSuchMethod(
-      Invocation.getter(#stream),
-      returnValue: Stream<_i5.AuthState>.empty()) as _i6.Stream<_i5.AuthState>);
+  String get email =>
+      (super.noSuchMethod(Invocation.getter(#email), returnValue: '')
+          as String);
   @override
-  bool get isClosed =>
-      (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
-          as bool);
-  @override
-  _i6.Future<void> loadCurrentUser() =>
-      (super.noSuchMethod(Invocation.method(#loadCurrentUser, []),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
-  @override
-  void emit(_i5.AuthState? state) =>
-      super.noSuchMethod(Invocation.method(#emit, [state]),
-          returnValueForMissingStub: null);
-  @override
-  void onChange(_i8.Change<_i5.AuthState>? change) =>
-      super.noSuchMethod(Invocation.method(#onChange, [change]),
-          returnValueForMissingStub: null);
-  @override
-  void addError(Object? error, [StackTrace? stackTrace]) =>
-      super.noSuchMethod(Invocation.method(#addError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-  @override
-  void onError(Object? error, StackTrace? stackTrace) =>
-      super.noSuchMethod(Invocation.method(#onError, [error, stackTrace]),
-          returnValueForMissingStub: null);
-  @override
-  _i6.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
+  _i6.UserRole get role => (super.noSuchMethod(Invocation.getter(#role),
+      returnValue: _i6.UserRole.dentist) as _i6.UserRole);
 }

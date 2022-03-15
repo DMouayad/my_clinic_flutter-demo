@@ -12,10 +12,18 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
   @override
   Future<CustomResponse<NoResult>> login({
     required String username,
+    // required String email,
     required String password,
-  }) {
-    // TODO: implement login
-    throw UnimplementedError();
+  }) async {
+    final response = await ParseUser.createUser(username, password).login();
+    if (response.success) {
+      // currentUser = CustomParseUser.fromJson(response.);
+      return CustomResponse.success();
+    }
+    return CustomResponse.failure(
+        errorMessage: response.error?.message ?? 'Login failed');
+    // CustomParseUser.
+    // CustomParseUser( username: username, emailAddress: emailAddress)
   }
 
   @override
@@ -29,14 +37,13 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
     required String username,
     required String password,
     required String emailAddress,
-    required String appUserId,
     required UserRole userRole,
   }) async {
     CustomParseUser user = CustomParseUser(
       username: username,
       password: password,
       emailAddress: emailAddress,
-      appUserId: appUserId,
+      appUserId: 'NOT SPECIFIED YET',
       role: userRole,
     );
     final signUpResponse = await user.signUp();

@@ -1,7 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/components.dart';
+import 'package:clinic_v2/app/common/widgets/components/simple_components.dart';
 import 'package:clinic_v2/app/features/startup/view/widgets/loading_indicator.dart';
-import 'package:clinic_v2/app/infrastructure/themes/app_color_scheme.dart';
 
 class LoadingAppScreen extends ResponsiveScreen {
   const LoadingAppScreen({Key? key}) : super(key: key);
@@ -11,7 +10,7 @@ class LoadingAppScreen extends ResponsiveScreen {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Components.appNameText(),
+        SimpleComponents.appNameText(),
         const Spacer(),
         LoadingIndicator(
           currentDotColor: AppColorScheme.primary(context)!,

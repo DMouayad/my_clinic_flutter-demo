@@ -1,8 +1,7 @@
-import 'package:clinic_v2/app/infrastructure/themes/app_color_scheme.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class CustomFilledButton extends StatelessWidget {
-  const CustomFilledButton({
+class CustomFilledButton extends Component {
+  CustomFilledButton({
     Key? key,
     required this.label,
     required this.onPressed,

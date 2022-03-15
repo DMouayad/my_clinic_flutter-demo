@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/core/common/models/custom_response.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
@@ -14,12 +15,16 @@ class ParseServer {
   static bool _serverIsInitialized = false;
   static bool get isInitialized => _serverIsInitialized;
 
-  static Future<CustomResponse<ParseResponse>> init() async {
+  static Future<CustomResponse<NoResult>> init() async {
     try {
-      if (await Parse().checkConnectivity() != ParseConnectivityResult.none) {
+      print(await Parse().checkConnectivity());
+      final hasInternetConnection =
+          (await Parse().checkConnectivity()) != ParseConnectivityResult.none;
+      print(hasInternetConnection);
+      if (hasInternetConnection) {
         Timer(const Duration(seconds: 70), () {
           if (!_serverIsInitialized) {
-            throw ParseError(
+            throw CustomError(
               message:
                   'Cannot connect to the server, check your internet connection and try again',
             );
@@ -37,7 +42,6 @@ class ParseServer {
         _serverIsInitialized = parseResponse.success;
         return CustomResponse(
           success: parseResponse.success,
-          result: parseResponse,
         );
       } else {
         throw const SocketException('No Internet Connection!');
@@ -48,6 +52,10 @@ class ParseServer {
             'Can not connect to the server, check your internet connection and try again',
       );
     } on ParseError catch (e) {
+      return CustomResponse.failure(
+        errorMessage: 'An error occurred \n ${e.message}',
+      );
+    } on CustomError catch (e) {
       return CustomResponse.failure(
         errorMessage: 'An error occurred \n ${e.message}',
       );

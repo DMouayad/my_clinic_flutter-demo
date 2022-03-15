@@ -19,7 +19,6 @@ abstract class BaseAuthRepository<T extends BaseServerUser> {
     required String username,
     required String password,
     required String emailAddress,
-    required String appUserId,
     required UserRole userRole,
   });
 }

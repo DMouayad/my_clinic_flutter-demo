@@ -22,7 +22,7 @@ class StartupPage extends AppPage {
                       BlocProvider(
                         lazy: false,
                         create: (_) {
-                          return StartupCubit()..initParse();
+                          return StartupCubit()..initServerConnection();
                         },
                       ),
                       BlocProvider(

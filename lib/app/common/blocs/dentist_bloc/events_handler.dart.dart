@@ -1,8 +1,10 @@
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
 import 'package:clinic_v2/core/features/users/domain/dentist_contracts.dart';
 import 'package:dartz/dartz.dart';
 import 'dentist_bloc.dart';
 
+@protected
 class DentistBlocEventsHandler {
   final BaseDentistRepository _dentistRepository;
 

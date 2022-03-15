@@ -11,7 +11,7 @@ void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
       [StartupInProgress(), StartupSuccess()],
     ),
   );
-  when(startupCubit.initParse())
+  when(startupCubit.initServerConnection())
       .thenAnswer((_) async => const CustomResponse(success: true));
 }
 
@@ -25,6 +25,6 @@ void setupStartupCubitForStartupFailure(
       [StartupInProgress(), startupFailureState],
     ),
   );
-  when(startupCubit.initParse()).thenAnswer(
+  when(startupCubit.initServerConnection()).thenAnswer(
       (_) async => CustomResponse(success: false, error: startupError));
 }

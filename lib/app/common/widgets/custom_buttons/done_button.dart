@@ -1,8 +1,7 @@
-import 'package:clinic_v2/app/infrastructure/themes/app_color_scheme.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class DoneButton extends StatelessWidget {
-  const DoneButton({
+class DoneButton extends Component {
+  DoneButton({
     this.label,
     this.onPressed,
     Key? key,

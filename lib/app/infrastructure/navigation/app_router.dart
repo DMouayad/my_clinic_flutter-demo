@@ -1,6 +1,7 @@
 import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/view/login/login_page.dart';
+import 'package:clinic_v2/app/features/auth/view/sign_up/sign_up_page.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_page.dart';
-import 'package:clinic_v2/app/features/login/view/login_page.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_page.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -15,6 +16,8 @@ class AppRoute {
         return HomePage().route;
       case Routes.loginScreenRoute:
         return LoginPage(authCubit: settings.arguments as AuthCubit).route;
+      case Routes.signUpScreenRoute:
+        return SignUpPage(authCubit: settings.arguments as AuthCubit).route;
       default:
         return StartupPage().route;
     }

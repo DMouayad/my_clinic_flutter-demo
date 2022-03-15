@@ -1,6 +1,7 @@
 {
     "login": "Login",
     "username": "Username",
+    "email": "Email",
     "password": "Password",
     "required": "required!",
     "fieldCannotBeEmpty": "This field can not be empty!",

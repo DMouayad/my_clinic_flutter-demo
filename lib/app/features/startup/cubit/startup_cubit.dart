@@ -5,7 +5,6 @@ import 'package:clinic_v2/core/common/helpers/parse_server.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/core/common/models/custom_response.dart';
 import 'package:equatable/equatable.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 part 'startup_state.dart';
 
@@ -13,7 +12,7 @@ class StartupCubit extends Cubit<StartupState> {
   StartupCubit() : super(StartupInProgress());
 
   Future<void> initServerConnection() async {
-    final intiResponse = await initParse();
+    final intiResponse = await _initParse();
 
     if (intiResponse.success) {
       emit(StartupSuccess());
@@ -29,7 +28,7 @@ class StartupCubit extends Cubit<StartupState> {
     }
   }
 
-  Future<CustomResponse<ParseResponse>> initParse() async {
+  Future<CustomResponse<NoResult>> _initParse() async {
     return await ParseServer.init();
   }
 }

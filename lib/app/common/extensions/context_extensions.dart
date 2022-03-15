@@ -14,8 +14,7 @@ extension ContextExtensions on BuildContext {
   double get height => mediaQuerySize.height;
 
   /// The same of [MediaQuery.of(context).size.width]
-  /// Note: updates when you resize your screen (like on a browser or
-  /// desktop window)
+
   double get width => mediaQuerySize.width;
 
   /// Gives you the power to get a portion of the height.

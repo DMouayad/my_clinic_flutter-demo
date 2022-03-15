@@ -2,15 +2,14 @@
 library components;
 
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/infrastructure/themes/app_color_scheme.dart';
-//
-//
+
 part 'src/app_name_text.dart';
 
-/// Custom group of [Component] used across the app screens.
+//
+/// Custom group of Simple [Component] used across the app screens.
 ///
 /// every function returns a new instance of the [Component] widget.
-class Components {
+class SimpleComponents {
   static Widget appNameText() {
     return _AppNameText();
   }
