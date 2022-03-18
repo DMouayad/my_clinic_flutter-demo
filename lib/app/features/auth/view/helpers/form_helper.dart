@@ -1,34 +1,40 @@
 import 'package:flutter/material.dart';
 
-mixin LoginScreenFormHelper {
+class FormHelper {
   late final GlobalKey<FormState> _formKey;
   late final TextEditingController _passwordController;
   late final TextEditingController _usernameController;
+  late final TextEditingController? _emailController;
 
   TextEditingController get passwordController => _passwordController;
   TextEditingController get usernameController => _usernameController;
+  TextEditingController? get emailController => _emailController;
   GlobalKey<FormState> get formKey => _formKey;
 
-  void initFormHelper() {
+  FormHelper({required bool isLoginForm}) {
     _formKey = GlobalKey();
     _passwordController = TextEditingController();
     _usernameController = TextEditingController();
-  }
-
-  void validateInput() {
-    if (_formKey.currentState?.validate() ?? false) {
-      _formKey.currentState?.save();
+    if (!isLoginForm) {
+      _emailController = TextEditingController();
     }
   }
 
-  bool get inputIsValid =>
-      _passwordController.text.isNotEmpty &&
-      _usernameController.text.isNotEmpty;
+  bool get inputIsValid {
+    return _passwordController.text.isNotEmpty &&
+        // (_emailController?.text.isNotEmpty ?? true) &&
+        _usernameController.text.isNotEmpty;
+  }
+
+  void validateInput() {
+    _formKey.currentState?.validate();
+  }
 
   void saveFormState() => _formKey.currentState?.save();
 
-  void disposeFormHelper() {
+  void dispose() {
     _passwordController.dispose();
     _usernameController.dispose();
+    // _emailController?.dispose();
   }
 }

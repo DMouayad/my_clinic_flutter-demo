@@ -2,14 +2,6 @@ part of auth_data;
 
 class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
   @override
-  Future<void> init() async {
-    currentUser = await ParseUser.currentUser(
-      customUserObject: CustomParseUser.clone(),
-    );
-    print(currentUser);
-  }
-
-  @override
   Future<CustomResponse<NoResult>> login({
     required String username,
     // required String email,
@@ -17,6 +9,9 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
   }) async {
     final response = await ParseUser.createUser(username, password).login();
     if (response.success) {
+      print(CustomParseUser.fromParseUser(response.results?.first));
+
+      // print(response.results);
       // currentUser = CustomParseUser.fromJson(response.);
       return CustomResponse.success();
     }
@@ -62,5 +57,16 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
   @override
   bool hasLoggedInUser() {
     return currentUser != null;
+  }
+
+  @override
+  Future<CustomResponse<NoResult>> loadCurrentUser() async {
+    try {
+      currentUser = await ParseUser.currentUser(
+          customUserObject: CustomParseUser.clone());
+      return CustomResponse.success();
+    } catch (e) {
+      return CustomResponse.failure(errorMessage: 'Error getting stored user');
+    }
   }
 }

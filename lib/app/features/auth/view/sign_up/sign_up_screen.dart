@@ -6,7 +6,7 @@ class SignUpScreen extends ResponsiveScreen {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobile(BuildContext context) {
+  Widget mobileBuilder(BuildContext context, ContextInfo contextInfo) {
     return Scaffold(
       body: Center(
         child: OutlinedButton(

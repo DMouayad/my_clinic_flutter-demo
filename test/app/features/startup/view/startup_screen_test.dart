@@ -79,73 +79,89 @@ void main() {
         },
       );
     });
-    group('Startup success scenario', () {
-      // in this test group [ClinicApp] is needed to verify the correct route is pushed based on
-      // [AuthCubit] state
-      late ClinicApp clinicApp;
-      setUp(
-        () {
-          setupStartupCubitForStartupSuccess(startupCubit!);
+  });
 
-          startupScreenMock = MultiBlocProvider(
-            providers: [
-              BlocProvider<StartupCubit>.value(value: startupCubit!),
-              BlocProvider<AuthCubit>.value(value: authCubit!),
-            ],
-            child: const StartupScreen(),
-          );
+  group('Startup success scenario', () {
+    //  AuthCubit? authCubit;
+    MockStartupCubit? startupCubit;
+    late MockBaseAuthRepository mockAuthRepository;
+    late Widget startupScreenMock;
 
-          clinicApp = ClinicApp(
-            PreferencesCubit(),
-            home: startupScreenMock,
-          );
-        },
-      );
+    // in this test group [ClinicApp] is needed to verify the correct route is pushed based on
+    // [AuthCubit] state
+    late ClinicApp clinicApp;
+    setUp(
+      () async {
+        if (startupCubit != null) {
+          await startupCubit!.close();
+        }
+        mockAuthRepository = MockBaseAuthRepository();
+        startupCubit = MockStartupCubit();
+        // authCubit = AuthCubit(mockAuthRepository);
 
-      testWidgets(
-        'should navigate to [HomeScreen] when [StartupCubit] state is'
-        'success and [AuthCubit] state is [AuthHasLoggedInUser]',
-        (WidgetTester tester) async {
-          // arrange
-          setupMockedAuthRepoWithLoggedInUser(mockAuthRepository);
+        setupStartupCubitForStartupSuccess(startupCubit!);
+        startupScreenMock = MultiBlocProvider(
+          providers: [
+            BlocProvider<MockStartupCubit>.value(value: startupCubit!),
+            BlocProvider<AuthCubit>(
+                create: (_) => AuthCubit(mockAuthRepository)),
+          ],
+          child: Builder(builder: (context) {
+            return const StartupScreen();
+          }),
+        );
 
-          // act
-          await tester.pumpWidget(clinicApp);
+        clinicApp = ClinicApp(
+          PreferencesCubit(),
+          home: startupScreenMock,
+        );
+      },
+    );
 
-          // expected cubits states
-          expect(startupCubit!.state, StartupSuccess());
-          expect(authCubit!.state, const AuthHasLoggedInUser());
+    testWidgets(
+      'should navigate to [HomeScreen] when [StartupCubit] state is'
+      'success and [AuthCubit] state is [AuthHasLoggedInUser]',
+      (WidgetTester tester) async {
+        // arrange
+        setupMockedAuthRepoWithLoggedInUser(mockAuthRepository);
 
-          await tester.pumpWidget(clinicApp);
-          await tester.pumpAndSettle();
+        // act
+        await tester.pumpWidget(clinicApp);
 
-          // expect
-          expect(find.byType(HomeScreen), findsOneWidget);
-          expect(find.byType(StartupScreen), findsNothing);
-        },
-      );
-      testWidgets(
-        'should navigate to [LoginScreen] when [StartupCubit] state is'
-        'success and [AuthCubit] state is [AuthHasNoLoggedInUser]',
-        (WidgetTester tester) async {
-          // arrange
-          setupMockedAuthRepoWithNoLoggedInUser(mockAuthRepository);
+        // expected cubits states
+        // expect(startupCubit!.state, StartupSuccess());
+        // expect(authCubit!.state, const AuthHasLoggedInUser());
 
-          // act
-          await tester.pumpWidget(clinicApp);
+        await tester.pumpWidget(clinicApp);
+        await tester.pumpAndSettle();
 
-          // expected cubits states
-          expect(startupCubit!.state, StartupSuccess());
-          expect(authCubit!.state, const AuthHasNoLoggedInUser());
+        // expect
+        expect(find.byType(HomeScreen), findsOneWidget);
+        expect(find.byType(StartupScreen), findsNothing);
+      },
+    );
+    testWidgets(
+      'should navigate to [LoginScreen] when [StartupCubit] state is'
+      'success and [AuthCubit] state is [AuthHasNoLoggedInUser]',
+      (WidgetTester tester) async {
+        // arrange
+        setupMockedAuthRepoWithNoLoggedInUser(mockAuthRepository);
 
-          await tester.pumpWidget(clinicApp);
-          await tester.pumpAndSettle();
+        // act
+        await tester.pumpWidget(clinicApp);
 
-          // expect
-          expect(find.byType(LoginScreen), findsOneWidget);
-          expect(find.byType(StartupScreen), findsNothing);
-        },
-      );
-    });
+        // expected cubits states
+        // expect(startupCubit!.state, StartupSuccess());
+        // expect(authCubit!.state, const AuthHasNoLoggedInUser());
+
+        await tester.pumpWidget(clinicApp);
+        await tester.pumpAndSettle();
+
+        // expect
+        expect(find.byType(LoginScreen), findsOneWidget);
+        expect(find.byType(StartupScreen), findsNothing);
+        expect(find.byType(AuthCubit), findsNothing);
+      },
+    );
   });
 }

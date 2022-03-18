@@ -11,6 +11,10 @@ class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
+class StoredUserWasFetched extends AuthState {
+  const StoredUserWasFetched();
+}
+
 class AuthError extends AuthState {
   final CustomError error;
   const AuthError(this.error);

@@ -1,7 +1,8 @@
 part of auth_domain;
 
 abstract class BaseAuthRepository<T extends BaseServerUser> {
-  Future init();
+  Future<bool> init() async => true;
+  Future<CustomResponse<NoResult>> loadCurrentUser();
   T? currentUser;
   bool hasLoggedInUser();
   Future<CustomResponse<NoResult>> resetUserPassword(String emailAddress);

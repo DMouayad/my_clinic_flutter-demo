@@ -1,14 +1,20 @@
-part of components;
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class _AppNameText extends Component {
+class AppNameText extends StatelessWidget {
+  const AppNameText({Key? key, this.fontSize = 20, this.fontColor})
+      : super(key: key);
+  final double? fontSize;
+  final Color? fontColor;
+
   @override
-  Widget mobile(context) {
+  Widget build(context) {
     return Text(
       'CLINIC',
       style: context.textTheme.headline6?.copyWith(
-        letterSpacing: 1.3,
+        letterSpacing: 1.1,
+        fontSize: fontSize,
         fontWeight: FontWeight.w500,
-        color: AppColorScheme.onBackground(context),
+        color: fontColor ?? AppColorScheme.onBackground(context),
       ),
     );
   }

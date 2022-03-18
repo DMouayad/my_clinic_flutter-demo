@@ -8,7 +8,7 @@ enum ApptStatus {
   upcoming,
   finished,
 }
-enum UserRole { dentist, secretary }
+enum UserRole { admin, dentist, secretary }
 enum SettingsType {
   appearance,
   language,

@@ -38,9 +38,8 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
       super.noSuchMethod(Invocation.setter(#currentUser, _currentUser),
           returnValueForMissingStub: null);
   @override
-  _i5.Future<dynamic> init() =>
-      (super.noSuchMethod(Invocation.method(#init, []),
-          returnValue: Future<dynamic>.value()) as _i5.Future<dynamic>);
+  _i5.Future<bool> init() => (super.noSuchMethod(Invocation.method(#init, []),
+      returnValue: Future<bool?>.value()) as _i5.Future<bool>);
   @override
   bool hasLoggedInUser() =>
       (super.noSuchMethod(Invocation.method(#hasLoggedInUser, []),

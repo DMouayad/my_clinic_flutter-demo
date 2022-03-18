@@ -4,7 +4,7 @@ class HomeScreen extends ResponsiveScreen {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobile(context) {
+  Widget mobileBuilder(context, contextInfo) {
     return Scaffold(
       appBar: AppBar(),
     );

@@ -19,7 +19,7 @@ void main() {
         "is called and we doesn't have a logged-in user.",
         setUp: () => setupMockedAuthRepoWithNoLoggedInUser(authRepository),
         build: () => AuthCubit(authRepository),
-        act: (cubit) => cubit.loadCurrentUser(),
+        act: (cubit) => cubit.getAuthState(),
         expect: () => const <AuthState>[AuthHasNoLoggedInUser()],
       );
       blocTest<AuthCubit, AuthState>(
@@ -27,7 +27,7 @@ void main() {
         'and we have a logged-in user',
         setUp: () => setupMockedAuthRepoWithLoggedInUser(authRepository),
         build: () => AuthCubit(authRepository),
-        act: (cubit) => cubit.loadCurrentUser(),
+        act: (cubit) => cubit.getAuthState(),
         expect: () => const <AuthState>[AuthHasLoggedInUser()],
       );
     },

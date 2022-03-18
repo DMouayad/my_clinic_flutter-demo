@@ -3,7 +3,7 @@ part of auth_data;
 class CustomParseUser extends ParseUser
     implements ParseCloneable, BaseServerUser {
   CustomParseUser({
-    required this.appUserId,
+    this.appUserId,
     required this.role,
     required String username,
     required String emailAddress,
@@ -15,7 +15,7 @@ class CustomParseUser extends ParseUser
         );
 
   @override
-  String appUserId;
+  String? appUserId;
 
   @override
   UserRole role;
@@ -48,10 +48,14 @@ class CustomParseUser extends ParseUser
       emailAddress: '',
     );
   }
+
+  factory CustomParseUser.fromParseUser(ParseUser parseUser) {
+    return CustomParseUser.fromJson(parseUser.toJson());
+  }
   factory CustomParseUser.fromJson(Map<String, dynamic> objectData) {
     return CustomParseUser(
       role: UserRole.values.byName(objectData['role']),
-      appUserId: objectData['app_user_id'],
+      appUserId: objectData['app_user_id'] ?? null,
       username: objectData['username'],
       emailAddress: objectData['email'],
     )..objectId = objectData['objectId'];

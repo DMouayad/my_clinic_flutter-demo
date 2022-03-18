@@ -20,6 +20,7 @@ class InputTextField extends Component {
   final Key? formKey;
   final bool isDense;
   final AutovalidateMode? autovalidateMode;
+  final TextInputAction? textInputAction;
 
   InputTextField({
     Key? key,
@@ -29,6 +30,7 @@ class InputTextField extends Component {
     this.controller,
     this.onSaved,
     this.prefixIcon,
+    this.textInputAction,
     this.obscure = false,
     this.cursorColor = Colors.black45,
     this.keyboardType = TextInputType.text,
@@ -66,6 +68,7 @@ class InputTextField extends Component {
         cursorColor: cursorColor,
         keyboardType: keyboardType,
         onEditingComplete: onEditingComplete,
+        textInputAction: textInputAction,
         style: textStyle ?? context.textTheme.bodyText1,
         autovalidateMode: autovalidateMode,
         decoration: InputDecoration(

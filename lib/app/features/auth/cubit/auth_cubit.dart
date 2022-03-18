@@ -9,13 +9,20 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.authRepository) : super(const AuthInitial());
   final BaseAuthRepository authRepository;
 
-  Future<void> loadCurrentUser() async {
-    await authRepository.init();
+  Future<void> getAuthState() async {
     if (authRepository.hasLoggedInUser()) {
       emit(const AuthHasLoggedInUser());
-      // emit(AuthHasLoggedInUser(authRepository.currentUser!));
     } else {
       emit(const AuthHasNoLoggedInUser());
+    }
+  }
+
+  Future<void> loadCurrentUserFromStorage() async {
+    final customResponse = await authRepository.loadCurrentUser();
+    if (customResponse.success) {
+      emit(const StoredUserWasFetched());
+    } else {
+      emit(AuthError(customResponse.error!));
     }
   }
 

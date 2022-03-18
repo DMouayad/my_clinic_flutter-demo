@@ -15,9 +15,15 @@ class StartupScreen extends StatelessWidget {
   Widget build(context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
+        print(state);
+
+        if (state is StoredUserWasFetched) {
+          context.read<AuthCubit>().getAuthState();
+        }
         if (state is AuthHasLoggedInUser) {
           Navigator.of(context).popAndPushNamed(Routes.homeScreenRoute);
-        } else if (state is AuthHasNoLoggedInUser) {
+        }
+        if (state is AuthHasNoLoggedInUser) {
           Navigator.of(context).popAndPushNamed(
             Routes.loginScreenRoute,
             arguments: context.read<AuthCubit>(),
@@ -27,11 +33,10 @@ class StartupScreen extends StatelessWidget {
       child: BlocConsumer<StartupCubit, StartupState>(
         listener: (context, state) {
           if (state is StartupSuccess) {
-            context.read<AuthCubit>().loadCurrentUser();
+            context.read<AuthCubit>().loadCurrentUserFromStorage();
           }
         },
         builder: (context, state) {
-          print(state);
           if (state is StartupFailure) {
             return ErrorStartingAppScreen(state.error);
           }
@@ -48,7 +53,7 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
   const ErrorStartingAppScreen(this.error, {Key? key}) : super(key: key);
 
   @override
-  Widget mobile(context) {
+  Widget mobileBuilder(context, ContextInfo contextInfo) {
     return Scaffold(
       backgroundColor: Colors.red,
       body: Column(),

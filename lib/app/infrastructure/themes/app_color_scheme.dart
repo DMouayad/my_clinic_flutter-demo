@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
-
+export 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'md3_color_scheme.dart';
 // extension ThemeExtension on BuildContext {
 //   /// similar to [MediaQuery.of(context).theme]
