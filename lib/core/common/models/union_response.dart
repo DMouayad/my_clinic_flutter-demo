@@ -1,69 +1,128 @@
-abstract class CustomResponse<T> {
-  const CustomResponse();
-  factory CustomResponse.success({T? result}) = SuccessCustomResponse;
+// abstract class CustomResponse<T> {
+//   const CustomResponse();
+//   factory CustomResponse.noResultSuccess() = NoResultSuccessResponse;
+//   factory CustomResponse.successWithResult(T result) =
+//       SuccessWithResultResponse;
+//   factory CustomResponse.failure() = FailureResponse;
 
-  void when({
-    required void Function(SuccessCustomResponse) success,
-  }) {
-    if (this is SuccessCustomResponse) {
-      success.call(this as SuccessCustomResponse);
-    }
+//   void when({
+//     required void Function(NoResultSuccessResponse) noResultSuccess,
+//     required void Function(SuccessWithResultResponse) successWithResult,
+//     required void Function(FailureResponse) failure,
+//   }) {
+//     if (this is NoResultSuccessResponse) {
+//       noResultSuccess.call(this as NoResultSuccessResponse);
+//     }
 
-    success.call(this as SuccessCustomResponse);
-  }
+//     if (this is SuccessWithResultResponse) {
+//       successWithResult.call(this as SuccessWithResultResponse);
+//     }
 
-  R map<R>({
-    required R Function(SuccessCustomResponse) success,
-  }) {
-    if (this is SuccessCustomResponse) {
-      return success.call(this as SuccessCustomResponse);
-    }
+//     if (this is FailureResponse) {
+//       failure.call(this as FailureResponse);
+//     }
 
-    return success.call(this as SuccessCustomResponse);
-  }
+//     noResultSuccess.call(this as NoResultSuccessResponse);
+//   }
 
-  void maybeWhen({
-    void Function(SuccessCustomResponse)? success,
-    required void Function() orElse,
-  }) {
-    if (this is SuccessCustomResponse && success != null) {
-      success.call(this as SuccessCustomResponse);
-    }
+//   R map<R>({
+//     required R Function(NoResultSuccessResponse) noResultSuccess,
+//     required R Function(SuccessWithResultResponse) successWithResult,
+//     required R Function(FailureResponse) failure,
+//   }) {
+//     if (this is NoResultSuccessResponse) {
+//       return noResultSuccess.call(this as NoResultSuccessResponse);
+//     }
 
-    orElse.call();
-  }
+//     if (this is SuccessWithResultResponse) {
+//       return successWithResult.call(this as SuccessWithResultResponse);
+//     }
 
-  R maybeMap<R>({
-    R Function(SuccessCustomResponse)? success,
-    required R Function() orElse,
-  }) {
-    if (this is SuccessCustomResponse && success != null) {
-      return success.call(this as SuccessCustomResponse);
-    }
+//     if (this is FailureResponse) {
+//       return failure.call(this as FailureResponse);
+//     }
 
-    return orElse.call();
-  }
+//     return noResultSuccess.call(this as NoResultSuccessResponse);
+//   }
 
-  factory CustomResponse.fromString(String value) {
-    if (value == 'success') {
-      return CustomResponse.success();
-    }
+//   void maybeWhen({
+//     void Function(NoResultSuccessResponse)? noResultSuccess,
+//     void Function(SuccessWithResultResponse)? successWithResult,
+//     void Function(FailureResponse)? failure,
+//     required void Function() orElse,
+//   }) {
+//     if (this is NoResultSuccessResponse && noResultSuccess != null) {
+//       noResultSuccess.call(this as NoResultSuccessResponse);
+//     }
 
-    return CustomResponse.success();
-  }
+//     if (this is SuccessWithResultResponse && successWithResult != null) {
+//       successWithResult.call(this as SuccessWithResultResponse);
+//     }
 
-  @override
-  String toString() {
-    if (this is SuccessCustomResponse) {
-      return 'success';
-    }
+//     if (this is FailureResponse && failure != null) {
+//       failure.call(this as FailureResponse);
+//     }
 
-    return 'success';
-  }
-}
+//     orElse.call();
+//   }
 
-class SuccessCustomResponse<T> extends CustomResponse<T> {
-  final T? result;
+//   R maybeMap<R>({
+//     R Function(NoResultSuccessResponse)? noResultSuccess,
+//     R Function(SuccessWithResultResponse)? successWithResult,
+//     R Function(FailureResponse)? failure,
+//     required R Function() orElse,
+//   }) {
+//     if (this is NoResultSuccessResponse && noResultSuccess != null) {
+//       return noResultSuccess.call(this as NoResultSuccessResponse);
+//     }
 
-  SuccessCustomResponse({this.result});
-}
+//     if (this is SuccessWithResultResponse && successWithResult != null) {
+//       return successWithResult.call(this as SuccessWithResultResponse);
+//     }
+
+//     if (this is FailureResponse && failure != null) {
+//       return failure.call(this as FailureResponse);
+//     }
+
+//     return orElse.call();
+//   }
+
+//   factory CustomResponse.fromString(String value) {
+//     if (value == 'noResultSuccess') {
+//       return CustomResponse.noResultSuccess();
+//     }
+
+//     if (value == 'failure') {
+//       return CustomResponse.failure();
+//     }
+
+//     return CustomResponse.noResultSuccess();
+//   }
+
+//   @override
+//   String toString() {
+//     if (this is NoResultSuccessResponse) {
+//       return 'noResultSuccess';
+//     }
+
+//     if (this is SuccessWithResultResponse) {
+//       return 'successWithResult';
+//     }
+
+//     if (this is FailureResponse) {
+//       return 'failure';
+//     }
+
+//     return 'noResultSuccess';
+//   }
+// }
+
+// class NoResultSuccessResponse<NoResults> extends CustomResponse<T> {}
+
+// class SuccessWithResultResponse<T> extends CustomResponse<T> {
+//   final T result;
+
+//   SuccessWithResultResponse(this.result);
+// }
+
+// class FailureResponse<T> extends CustomResponse<T> {}

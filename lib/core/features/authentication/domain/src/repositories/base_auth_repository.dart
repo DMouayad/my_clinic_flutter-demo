@@ -5,6 +5,7 @@ abstract class BaseAuthRepository<T extends BaseServerUser> {
   Future<CustomResponse<NoResult>> loadCurrentUser();
   T? currentUser;
   bool hasLoggedInUser();
+
   Future<CustomResponse<NoResult>> resetUserPassword(String emailAddress);
   Future<CustomResponse<NoResult>> logoutUser();
   Future<CustomResponse<NoResult>> login({
@@ -12,13 +13,14 @@ abstract class BaseAuthRepository<T extends BaseServerUser> {
     required String password,
   });
 
-  /// [appUserId] is the ID that references the app user which is saved in the local and
-  /// remote databases.
-  ///
-  /// [appUserId] should be the primary key in a SQL DB.
-  Future<CustomResponse<NoResult>> addUserByAdmin({
+  Future<CustomResponse<NoResult>> signUp({
+    required String emailAddress,
     required String username,
     required String password,
+    required UserRole role,
+  });
+
+  Future<CustomResponse<NoResult>> addNewUserInfoByAdmin({
     required String emailAddress,
     required UserRole userRole,
   });

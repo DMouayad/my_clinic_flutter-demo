@@ -1,27 +1,36 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_elevated_button.dart';
+import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_filled_button.dart';
 
-class SubmitButton extends StatelessWidget {
+class SubmitButton extends Component {
   final void Function() onPressed;
   final String text;
-  const SubmitButton({
+  final IconData iconData;
+  SubmitButton({
     Key? key,
     required this.onPressed,
     required this.text,
+    required this.iconData,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, contextInfo) {
     return SizedBox(
-      width: context.isTablet
-          ? context.widthTransformer(reducedBy: .6)
-          : context.widthTransformer(reducedBy: .8),
+      width: contextInfo.widgetSize.width * .8,
       height: 45,
-      child: CustomElevatedButton(
-        label: text,
-        onPressed: onPressed,
-        iconData: Icons.login,
-      ),
+      child: contextInfo.isDesktop
+          ? CustomFilledButton(
+              label: text,
+              onPressed: onPressed,
+              iconData: iconData,
+              backgroundColor: AppColorScheme.primary(context),
+              // labelColor: AppColorScheme.onPrimary(context),
+            )
+          : CustomElevatedButton(
+              label: text,
+              onPressed: onPressed,
+              iconData: iconData,
+            ),
     );
   }
 }

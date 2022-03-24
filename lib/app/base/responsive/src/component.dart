@@ -5,6 +5,7 @@ import 'responsive_helper.dart';
 /// block of widgets.
 abstract class Component extends StatelessWidget with ResponsiveBuilder {
   Component({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return buildWidget(context);

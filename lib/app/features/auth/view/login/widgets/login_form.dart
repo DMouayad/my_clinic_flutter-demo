@@ -1,5 +1,4 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/src/app_name_text.dart';
 import 'package:clinic_v2/app/common/widgets/components/src/input_text_field.dart';
 import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/view/components/submit_button.dart';
@@ -34,7 +33,6 @@ class _LoginFormState extends State<LoginForm> {
       key: _formHelper.formKey,
       child: Column(
         children: [
-          const SizedBox(height: 60),
           InputTextField(
             controller: _formHelper.usernameController,
             prefixIcon: Icons.person,
@@ -50,7 +48,6 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(height: 12),
-
           InputTextField(
             controller: _formHelper.passwordController,
             prefixIcon: Icons.remove_red_eye,
@@ -70,29 +67,32 @@ class _LoginFormState extends State<LoginForm> {
             },
             obscure: true,
           ),
-          // const Spacer(),
-          SizedBox(height: context.heightTransformer(reducedBy: 90)),
+          SizedBox(height: context.height * .1),
           SubmitButton(
-            text: AppLocalizations.of(context)?.login ?? 'Login',
+            text: AppLocalizations.of(context)!.login,
+            iconData: Icons.login,
             onPressed: () {
               setState(() => _formHelper.validateInput());
-              print(context.read<AuthCubit>().isClosed);
-              // if (_formHelper.inputIsValid) {
-              //   context.read<AuthCubit>().login(
-              //         _formHelper.usernameController.text,
-              //         _formHelper.passwordController.text,
-              //       );
-              //   FocusScope.of(context).unfocus();
-              // }
+              if (_formHelper.inputIsValid) {
+                context.read<AuthCubit>().login(
+                      _formHelper.usernameController.text,
+                      _formHelper.passwordController.text,
+                    );
+              }
             },
           ),
           const SizedBox(height: 12),
           TextButton(
-            onPressed: () => Navigator.of(context).popAndPushNamed(
+            onPressed: () => Navigator.of(context).pushNamed(
               Routes.signUpScreenRoute,
               arguments: context.read<AuthCubit>(),
             ),
-            child: const Text("Or create new account"),
+            child: Text(
+              AppLocalizations.of(context)!.createAccount,
+              style: context.textTheme.button?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

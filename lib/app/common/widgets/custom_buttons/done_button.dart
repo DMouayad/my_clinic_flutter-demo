@@ -11,7 +11,7 @@ class DoneButton extends Component {
   final void Function()? onPressed;
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
     return Container(
       color: context.theme.scaffoldBackgroundColor.withOpacity(.9),
       padding: const EdgeInsets.all(10.0),

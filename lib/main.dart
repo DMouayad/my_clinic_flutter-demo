@@ -1,5 +1,6 @@
 import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
+import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
@@ -13,41 +14,44 @@ import 'core/features/authentication/data/auth_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final authRepository = ParseAuthRepository();
 
-  runApp(ClinicApp(PreferencesCubit()));
+  runApp(
+    ClinicApp(
+      PreferencesCubit(),
+      AuthCubit(authRepository),
+      authRepository,
+    ),
+  );
 }
 
 class ClinicApp extends StatelessWidget {
-  const ClinicApp(this._preferencesBloc, {Key? key, this.home})
+  const ClinicApp(this._preferencesCubit, this._authCubit, this._authRepository,
+      {Key? key, this.home})
       : super(key: key);
-  final PreferencesCubit _preferencesBloc;
+  final PreferencesCubit _preferencesCubit;
+  final AuthCubit _authCubit;
+  final BaseAuthRepository _authRepository;
 
   /// ### used only for testing purposes
   final Widget? home;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      lazy: false,
-      create: (context) => ParseAuthRepository(),
+    return RepositoryProvider.value(
+      value: _authRepository,
       child: Builder(
         builder: (context) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: _preferencesBloc),
-              BlocProvider(
-                lazy: false,
-                create: (_) {
-                  return AuthCubit(
-                    context.read<ParseAuthRepository>(),
-                  );
-                },
-              ),
+              BlocProvider.value(value: _preferencesCubit),
+              BlocProvider.value(value: _authCubit),
             ],
             child: BlocBuilder<PreferencesCubit, PreferencesState>(
               builder: (context, state) {
                 return MaterialApp(
                   title: 'Clinic',
+                  
                   debugShowCheckedModeBanner: false,
                   theme: AppThemes.lightTheme,
                   darkTheme: AppThemes.defaultDarkTheme,

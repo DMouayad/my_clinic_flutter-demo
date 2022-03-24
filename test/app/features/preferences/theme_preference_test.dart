@@ -3,6 +3,8 @@ import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../helpers/clinic_app_helper.dart';
+
 void main() {
   group('App themeMode testing with PreferencesCubit', () {
     PreferencesCubit? preferencesCubit;
@@ -14,8 +16,8 @@ void main() {
       }
 
       preferencesCubit = PreferencesCubit();
-      myApp = ClinicApp(
-        preferencesCubit!,
+      myApp = getClinicAppForTest(
+        preferencesCubit: preferencesCubit!,
         home: Scaffold(appBar: AppBar()),
       );
     });

@@ -21,9 +21,13 @@ class FormHelper {
   }
 
   bool get inputIsValid {
-    return _passwordController.text.isNotEmpty &&
-        // (_emailController?.text.isNotEmpty ?? true) &&
+    bool isValid = _passwordController.text.isNotEmpty &&
         _usernameController.text.isNotEmpty;
+    // (_emailController?.text.isNotEmpty ?? true) &&
+    if (_emailController != null) {
+      isValid = isValid && (_emailController!.text.isNotEmpty);
+    }
+    return isValid;
   }
 
   void validateInput() {

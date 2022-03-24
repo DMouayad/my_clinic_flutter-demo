@@ -9,9 +9,12 @@ import 'login_screen.dart';
 class LoginPage extends AppPage {
   LoginPage({required AuthCubit authCubit})
       : super(
-          route: MaterialPageRoute(
+          route: PageRouteBuilder(
+            //  MaterialPageRoute(
             settings: const RouteSettings(name: Routes.loginScreenRoute),
-            builder: (_) {
+            // builder: (_) {
+            pageBuilder: (BuildContext context, Animation<double> animation,
+                Animation<double> secondaryAnimation) {
               return BlocProvider.value(
                 value: authCubit,
                 child: const LoginScreen(),

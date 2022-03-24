@@ -39,7 +39,13 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
           returnValueForMissingStub: null);
   @override
   _i5.Future<bool> init() => (super.noSuchMethod(Invocation.method(#init, []),
-      returnValue: Future<bool?>.value()) as _i5.Future<bool>);
+      returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
+  @override
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> loadCurrentUser() =>
+      (super.noSuchMethod(Invocation.method(#loadCurrentUser, []),
+              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
+                  _FakeCustomResponse_0<_i2.NoResult>()))
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
   @override
   bool hasLoggedInUser() =>
       (super.noSuchMethod(Invocation.method(#hasLoggedInUser, []),
@@ -67,18 +73,27 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
                   _FakeCustomResponse_0<_i2.NoResult>()))
           as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> addUserByAdmin(
-          {String? username,
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> signUp(
+          {String? emailAddress,
+          String? username,
           String? password,
-          String? emailAddress,
-          _i6.UserRole? userRole}) =>
+          _i6.UserRole? role}) =>
       (super.noSuchMethod(
-              Invocation.method(#addUserByAdmin, [], {
+              Invocation.method(#signUp, [], {
+                #emailAddress: emailAddress,
                 #username: username,
                 #password: password,
-                #emailAddress: emailAddress,
-                #userRole: userRole
+                #role: role
               }),
+              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
+                  _FakeCustomResponse_0<_i2.NoResult>()))
+          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+  @override
+  _i5.Future<_i2.CustomResponse<_i2.NoResult>> addNewUserInfoByAdmin(
+          {String? emailAddress, _i6.UserRole? userRole}) =>
+      (super.noSuchMethod(
+              Invocation.method(#addNewUserInfoByAdmin, [],
+                  {#emailAddress: emailAddress, #userRole: userRole}),
               returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
                   _FakeCustomResponse_0<_i2.NoResult>()))
           as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
@@ -93,10 +108,6 @@ class MockBaseServerUser extends _i1.Mock implements _i3.BaseServerUser {
   }
 
   @override
-  String get appUserId =>
-      (super.noSuchMethod(Invocation.getter(#appUserId), returnValue: '')
-          as String);
-  @override
   String get name =>
       (super.noSuchMethod(Invocation.getter(#name), returnValue: '') as String);
   @override
@@ -105,5 +116,5 @@ class MockBaseServerUser extends _i1.Mock implements _i3.BaseServerUser {
           as String);
   @override
   _i6.UserRole get role => (super.noSuchMethod(Invocation.getter(#role),
-      returnValue: _i6.UserRole.dentist) as _i6.UserRole);
+      returnValue: _i6.UserRole.admin) as _i6.UserRole);
 }

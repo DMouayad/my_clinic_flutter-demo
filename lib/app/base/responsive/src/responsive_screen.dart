@@ -10,3 +10,11 @@ abstract class ResponsiveScreen extends StatelessWidget with ResponsiveBuilder {
     return buildWidget(context);
   }
 }
+
+abstract class StateWithResponsiveBuilder<W extends StatefulWidget>
+    extends State<W> with ResponsiveBuilder {
+  @override
+  Widget build(BuildContext context) {
+    return buildWidget(context);
+  }
+}

@@ -28,24 +28,11 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
   }
 
   @override
-  Future<CustomResponse<NoResult>> addUserByAdmin({
-    required String username,
-    required String password,
+  Future<CustomResponse<NoResult>> addNewUserInfoByAdmin({
     required String emailAddress,
     required UserRole userRole,
   }) async {
-    CustomParseUser user = CustomParseUser(
-      username: username,
-      password: password,
-      emailAddress: emailAddress,
-      appUserId: 'NOT SPECIFIED YET',
-      role: userRole,
-    );
-    final signUpResponse = await user.signUp();
-    return CustomResponse.fromParseResponse(
-      signUpResponse,
-      withResults: false,
-    );
+    throw UnimplementedError();
   }
 
   @override
@@ -68,5 +55,28 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
     } catch (e) {
       return CustomResponse.failure(errorMessage: 'Error getting stored user');
     }
+  }
+
+  @override
+  Future<CustomResponse<NoResult>> signUp({
+    required String emailAddress,
+    required String username,
+    required String password,
+    required UserRole role,
+  }) async {
+    // final emailAddressIsValid =
+    //     (await ParseServer.checkIfValidEmailAddress(emailAddress)).success;
+    // if (emailAddressIsValid) {
+    //   final userRole =
+    //       (await ParseServer.getUserRole(emailAddress: emailAddress)).result;
+    //   if (userRole != null) {}
+    // CustomParseUser newUser = CustomParseUser();
+    // } else {
+    //   return CustomResponse.failure(
+    //     errorMessage:
+    //         '"$emailAddress" is not a valid email address!, please try again',
+    //   );
+    // }
+    throw UnimplementedError();
   }
 }

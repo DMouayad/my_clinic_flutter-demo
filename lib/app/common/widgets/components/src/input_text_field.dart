@@ -47,16 +47,15 @@ class InputTextField extends Component {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
     final kOutlinedBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(contextInfo.isDesktop ? 8 : 14),
       borderSide:
           BorderSide(color: AppColorScheme.textFieldBorderColor(context)),
     );
     return SizedBox(
-      width: context.isTablet
-          ? context.widthTransformer(reducedBy: .6)
-          : context.widthTransformer(reducedBy: .8),
+      width: contextInfo.widgetSize.width * .8,
+      // height: context.isDesktop ? 55 : null,
       child: TextFormField(
         controller: controller,
         key: formKey,

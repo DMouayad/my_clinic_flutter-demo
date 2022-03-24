@@ -6,24 +6,72 @@ class LoadingAppScreen extends ResponsiveScreen {
   const LoadingAppScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobileBuilder(context, contextInfo) {
+  Widget mobileBuilder(context, ContextInfo contextInfo) {
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            LoadingIndicator(
+              currentDotColor: AppColorScheme.primary(context)!,
+              defaultDotColor: AppColorScheme.primaryContainer(context)!,
+              size: 60,
+            ),
             AppNameText(
               fontSize: 32,
               fontColor: AppColorScheme.primary(context),
             ),
-            LoadingIndicator(
-              currentDotColor: AppColorScheme.primary(context)!,
-              defaultDotColor: AppColorScheme.primaryContainer(context)!,
-              numDots: 5,
-              size: 60,
-            ),
           ],
         ),
+      ),
+    );
+  }
+
+  @override
+  Widget tabletBuilder(context, contextInfo) {
+    return _largeLoadingScreen(context);
+  }
+
+  @override
+  Widget desktopBuilder(context, contextInfo) {
+    return _largeLoadingScreen(context);
+  }
+
+  Widget _largeLoadingScreen(context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  LoadingIndicator(
+                    currentDotColor: AppColorScheme.primary(context)!,
+                    defaultDotColor: AppColorScheme.primaryContainer(context)!,
+                    numDots: 5,
+                    size: 60,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    AppLocalizations.of(context)!.loading,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              constraints: const BoxConstraints.expand(),
+              alignment: Alignment.center,
+              color: AppColorScheme.primary(context),
+              child: AppNameText(
+                fontSize: 44,
+                fontColor: AppColorScheme.onPrimary(context),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
