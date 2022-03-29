@@ -17,6 +17,6 @@ class CustomError {
   }
 }
 
-mixin ErrorCodes {
-  static String get success => '200';
+enum ErrorCode {
+  connectionNotFound,
 }

@@ -18,7 +18,7 @@ class StartupCubit extends Cubit<StartupState> {
     if (initResponse.success) {
       emit(StartupSuccess());
     } else {
-      if ((await Parse().checkConnectivity()) == ParseConnectivityResult.none) {
+      if (initResponse.error?.code == ErrorCode.connectionNotFound.name) {
         _retryWhenConnectionIsRestored();
       }
       emit(

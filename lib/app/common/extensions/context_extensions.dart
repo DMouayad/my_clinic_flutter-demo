@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 /// COPIED FROM GETX PACKAGE
 
@@ -32,4 +32,5 @@ extension ContextThemeExtensions on BuildContext {
 
   /// similar to [MediaQuery.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;
+  AppColorScheme get colorScheme => AppColorScheme.of(this);
 }

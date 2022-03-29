@@ -6,7 +6,7 @@ class SubmitButton extends Component {
   final void Function() onPressed;
   final String text;
   final IconData iconData;
-  SubmitButton({
+  const SubmitButton({
     Key? key,
     required this.onPressed,
     required this.text,
@@ -16,15 +16,15 @@ class SubmitButton extends Component {
   @override
   Widget builder(BuildContext context, contextInfo) {
     return SizedBox(
-      width: contextInfo.widgetSize.width * .8,
+      width: contextInfo.widgetSize!.width * .8,
       height: 45,
       child: contextInfo.isDesktop
           ? CustomFilledButton(
               label: text,
               onPressed: onPressed,
               iconData: iconData,
-              backgroundColor: AppColorScheme.primary(context),
-              // labelColor: AppColorScheme.onPrimary(context),
+              backgroundColor: context.colorScheme.primary,
+              labelColor: context.colorScheme.onPrimary,
             )
           : CustomElevatedButton(
               label: text,

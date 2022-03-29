@@ -14,7 +14,7 @@ class AppNameText extends StatelessWidget {
         letterSpacing: 1.2,
         fontSize: fontSize,
         fontWeight: FontWeight.w500,
-        color: fontColor ?? AppColorScheme.onBackground(context),
+        color: fontColor ?? context.colorScheme.onBackground,
       ),
     );
   }

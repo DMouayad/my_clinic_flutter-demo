@@ -1,14 +1,14 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 class CustomElevatedButton extends Component {
-  CustomElevatedButton({
+  const CustomElevatedButton({
     Key? key,
     required this.label,
     required this.onPressed,
     required this.iconData,
     this.backgroundColor,
     this.labelColor,
-    this.elevation=2,
+    this.elevation = 2,
   }) : super(key: key);
 
   final String label;
@@ -16,7 +16,7 @@ class CustomElevatedButton extends Component {
   final IconData iconData;
   final Color? backgroundColor;
   final Color? labelColor;
-final double elevation;
+  final double elevation;
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
@@ -30,16 +30,16 @@ final double elevation;
               (context.isDarkMode
                   ? const Color(0xFF485860)
                   // : const Color(0xFF95bcb7)
-                  : AppColorScheme.primary(context)),
+                  : context.colorScheme.primary),
         ),
         textStyle: MaterialStateProperty.all(
           context.textTheme.subtitle2?.copyWith(
-            color: AppColorScheme.onPrimary(context),
+            color: context.colorScheme.onPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
         foregroundColor: MaterialStateProperty.all(
-          labelColor ?? (AppColorScheme.onPrimary(context)),
+          labelColor ?? (context.colorScheme.onPrimary),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(

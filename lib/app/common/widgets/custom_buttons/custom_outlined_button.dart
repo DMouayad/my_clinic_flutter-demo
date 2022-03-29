@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 class CustomOutlinedButton extends Component {
-  CustomOutlinedButton({
+  const CustomOutlinedButton({
     Key? key,
     required this.label,
     required this.onPressed,
@@ -24,8 +24,8 @@ class CustomOutlinedButton extends Component {
           BorderSide(
             width: 1.5,
             color: context.isDarkMode
-                ? AppColorScheme.primaryContainer(context)!
-                : AppColorScheme.onBackground(context)!.withOpacity(.2),
+                ? AppColorScheme.of(context).primaryContainer!
+                : context.colorScheme.onBackground!.withOpacity(.2),
           ),
         ),
         splashFactory: NoSplash.splashFactory,
@@ -40,14 +40,14 @@ class CustomOutlinedButton extends Component {
       label: Text(
         label,
         style: context.textTheme.bodyText2?.copyWith(
-          color: AppColorScheme.onPrimaryContainer(context),
+          color: AppColorScheme.of(context).onPrimaryContainer,
         ),
       ),
       onPressed: onPressed,
       icon: Icon(
         iconData,
         size: 18,
-        color: AppColorScheme.onPrimaryContainer(context),
+        color: AppColorScheme.of(context).onPrimaryContainer,
       ),
     );
   }

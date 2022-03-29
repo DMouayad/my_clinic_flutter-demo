@@ -2,23 +2,14 @@ import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 export 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'md3_color_scheme.dart';
-// extension ThemeExtension on BuildContext {
-//   /// similar to [MediaQuery.of(context).theme]
-//   ThemeData get theme => Theme.of(this);
-
-//   /// Check if dark mode theme is enable
-//   bool get isDarkMode => (theme.brightness == Brightness.dark);
-
-//   /// give access to Theme.of(context).iconTheme.color
-//   Color? get iconColor => theme.iconTheme.color;
-
-//   /// similar to [MediaQuery.of(context).padding]
-//   TextTheme get textTheme => Theme.of(this).textTheme;
-// }
 
 class AppColorScheme {
-  // static bool  isDarkMode
+  final BuildContext context;
+
   //
+  factory AppColorScheme.of(BuildContext context) {
+    return AppColorScheme(context);
+  }
   static const MD3ColorScheme md3Dark = MD3ColorScheme.dark(
     primary: Color(0xFF85beb7),
     // primary: Color(0xFF78aba5),
@@ -38,7 +29,8 @@ class AppColorScheme {
 
   // Light //
   static const MD3ColorScheme md3Light = MD3ColorScheme(
-    primary: Color(0xFF85beb7),
+    primary: Color(0xFF7aa29d),
+    // primary: Color(0xFF85beb7),
     onPrimary: Color(0xFFffffff),
     primaryContainer: Color(0xFFe7f2f1),
     onPrimaryContainer: Color(0xFF283937),
@@ -71,84 +63,77 @@ class AppColorScheme {
      */
   );
 
-  static Color? primary(BuildContext context) =>
-      context.isDarkMode ? md3Dark.primary : md3Light.primary;
+  AppColorScheme(this.context);
 
-  static Color? secondary(BuildContext context) =>
+  Color? get primary => context.isDarkMode ? md3Dark.primary : md3Light.primary;
+
+  Color? get secondary =>
       context.isDarkMode ? md3Dark.secondary : md3Light.secondary;
 
-  static Color? secondaryContainer(BuildContext context) => context.isDarkMode
+  Color? get secondaryContainer => context.isDarkMode
       ? md3Dark.secondaryContainer
       : md3Light.secondaryContainer;
 
-  static Color? onSecondaryContainer(BuildContext context) => context.isDarkMode
+  Color? get onSecondaryContainer => context.isDarkMode
       ? md3Dark.onSecondaryContainer
       : md3Light.onSecondaryContainer;
 
-  static Color? primaryContainer(BuildContext context) =>
+  Color? get primaryContainer =>
       context.isDarkMode ? md3Dark.primaryContainer : md3Light.primaryContainer;
 
-  static Color? onPrimaryContainer(BuildContext context) => context.isDarkMode
+  Color? get onPrimaryContainer => context.isDarkMode
       ? md3Dark.onPrimaryContainer
       : md3Light.onPrimaryContainer;
 
-  static Color? onPrimary(BuildContext context) =>
+  Color? get onPrimary =>
       context.isDarkMode ? md3Dark.onPrimary : md3Light.onPrimary;
 
   //
-  static Color cardColor(BuildContext context) => context.isDarkMode
+  Color? get cardColor => context.isDarkMode
       ? md3Dark.secondaryContainer!
       : const Color(0xfff3f9f8);
 
   ///
-  static Color? drawerTileUnselectedColor(BuildContext context) =>
-      context.isDarkMode
-          ? const Color(0xFFd1e0f0)
-          : const Color(0xFF0f1413).withOpacity(.7);
+  Color? get drawerTileUnselectedColor => context.isDarkMode
+      ? const Color(0xFFd1e0f0)
+      : const Color(0xFF0f1413).withOpacity(.7);
 
   ///
-  static Color? dividerColor(BuildContext context) =>
-      onPrimaryContainer(context)?.withOpacity(.2);
+  Color? get dividerColor => onPrimaryContainer?.withOpacity(.2);
 
   ///
-  static Color? navbarDestinationColor(BuildContext context) =>
-      context.isDarkMode
-          ? const Color(0xFFd1e0f0).withOpacity(.7)
-          : const Color(0xFF1b2625).withOpacity(.7);
+  Color? get navbarDestinationColor => context.isDarkMode
+      ? const Color(0xFFd1e0f0).withOpacity(.7)
+      : const Color(0xFF1b2625).withOpacity(.7);
 
-  static Color? navbarSelectedDestColor(BuildContext context) =>
-      context.isDarkMode
-          ? const Color(0xFFcee5e2)
-          : const Color(0xFF354c49).withOpacity(.9);
+  Color? get navbarSelectedDestColor => context.isDarkMode
+      ? const Color(0xFFcee5e2)
+      : const Color(0xFF354c49).withOpacity(.9);
 
-  static Color navbarSelectedItemBackgroundColor(BuildContext context) =>
-      const Color(0xFFa1cdc7);
+  Color get navbarSelectedItemBackgroundColor => const Color(0xFFa1cdc7);
 
   ///
-  static Color? shadowColor(BuildContext context) =>
+  Color? get shadowColor =>
       context.isDarkMode ? const Color(0x90141f29) : const Color(0xFFf5f9f9);
-  static Color? unSelectedTextColor(BuildContext context) => context.isDarkMode
+  Color? get unSelectedTextColor => context.isDarkMode
       ? const Color(0xFFd0e1df)
       : const Color(0xFF1b2625).withOpacity(.7);
 
   ///
-  static Color? onBackground(BuildContext context) =>
+  Color? get onBackground =>
       context.isDarkMode ? md3Dark.onBackground : md3Light.onBackground;
 
-  static Color? errorColor(BuildContext context) =>
-      context.isDarkMode ? md3Dark.error : md3Light.error;
+  Color? get errorColor => context.isDarkMode ? md3Dark.error : md3Light.error;
 
-  static Color? onError(BuildContext context) =>
-      context.isDarkMode ? md3Dark.onError : md3Light.onError;
+  Color? get onError => context.isDarkMode ? md3Dark.onError : md3Light.onError;
 
-  static Color textFieldBorderColor(BuildContext context) => context.isDarkMode
+  Color get textFieldBorderColor => context.isDarkMode
       ? const Color(0xffeaf4f3).withOpacity(.4)
       : const Color(0xFF4b6461).withOpacity(.5);
 
-  static Color? backgroundColor(BuildContext context) =>
+  Color? get backgroundColor =>
       context.isDarkMode ? md3Dark.background : md3Light.background;
-  static Color? surface(BuildContext context) =>
-      context.isDarkMode ? md3Dark.surface : md3Light.surface;
+  Color? get surface => context.isDarkMode ? md3Dark.surface : md3Light.surface;
   // ============================================================= //
 
 }

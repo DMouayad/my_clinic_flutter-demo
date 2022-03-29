@@ -3,20 +3,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class ContextInfo {
-  final Orientation orientation;
-  final DeviceType deviceType;
-  final Size deviceScreenSize;
-  final Size widgetSize;
+  final BuildContext context;
+  final Size? widgetSize;
 
-  ContextInfo({
-    required this.orientation,
-    required this.deviceType,
-    required this.deviceScreenSize,
-    required this.widgetSize,
+  ContextInfo(
+    this.context, {
+    this.widgetSize,
   });
 
+  MediaQueryData get mediaQuery => MediaQuery.of(context);
+  Size get deviceScreenSize => mediaQuery.size;
   double get screenHeight => deviceScreenSize.height;
   double get screenWidth => deviceScreenSize.width;
+  Orientation get orientation => mediaQuery.orientation;
   bool get isPortraitMode => orientation == Orientation.portrait;
   bool get isLandscapeMode => orientation == Orientation.landscape;
 
@@ -39,22 +38,28 @@ class ContextInfo {
     return 'ContextInfo(orientation: $orientation, deviceType: $deviceType,'
         ' deviceScreenSize: $deviceScreenSize, widgetSize: $widgetSize)';
   }
+
+  DeviceType get deviceType {
+    // var orientation = mediaQuery.orientation;
+
+    double deviceWidth = mediaQuery.size.width;
+
+    // if (orientation == Orientation.landscape) {
+    //   deviceWidth = mediaQuery.size.height;
+    // } else {
+    //   deviceWidth = mediaQuery.size.width;
+    // }
+
+    if (deviceWidth > 980) {
+      return DeviceType.desktop;
+    }
+
+    if (deviceWidth > 600) {
+      return DeviceType.tablet;
+    }
+
+    return DeviceType.mobile;
+  }
 }
 
 enum DeviceType { mobile, tablet, desktop }
-
-// mixin ResponsiveLayoutValues {
-//   double getHorizontalMargins(BuildContext context) {
-//     final screenWidth = MediaQuery.of(context).size.width;
-//     if (screenWidth <= 600) {
-//       return 16.0;
-//     } else if (screenWidth > 600 && screenWidth < 900) {
-//       return 32.0;
-//     } else if (screenWidth > 900 && screenWidth < 1200) {
-//       return 42.0;
-//     } else if (screenWidth >= 1200) {
-//       return screenWidth * 0.05;
-//     }
-//     return 12.0;
-//   }
-// }

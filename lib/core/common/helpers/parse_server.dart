@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/core/common/models/custom_response.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
@@ -20,23 +21,14 @@ class ParseServer {
       final hasInternetConnection =
           (await Parse().checkConnectivity()) != ParseConnectivityResult.none;
       if (hasInternetConnection) {
-        // Timer(const Duration(seconds: 60), () {
-        //   if (!_serverIsInitialized) {
-        //     throw TimeoutException(
-        //       'Cannot connect to the server, check your internet connection and try again',
-        //     );
-        //   }
-        // });
-        await Parse()
-            .initialize(
-              _appID,
-              _serverURL,
-              clientKey: _clientKey,
-              liveQueryUrl: _liveQueryUrl,
-              debug: true,
-              autoSendSessionId: true,
-            )
-            .timeout(const Duration(seconds: 60));
+        await Parse().initialize(
+          _appID,
+          _serverURL,
+          clientKey: _clientKey,
+          liveQueryUrl: _liveQueryUrl,
+          debug: true,
+          autoSendSessionId: true,
+        );
         final parseHealthCheck = await Parse().healthCheck();
         _serverIsInitialized = parseHealthCheck.success;
         return CustomResponse(
@@ -53,13 +45,11 @@ class ParseServer {
         errorMessage: 'An error occurred \n ${e.message}',
       );
     } on TimeoutException catch (e) {
-      print('dsds');
       return CustomResponse.failure(
         errorMessage:
             'Cannot connect to the server, check your internet connection and try again',
       );
     } catch (e) {
-      print(e);
       return CustomResponse.failure(
         errorMessage: 'An error occurred \n $e',
       );
@@ -80,15 +70,22 @@ class ParseServer {
     };
 
     final response = await function.execute(parameters: params);
+    print(response.result);
     if (response.success) {
-      return CustomResponse.success(
-          result: UserRole.values.byName(response.result as String));
+      return response.result is String
+          ? CustomResponse.success(
+              result: UserRole.values.byName(response.result as String),
+            )
+          : CustomResponse.failure(
+              errorMessage:
+                  'expected a String for UserRole but got ${response.result.runtimeType}',
+            );
     } else {
       return CustomResponse.failure(errorMessage: response.error!.message);
     }
   }
 
-  static Future<CustomResponse<bool>> checkIfValidEmailAddress(
+  static Future<CustomResponse<bool>> checkIfEmailAddressIsValid(
       String emailAddress) async {
     final ParseCloudFunction function = ParseCloudFunction('isAUserEmail');
     final Map<String, String> params = <String, String>{
@@ -98,6 +95,9 @@ class ParseServer {
     return CustomResponse(
       success: response.success,
       result: response.result,
+      error: response.error != null
+          ? CustomError.fromParseError(response.error!)
+          : null,
     );
   }
 }

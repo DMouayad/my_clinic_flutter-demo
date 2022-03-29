@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 class HomePage extends AppPage {
   HomePage()
       : super(
-          route: MaterialPageRoute(
-            settings: const RouteSettings(name: Routes.homeScreenRoute),
-            builder: (_) => const HomeScreen(),
-          ),
+          routeSettings: const RouteSettings(name: Routes.homeScreenRoute),
+          mobileScreenInfo: const PageScreenInfo(screen: HomeScreen()),
+          desktopScreenInfo: const PageScreenInfo(screen: HomeScreen()),
         );
 }

@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 class DoneButton extends Component {
-  DoneButton({
+  const DoneButton({
     this.label,
     this.onPressed,
     Key? key,
@@ -27,13 +27,13 @@ class DoneButton extends Component {
             Icon(
               Icons.done,
               size: 20,
-              color: AppColorScheme.onPrimary(context),
+              color: context.colorScheme.onPrimary,
             ),
             const SizedBox(width: 8),
             Text(
               label ?? 'Done',
               style: context.textTheme.bodyText1?.copyWith(
-                color: AppColorScheme.onPrimary(context),
+                color: context.colorScheme.onPrimary,
               ),
             ),
           ],

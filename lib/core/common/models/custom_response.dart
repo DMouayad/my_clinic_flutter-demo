@@ -37,7 +37,7 @@ class CustomResponse<T> {
       success: false,
       error: CustomError(
         message: errorMessage ?? 'No internet connection found!',
-        code: ErrorCodes.noConnection.name,
+        code: ErrorCode.connectionNotFound.name,
       ),
     );
   }
@@ -57,10 +57,6 @@ class CustomResponse<T> {
           : null,
     );
   }
-}
-
-enum ErrorCodes {
-  noConnection,
 }
 
 /// - indicates that a [CustomResponse] has no returned result (no return type)

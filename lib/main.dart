@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //
 import 'package:clinic_v2/app/infrastructure/themes/themes.dart';
 
-import 'app/features/auth/cubit/auth_cubit.dart';
+import 'app/features/auth/auth_cubit/auth_cubit.dart';
 import 'core/features/authentication/data/auth_data.dart';
 
 void main() async {
@@ -51,7 +51,6 @@ class ClinicApp extends StatelessWidget {
               builder: (context, state) {
                 return MaterialApp(
                   title: 'Clinic',
-                  
                   debugShowCheckedModeBanner: false,
                   theme: AppThemes.lightTheme,
                   darkTheme: AppThemes.defaultDarkTheme,
@@ -59,9 +58,8 @@ class ClinicApp extends StatelessWidget {
                       ? state.themeMode
                       : ThemeMode.system,
                   home: home,
-                  locale: (state is LocalePreferenceProvided)
-                      ? state.locale
-                      : AppLocalizations.supportedLocales.first,
+                  locale:
+                      (state is LocalePreferenceProvided) ? state.locale : null,
                   onGenerateRoute: AppRoute.onGenerateRoute,
                   localeListResolutionCallback:
                       (deviceLocales, supportedLocales) {

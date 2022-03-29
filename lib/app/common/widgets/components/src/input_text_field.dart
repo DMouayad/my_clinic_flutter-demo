@@ -22,7 +22,7 @@ class InputTextField extends Component {
   final AutovalidateMode? autovalidateMode;
   final TextInputAction? textInputAction;
 
-  InputTextField({
+  const InputTextField({
     Key? key,
     this.hintText,
     this.validator,
@@ -50,11 +50,10 @@ class InputTextField extends Component {
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     final kOutlinedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(contextInfo.isDesktop ? 8 : 14),
-      borderSide:
-          BorderSide(color: AppColorScheme.textFieldBorderColor(context)),
+      borderSide: BorderSide(color: context.colorScheme.textFieldBorderColor),
     );
     return SizedBox(
-      width: contextInfo.widgetSize.width * .8,
+      width: contextInfo.widgetSize!.width * .8,
       // height: context.isDesktop ? 55 : null,
       child: TextFormField(
         controller: controller,
@@ -73,25 +72,26 @@ class InputTextField extends Component {
         decoration: InputDecoration(
           isDense: isDense,
           filled: filled,
-          fillColor: AppColorScheme.primaryContainer(context),
+          fillColor: AppColorScheme.of(context).primaryContainer,
           prefixIcon: Icon(
             prefixIcon,
             // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
           ),
           hintText: hintText,
           hintStyle: context.textTheme.bodyText1?.copyWith(
-            color: AppColorScheme.onPrimaryContainer(context)?.withOpacity(.7),
+            color:
+                AppColorScheme.of(context).onPrimaryContainer?.withOpacity(.7),
           ),
           enabledBorder: kOutlinedBorder,
           focusedBorder: kOutlinedBorder.copyWith(
-            borderSide: BorderSide(color: AppColorScheme.primary(context)!),
+            borderSide: BorderSide(color: context.colorScheme.primary!),
           ),
           errorBorder: kOutlinedBorder.copyWith(
-            borderSide: BorderSide(color: AppColorScheme.errorColor(context)!),
+            borderSide: BorderSide(color: context.colorScheme.errorColor!),
           ),
           focusedErrorBorder: kOutlinedBorder,
           errorStyle: context.textTheme.bodyText2?.copyWith(
-            color: AppColorScheme.errorColor(context)!,
+            color: context.colorScheme.errorColor!,
             fontSize: 12,
           ),
         ),

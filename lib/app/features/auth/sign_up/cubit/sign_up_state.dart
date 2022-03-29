@@ -20,11 +20,13 @@ class SignUpStepOne extends SignUpState {}
 class SignUpInProgress extends SignUpState {}
 
 class SignUpStepTwo extends SignUpState {
-  final UserRole userRole;
+  final BaseServerUser serverUser;
 
-  const SignUpStepTwo(this.userRole);
+  const SignUpStepTwo(this.serverUser);
   @override
-  List<Object?> get props => [userRole];
+  List<Object?> get props => [serverUser];
 }
 
 class SignUpEmailIsNotValid extends SignUpState {}
+
+class SignUpEmailIsValid extends SignUpState {}

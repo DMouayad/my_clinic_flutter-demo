@@ -1,5 +1,5 @@
-import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart';
-import 'package:clinic_v2/app/features/auth/view/login/login_screen.dart';
+import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
 import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
@@ -145,7 +145,6 @@ void main() {
         // expect
         expect(find.byType(LoginScreen), findsOneWidget);
         expect(find.byType(StartupScreen), findsNothing);
-        print(tester.allWidgets.toList());
       },
     );
   });

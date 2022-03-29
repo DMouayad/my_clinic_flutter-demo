@@ -4,7 +4,7 @@ class FormHelper {
   late final GlobalKey<FormState> _formKey;
   late final TextEditingController _passwordController;
   late final TextEditingController _usernameController;
-  late final TextEditingController? _emailController;
+  TextEditingController? _emailController;
 
   TextEditingController get passwordController => _passwordController;
   TextEditingController get usernameController => _usernameController;
@@ -39,6 +39,6 @@ class FormHelper {
   void dispose() {
     _passwordController.dispose();
     _usernameController.dispose();
-    // _emailController?.dispose();
+    _emailController?.dispose();
   }
 }

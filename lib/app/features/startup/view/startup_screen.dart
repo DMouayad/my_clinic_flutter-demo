@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/features/auth/cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -5,12 +5,12 @@ class CustomTextButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
   final Widget iconWidget;
-final double labelFontSize;
+  final double labelFontSize;
   const CustomTextButton({
     required this.label,
     required this.onPressed,
     required this.iconWidget,
-    this.labelFontSize=16,
+    this.labelFontSize = 16,
     Key? key,
   }) : super(key: key);
 
@@ -23,7 +23,7 @@ final double labelFontSize;
         label,
         style: context.textTheme.subtitle1?.copyWith(
           fontSize: labelFontSize,
-          color: AppColorScheme.onBackground(context),
+          color: context.colorScheme.onBackground,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -8,16 +8,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class StartupPage extends AppPage {
   StartupPage()
       : super(
-          route: MaterialPageRoute(
-              settings: const RouteSettings(name: Routes.startupScreen),
-              builder: (_) {
-                return BlocProvider(
-                  lazy: false,
-                  create: (_) {
-                    return StartupCubit()..initServerConnection();
-                  },
-                  child: const StartupScreen(),
-                );
-              }),
+          routeSettings: const RouteSettings(name: Routes.startupScreen),
+          mobileScreenInfo: _startUpPage(),
+          desktopScreenInfo: _startUpPage(),
         );
+  static PageScreenInfo _startUpPage() {
+    return PageScreenInfo(
+      screen: BlocProvider(
+        lazy: false,
+        create: (_) {
+          return StartupCubit()..initServerConnection();
+        },
+        child: const StartupScreen(),
+      ),
+    );
+  }
 }

@@ -7,7 +7,7 @@ class LoadingIndicator extends StatefulWidget {
     Key? key,
     required this.currentDotColor,
     required this.defaultDotColor,
-    this.numDots=5,
+    this.numDots = 8,
     this.size = 50,
     this.dotSize = 5,
     this.secondsPerRotation = 1,

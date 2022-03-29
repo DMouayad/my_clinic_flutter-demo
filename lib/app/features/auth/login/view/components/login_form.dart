@@ -1,22 +1,23 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets/components/src/input_text_field.dart';
-import 'package:clinic_v2/app/features/auth/view/components/submit_button.dart';
-import 'package:clinic_v2/app/features/auth/view/helpers/form_helper.dart';
-import 'package:clinic_v2/app/features/auth/view/sign_up/cubit/sign_up_cubit.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart';
+import 'package:clinic_v2/app/features/auth/common/helpers/form_helper.dart';
+import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignUpAccountInfoForm extends StatefulWidget {
-  const SignUpAccountInfoForm({Key? key}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
+
   @override
-  State<SignUpAccountInfoForm> createState() => _SignUpFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _SignUpFormState extends State<SignUpAccountInfoForm> {
+class _LoginFormState extends State<LoginForm> {
   late final FormHelper _formHelper;
   @override
   void initState() {
-    _formHelper = FormHelper(isLoginForm: false);
+    _formHelper = FormHelper(isLoginForm: true);
     super.initState();
   }
 
@@ -35,12 +36,12 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
           InputTextField(
             controller: _formHelper.usernameController,
             prefixIcon: Icons.person,
+            textInputAction: TextInputAction.next,
             validator: (String? value) {
               if (value?.isEmpty ?? false) {
                 return AppLocalizations.of(context)?.fieldIsRequired;
               }
             },
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             hintText: AppLocalizations.of(context)?.username,
             textStyle: context.textTheme.bodyText1?.copyWith(
               fontSize: 18,
@@ -48,24 +49,9 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
           ),
           const SizedBox(height: 12),
           InputTextField(
-            controller: _formHelper.emailController,
-            prefixIcon: CupertinoIcons.at,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (String? value) {
-              if (value?.isEmpty ?? false) {
-                return AppLocalizations.of(context)?.fieldIsRequired;
-              }
-            },
-            hintText: AppLocalizations.of(context)?.email,
-            textStyle: context.textTheme.bodyText1?.copyWith(
-              fontSize: 18,
-            ),
-          ),
-          const SizedBox(height: 12),
-          InputTextField(
             controller: _formHelper.passwordController,
-            prefixIcon: CupertinoIcons.eye,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            prefixIcon: Icons.remove_red_eye,
+            textInputAction: TextInputAction.done,
             validator: (String? password) {
               if (password?.isEmpty ?? true) {
                 return AppLocalizations.of(context)?.fieldIsRequired;
@@ -75,21 +61,38 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
             textStyle: context.textTheme.bodyText1?.copyWith(
               fontSize: 18,
             ),
+            onEditingComplete: () {
+              setState(() => _formHelper.validateInput());
+              FocusScope.of(context).unfocus();
+            },
             obscure: true,
           ),
           SizedBox(height: context.height * .1),
           SubmitButton(
-            text: 'Continue',
-            iconData: Icons.navigate_next,
+            text: AppLocalizations.of(context)!.login,
+            iconData: Icons.login,
             onPressed: () {
-              _formHelper.validateInput();
+              setState(() => _formHelper.validateInput());
               if (_formHelper.inputIsValid) {
-                context.read<SignUpCubit>().validateUserEmail(
-                      _formHelper.emailController!.text,
+                context.read<AuthCubit>().login(
+                      _formHelper.usernameController.text,
+                      _formHelper.passwordController.text,
                     );
-                FocusScope.of(context).unfocus();
               }
             },
+          ),
+          const SizedBox(height: 12),
+          TextButton(
+            onPressed: () => Navigator.of(context).pushNamed(
+              Routes.stepOneSignUpScreenRoute,
+              arguments: context.read<AuthCubit>(),
+            ),
+            child: Text(
+              AppLocalizations.of(context)!.createAccount,
+              style: context.textTheme.button?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),

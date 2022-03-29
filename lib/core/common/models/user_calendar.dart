@@ -10,6 +10,11 @@ class UserCalendar {
   final List<CalendarWorkDay> calendarWorkDays;
 
   UserCalendar({required this.calendarWorkDays});
+  List<TimeOfDay> getWorkHoursOfDay(int day) {
+    return calendarWorkDays
+        .firstWhere((calendarDay) => calendarDay.day == day)
+        .workHours;
+  }
 
   List<int> get holidays {
     final _workDaysNumbers = calendarWorkDays.map((workDay) => workDay.day);

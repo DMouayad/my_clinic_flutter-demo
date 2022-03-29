@@ -13,13 +13,13 @@ class LoadingAppScreen extends ResponsiveScreen {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             LoadingIndicator(
-              currentDotColor: AppColorScheme.primary(context)!,
-              defaultDotColor: AppColorScheme.primaryContainer(context)!,
+              currentDotColor: context.colorScheme.primary!,
+              defaultDotColor: AppColorScheme.of(context).primaryContainer!,
               size: 60,
             ),
             AppNameText(
               fontSize: 32,
-              fontColor: AppColorScheme.primary(context),
+              fontColor: context.colorScheme.primary,
             ),
           ],
         ),
@@ -37,7 +37,7 @@ class LoadingAppScreen extends ResponsiveScreen {
     return _largeLoadingScreen(context);
   }
 
-  Widget _largeLoadingScreen(context) {
+  Widget _largeLoadingScreen(BuildContext context) {
     return Scaffold(
       body: Row(
         children: [
@@ -47,8 +47,9 @@ class LoadingAppScreen extends ResponsiveScreen {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   LoadingIndicator(
-                    currentDotColor: AppColorScheme.primary(context)!,
-                    defaultDotColor: AppColorScheme.primaryContainer(context)!,
+                    currentDotColor: context.colorScheme.primary!,
+                    defaultDotColor:
+                        AppColorScheme.of(context).primaryContainer!,
                     numDots: 5,
                     size: 60,
                   ),
@@ -64,10 +65,10 @@ class LoadingAppScreen extends ResponsiveScreen {
             child: Container(
               constraints: const BoxConstraints.expand(),
               alignment: Alignment.center,
-              color: AppColorScheme.primary(context),
+              color: context.colorScheme.primary,
               child: AppNameText(
                 fontSize: 44,
-                fontColor: AppColorScheme.onPrimary(context),
+                fontColor: context.colorScheme.onPrimary,
               ),
             ),
           ),

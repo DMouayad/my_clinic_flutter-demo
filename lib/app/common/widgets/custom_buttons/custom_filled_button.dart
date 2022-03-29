@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 class CustomFilledButton extends Component {
-  CustomFilledButton({
+  const CustomFilledButton({
     Key? key,
     required this.label,
     required this.onPressed,
@@ -28,16 +28,16 @@ class CustomFilledButton extends Component {
               (context.isDarkMode
                   ? const Color(0xFF485860)
                   // : const Color(0xFF95bcb7)
-                  : AppColorScheme.secondaryContainer(context)),
+                  : context.colorScheme.secondaryContainer),
         ),
         textStyle: MaterialStateProperty.all(
           context.textTheme.subtitle2?.copyWith(
-            color: labelColor ?? AppColorScheme.onSecondaryContainer(context),
+            color: labelColor ?? context.colorScheme.onSecondaryContainer,
             fontWeight: FontWeight.w600,
           ),
         ),
         foregroundColor: MaterialStateProperty.all(
-          labelColor ?? (AppColorScheme.onSecondaryContainer(context)),
+          labelColor ?? (context.colorScheme.onSecondaryContainer),
         ),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
