@@ -14,8 +14,9 @@ class _StepTwoSignUpScreenState
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
       body: UserPreferencesList(
-        onUserCalendarChange: (userCalendar) {},
-        onDentalServicesChange: (dentalServices) {},
+        onAppearanceTileTapped: () {},
+        onCalendarTileTapped: () {},
+        onDentalServicesTileTapped: () {},
       ),
     );
   }

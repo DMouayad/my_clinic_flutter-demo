@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/base/entities/app_page.dart';
+import 'package:clinic_v2/app/base/entities/app_page/app_page.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';

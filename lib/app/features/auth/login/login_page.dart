@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/base/entities/app_page.dart';
+import 'package:clinic_v2/app/base/entities/app_page/app_page.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';
@@ -23,11 +23,13 @@ class LoginPage extends AppPage {
 
   static PageScreenInfo _largeLoginPageInfo(AuthCubit authCubit) {
     return PageScreenInfo(
-      hasTransition: false,
-      screen: BlocProvider.value(
-        value: authCubit,
-        child: const LargeLoginScreen(),
-      ),
+      transitionType: RouteTransitionType.none,
+      screenBuilder: (context, animation, secondaryAnimation) {
+        return BlocProvider.value(
+          value: authCubit,
+          child: LargeLoginScreen(animation: animation),
+        );
+      },
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
-import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +101,7 @@ void main() {
         setupStartupCubitForStartupSuccess(startupCubit!);
 
         clinicApp = ClinicApp(
-          PreferencesCubit(),
+          AppearancePreferencesCubit(),
           authCubit!,
           authRepository,
           home: BlocProvider<StartupCubit>.value(

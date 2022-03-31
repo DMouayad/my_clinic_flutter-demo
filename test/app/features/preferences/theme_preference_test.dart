@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,8 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../helpers/clinic_app_helper.dart';
 
 void main() {
-  group('App themeMode testing with PreferencesCubit', () {
-    PreferencesCubit? preferencesCubit;
+  group('App themeMode testing with AppearancePreferencesCubit', () {
+    AppearancePreferencesCubit? preferencesCubit;
     late ClinicApp myApp;
 
     setUp(() async {
@@ -15,7 +15,7 @@ void main() {
         await preferencesCubit!.close();
       }
 
-      preferencesCubit = PreferencesCubit();
+      preferencesCubit = AppearancePreferencesCubit();
       myApp = getClinicAppForTest(
         preferencesCubit: preferencesCubit!,
         home: Scaffold(appBar: AppBar()),
@@ -35,7 +35,7 @@ void main() {
       );
     });
     testWidgets(
-        '[PreferencesCubit] should emit [ThemeModePreferenceProvided]'
+        '[AppearancePreferencesCubit] should emit [ThemeModePreferenceProvided]'
         'when calling [provideThemeMode] and app theme mode is updated',
         (WidgetTester tester) async {
       // ARRANGE

@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/base/entities/app_page.dart';
+import 'package:clinic_v2/app/base/entities/app_page/app_page.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';
@@ -23,7 +23,7 @@ class StepOneSignUpPage extends AppPage {
 
   static PageScreenInfo _largeSignUpPageInfo(AuthCubit authCubit) {
     return PageScreenInfo(
-      hasTransition: false,
+      transitionType: RouteTransitionType.none,
       screenBuilder: (
         BuildContext context,
         Animation<double> animation,

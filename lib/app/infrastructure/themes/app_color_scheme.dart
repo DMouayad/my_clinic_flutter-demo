@@ -29,8 +29,8 @@ class AppColorScheme {
 
   // Light //
   static const MD3ColorScheme md3Light = MD3ColorScheme(
-    primary: Color(0xFF7aa29d),
-    // primary: Color(0xFF85beb7),
+    // primary: Color(0xFF7aa29d),
+    primary: Color(0xFF85beb7),
     onPrimary: Color(0xFFffffff),
     primaryContainer: Color(0xFFe7f2f1),
     onPrimaryContainer: Color(0xFF283937),

@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('PreferencesCubit tests', () {
-    blocTest<PreferencesCubit, PreferencesState>(
+  group('AppearancePreferencesCubit tests', () {
+    blocTest<AppearancePreferencesCubit, PreferencesState>(
       'emits [LocalePreferenceProvided] when calling [provideLocale].',
-      build: () => PreferencesCubit(),
+      build: () => AppearancePreferencesCubit(),
       act: (cubit) {
         cubit.provideLocale(const Locale('ar'));
       },
@@ -17,9 +17,9 @@ void main() {
         LocalePreferenceProvided(Locale('ar')),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, PreferencesState>(
       'emits [ThemeModePreferenceProvided] when calling [provideThemeMode].',
-      build: () => PreferencesCubit(),
+      build: () => AppearancePreferencesCubit(),
       act: (cubit) {
         cubit.provideThemeMode(ThemeMode.dark);
       },
@@ -27,10 +27,10 @@ void main() {
         ThemeModePreferenceProvided(ThemeMode.dark),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, PreferencesState>(
       'emits [ThemeModePreferenceProvided,LocalePreferenceProvided] '
       'when calling [provideLocale,provideThemeMode].',
-      build: () => PreferencesCubit(),
+      build: () => AppearancePreferencesCubit(),
       act: (cubit) {
         cubit.provideLocale(const Locale('ar'));
 
@@ -41,10 +41,10 @@ void main() {
         ThemeModePreferenceProvided(ThemeMode.dark),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, PreferencesState>(
       'emits two states of type [LocalePreferenceProvided] '
       'when calling [provideLocale] two times with different values.',
-      build: () => PreferencesCubit(),
+      build: () => AppearancePreferencesCubit(),
       act: (cubit) async {
         cubit.provideLocale(const Locale('ar'));
         Timer(const Duration(seconds: 1), () {
@@ -57,10 +57,10 @@ void main() {
         LocalePreferenceProvided(Locale('en')),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, PreferencesState>(
       'emits two states of type [ThemeModePreferenceProvided] '
       'when calling [provideThemeMode] two times with different values.',
-      build: () => PreferencesCubit(),
+      build: () => AppearancePreferencesCubit(),
       act: (cubit) async {
         cubit.provideThemeMode(ThemeMode.dark);
         Timer(const Duration(seconds: 3), () {

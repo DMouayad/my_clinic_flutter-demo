@@ -35,5 +35,6 @@ mixin Routes {
       manageTreatmentsScreenRoute = '/manage_treatments_screen',
       addDentalServiceScreenRoute = '/add_dental_service_screen',
       editDentalServiceScreenRoute = '/edit_dental_service_screen',
-      manageDentalServicesScreenRoute = '/manage_dental_services_screen';
+      manageDentalServicesScreenRoute = '/manage_dental_services_screen',
+      appearanceSettingsScreenRoute = '/appearance_settings_screen';
 }

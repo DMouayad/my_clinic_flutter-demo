@@ -1,13 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class UserPreferencesItem {
+class UserPreferencesItem extends Component {
   final IconData icon;
   final String name;
-  final Widget itemWidget;
+  final void Function() onTap;
 
-  UserPreferencesItem({
+  const UserPreferencesItem({
     required this.icon,
     required this.name,
-    required this.itemWidget,
-  });
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(name),
+      onTap: onTap,
+    );
+  }
 }

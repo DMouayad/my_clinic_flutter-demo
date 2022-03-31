@@ -1,34 +1,10 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-//
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/models/user_preferences_item.dart';
-import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
-
-class AppPreferencesSettings extends StatelessWidget {
-  const AppPreferencesSettings({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final _appPreferencesItems = [
-      UserPreferencesItem(
-        name: AppLocalizations.of(context)!.appearance,
-        icon: Icons.color_lens,
-        itemWidget: const ThemeSettings(),
-      ),
-    ];
-    return ListView.builder(
-      itemCount: _appPreferencesItems.length,
-      itemBuilder: (BuildContext context, int index) {
-        return _appPreferencesItems.elementAt(index).itemWidget;
-      },
-    );
-  }
-}
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemeSettings extends StatefulWidget {
   const ThemeSettings({Key? key}) : super(key: key);
-
   @override
   State<ThemeSettings> createState() => _ThemeSettingsState();
 }
@@ -84,10 +60,11 @@ class _ThemeSettingsState extends StateWithResponsiveBuilder<ThemeSettings>
       ),
       activeColor: context.colorScheme.primary,
       onChanged: (isDarkModeEnabled) {
-        context.read<PreferencesCubit>().provideThemeMode(
-              isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light,
-            );
-
+        final newThemeMode =
+            isDarkModeEnabled ? ThemeMode.dark : ThemeMode.light;
+        context
+            .read<AppearancePreferencesCubit>()
+            .provideThemeMode(newThemeMode);
         setState(() {
           context.isDarkMode
               ? animationController.reverse(from: 1)

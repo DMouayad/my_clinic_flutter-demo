@@ -1,39 +1,49 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:clinic_v2/app/common/widgets/components/reusable_scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets/screens/two_sides_screen_layout.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
+import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/components/user_preferences_list.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/appearance_settings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LargeStepTwoSignUpScreen extends ResponsiveScreen {
-  const LargeStepTwoSignUpScreen({
-    Key? key,
-  }) : super(key: key);
+class LargeStepTwoSignUpScreen extends StatefulWidget {
+  const LargeStepTwoSignUpScreen({Key? key}) : super(key: key);
+  @override
+  State<LargeStepTwoSignUpScreen> createState() =>
+      _LargeStepTwoSignUpScreenState();
+}
 
+class _LargeStepTwoSignUpScreenState
+    extends StateWithResponsiveBuilder<LargeStepTwoSignUpScreen> {
+  Widget rightSide = const SizedBox.expand();
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return TwoSidesScreenLayout(
+          rightSideFlex: 2,
           leftSideBlurred: state is SignUpInProgress,
-          leftSide: const _StepTowLeftSide(),
-          rightSide: const _StepTowRightSide(),
+          leftSide: _stepTowLeftSide(),
+          rightSide: rightSide,
         );
       },
     );
   }
-}
 
-class _StepTowRightSide extends ResponsiveScreen {
-  const _StepTowRightSide({Key? key}) : super(key: key);
-  @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
-    return Container();
-  }
-}
-
-class _StepTowLeftSide extends ResponsiveScreen {
-  const _StepTowLeftSide({Key? key}) : super(key: key);
-  @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
-    return Container();
+  Widget _stepTowLeftSide() {
+    return ScaffoldWithAppBar(
+      titleText: AppLocalizations.of(context)!.createAccount,
+      body: UserPreferencesList(
+        onAppearanceTileTapped: () {
+          setState(() => rightSide = AppearanceSettingsScreen());
+        },
+        onCalendarTileTapped: () {
+          // setState(()=>rightSide=);
+        },
+        onDentalServicesTileTapped: () {
+          // setState(()=>rightSide=);
+        },
+      ),
+    );
   }
 }

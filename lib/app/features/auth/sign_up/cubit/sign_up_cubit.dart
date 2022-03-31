@@ -16,13 +16,15 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String password,
   }) async {
     _validateUserEmail(emailAddress);
-    if (state is SignUpEmailIsValid) {
-      _proceedToSignUpStepTwo(
-        emailAddress: emailAddress,
-        username: username,
-        password: password,
-      );
-    }
+    stream.listen((state) {
+      if (state is SignUpEmailIsValid) {
+        _proceedToSignUpStepTwo(
+          emailAddress: emailAddress,
+          username: username,
+          password: password,
+        );
+      }
+    });
   }
 
   Future<void> _validateUserEmail(String emailAddress) async {

@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/features/preferences/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
 import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ void main() async {
 
   runApp(
     ClinicApp(
-      PreferencesCubit(),
+      AppearancePreferencesCubit(),
       AuthCubit(authRepository),
       authRepository,
     ),
@@ -29,7 +29,7 @@ class ClinicApp extends StatelessWidget {
   const ClinicApp(this._preferencesCubit, this._authCubit, this._authRepository,
       {Key? key, this.home})
       : super(key: key);
-  final PreferencesCubit _preferencesCubit;
+  final AppearancePreferencesCubit _preferencesCubit;
   final AuthCubit _authCubit;
   final BaseAuthRepository _authRepository;
 
@@ -47,7 +47,7 @@ class ClinicApp extends StatelessWidget {
               BlocProvider.value(value: _preferencesCubit),
               BlocProvider.value(value: _authCubit),
             ],
-            child: BlocBuilder<PreferencesCubit, PreferencesState>(
+            child: BlocBuilder<AppearancePreferencesCubit, PreferencesState>(
               builder: (context, state) {
                 return MaterialApp(
                   title: 'Clinic',

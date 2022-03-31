@@ -5,11 +5,12 @@ import 'package:clinic_v2/app/features/auth/login/view/components/login_form.dar
 import 'package:clinic_v2/app/features/auth/login/view/components/login_message.dart';
 
 class LargeLoginScreen extends ResponsiveScreen {
-  const LargeLoginScreen({Key? key}) : super(key: key);
-
+  const LargeLoginScreen({required this.animation, Key? key}) : super(key: key);
+  final Animation<double> animation;
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     return TwoSidesScreenLayout(
+      leftSideAnimation: animation,
       leftSide: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: context.horizontalMargins,
