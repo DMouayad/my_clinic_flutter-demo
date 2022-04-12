@@ -6,18 +6,25 @@ class SubmitButton extends Component {
   final void Function() onPressed;
   final String text;
   final IconData iconData;
+  final bool expandInWidth;
+  final double? height;
+
   const SubmitButton({
     Key? key,
     required this.onPressed,
     required this.text,
     required this.iconData,
+    this.expandInWidth = false,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget builder(BuildContext context, contextInfo) {
     return SizedBox(
-      width: contextInfo.widgetSize!.width * .8,
-      height: 45,
+      width: expandInWidth
+          ? contextInfo.widgetSize!.width
+          : contextInfo.widgetSize!.width * .8,
+      height: height ?? 45,
       child: contextInfo.isDesktop
           ? CustomFilledButton(
               label: text,

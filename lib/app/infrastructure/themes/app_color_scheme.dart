@@ -10,9 +10,10 @@ class AppColorScheme {
   factory AppColorScheme.of(BuildContext context) {
     return AppColorScheme(context);
   }
-  static const MD3ColorScheme md3Dark = MD3ColorScheme.dark(
-    primary: Color(0xFF85beb7),
-    // primary: Color(0xFF78aba5),
+
+  static const MD3ColorScheme darkColorScheme = MD3ColorScheme.dark(
+    // primary: Color(0xFF85beb7),
+    primary: Color(0xFF78aba5),
     secondary: Color(0xFF5c9091),
     primaryContainer: Color(0xFF384349),
     onPrimaryContainer: Color(0xFFd4d5d6),
@@ -28,7 +29,7 @@ class AppColorScheme {
   );
 
   // Light //
-  static const MD3ColorScheme md3Light = MD3ColorScheme(
+  static const MD3ColorScheme lightColorScheme = MD3ColorScheme(
     // primary: Color(0xFF7aa29d),
     primary: Color(0xFF85beb7),
     onPrimary: Color(0xFFffffff),
@@ -65,32 +66,36 @@ class AppColorScheme {
 
   AppColorScheme(this.context);
 
-  Color? get primary => context.isDarkMode ? md3Dark.primary : md3Light.primary;
+  Color? get primary =>
+      context.isDarkMode ? darkColorScheme.primary : lightColorScheme.primary;
 
-  Color? get secondary =>
-      context.isDarkMode ? md3Dark.secondary : md3Light.secondary;
+  Color? get secondary => context.isDarkMode
+      ? darkColorScheme.secondary
+      : lightColorScheme.secondary;
 
   Color? get secondaryContainer => context.isDarkMode
-      ? md3Dark.secondaryContainer
-      : md3Light.secondaryContainer;
+      ? darkColorScheme.secondaryContainer
+      : lightColorScheme.secondaryContainer;
 
   Color? get onSecondaryContainer => context.isDarkMode
-      ? md3Dark.onSecondaryContainer
-      : md3Light.onSecondaryContainer;
+      ? darkColorScheme.onSecondaryContainer
+      : lightColorScheme.onSecondaryContainer;
 
-  Color? get primaryContainer =>
-      context.isDarkMode ? md3Dark.primaryContainer : md3Light.primaryContainer;
+  Color? get primaryContainer => context.isDarkMode
+      ? darkColorScheme.primaryContainer
+      : lightColorScheme.primaryContainer;
 
   Color? get onPrimaryContainer => context.isDarkMode
-      ? md3Dark.onPrimaryContainer
-      : md3Light.onPrimaryContainer;
+      ? darkColorScheme.onPrimaryContainer
+      : lightColorScheme.onPrimaryContainer;
 
-  Color? get onPrimary =>
-      context.isDarkMode ? md3Dark.onPrimary : md3Light.onPrimary;
+  Color? get onPrimary => context.isDarkMode
+      ? darkColorScheme.onPrimary
+      : lightColorScheme.onPrimary;
 
   //
   Color? get cardColor => context.isDarkMode
-      ? md3Dark.secondaryContainer!
+      ? darkColorScheme.secondaryContainer!
       : const Color(0xfff3f9f8);
 
   ///
@@ -120,20 +125,25 @@ class AppColorScheme {
       : const Color(0xFF1b2625).withOpacity(.7);
 
   ///
-  Color? get onBackground =>
-      context.isDarkMode ? md3Dark.onBackground : md3Light.onBackground;
+  Color? get onBackground => context.isDarkMode
+      ? darkColorScheme.onBackground
+      : lightColorScheme.onBackground;
 
-  Color? get errorColor => context.isDarkMode ? md3Dark.error : md3Light.error;
+  Color? get errorColor =>
+      context.isDarkMode ? darkColorScheme.error : lightColorScheme.error;
 
-  Color? get onError => context.isDarkMode ? md3Dark.onError : md3Light.onError;
+  Color? get onError =>
+      context.isDarkMode ? darkColorScheme.onError : lightColorScheme.onError;
 
   Color get textFieldBorderColor => context.isDarkMode
       ? const Color(0xffeaf4f3).withOpacity(.4)
       : const Color(0xFF4b6461).withOpacity(.5);
 
-  Color? get backgroundColor =>
-      context.isDarkMode ? md3Dark.background : md3Light.background;
-  Color? get surface => context.isDarkMode ? md3Dark.surface : md3Light.surface;
+  Color? get backgroundColor => context.isDarkMode
+      ? darkColorScheme.background
+      : lightColorScheme.background;
+  Color? get surface =>
+      context.isDarkMode ? darkColorScheme.surface : lightColorScheme.surface;
   // ============================================================= //
 
 }

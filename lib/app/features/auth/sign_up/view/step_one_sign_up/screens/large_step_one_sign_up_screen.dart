@@ -1,6 +1,8 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:clinic_v2/app/common/widgets/components/reusable_scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets/components/src/app_name_text.dart';
 import 'package:clinic_v2/app/common/widgets/screens/two_sides_screen_layout.dart';
+import 'package:clinic_v2/app/features/auth/common/components/settings_icons.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/components/sign_up_components.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/step_one_sign_up/components/account_info_form.dart';
@@ -44,31 +46,37 @@ class _StepOneRightSide extends ResponsiveScreen {
                 ? context.colorScheme.primary
                 : context.colorScheme.errorColor,
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
               children: [
-                AppNameText(
-                  fontSize: 44,
-                  fontColor: context.colorScheme.onPrimary,
+                Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppNameText(
+                        fontSize: 44,
+                        fontColor: context.colorScheme.onPrimary,
+                      ),
+                      if (state is SignUpError)
+                        ErrorCard(
+                          errorText: state.error.message,
+                        ),
+                      if (state is SignUpEmailIsNotValid)
+                        ErrorCard(
+                          errorText: AppLocalizations.of(context)!
+                              .emailAddressNotValid,
+                        ),
+                      if (state is SignUpInProgress) ...[
+                        const SizedBox(height: 20),
+                        const LoadingIndicator(),
+                      ],
+                    ],
+                  ),
                 ),
-                if (state is SignUpError)
-                  ErrorCard(
-                    errorText: state.error.message,
-                  ),
-                if (state is SignUpEmailIsNotValid)
-                  ErrorCard(
-                    errorText:
-                        AppLocalizations.of(context)!.emailAddressNotValid,
-                  ),
-                if (state is SignUpInProgress) ...[
-                  const SizedBox(height: 20),
-                  LoadingIndicator(
-                    currentDotColor: context.colorScheme.secondary!,
-                    defaultDotColor:
-                        AppColorScheme.of(context).primaryContainer!,
-                    size: 60,
-                  ),
-                ],
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: LeftSideAppearanceSettings(),
+                ),
               ],
             ),
           ),
@@ -83,36 +91,24 @@ class _StepOneLeftSide extends ResponsiveScreen {
 
   @override
   Widget builder(BuildContext context, contextInfo) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 28),
-        if (contextInfo.isTablet)
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: BackButton(),
-          ),
-        Expanded(
-          child: ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: context.horizontalMargins,
-            ),
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SignUpMessage(),
-                  SignUpStepIndicator(
-                    title: AppLocalizations.of(context)!.stepOne,
-                  ),
-                ],
-              ),
-              const SignUpAccountInfoForm(),
-            ],
+    return ScaffoldWithAppBar(
+      title: const SignUpMessage(),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SignUpStepIndicator(
+            title: AppLocalizations.of(context)!.stepOne,
           ),
         ),
       ],
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.horizontalMargins,
+          ),
+          child: const SignUpAccountInfoForm(),
+        ),
+      ),
     );
   }
 }

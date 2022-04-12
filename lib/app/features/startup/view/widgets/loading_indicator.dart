@@ -1,14 +1,15 @@
 import 'dart:math' as Math;
 
+import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatefulWidget {
   const LoadingIndicator({
     Key? key,
-    required this.currentDotColor,
-    required this.defaultDotColor,
+    this.currentDotColor,
+    this.defaultDotColor,
     this.numDots = 8,
-    this.size = 50,
+    this.size = 60,
     this.dotSize = 5,
     this.secondsPerRotation = 1,
   }) : super(key: key);
@@ -17,9 +18,9 @@ class LoadingIndicator extends StatefulWidget {
   final double size; //Width and height of the
   final double dotSize; //Diameter of each dot
   final int secondsPerRotation;
-  final Color
+  final Color?
       currentDotColor; //The color of the dot that "circles" around the indicator
-  final Color defaultDotColor; //The color of the dots that aren't animated
+  final Color? defaultDotColor; //The color of the dots that aren't animated
 
   @override
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
@@ -52,15 +53,17 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.size,
       height: widget.size,
       // decoration: BoxDecoration(color: Colors.red), //for debugging purposes
       child: CustomPaint(
         child: Container(),
         painter: DottedCircularProgressIndicatorPainterFb(
-            dotColor: widget.defaultDotColor,
-            currentDotColor: widget.currentDotColor,
+            dotColor:
+                widget.defaultDotColor ?? context.colorScheme.primaryContainer!,
+            currentDotColor:
+                widget.currentDotColor ?? context.colorScheme.secondary!,
             percentage: 0,
             numDots: widget.numDots,
             currentDotNum: animation.value,

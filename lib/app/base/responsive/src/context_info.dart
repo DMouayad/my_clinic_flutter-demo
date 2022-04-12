@@ -19,11 +19,9 @@ class ContextInfo {
   bool get isPortraitMode => orientation == Orientation.portrait;
   bool get isLandscapeMode => orientation == Orientation.landscape;
 
-  /// True if the shortestSide is smaller than 600p
   bool get isMobile =>
       (screenWidth < 600) && (Platform.isAndroid || Platform.isIOS);
 
-  /// True if the shortestSide is largest than 600p
   bool get isTablet =>
       (screenWidth >= 600) && (Platform.isAndroid || Platform.isIOS);
 

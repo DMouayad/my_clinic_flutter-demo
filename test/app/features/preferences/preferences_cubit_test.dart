@@ -7,28 +7,28 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('AppearancePreferencesCubit tests', () {
-    blocTest<AppearancePreferencesCubit, PreferencesState>(
-      'emits [LocalePreferenceProvided] when calling [provideLocale].',
+    blocTest<AppearancePreferencesCubit, AppearancePreferencesState>(
+      'emits [UserPreferencesState] when calling [provideLocale].',
       build: () => AppearancePreferencesCubit(),
       act: (cubit) {
         cubit.provideLocale(const Locale('ar'));
       },
-      expect: () => const <PreferencesState>[
-        LocalePreferenceProvided(Locale('ar')),
+      expect: () => const <AppearancePreferencesState>[
+        UserPreferencesState(locale: Locale('ar')),
       ],
     );
-    blocTest<AppearancePreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, AppearancePreferencesState>(
       'emits [ThemeModePreferenceProvided] when calling [provideThemeMode].',
       build: () => AppearancePreferencesCubit(),
       act: (cubit) {
         cubit.provideThemeMode(ThemeMode.dark);
       },
-      expect: () => const <PreferencesState>[
-        ThemeModePreferenceProvided(ThemeMode.dark),
+      expect: () => const <AppearancePreferencesState>[
+        UserPreferencesState(themeMode: ThemeMode.dark),
       ],
     );
-    blocTest<AppearancePreferencesCubit, PreferencesState>(
-      'emits [ThemeModePreferenceProvided,LocalePreferenceProvided] '
+    blocTest<AppearancePreferencesCubit, AppearancePreferencesState>(
+      'emits [ThemeModePreferenceProvided,UserPreferencesState] '
       'when calling [provideLocale,provideThemeMode].',
       build: () => AppearancePreferencesCubit(),
       act: (cubit) {
@@ -36,13 +36,13 @@ void main() {
 
         cubit.provideThemeMode(ThemeMode.dark);
       },
-      expect: () => const <PreferencesState>[
-        LocalePreferenceProvided(Locale('ar')),
-        ThemeModePreferenceProvided(ThemeMode.dark),
+      expect: () => const <AppearancePreferencesState>[
+        UserPreferencesState(locale: Locale('ar')),
+        UserPreferencesState(themeMode: ThemeMode.dark),
       ],
     );
-    blocTest<AppearancePreferencesCubit, PreferencesState>(
-      'emits two states of type [LocalePreferenceProvided] '
+    blocTest<AppearancePreferencesCubit, AppearancePreferencesState>(
+      'emits two states of type [UserPreferencesState] '
       'when calling [provideLocale] two times with different values.',
       build: () => AppearancePreferencesCubit(),
       act: (cubit) async {
@@ -52,12 +52,12 @@ void main() {
         });
       },
       wait: const Duration(seconds: 1),
-      expect: () => const <PreferencesState>[
-        LocalePreferenceProvided(Locale('ar')),
-        LocalePreferenceProvided(Locale('en')),
+      expect: () => const <AppearancePreferencesState>[
+        UserPreferencesState(locale: Locale('ar')),
+        UserPreferencesState(locale: Locale('en')),
       ],
     );
-    blocTest<AppearancePreferencesCubit, PreferencesState>(
+    blocTest<AppearancePreferencesCubit, AppearancePreferencesState>(
       'emits two states of type [ThemeModePreferenceProvided] '
       'when calling [provideThemeMode] two times with different values.',
       build: () => AppearancePreferencesCubit(),
@@ -68,9 +68,9 @@ void main() {
         });
       },
       wait: const Duration(seconds: 3),
-      expect: () => const <PreferencesState>[
-        ThemeModePreferenceProvided(ThemeMode.dark),
-        ThemeModePreferenceProvided(ThemeMode.system),
+      expect: () => const <AppearancePreferencesState>[
+        UserPreferencesState(themeMode: ThemeMode.dark),
+        UserPreferencesState(themeMode: ThemeMode.system),
       ],
     );
   });

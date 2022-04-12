@@ -7,18 +7,20 @@ class ParseAuthRepository extends BaseAuthRepository<CustomParseUser> {
     // required String email,
     required String password,
   }) async {
-    final response = await ParseUser.createUser(username, password).login();
-    if (response.success) {
-      print(CustomParseUser.fromParseUser(response.results?.first));
+    if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
+      final response = await ParseUser.createUser(username, password).login();
+      if (response.success) {
+        print(CustomParseUser.fromParseUser(response.results?.first));
 
-      // print(response.results);
-      // currentUser = CustomParseUser.fromJson(response.);
-      return CustomResponse.success();
+        // print(response.results);
+        // currentUser = CustomParseUser.fromJson(response.);
+        return CustomResponse.success();
+      }
+      return CustomResponse.failure(
+          errorMessage: response.error?.message ?? 'Login failed');
+    } else {
+      return CustomResponse.internetConnectionError();
     }
-    return CustomResponse.failure(
-        errorMessage: response.error?.message ?? 'Login failed');
-    // CustomParseUser.
-    // CustomParseUser( username: username, emailAddress: emailAddress)
   }
 
   @override

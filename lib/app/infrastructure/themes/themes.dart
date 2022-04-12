@@ -40,7 +40,7 @@ class AppThemes {
     scaffoldBackgroundColor: _darkModeBackgroundColor,
 
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: AppColorScheme.md3Dark.primary,
+      backgroundColor: AppColorScheme.darkColorScheme.primary,
       foregroundColor: const Color(0xFFf3f8f7),
       elevation: 4,
     ),
@@ -122,11 +122,11 @@ class AppThemes {
       titleTextStyle: TextStyle(
         fontFamily: 'inter',
         fontSize: 20,
-        color: AppColorScheme.md3Dark.onBackground,
+        color: AppColorScheme.darkColorScheme.onBackground,
         fontWeight: FontWeight.w500,
       ),
       backgroundColor: _lightModeBackgroundColor,
-      foregroundColor: AppColorScheme.md3Dark.onBackground,
+      foregroundColor: AppColorScheme.darkColorScheme.onBackground,
       systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: _lightModeBackgroundColor,
         systemNavigationBarContrastEnforced: true,
@@ -134,10 +134,10 @@ class AppThemes {
     ),
 
     colorScheme: const ColorScheme.light().copyWith(
-      primary: AppColorScheme.md3Dark.primary,
-      primaryVariant: AppColorScheme.md3Dark.primary,
-      secondary: AppColorScheme.md3Dark.secondary,
-      secondaryVariant: AppColorScheme.md3Dark.secondary,
+      primary: AppColorScheme.darkColorScheme.primary,
+      primaryVariant: AppColorScheme.darkColorScheme.primary,
+      secondary: AppColorScheme.darkColorScheme.secondary,
+      secondaryVariant: AppColorScheme.darkColorScheme.secondary,
       error: const Color(0xFFB00020),
     ),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -164,7 +164,7 @@ class AppThemes {
           ),
         ),
         side: MaterialStateProperty.all(
-          BorderSide(color: AppColorScheme.md3Dark.secondary!),
+          BorderSide(color: AppColorScheme.darkColorScheme.secondary!),
         ),
         overlayColor: MaterialStateProperty.all(const Color(0xFF1e2827)),
         textStyle: MaterialStateProperty.all(
@@ -176,8 +176,8 @@ class AppThemes {
         ),
       ),
     ),
-    dialogTheme:
-        DialogTheme(backgroundColor: AppColorScheme.md3Dark.primaryContainer),
+    dialogTheme: DialogTheme(
+        backgroundColor: AppColorScheme.darkColorScheme.primaryContainer),
     //
     textTheme: const TextTheme(
       headline4: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),

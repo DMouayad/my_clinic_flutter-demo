@@ -29,6 +29,7 @@ extension ContextThemeExtensions on BuildContext {
 
   /// Check if dark mode theme is enable
   bool get isDarkMode => (theme.brightness == Brightness.dark);
+  ThemeMode get themeMode => isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
   /// similar to [MediaQuery.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;

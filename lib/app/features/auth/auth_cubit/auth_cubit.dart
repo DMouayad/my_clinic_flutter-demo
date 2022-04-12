@@ -27,6 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> login(String username, String password) async {
+    emit(const LoginInProgress());
     final loginResponse = await authRepository.login(
       username: username,
       password: password,

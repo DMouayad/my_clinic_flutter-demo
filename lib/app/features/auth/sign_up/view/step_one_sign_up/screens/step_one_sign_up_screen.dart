@@ -7,7 +7,7 @@ class StepOneSignUpScreen extends ResponsiveScreen {
   const StepOneSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
     print(contextInfo);
 
     return Scaffold(

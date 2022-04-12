@@ -32,6 +32,7 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formHelper.formKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InputTextField(
             controller: _formHelper.usernameController,
@@ -90,7 +91,8 @@ class _LoginFormState extends State<LoginForm> {
             child: Text(
               AppLocalizations.of(context)!.createAccount,
               style: context.textTheme.button?.copyWith(
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
+                color: context.colorScheme.onBackground,
               ),
             ),
           ),

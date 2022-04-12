@@ -48,17 +48,21 @@ class SignUpCubit extends Cubit<SignUpState> {
     required String username,
     required String password,
   }) async {
+    emit(SignUpInProgress());
+
     final userRoleResponse =
         await ParseServer.getUserRole(emailAddress: emailAddress);
     if (userRoleResponse.success) {
       if (userRoleResponse.result != null) {
-        emit(SignUpStepTwo(
-          CustomParseUser(
-            role: userRoleResponse.result!,
-            username: username,
-            emailAddress: emailAddress,
+        emit(
+          SignUpStepTwo(
+            CustomParseUser(
+              role: userRoleResponse.result!,
+              username: username,
+              emailAddress: emailAddress,
+            ),
           ),
-        ));
+        );
       } else {
         emit(
           SignUpError(

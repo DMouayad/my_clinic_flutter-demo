@@ -109,7 +109,7 @@ void main() {
 
             // EXPECT
             expect(preferencesCubit!.state,
-                const LocalePreferenceProvided(newLocale));
+                const UserPreferencesState(locale: newLocale));
             expect(
               tester.widget<MaterialApp>(find.byType(MaterialApp)).locale,
               newLocale,

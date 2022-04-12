@@ -8,9 +8,9 @@ class LoginMessage extends StatelessWidget {
     return Text(
       AppLocalizations.of(context)!.loginScreenMessage,
       textAlign: TextAlign.start,
-      style: context.textTheme.headline5?.copyWith(
+      style: context.textTheme.headline6?.copyWith(
         fontWeight: FontWeight.bold,
-        fontSize: 20,
+        color: context.colorScheme.onBackground,
       ),
     );
   }

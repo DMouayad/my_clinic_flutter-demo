@@ -19,7 +19,7 @@ dependencies:
   dot_navigation_bar: null
   equatable: null
   expansion_tile_card: ^2.0.0
-  flow_builder: ^0.0.6
+  fluent_ui: ^3.10.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -31,20 +31,20 @@ dependencies:
   flutter_slidable: ^1.1.0
   flutter_typeahead: ^3.2.4
   flutter_vector_icons: ^1.0.0
+  hydrated_bloc: ^8.1.0
   images_picker: null
   intl: ^0.17.0
   parse_server_sdk_flutter: ^3.1.0
   syncfusion_flutter_calendar: ^19.4.38
   url_launcher: ^6.0.9
-  freezed_annotation:
 dev_dependencies:
   bloc_test: ^9.0.2
   build_runner: null
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  freezed: null
   mockito: null
-  freezed:
 
 # The following section is specific to Flutter.
 flutter:

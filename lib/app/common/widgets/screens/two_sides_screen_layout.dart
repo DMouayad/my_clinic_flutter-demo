@@ -1,5 +1,5 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:clinic_v2/app/common/widgets/components/color_barrier.dart';
 
 class TwoSidesScreenLayout extends StatelessWidget {
   const TwoSidesScreenLayout({
@@ -39,7 +39,7 @@ class TwoSidesScreenLayout extends StatelessWidget {
                     sideIsBlurred: leftSideBlurred,
                   )
                 : _buildSide(
-                    widget: leftSide,
+                    sideContent: leftSide,
                     sideIsBlurred: leftSideBlurred,
                   ),
           ),
@@ -52,7 +52,7 @@ class TwoSidesScreenLayout extends StatelessWidget {
                     sideIsBlurred: rightSideBlurred,
                   )
                 : _buildSide(
-                    widget: rightSide,
+                    sideContent: rightSide,
                     sideIsBlurred: rightSideBlurred,
                   ),
           ),
@@ -61,18 +61,11 @@ class TwoSidesScreenLayout extends StatelessWidget {
     );
   }
 
-  Widget _buildSide({required Widget widget, bool sideIsBlurred = false}) {
+  Widget _buildSide({required Widget sideContent, bool sideIsBlurred = false}) {
     return Stack(
       children: [
-        widget,
-        if (sideIsBlurred)
-          FadeIn(
-            duration: const Duration(milliseconds: 400),
-            child: Container(
-              color: const Color(0xFF354c49).withOpacity(.3),
-              child: GestureDetector(),
-            ),
-          ),
+        sideContent,
+        if (sideIsBlurred) const BlurredColorBarrier(),
       ],
     );
   }
@@ -92,7 +85,7 @@ class TwoSidesScreenLayout extends StatelessWidget {
       child: FadeTransition(
         opacity: animation,
         child: _buildSide(
-          widget: widget,
+          sideContent: widget,
           sideIsBlurred: sideIsBlurred,
         ),
       ),

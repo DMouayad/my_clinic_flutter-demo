@@ -1,28 +1,37 @@
 part of 'preferences_cubit.dart';
 
-abstract class PreferencesState extends Equatable {
-  const PreferencesState();
+abstract class AppearancePreferencesState extends Equatable {
+  const AppearancePreferencesState();
 
   @override
   List<Object> get props => [];
 }
 
-class PreferencesInitial extends PreferencesState {
-  const PreferencesInitial();
+class AppearancePreferencesInitial extends AppearancePreferencesState {
+  const AppearancePreferencesInitial();
 }
 
-class LocalePreferenceProvided extends PreferencesState {
-  final Locale locale;
+class UserPreferencesState extends AppearancePreferencesState {
+  final Locale? locale;
+  final ThemeMode? themeMode;
+  const UserPreferencesState({this.locale, this.themeMode});
 
-  const LocalePreferenceProvided(this.locale);
   @override
-  List<Object> get props => [locale];
-}
+  List<Object> get props => [
+        [locale, themeMode]
+      ];
 
-class ThemeModePreferenceProvided extends PreferencesState {
-  final ThemeMode themeMode;
+  UserPreferencesState copyWith({
+    Locale? locale,
+    ThemeMode? themeMode,
+  }) {
+    return UserPreferencesState(
+      locale: locale ?? this.locale,
+      themeMode: themeMode ?? this.themeMode,
+    );
+  }
 
-  const ThemeModePreferenceProvided(this.themeMode);
   @override
-  List<Object> get props => [themeMode];
+  String toString() =>
+      'UserPreferencesState(locale: $locale, themeMode: $themeMode)';
 }

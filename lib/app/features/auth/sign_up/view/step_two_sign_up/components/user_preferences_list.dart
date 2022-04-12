@@ -1,53 +1,65 @@
-import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/models/user_preferences_item.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/components/user_preferences_list_item.dart';
 //
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
-import 'package:clinic_v2/core/common/utilities/enums.dart';
 
-class UserPreferencesList extends Component {
+class UserPreferencesList extends StatefulWidget {
   const UserPreferencesList({
     required this.onAppearanceTileTapped,
-    required this.onDentalServicesTileTapped,
     required this.onCalendarTileTapped,
+    required this.showDentalServicesTile,
+    this.onDentalServicesTileTapped,
     Key? key,
-  }) : super(key: key);
+  })  : assert(
+          showDentalServicesTile ? onDentalServicesTileTapped != null : true,
+        ),
+        super(key: key);
   //
   final void Function() onAppearanceTileTapped;
-  final void Function() onDentalServicesTileTapped;
   final void Function() onCalendarTileTapped;
-  // final void Function(UserCalendar userCalendar) onUserCalendarChange;
-  // final void Function(List<DentalService> dentalServices)
-  // onDentalServicesChange;
+  final void Function()? onDentalServicesTileTapped;
+  final bool showDentalServicesTile;
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
-    final userIsDentist =
-        (context.read<SignUpCubit>().state as SignUpStepTwo).serverUser.role ==
-            UserRole.dentist;
-    final _appPreferencesItems = [
-      UserPreferencesItem(
+  State<UserPreferencesList> createState() => _UserPreferencesListState();
+}
+
+class _UserPreferencesListState extends State<UserPreferencesList> {
+  int selectedItemIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    final _preferencesListData = [
+      PreferencesListItemData(
         name: AppLocalizations.of(context)!.calendar,
         icon: Icons.calendar_today_outlined,
-        onTap: onCalendarTileTapped,
+        onSelected: widget.onCalendarTileTapped,
       ),
-      UserPreferencesItem(
+      PreferencesListItemData(
         name: AppLocalizations.of(context)!.appearance,
         icon: Icons.devices,
-        onTap: onAppearanceTileTapped,
+        onSelected: widget.onAppearanceTileTapped,
       ),
-      if (userIsDentist)
-        UserPreferencesItem(
+      if (widget.showDentalServicesTile)
+        PreferencesListItemData(
           name: 'Dental services',
           // name: AppLocalizations.of(context)!.dentalServices,
           icon: Icons.medical_services_outlined,
-          onTap: onDentalServicesTileTapped,
+          onSelected: widget.onDentalServicesTileTapped!,
         ),
     ];
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        return _appPreferencesItems[index];
-      },
+    return ListView(
+      children: _preferencesListData
+          .asMap()
+          .entries
+          .map((e) => UserPreferencesListItem(
+                selected: e.key == selectedItemIndex,
+                itemData: e.value,
+                onTap: () {
+                  if (selectedItemIndex != e.key) {
+                    setState(() => selectedItemIndex = e.key);
+                  }
+                },
+              ))
+          .toList(),
     );
   }
 }

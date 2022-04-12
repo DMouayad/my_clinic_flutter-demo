@@ -13,9 +13,9 @@ class SignUpStepIndicator extends StatelessWidget {
       backgroundColor: AppColorScheme.of(context).primaryContainer,
       label: Text(
         title,
-        style: context.textTheme.subtitle1?.copyWith(
+        style: context.textTheme.bodyText1?.copyWith(
           fontWeight: FontWeight.bold,
-          color: AppColorScheme.of(context).onPrimaryContainer,
+          color: AppColorScheme.of(context).onBackground,
         ),
       ),
     );

@@ -53,7 +53,7 @@ void main() {
       );
       expect(
         preferencesCubit!.state,
-        const ThemeModePreferenceProvided(newThemeMode),
+        const UserPreferencesState(themeMode: newThemeMode),
       );
     });
   });

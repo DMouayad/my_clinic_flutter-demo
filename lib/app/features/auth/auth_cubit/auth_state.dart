@@ -11,6 +11,10 @@ class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
+class LoginInProgress extends AuthState {
+  const LoginInProgress();
+}
+
 class StoredUserWasFetched extends AuthState {
   const StoredUserWasFetched();
 }

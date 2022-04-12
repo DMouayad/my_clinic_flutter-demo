@@ -37,14 +37,13 @@ class ParseServer {
       } else {
         throw const SocketException('No Internet Connection!');
       }
-    } on SocketException catch (e) {
-      return CustomResponse.internetConnectionError(
-          errorMessage: 'No internet connection found!');
+    } on SocketException catch (_) {
+      return CustomResponse.internetConnectionError();
     } on ParseError catch (e) {
       return CustomResponse.failure(
         errorMessage: 'An error occurred \n ${e.message}',
       );
-    } on TimeoutException catch (e) {
+    } on TimeoutException catch (_) {
       return CustomResponse.failure(
         errorMessage:
             'Cannot connect to the server, check your internet connection and try again',
@@ -68,20 +67,22 @@ class ParseServer {
     final Map<String, String> params = <String, String>{
       'email_address': emailAddress
     };
-
-    final response = await function.execute(parameters: params);
-    print(response.result);
-    if (response.success) {
-      return response.result is String
-          ? CustomResponse.success(
-              result: UserRole.values.byName(response.result as String),
-            )
-          : CustomResponse.failure(
-              errorMessage:
-                  'expected a String for UserRole but got ${response.result.runtimeType}',
-            );
+    if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
+      final response = await function.execute(parameters: params);
+      if (response.success) {
+        return response.result is String
+            ? CustomResponse.success(
+                result: UserRole.values.byName(response.result as String),
+              )
+            : CustomResponse.failure(
+                errorMessage:
+                    'expected a String for UserRole but got ${response.result.runtimeType}',
+              );
+      } else {
+        return CustomResponse.failure(errorMessage: response.error!.message);
+      }
     } else {
-      return CustomResponse.failure(errorMessage: response.error!.message);
+      return CustomResponse.internetConnectionError();
     }
   }
 
@@ -91,13 +92,17 @@ class ParseServer {
     final Map<String, String> params = <String, String>{
       'email_address': emailAddress
     };
-    final response = await function.execute(parameters: params);
-    return CustomResponse(
-      success: response.success,
-      result: response.result,
-      error: response.error != null
-          ? CustomError.fromParseError(response.error!)
-          : null,
-    );
+    if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
+      final response = await function.execute(parameters: params);
+      return CustomResponse(
+        success: response.success,
+        result: response.result,
+        error: response.error != null
+            ? CustomError.fromParseError(response.error!)
+            : null,
+      );
+    } else {
+      return CustomResponse.internetConnectionError();
+    }
   }
 }
