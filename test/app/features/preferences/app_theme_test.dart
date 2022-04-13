@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/clinic_app_helper.dart';
+import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
   group('App themeMode testing with AppearancePreferencesCubit', () {
@@ -14,29 +15,19 @@ void main() {
       if (preferencesCubit != null) {
         await preferencesCubit!.close();
       }
-
-      preferencesCubit = AppearancePreferencesCubit();
-      myApp = getClinicAppForTest(
-        preferencesCubit: preferencesCubit!,
-        home: Scaffold(appBar: AppBar()),
-      );
+      await mockHydratedStorage(() async {
+        preferencesCubit = AppearancePreferencesCubit();
+        myApp = getClinicAppForTest(
+          preferencesCubit: preferencesCubit!,
+          home: Scaffold(appBar: AppBar()),
+        );
+      });
     });
 
     tearDown(() => preferencesCubit!.close());
 
-    testWidgets('Verify initial [themeMode] is [ThemeMode.system] ',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(myApp);
-
-      // EXPECT
-      expect(
-        tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
-        ThemeMode.system,
-      );
-    });
     testWidgets(
-        '[AppearancePreferencesCubit] should emit [ThemeModePreferenceProvided]'
-        'when calling [provideThemeMode] and app theme mode is updated',
+        'expect app [themeMode] to be [ThemeMode.dark] after calling [provideThemeMode]',
         (WidgetTester tester) async {
       // ARRANGE
       const newThemeMode = ThemeMode.dark;
@@ -50,10 +41,6 @@ void main() {
       expect(
         tester.widget<MaterialApp>(find.byType(MaterialApp)).themeMode,
         newThemeMode,
-      );
-      expect(
-        preferencesCubit!.state,
-        const UserPreferencesState(themeMode: newThemeMode),
       );
     });
   });

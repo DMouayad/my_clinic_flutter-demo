@@ -1,6 +1,7 @@
-import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:clinic_v2/app/base/responsive/responsive.dart'
+    show BuildContext, Component, ContextThemeExtensions;
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_elevated_button.dart';
-import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_filled_button.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 
 class SubmitButton extends Component {
   final void Function() onPressed;
@@ -26,12 +27,53 @@ class SubmitButton extends Component {
           : contextInfo.widgetSize!.width * .8,
       height: height ?? 45,
       child: contextInfo.isDesktop
-          ? CustomFilledButton(
-              label: text,
-              onPressed: onPressed,
-              iconData: iconData,
-              backgroundColor: context.colorScheme.primary,
-              labelColor: context.colorScheme.onPrimary,
+          ? FluentTheme(
+              data: ThemeData(),
+              child: OutlinedButton(
+                onPressed: onPressed,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(text),
+                    Icon(iconData),
+                  ],
+                ),
+                style: ButtonStyle(
+                  padding:
+                      ButtonState.all(const EdgeInsets.fromLTRB(16, 2, 24, 2)),
+                  border: ButtonState.all(BorderSide.none),
+                  // border: ButtonState.resolveWith(
+                  //     (states) => _getDesktopButtonBorder(states, context)),
+                  textStyle: ButtonState.resolveWith((states) {
+                    TextStyle textStyle = context.textTheme.subtitle2!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    );
+                    if (states.isHovering) {
+                      textStyle = textStyle.copyWith(color: Colors.white);
+                    } else if (states.isPressing) {
+                      textStyle = textStyle.copyWith(color: Colors.white);
+                    }
+                    return textStyle;
+                  }),
+
+                  foregroundColor:
+                      ButtonState.all(context.colorScheme.onPrimary),
+                  shape: ButtonState.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  backgroundColor: ButtonState.resolveWith((states) {
+                    if (states.isHovering) {
+                      return context.colorScheme.secondary;
+                    } else if (states.isPressing) {
+                      return context.colorScheme.onBackground?.withOpacity(.5);
+                    } else {
+                      return context.colorScheme.primary;
+                    }
+                  }),
+                ),
+              ),
             )
           : CustomElevatedButton(
               label: text,
@@ -39,5 +81,13 @@ class SubmitButton extends Component {
               iconData: iconData,
             ),
     );
+  }
+
+  BorderSide _getDesktopButtonBorder(
+      Set<ButtonStates> states, BuildContext context) {
+    if (states.contains(ButtonStates.hovering)) {
+      return BorderSide(color: context.colorScheme.onBackground!);
+    }
+    return BorderSide.none;
   }
 }

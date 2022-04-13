@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/reusable_scaffold_with_appbar.dart';
+import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/components/user_preferences_list.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';

@@ -16,15 +16,37 @@ void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
 }
 
 void setupStartupCubitForStartupFailure(
-    StartupCubit startupCubit, CustomError startupError) {
-  final startupFailureState = StartupFailure(startupError);
-  when(startupCubit.state).thenReturn(startupFailureState);
+    StartupCubit startupCubit, CustomError startupError,
+    {bool withRetryThenSuccess = false}) {
+  if (withRetryThenSuccess) {
+    when(startupCubit.stream).thenAnswer(
+      (_) => Stream<StartupState>.fromIterable(
+        [
+          StartupInProgress(),
+          StartupFailure(startupError),
+          StartupInProgress(),
+          StartupSuccess(),
+        ],
+      ),
+    );
+    when(startupCubit.state).thenReturn(StartupSuccess());
+    //
+    when(startupCubit.initServerConnection()).thenAnswer((_) async {
+      startupCubit.retryToInitWhenConnectionIsRestored();
+    });
+  } else {
+    final startupFailureState = StartupFailure(startupError);
+    when(startupCubit.state).thenReturn(startupFailureState);
 
-  when(startupCubit.stream).thenAnswer(
-    (_) => Stream<StartupState>.fromIterable(
-      [StartupInProgress(), startupFailureState],
-    ),
-  );
-  when(startupCubit.initServerConnection()).thenAnswer(
-      (_) async => CustomResponse(success: false, error: startupError));
+    when(startupCubit.stream).thenAnswer(
+      (_) => Stream<StartupState>.fromIterable(
+        [StartupInProgress(), startupFailureState],
+      ),
+    );
+    when(startupCubit.initServerConnection()).thenAnswer(
+      (_) async {
+        CustomResponse(success: false, error: startupError);
+      },
+    );
+  }
 }

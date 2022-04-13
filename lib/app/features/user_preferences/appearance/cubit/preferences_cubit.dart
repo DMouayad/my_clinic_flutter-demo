@@ -9,9 +9,7 @@ part 'preferences_state.dart';
 /// based on user choices.
 class AppearancePreferencesCubit
     extends HydratedCubit<AppearancePreferencesState> {
-  AppearancePreferencesCubit() : super(const AppearancePreferencesInitial()) {
-    hydrate();
-  }
+  AppearancePreferencesCubit() : super(const AppearancePreferencesInitial());
   void provideLocale(Locale locale) {
     if (state is UserPreferencesState) {
       emit(
@@ -52,5 +50,6 @@ class AppearancePreferencesCubit
         'theme_mode_index': state.themeMode?.index,
       };
     }
+    return null;
   }
 }

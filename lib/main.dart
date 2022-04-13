@@ -21,7 +21,7 @@ import 'core/features/authentication/data/auth_data.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
-  final authRepository = ParseAuthRepository();
+  final parseAuthRepository = ParseAuthRepository();
   //
   final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
@@ -34,8 +34,8 @@ void main() async {
       runApp(
         ClinicApp(
           AppearancePreferencesCubit(),
-          AuthCubit(authRepository),
-          authRepository,
+          AuthCubit(parseAuthRepository),
+          parseAuthRepository,
         ),
       );
     },
@@ -44,9 +44,14 @@ void main() async {
 }
 
 class ClinicApp extends StatelessWidget {
-  const ClinicApp(this._preferencesCubit, this._authCubit, this._authRepository,
-      {Key? key, this.home})
-      : super(key: key);
+  const ClinicApp(
+    this._preferencesCubit,
+    this._authCubit,
+    this._authRepository, {
+    Key? key,
+    this.home,
+  }) : super(key: key);
+
   final AppearancePreferencesCubit _preferencesCubit;
   final AuthCubit _authCubit;
   final BaseAuthRepository _authRepository;
@@ -81,11 +86,13 @@ class ClinicApp extends StatelessWidget {
                     if (_preferencesCubit.state
                         is AppearancePreferencesInitial) {
                       _preferencesCubit.provideLocale(
-                        Locale(kIsWeb
-                            ? ui.window.locale.languageCode
-                            // 'en'
-                            : Platform.localeName.substring(0, 2)),
+                        Locale(
+                          kIsWeb
+                              ? ui.window.locale.languageCode
+                              : Platform.localeName.substring(0, 2),
+                        ),
                       );
+                      print(context.themeMode);
                       _preferencesCubit.provideThemeMode(context.themeMode);
                     }
                     return app!;

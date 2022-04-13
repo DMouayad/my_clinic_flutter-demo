@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/src/app_name_text.dart';
+import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
 import 'package:clinic_v2/app/features/startup/view/widgets/loading_indicator.dart';
 
 class LoadingAppScreen extends ResponsiveScreen {

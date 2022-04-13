@@ -3,6 +3,7 @@ import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
+import 'package:clinic_v2/app/features/startup/view/widgets/error_screen.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/main.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../helpers/hydrated_bloc_helper.dart';
 import '../../auth/auth_cubit_test.mocks.dart';
 import '../../auth/auth_cubit_test_helpers.dart';
 import '../cubit/startup_cubit_test.mocks.dart';
@@ -99,18 +101,19 @@ void main() {
         authCubit = AuthCubit(authRepository);
 
         setupStartupCubitForStartupSuccess(startupCubit!);
-
-        clinicApp = ClinicApp(
-          AppearancePreferencesCubit(),
-          authCubit!,
-          authRepository,
-          home: BlocProvider<StartupCubit>.value(
-            value: startupCubit!,
-            child: Builder(builder: (context) {
-              return const StartupScreen();
-            }),
-          ),
-        );
+        await mockHydratedStorage(() {
+          clinicApp = ClinicApp(
+            AppearancePreferencesCubit(),
+            authCubit!,
+            authRepository,
+            home: BlocProvider<StartupCubit>.value(
+              value: startupCubit!,
+              child: Builder(builder: (context) {
+                return const StartupScreen();
+              }),
+            ),
+          );
+        });
       },
     );
 

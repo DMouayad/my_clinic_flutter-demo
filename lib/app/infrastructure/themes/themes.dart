@@ -8,14 +8,7 @@ class AppThemes {
     // Colors //
     brightness: Brightness.dark,
     androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-    colorScheme: const ColorScheme.dark().copyWith(
-      primary: const Color(0xFF96C7C1),
-      primaryVariant: const Color(0xFF96C7C1),
-      secondary: const Color(0xFF89B5AF),
-      secondaryVariant: const Color(0xFF89B5AF),
-      error: Colors.redAccent[600],
-      background: _darkModeBackgroundColor,
-    ),
+    colorScheme: AppColorScheme.darkColorScheme,
 
     // ----------------- //
     dialogTheme: const DialogTheme(
@@ -133,13 +126,7 @@ class AppThemes {
       ),
     ),
 
-    colorScheme: const ColorScheme.light().copyWith(
-      primary: AppColorScheme.darkColorScheme.primary,
-      primaryVariant: AppColorScheme.darkColorScheme.primary,
-      secondary: AppColorScheme.darkColorScheme.secondary,
-      secondaryVariant: AppColorScheme.darkColorScheme.secondary,
-      error: const Color(0xFFB00020),
-    ),
+    colorScheme: AppColorScheme.lightColorScheme,
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: Color(0xFFf5f9f9),
       elevation: 4,
@@ -164,7 +151,7 @@ class AppThemes {
           ),
         ),
         side: MaterialStateProperty.all(
-          BorderSide(color: AppColorScheme.darkColorScheme.secondary!),
+          BorderSide(color: AppColorScheme.darkColorScheme.secondary),
         ),
         overlayColor: MaterialStateProperty.all(const Color(0xFF1e2827)),
         textStyle: MaterialStateProperty.all(

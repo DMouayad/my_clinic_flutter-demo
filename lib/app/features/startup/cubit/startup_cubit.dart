@@ -14,13 +14,13 @@ class StartupCubit extends Cubit<StartupState> {
 
   Future<void> initServerConnection() async {
     final initResponse = await _initParse();
-    print(initResponse);
     if (initResponse.success) {
       emit(StartupSuccess());
     } else {
       if (initResponse.error?.code == ErrorCode.connectionNotFound.name) {
-        _retryWhenConnectionIsRestored();
+        retryToInitWhenConnectionIsRestored();
       }
+
       emit(
         StartupFailure(
           initResponse.error ??
@@ -32,11 +32,15 @@ class StartupCubit extends Cubit<StartupState> {
     }
   }
 
-  void _retryWhenConnectionIsRestored() {
-    Parse().connectivityStream.listen((connectivityResult) {
-      if (connectivityResult != ParseConnectivityResult.none) {
+  void retryToInitWhenConnectionIsRestored() {
+    final connectivityStream = Parse().connectivityStream.listen((event) {});
+
+    connectivityStream.onData((connectivityResult) {
+      if (connectivityResult != ParseConnectivityResult.none &&
+          state is! StartupSuccess) {
         emit(StartupInProgress());
         initServerConnection();
+        connectivityStream.cancel();
       }
     });
   }

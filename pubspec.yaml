@@ -31,7 +31,7 @@ dependencies:
   flutter_slidable: ^1.1.0
   flutter_typeahead: ^3.2.4
   flutter_vector_icons: ^1.0.0
-  hydrated_bloc: ^8.1.0
+  hydrated_bloc: ^8.0.0
   images_picker: null
   intl: ^0.17.0
   parse_server_sdk_flutter: ^3.1.0
@@ -43,14 +43,16 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  freezed: null
+  # freezed: null
+  _fe_analyzer_shared: 31.0.0
   mockito: null
 
 # The following section is specific to Flutter.
 flutter:
   generate: true
   uses-material-design: true
-
+  assets:
+    - assets/
   fonts:
     - family: pierSans
       fonts:

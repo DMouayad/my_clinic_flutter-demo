@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/src/input_text_field.dart';
+import 'package:clinic_v2/app/common/widgets/components/input_text_field.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart';
 import 'package:clinic_v2/app/features/auth/common/helpers/form_helper.dart';
@@ -32,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
     return Form(
       key: _formHelper.formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InputTextField(
             controller: _formHelper.usernameController,
@@ -82,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
               }
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
           TextButton(
             onPressed: () => Navigator.of(context).pushNamed(
               Routes.stepOneSignUpScreenRoute,
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             child: Text(
               AppLocalizations.of(context)!.createAccount,
-              style: context.textTheme.button?.copyWith(
+              style: context.textTheme.subtitle2?.copyWith(
                 // fontWeight: FontWeight.bold,
                 color: context.colorScheme.onBackground,
               ),

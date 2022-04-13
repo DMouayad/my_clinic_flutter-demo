@@ -1,7 +1,6 @@
 import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 export 'package:clinic_v2/app/common/extensions/context_extensions.dart';
-import 'md3_color_scheme.dart';
 
 class AppColorScheme {
   final BuildContext context;
@@ -11,7 +10,7 @@ class AppColorScheme {
     return AppColorScheme(context);
   }
 
-  static const MD3ColorScheme darkColorScheme = MD3ColorScheme.dark(
+  static const ColorScheme darkColorScheme = ColorScheme.dark(
     // primary: Color(0xFF85beb7),
     primary: Color(0xFF78aba5),
     secondary: Color(0xFF5c9091),
@@ -29,7 +28,7 @@ class AppColorScheme {
   );
 
   // Light //
-  static const MD3ColorScheme lightColorScheme = MD3ColorScheme(
+  static const ColorScheme lightColorScheme = ColorScheme.light(
     // primary: Color(0xFF7aa29d),
     primary: Color(0xFF85beb7),
     onPrimary: Color(0xFFffffff),
@@ -95,7 +94,7 @@ class AppColorScheme {
 
   //
   Color? get cardColor => context.isDarkMode
-      ? darkColorScheme.secondaryContainer!
+      ? darkColorScheme.secondaryContainer
       : const Color(0xfff3f9f8);
 
   ///

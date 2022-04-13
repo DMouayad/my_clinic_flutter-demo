@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
 class ContextInfo {
@@ -20,12 +21,14 @@ class ContextInfo {
   bool get isLandscapeMode => orientation == Orientation.landscape;
 
   bool get isMobile =>
-      (screenWidth < 600) && (Platform.isAndroid || Platform.isIOS);
+      (screenWidth < 600) &&
+      (context.theme.platform == TargetPlatform.android ||
+          context.theme.platform == TargetPlatform.iOS);
 
-  bool get isTablet =>
-      (screenWidth >= 600) && (Platform.isAndroid || Platform.isIOS);
+  bool get isLandScapeTablet => isTablet && isLandscapeMode;
+  bool get isPortraitTablet => isTablet && isPortraitMode;
+  bool get isTablet => (screenWidth >= 600 && screenWidth < 980);
 
-  //TODO: REPLACE ABOVE IMP WITH THE COMMENTED ONE
   bool get isDesktop => screenWidth >= 980;
 
   bool get isDesktopPlatform =>

@@ -12,11 +12,12 @@ class CustomElevatedButton extends Component {
   }) : super(key: key);
 
   final String label;
-  final void Function()? onPressed;
+  final void Function() onPressed;
   final IconData iconData;
   final Color? backgroundColor;
   final Color? labelColor;
   final double elevation;
+
   @override
   Widget build(BuildContext context) {
     return TextButton.icon(
@@ -26,12 +27,7 @@ class CustomElevatedButton extends Component {
         padding:
             MaterialStateProperty.all(const EdgeInsets.fromLTRB(16, 2, 24, 2)),
         backgroundColor: MaterialStateProperty.all(
-          backgroundColor ??
-              (context.isDarkMode
-                  ? const Color(0xFF485860)
-                  // : const Color(0xFF95bcb7)
-                  : context.colorScheme.primary),
-        ),
+            backgroundColor ?? context.colorScheme.primary),
         textStyle: MaterialStateProperty.all(
           context.textTheme.subtitle2?.copyWith(
             color: context.colorScheme.onPrimary,

@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/src/input_text_field.dart';
+import 'package:clinic_v2/app/common/widgets/components/input_text_field.dart';
 import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart';
 import 'package:clinic_v2/app/features/auth/common/helpers/form_helper.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';

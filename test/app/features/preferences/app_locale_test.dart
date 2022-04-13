@@ -5,9 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../helpers/clinic_app_helper.dart';
+import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
-  group('App locale using AppearancePreferencesCubit', () {
+  group('App locale tests using AppearancePreferencesCubit', () {
     AppearancePreferencesCubit? preferencesCubit;
     late ClinicApp myApp;
 
@@ -15,12 +16,13 @@ void main() {
       if (preferencesCubit != null) {
         await preferencesCubit!.close();
       }
-
-      preferencesCubit = AppearancePreferencesCubit();
-      myApp = getClinicAppForTest(
-        preferencesCubit: preferencesCubit!,
-        home: Scaffold(appBar: AppBar()),
-      );
+      await mockHydratedStorage(() async {
+        preferencesCubit = AppearancePreferencesCubit();
+        myApp = getClinicAppForTest(
+          preferencesCubit: preferencesCubit!,
+          home: Scaffold(appBar: AppBar()),
+        );
+      });
     });
 
     tearDown(() => preferencesCubit!.close());
@@ -57,8 +59,7 @@ void main() {
 
           // ACT
           await tester.pumpWidget(myApp);
-// print(            supportedLocales
-          // .firstWhere((element) => deviceLocales.contains(element)));
+
           // EXPECT
           expect(
             tester
@@ -104,6 +105,7 @@ void main() {
 
             // ACT
             await tester.pumpWidget(myApp);
+
             preferencesCubit!.provideLocale(newLocale);
             await tester.pumpWidget(myApp);
 

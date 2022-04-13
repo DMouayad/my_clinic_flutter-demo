@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(clinic_v2 LANGUAGES CXX)
+project(clinic_v2_bloc LANGUAGES CXX)
 
-set(BINARY_NAME "clinic_v2")
+set(BINARY_NAME "clinic_v2_bloc")
 
 cmake_policy(SET CMP0063 NEW)
 

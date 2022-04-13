@@ -1,6 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/reusable_scaffold_with_appbar.dart';
+import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets/components/section_card.dart';
 import 'package:clinic_v2/app/common/widgets/components/simple_card.dart';
 import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart';
@@ -28,11 +28,8 @@ class _LargeStepTwoSignUpScreenState
       builder: (context, state) {
         return ScaffoldWithAppBar(
           actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SignUpStepIndicator(
-                title: AppLocalizations.of(context)!.stepTwo,
-              ),
+            SignUpStepIndicator(
+              title: AppLocalizations.of(context)!.stepTwo,
             ),
           ],
           titleText: AppLocalizations.of(context)!.signUpScreenMessage,

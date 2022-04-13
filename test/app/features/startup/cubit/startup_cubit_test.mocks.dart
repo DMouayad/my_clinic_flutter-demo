@@ -45,6 +45,10 @@ class MockStartupCubit extends _i1.Mock implements _i2.StartupCubit {
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
   @override
+  void retryToInitWhenConnectionIsRestored() => super.noSuchMethod(
+      Invocation.method(#retryToInitWhenConnectionIsRestored, []),
+      returnValueForMissingStub: null);
+  @override
   void emit(_i2.StartupState? state) =>
       super.noSuchMethod(Invocation.method(#emit, [state]),
           returnValueForMissingStub: null);

@@ -1,11 +1,11 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/startup/view/widgets/error_screen.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/navigation.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/common/widgets/screens/app_loading_screen.dart';
-import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 
 class StartupScreen extends StatelessWidget {
@@ -44,19 +44,6 @@ class StartupScreen extends StatelessWidget {
           return const LoadingAppScreen();
         },
       ),
-    );
-  }
-}
-
-class ErrorStartingAppScreen extends ResponsiveScreen {
-  final CustomError error;
-  const ErrorStartingAppScreen(this.error, {Key? key}) : super(key: key);
-
-  @override
-  Widget mobileBuilder(context, ContextInfo contextInfo) {
-    return Scaffold(
-      backgroundColor: Colors.red,
-      body: Column(),
     );
   }
 }

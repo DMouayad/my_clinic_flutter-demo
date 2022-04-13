@@ -15,8 +15,12 @@ class ScaffoldWithAppBar extends Component {
     this.titleText,
     this.title,
     this.appBarBackgroundColor,
+    this.scaffoldBackgroundColor,
     this.persistentFooterButtons,
+    this.appBarBorderRadius,
+    this.titleFontColor,
     this.showLoadingIndicator = false,
+    this.bodyWithSafeArea = true,
     required this.body,
   })  : assert(title != null || titleText != null),
         super(key: key);
@@ -30,8 +34,12 @@ class ScaffoldWithAppBar extends Component {
   final String? titleText;
   final double titleFontSize;
   final Color? appBarBackgroundColor;
+  final Color? scaffoldBackgroundColor;
+  final Color? titleFontColor;
   final bool centerTitle;
   final List<Widget>? persistentFooterButtons;
+  final double? appBarBorderRadius;
+  final bool bodyWithSafeArea;
 
   /// when [true], this scaffold will be covered by a color-barrier with a
   /// progress indicator in the center
@@ -42,6 +50,7 @@ class ScaffoldWithAppBar extends Component {
       children: [
         Scaffold(
           extendBodyBehindAppBar: true,
+          backgroundColor: scaffoldBackgroundColor,
           floatingActionButton: floatingActionButton,
           persistentFooterButtons: persistentFooterButtons,
           appBar: AppBar(
@@ -50,9 +59,9 @@ class ScaffoldWithAppBar extends Component {
             centerTitle: centerTitle,
             foregroundColor: context.colorScheme.onBackground,
             elevation: 0,
-            shape: const RoundedRectangleBorder(
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(14),
+                bottom: Radius.circular(appBarBorderRadius ?? 0),
               ),
             ),
             leadingWidth: 48,
@@ -61,12 +70,13 @@ class ScaffoldWithAppBar extends Component {
                   titleText!,
                   style: context.textTheme.headline6?.copyWith(
                     fontSize: titleFontSize,
+                    color: titleFontColor,
                   ),
                 ),
             actions: actions,
             bottom: appBarBottom,
           ),
-          body: SafeArea(child: body),
+          body: bodyWithSafeArea ? SafeArea(child: body) : body,
         ),
         if (showLoadingIndicator) ...[
           const BlurredColorBarrier(),

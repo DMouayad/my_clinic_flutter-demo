@@ -1,8 +1,8 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/reusable_scaffold_with_appbar.dart';
-import 'package:clinic_v2/app/common/widgets/components/src/app_name_text.dart';
+import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
+import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
 import 'package:clinic_v2/app/common/widgets/screens/two_sides_screen_layout.dart';
-import 'package:clinic_v2/app/features/auth/common/components/settings_icons.dart';
+import 'package:clinic_v2/app/common/widgets/components/appearance_settings_bar.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/components/sign_up_components.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/step_one_sign_up/components/account_info_form.dart';
@@ -75,7 +75,7 @@ class _StepOneRightSide extends ResponsiveScreen {
                 ),
                 const Align(
                   alignment: Alignment.topRight,
-                  child: LeftSideAppearanceSettings(),
+                  child: AppearanceSettingsBar(),
                 ),
               ],
             ),
@@ -94,11 +94,8 @@ class _StepOneLeftSide extends ResponsiveScreen {
     return ScaffoldWithAppBar(
       title: const SignUpMessage(),
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SignUpStepIndicator(
-            title: AppLocalizations.of(context)!.stepOne,
-          ),
+        SignUpStepIndicator(
+          title: AppLocalizations.of(context)!.stepOne,
         ),
       ],
       body: Center(
