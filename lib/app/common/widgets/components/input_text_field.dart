@@ -1,4 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 class InputTextField extends Component {
   final String? initialValue;
@@ -45,11 +46,64 @@ class InputTextField extends Component {
     this.formKey,
     this.isDense = false,
   }) : super(key: key);
+  // @override
+  // Widget? desktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  //   return fluent_ui.FluentTheme(
+  //     data: fluent_ui.ThemeData(
+  //       scaffoldBackgroundColor: AppColorScheme.of(context).primaryContainer,
+  //     ),
+  //     child: fluent_ui.TextFormBox(
+  //       controller: controller,
+  //       key: formKey,
+  //       initialValue: initialValue,
+  //       validator: validator,
+  //       onChanged: onChanged,
+  //       onSaved: onSaved,
+  //       obscureText: obscure,
+  //       cursorColor: cursorColor,
+  //       keyboardType: keyboardType,
+  //       onEditingComplete: onEditingComplete,
+  //       textInputAction: textInputAction,
+  //       style: textStyle ?? context.textTheme.bodyText1,
+  //       autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
+  //       placeholder: hintText,
+
+  //       placeholderStyle: context.textTheme.bodyText1?.copyWith(
+  //         color: AppColorScheme.of(context).onPrimaryContainer?.withOpacity(.7),
+  //       ),
+  //       // decoration: InputDecoration(
+  //       //   isDense: isDense,
+  //       //   filled: filled,
+  //       //   fillColor: AppColorScheme.of(context).primaryContainer,
+  //       //   prefixIcon: Icon(
+  //       //     prefixIcon,
+  //       //     // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
+  //       //   ),
+  //       //   hintText: hintText,
+  //       //   hintStyle: context.textTheme.bodyText1?.copyWith(
+  //       //     color: AppColorScheme.of(context).onPrimaryContainer?.withOpacity(.7),
+  //       //   ),
+  //       // enabledBorder: kOutlinedBorder,
+  //       // focusedBorder: kOutlinedBorder.copyWith(
+  //       //   borderSide: BorderSide(color: context.colorScheme.primary!),
+  //       // ),
+  //       // errorBorder: kOutlinedBorder.copyWith(
+  //       //   borderSide: BorderSide(color: context.colorScheme.errorColor!),
+  //       // ),
+  //       // focusedErrorBorder: kOutlinedBorder,
+  //       // errorStyle: context.textTheme.bodyText2?.copyWith(
+  //       //   color: context.colorScheme.errorColor!,
+  //       //   fontSize: 12,
+  //       // ),
+  //       // ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     final kOutlinedBorder = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(contextInfo.isDesktop ? 8 : 14),
+      borderRadius: BorderRadius.circular(contextInfo.isDesktop ? 6 : 14),
       borderSide: BorderSide(color: context.colorScheme.textFieldBorderColor),
     );
     return SizedBox(

@@ -135,7 +135,7 @@ class AppColorScheme {
       context.isDarkMode ? darkColorScheme.onError : lightColorScheme.onError;
 
   Color get textFieldBorderColor => context.isDarkMode
-      ? const Color(0xffeaf4f3).withOpacity(.4)
+      ? const Color(0xffeaf4f3).withOpacity(.3)
       : const Color(0xFF4b6461).withOpacity(.5);
 
   Color? get backgroundColor => context.isDarkMode

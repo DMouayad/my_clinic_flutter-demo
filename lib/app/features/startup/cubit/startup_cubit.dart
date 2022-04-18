@@ -17,7 +17,8 @@ class StartupCubit extends Cubit<StartupState> {
     if (initResponse.success) {
       emit(StartupSuccess());
     } else {
-      if (initResponse.error?.code == ErrorCode.connectionNotFound.name) {
+      if (initResponse.error?.code == ErrorCode.connectionNotFound.name ||
+          (await Parse().checkConnectivity()) == ParseConnectivityResult.none) {
         retryToInitWhenConnectionIsRestored();
       }
 
@@ -38,7 +39,7 @@ class StartupCubit extends Cubit<StartupState> {
     connectivityStream.onData((connectivityResult) {
       if (connectivityResult != ParseConnectivityResult.none &&
           state is! StartupSuccess) {
-        emit(StartupInProgress());
+        emit(StartupRetryInProgress());
         initServerConnection();
         connectivityStream.cancel();
       }

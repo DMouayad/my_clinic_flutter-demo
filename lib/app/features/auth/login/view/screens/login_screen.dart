@@ -3,7 +3,6 @@ import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
 import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/features/auth/login/view/components/login_form.dart';
 import 'package:clinic_v2/app/features/auth/login/view/components/login_message.dart';
-import 'package:clinic_v2/app/features/auth/login/view/screens/large_login_screen.dart';
 
 class LoginScreen extends ResponsiveScreen {
   const LoginScreen({Key? key}) : super(key: key);

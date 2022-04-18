@@ -1,6 +1,9 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:clinic_v2/app/common/widgets/components/appearance_settings_bar.dart';
+import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_text_button.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
 import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
@@ -33,8 +36,8 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
       centerTitle: true,
       // scaffoldBackgroundColor: context.colorScheme.errorColor,
       title: AppNameText(
-        fontColor: context.colorScheme.primary,
-        fontSize: 26,
+        fontColor: context.colorScheme.secondary,
+        fontSize: 36,
       ),
 
       body: Stack(
@@ -46,11 +49,28 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: ErrorCard(
-              // color: Colors.black26,
-              errorText: (context.read<StartupCubit>().state as StartupFailure)
-                  .error
-                  .message,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ErrorCard(
+                  // color: Colors.black26,
+                  errorText:
+                      (context.read<StartupCubit>().state as StartupFailure)
+                          .error
+                          .message,
+                ),
+                if (context.isMobilePlatform) ...[
+                  CustomTextButton(
+                    label: 'open wifi settings',
+                    labelColor: context.colorScheme.onBackground,
+                    onPressed: () {
+                      AppSettings.openWIFISettings();
+                    },
+                    iconWidget: const Icon(Icons.settings_applications),
+                  ),
+                  const SizedBox(height: 40),
+                ],
+              ],
             ),
           ),
         ],
@@ -81,51 +101,63 @@ class _LargeStartupErrorScreen extends Component {
         Expanded(
           child: Container(
             alignment: Alignment.center,
-            color: context.colorScheme.errorColor,
+            color: context.colorScheme.backgroundColor,
             child: Stack(
-              alignment: Alignment.center,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    AppNameText(
-                      fontColor: context.colorScheme.onError,
-                      fontSize: 32,
-                    ),
-                    ErrorCard(
-                      color: Colors.black12,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: AppNameText(
+                          fontSize: contextInfo.isTablet
+                              ? context.textTheme.headlineSmall?.fontSize
+                              : context.textTheme.headlineMedium?.fontSize,
+                        ),
+                      ),
+                      if (contextInfo.isDesktopPlatform)
+                        const AppearanceSettingsBar(),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    child: ErrorCard(
+                      color: context.colorScheme.errorColor,
                       errorText:
                           (context.read<StartupCubit>().state as StartupFailure)
                               .error
                               .message,
                     ),
-                  ],
-                ),
-                if (contextInfo.isDesktopPlatform)
-                  const Align(
-                    alignment: Alignment.topRight,
-                    child: AppearanceSettingsBar(),
                   ),
+                ),
+                BlocBuilder<StartupCubit, StartupState>(
+                  builder: (context, state) {
+                    return (state is StartupRetryInProgress)
+                        ? const Align(
+                            alignment: Alignment.bottomRight,
+                            child: fluent_ui.InfoBar(
+                              // severity: fluent_ui.InfoBarSeverity.
+                              // style: fluent_ui.InfoBarThemeData(
+                              //   // icon:(_)=> fluent_ui.ProgressRing(),
+                              // ),
+                              title: fluent_ui.ProgressRing(),
+                              content: Text('Retrying....'),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  },
+                )
+                // BlocBuilder(builder: builder)
               ],
             ),
           ),
         ),
       ],
     );
-    // return TwoSidesScreenLayout(
-    //   leftSide: Image.asset(
-    //     'assets/ErrorBrokenRobot.png',
-    //     fit: BoxFit.fill,
-    //   ),
-    //   rightSide: Container(
-    //     alignment: Alignment.center,
-    //     color: context.colorScheme.errorColor,
-    //     child: AppNameText(
-    //       fontColor: context.colorScheme.onError,
-    //     ),
-    //   ),
-    //   // backgroundColor: Colors.red,
-    //   // body: Column(),
-    // );
   }
 }

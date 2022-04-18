@@ -39,6 +39,7 @@ class AppPage extends Page with CustomRouteTransitionBuilder {
       settings: routeSettings,
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {
+        print('route builder');
         final ContextInfo contextInfo = ContextInfo(context);
 
         if (contextInfo.isTablet && tabletScreenInfo != null) {

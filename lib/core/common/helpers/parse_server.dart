@@ -29,7 +29,8 @@ class ParseServer {
           debug: true,
           autoSendSessionId: true,
         );
-        final parseHealthCheck = await Parse().healthCheck();
+        final parseHealthCheck =
+            await Parse().healthCheck().timeout(const Duration(seconds: 30));
         _serverIsInitialized = parseHealthCheck.success;
         return CustomResponse(
           success: parseHealthCheck.success,

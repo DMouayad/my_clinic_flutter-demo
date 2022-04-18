@@ -34,4 +34,18 @@ extension ContextThemeExtensions on BuildContext {
   /// similar to [MediaQuery.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;
   AppColorScheme get colorScheme => AppColorScheme.of(this);
+  bool get isDesktopPlatform {
+    return Theme.of(this).platform == TargetPlatform.windows ||
+        Theme.of(this).platform == TargetPlatform.macOS ||
+        Theme.of(this).platform == TargetPlatform.linux;
+  }
+
+  bool get isIOSPlatform => Theme.of(this).platform == TargetPlatform.iOS;
+  bool get isWindowsPlatform =>
+      Theme.of(this).platform == TargetPlatform.windows;
+  bool get isAndroidPlatform =>
+      Theme.of(this).platform == TargetPlatform.android;
+  bool get isMobilePlatform =>
+      Theme.of(this).platform == TargetPlatform.iOS ||
+      Theme.of(this).platform == TargetPlatform.android;
 }

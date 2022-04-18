@@ -4,6 +4,7 @@ import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
 import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,8 +114,10 @@ class ClinicApp extends StatelessWidget {
                     }
                     return supportedLocales.first;
                   },
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
+                  localizationsDelegates: const [
+                    ...AppLocalizations.localizationsDelegates,
+                    fluent_ui.DefaultFluentLocalizations.delegate,
+                  ],
                   supportedLocales: AppLocalizations.supportedLocales,
                 );
               },

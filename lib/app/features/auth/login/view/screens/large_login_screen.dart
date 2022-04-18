@@ -10,14 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LargeLoginScreen extends ResponsiveScreen {
   const LargeLoginScreen({required this.animation, Key? key}) : super(key: key);
   final Animation<double> animation;
-  @override
-  Widget tabletBuilder(BuildContext context, ContextInfo contextInfo) {
-    if (contextInfo.isTablet && contextInfo.isLandscapeMode) return Scaffold();
-    return builder(context, contextInfo);
-  }
+  // @override
+  // Widget? tabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  //   print('tablet');
+  //   print(contextInfo.isPortraitTablet);
+  //   return super.tabletBuilder(context, contextInfo);
+  // }
 
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
+    print(contextInfo.isTablet);
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return TwoSidesScreenLayout(
@@ -49,10 +51,11 @@ class LargeLoginScreen extends ResponsiveScreen {
                     fontColor: context.colorScheme.onPrimary,
                   ),
                 ),
-                const Align(
-                  alignment: Alignment.topRight,
-                  child: AppearanceSettingsBar(),
-                ),
+                if (contextInfo.isDesktopPlatform)
+                  const Align(
+                    alignment: Alignment.topRight,
+                    child: AppearanceSettingsBar(),
+                  ),
               ],
             ),
           ),

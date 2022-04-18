@@ -1,4 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 class SignUpStepIndicator extends Component {
   final String title;
@@ -45,24 +46,53 @@ class SignUpMessage extends StatelessWidget {
   }
 }
 
-class ErrorCard extends StatelessWidget {
-  const ErrorCard({required this.errorText, this.color, Key? key})
-      : super(key: key);
+class ErrorCard extends Component {
+  const ErrorCard({
+    required this.errorText,
+    this.errorIcon,
+    this.color,
+    Key? key,
+  }) : super(key: key);
   final String errorText;
   final Color? color;
+  final Widget? errorIcon;
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 34),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: color ?? AppColorScheme.of(context).errorColor,
-        borderRadius: BorderRadius.circular(8),
+  Widget windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+    return fluent_ui.FluentTheme(
+      data: fluent_ui.ThemeData(),
+      child: fluent_ui.Card(
+        backgroundColor: color ?? AppColorScheme.of(context).errorColor,
+        child: Text(
+          errorText,
+          style: context.textTheme.subtitle1?.copyWith(
+            color: AppColorScheme.of(context).onError,
+          ),
+        ),
       ),
-      child: Text(
-        errorText,
-        style: context.textTheme.subtitle1?.copyWith(
-          color: AppColorScheme.of(context).onError,
+    );
+  }
+
+  @override
+  Widget builder(BuildContext context, contextInfo) {
+    return SizedBox(
+      width: contextInfo.widgetSize!.width * .7,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          // decoration: BoxDecoration(
+          tileColor: color ?? AppColorScheme.of(context).errorColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          leading: errorIcon,
+          title: Text(
+            errorText,
+            style: context.textTheme.subtitle1?.copyWith(
+              color: AppColorScheme.of(context).onError,
+            ),
+          ),
         ),
       ),
     );

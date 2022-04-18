@@ -8,6 +8,8 @@ abstract class StartupState extends Equatable {
 
 class StartupInProgress extends StartupState {}
 
+class StartupRetryInProgress extends StartupState {}
+
 class StartupSuccess extends StartupState {}
 
 class StartupFailure extends StartupState {

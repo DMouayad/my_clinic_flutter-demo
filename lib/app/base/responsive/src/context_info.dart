@@ -41,21 +41,11 @@ class ContextInfo {
   }
 
   DeviceType get deviceType {
-    // var orientation = mediaQuery.orientation;
-
-    double deviceWidth = mediaQuery.size.width;
-
-    // if (orientation == Orientation.landscape) {
-    //   deviceWidth = mediaQuery.size.height;
-    // } else {
-    //   deviceWidth = mediaQuery.size.width;
-    // }
-
-    if (deviceWidth > 980) {
+    if (isDesktop) {
       return DeviceType.desktop;
     }
 
-    if (deviceWidth > 600) {
+    if (isTablet) {
       return DeviceType.tablet;
     }
 

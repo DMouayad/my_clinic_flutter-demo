@@ -35,7 +35,11 @@ class SubmitButton extends Component {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(text),
-                    Icon(iconData),
+                    const SizedBox(width: 8),
+                    Icon(
+                      iconData,
+                      size: 22,
+                    ),
                   ],
                 ),
                 style: ButtonStyle(
@@ -44,32 +48,25 @@ class SubmitButton extends Component {
                   border: ButtonState.all(BorderSide.none),
                   // border: ButtonState.resolveWith(
                   //     (states) => _getDesktopButtonBorder(states, context)),
-                  textStyle: ButtonState.resolveWith((states) {
-                    TextStyle textStyle = context.textTheme.subtitle2!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    );
-                    if (states.isHovering) {
-                      textStyle = textStyle.copyWith(color: Colors.white);
-                    } else if (states.isPressing) {
-                      textStyle = textStyle.copyWith(color: Colors.white);
-                    }
-                    return textStyle;
-                  }),
+                  textStyle:
+                      ButtonState.all(context.textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  )),
 
                   foregroundColor:
                       ButtonState.all(context.colorScheme.onPrimary),
-                  shape: ButtonState.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
+                  // shape: ButtonState.all(
+                  //   RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(20),
+                  //   ),
+                  // ),
                   backgroundColor: ButtonState.resolveWith((states) {
                     if (states.isHovering) {
-                      return context.colorScheme.secondary;
+                      return context.colorScheme.primary;
                     } else if (states.isPressing) {
                       return context.colorScheme.onBackground?.withOpacity(.5);
                     } else {
-                      return context.colorScheme.primary;
+                      return context.colorScheme.secondary;
                     }
                   }),
                 ),
