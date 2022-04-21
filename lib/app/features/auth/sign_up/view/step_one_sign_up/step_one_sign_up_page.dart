@@ -13,31 +13,28 @@ class StepOneSignUpPage extends AppPage {
       : super(
           routeSettings:
               const RouteSettings(name: Routes.stepOneSignUpScreenRoute),
-          mobileScreenInfo: PageScreenInfo(
-            screen: _stepOneSignUpBlocProvider(
-                authCubit, const StepOneSignUpScreen()),
+          pageScreensInfo: PageScreensInfo(
+            tabletScreenTransitionType: RouteTransitionType.none,
+            desktopScreenTransitionType: RouteTransitionType.none,
+            screensBuilder: (context, animation, secondaryAnimation) {
+              return PageScreensBuilder(
+                mobileScreen: BlocProvider.value(
+                  value: authCubit,
+                  child: _buildScreenWithBloc(
+                    authCubit,
+                    const StepOneSignUpScreen(),
+                  ),
+                ),
+                wideScreen: _buildScreenWithBloc(
+                  authCubit,
+                  LargeStepOneSignUpScreen(animation: animation),
+                ),
+              );
+            },
           ),
-          tabletScreenInfo: _largeSignUpPageInfo(authCubit),
-          desktopScreenInfo: _largeSignUpPageInfo(authCubit),
         );
 
-  static PageScreenInfo _largeSignUpPageInfo(AuthCubit authCubit) {
-    return PageScreenInfo(
-      transitionType: RouteTransitionType.none,
-      screenBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return _stepOneSignUpBlocProvider(
-          authCubit,
-          LargeStepOneSignUpScreen(animation: animation),
-        );
-      },
-    );
-  }
-
-  static _stepOneSignUpBlocProvider(AuthCubit authCubit, Widget screen) {
+  static _buildScreenWithBloc(AuthCubit authCubit, Widget screen) {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: authCubit),

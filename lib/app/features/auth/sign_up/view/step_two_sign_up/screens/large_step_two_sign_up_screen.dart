@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets/components/section_card.dart';
@@ -10,6 +11,7 @@ import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/compon
 import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/appearance_settings.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 class LargeStepTwoSignUpScreen extends StatefulWidget {
   const LargeStepTwoSignUpScreen({Key? key}) : super(key: key);
@@ -34,9 +36,9 @@ class _LargeStepTwoSignUpScreenState
           ],
           titleText: AppLocalizations.of(context)!.signUpScreenMessage,
           body: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
+                flex: contextInfo.screenWidth <= 780 ? 2 : 1,
                 child: FadeInLeft(
                   from: 40,
                   duration: const Duration(milliseconds: 350),
@@ -51,12 +53,25 @@ class _LargeStepTwoSignUpScreenState
                       children: [
                         Expanded(
                           child: SimpleCard(
+                            padding:
+                                EdgeInsets.all(contextInfo.isDesktop ? 8 : 4),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              // mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const ListTile(
-                                  title: Text(
-                                    "Configure your CLINIC preferences & settings.",
+                                Expanded(
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      "Configure your CLINIC preferences & settings.",
+                                      maxFontSize: context
+                                          .textTheme.titleLarge!.fontSize!,
+                                      style: context.textTheme.titleLarge
+                                          ?.copyWith(
+                                        fontWeight: fluent_ui.FontWeight.w700,
+                                        color: context
+                                            .colorScheme.onPrimaryContainer,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const Divider(),
@@ -88,13 +103,15 @@ class _LargeStepTwoSignUpScreenState
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: SubmitButton(
-                            expandInWidth: true,
-                            onPressed: () {},
-                            text: 'Finish sign up',
-                            iconData: Icons.done_all,
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: SubmitButton(
+                              expandInWidth: true,
+                              onPressed: () {},
+                              text: 'Finish sign up',
+                              iconData: Icons.done_all,
+                            ),
                           ),
                         ),
                       ],
@@ -107,7 +124,8 @@ class _LargeStepTwoSignUpScreenState
                 child: SafeArea(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      right: context.horizontalMargins,
+                      // left: context.horizontalMargins,
+                      // right: context.horizontalMargins,
                       bottom: 10,
                     ),
                     child: FadeInRight(
@@ -119,6 +137,9 @@ class _LargeStepTwoSignUpScreenState
                     ),
                   ),
                 ),
+              ),
+              SizedBox(
+                width: context.horizontalMargins,
               ),
             ],
           ),

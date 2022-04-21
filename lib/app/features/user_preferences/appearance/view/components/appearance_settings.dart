@@ -1,8 +1,7 @@
 //
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/locale_menu.dart';
-
-import 'theme_mode_switch.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/locale/locale_menu.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/theme/theme_mode_switch.dart';
 
 class AppearanceSettingsScreen extends Component {
   const AppearanceSettingsScreen({
@@ -15,7 +14,9 @@ class AppearanceSettingsScreen extends Component {
       constraints: BoxConstraints.loose(contextInfo.widgetSize!),
       child: Column(
         children: const [
-          ThemeModeSwitch(),
+          ThemeModeSwitch(
+            ThemeModeSwitchType.tile,
+          ),
           LocaleDropDownMenu(LocaleDropDownMenuType.tileWithMenu),
         ],
       ),

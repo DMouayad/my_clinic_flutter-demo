@@ -50,14 +50,17 @@ class _UserPreferencesListState extends State<UserPreferencesList> {
       children: _preferencesListData
           .asMap()
           .entries
-          .map((e) => UserPreferencesListItem(
-                selected: e.key == selectedItemIndex,
-                itemData: e.value,
-                onTap: () {
-                  if (selectedItemIndex != e.key) {
-                    setState(() => selectedItemIndex = e.key);
-                  }
-                },
+          .map((e) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 3.0),
+                child: UserPreferencesListItem(
+                  selected: e.key == selectedItemIndex,
+                  itemData: e.value,
+                  onTap: () {
+                    if (selectedItemIndex != e.key) {
+                      setState(() => selectedItemIndex = e.key);
+                    }
+                  },
+                ),
               ))
           .toList(),
     );

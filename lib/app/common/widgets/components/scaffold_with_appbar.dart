@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
+import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_back_button.dart';
 import 'package:clinic_v2/app/features/startup/view/widgets/loading_indicator.dart';
 
 import 'color_barrier.dart';
@@ -21,6 +23,8 @@ class ScaffoldWithAppBar extends Component {
     this.titleFontColor,
     this.showLoadingIndicator = false,
     this.bodyWithSafeArea = true,
+    this.leading,
+    this.showBottomTitle = false,
     required this.body,
   })  : assert(title != null || titleText != null),
         super(key: key);
@@ -40,6 +44,8 @@ class ScaffoldWithAppBar extends Component {
   final List<Widget>? persistentFooterButtons;
   final double? appBarBorderRadius;
   final bool bodyWithSafeArea;
+  final bool showBottomTitle;
+  final Widget? leading;
 
   /// when [true], this scaffold will be covered by a color-barrier with a
   /// progress indicator in the center
@@ -50,12 +56,21 @@ class ScaffoldWithAppBar extends Component {
       children: [
         Scaffold(
           extendBodyBehindAppBar: true,
-          backgroundColor: scaffoldBackgroundColor,
+          backgroundColor:
+              scaffoldBackgroundColor ?? context.colorScheme.backgroundColor,
           floatingActionButton: floatingActionButton,
           persistentFooterButtons: persistentFooterButtons,
           appBar: AppBar(
             automaticallyImplyLeading: showLeading,
-            backgroundColor: appBarBackgroundColor,
+            leading: () {
+              if (showLeading) {
+                final hasRouteParent = Navigator.of(context).canPop();
+                return leading ??
+                    (hasRouteParent ? const CustomBackButton() : null);
+              }
+            }(),
+            backgroundColor:
+                appBarBackgroundColor ?? context.colorScheme.backgroundColor,
             centerTitle: centerTitle,
             foregroundColor: context.colorScheme.onBackground,
             elevation: 0,
@@ -65,16 +80,45 @@ class ScaffoldWithAppBar extends Component {
               ),
             ),
             leadingWidth: 48,
-            title: title ??
-                Text(
-                  titleText!,
-                  style: context.textTheme.headline6?.copyWith(
-                    fontSize: titleFontSize,
-                    color: titleFontColor,
-                  ),
-                ),
+            title: () {
+              if (!showBottomTitle) {
+                return title ??
+                    Text(
+                      titleText!,
+                      style: context.textTheme.headline6?.copyWith(
+                        fontSize: titleFontSize,
+                        color: titleFontColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+              }
+            }(),
             actions: actions,
-            bottom: appBarBottom,
+            bottom: showBottomTitle
+                ? _AppBarBottomTitle(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.horizontalMargins),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: title ??
+                                AutoSizeText(
+                                  titleText!,
+                                  textAlign: TextAlign.start,
+                                  style: context.textTheme.headline6?.copyWith(
+                                    fontSize: titleFontSize,
+                                    color: titleFontColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    preferredSize: const Size(double.infinity, 50),
+                  )
+                : appBarBottom,
           ),
           body: bodyWithSafeArea ? SafeArea(child: body) : body,
         ),
@@ -85,4 +129,9 @@ class ScaffoldWithAppBar extends Component {
       ],
     );
   }
+}
+
+class _AppBarBottomTitle extends PreferredSize {
+  const _AppBarBottomTitle({required Widget child, required Size preferredSize})
+      : super(child: child, preferredSize: preferredSize);
 }

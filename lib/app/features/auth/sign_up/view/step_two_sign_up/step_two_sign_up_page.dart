@@ -14,87 +14,86 @@ class StepTwoSignUpPage extends AppPage {
   }) : super(
           routeSettings:
               const RouteSettings(name: Routes.stepTwoSignUpScreenRoute),
-          mobileScreenInfo: _pageScreenInfo(
-            const StepTwoSignUpScreen(),
-            authCubit,
-            signUpCubit,
-          ),
-          tabletScreenInfo: _pageScreenInfo(
-            const LargeStepTwoSignUpScreen(),
-            authCubit,
-            signUpCubit,
-            routeTransitionType: RouteTransitionType.slideFromTop,
-          ),
-          desktopScreenInfo: _pageScreenInfo(
-            const LargeStepTwoSignUpScreen(),
-            authCubit,
-            signUpCubit,
-            routeTransitionType: RouteTransitionType.slideFromTop,
+          pageScreensInfo: PageScreensInfo(
+            tabletScreenTransitionType: RouteTransitionType.slideFromTop,
+            desktopScreenTransitionType: RouteTransitionType.slideFromTop,
+            screensBuilder: (context, animation, secondaryAnimation) {
+              return PageScreensBuilder(
+                mobileScreen: _buildScreenWithBloc(
+                  context: context,
+                  authCubit: authCubit,
+                  signUpCubit: signUpCubit,
+                  screen: const StepTwoSignUpScreen(),
+                ),
+                wideScreen: _buildScreenWithBloc(
+                  context: context,
+                  authCubit: authCubit,
+                  signUpCubit: signUpCubit,
+                  screen: const LargeStepTwoSignUpScreen(),
+                ),
+              );
+            },
           ),
         );
 
-  static PageScreenInfo _pageScreenInfo(
-    Widget screen,
-    AuthCubit authCubit,
-    SignUpCubit signUpCubit, {
-    RouteTransitionType routeTransitionType =
-        RouteTransitionType.platformDefault,
+  static Widget _buildScreenWithBloc({
+    required BuildContext context,
+    required Widget screen,
+    required AuthCubit authCubit,
+    required SignUpCubit signUpCubit,
   }) {
-    return PageScreenInfo(
-      transitionType: routeTransitionType,
-      screenBuilder: (context, a1, a2) => MultiBlocProvider(
-        providers: [
-          BlocProvider.value(value: authCubit),
-          BlocProvider<SignUpCubit>.value(value: signUpCubit),
-        ],
-        child: WillPopScope(
-          onWillPop: () async {
-            bool leaveCurrentPage = false;
-            await showDialog(
-              context: context,
-              builder: (buildContext) {
-                return AlertDialog(
-                  backgroundColor: buildContext.colorScheme.backgroundColor,
-                  title: Text(
-                    AppLocalizations.of(context)!.exitSignUpDialogTitle,
-                  ),
-                  content: Text(
-                    AppLocalizations.of(context)!.exitSignUpDialogMessage,
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        leaveCurrentPage = true;
-                        Navigator.of(context).pop();
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            buildContext.colorScheme.errorColor),
-                      ),
-                      child: Text(
-                        'Exit',
-                        style: buildContext.textTheme.bodyText1?.copyWith(
-                          color: buildContext.colorScheme.onError,
-                        ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: authCubit),
+        BlocProvider<SignUpCubit>.value(value: signUpCubit),
+      ],
+      child: WillPopScope(
+        onWillPop: () async {
+          bool leaveCurrentPage = false;
+          await showDialog(
+            context: context,
+            builder: (buildContext) {
+              return AlertDialog(
+                backgroundColor: buildContext.colorScheme.backgroundColor,
+                title: Text(
+                  AppLocalizations.of(context)!.exitSignUpDialogTitle,
+                ),
+                content: Text(
+                  AppLocalizations.of(context)!.exitSignUpDialogMessage,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      leaveCurrentPage = true;
+                      Navigator.of(context).pop();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          buildContext.colorScheme.errorColor),
+                    ),
+                    child: Text(
+                      'Exit',
+                      style: buildContext.textTheme.bodyText1?.copyWith(
+                        color: buildContext.colorScheme.onError,
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        leaveCurrentPage = false;
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        'Cancel',
-                      ),
-                    )
-                  ],
-                );
-              },
-            );
-            return leaveCurrentPage;
-          },
-          child: screen,
-        ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      leaveCurrentPage = false;
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Cancel',
+                    ),
+                  )
+                ],
+              );
+            },
+          );
+          return leaveCurrentPage;
+        },
+        child: screen,
       ),
     );
   }

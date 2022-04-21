@@ -48,4 +48,6 @@ extension ContextThemeExtensions on BuildContext {
   bool get isMobilePlatform =>
       Theme.of(this).platform == TargetPlatform.iOS ||
       Theme.of(this).platform == TargetPlatform.android;
+  bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
+  bool get isEnglishLocale => Localizations.localeOf(this).languageCode == 'en';
 }

@@ -7,7 +7,12 @@ class HomePage extends AppPage {
   HomePage()
       : super(
           routeSettings: const RouteSettings(name: Routes.homeScreenRoute),
-          mobileScreenInfo: const PageScreenInfo(screen: HomeScreen()),
-          desktopScreenInfo: const PageScreenInfo(screen: HomeScreen()),
+          pageScreensInfo: PageScreensInfo(
+            screensBuilder: (context, animation, secondaryAnimation) {
+              return const PageScreensBuilder(
+                defaultScreen: HomeScreen(),
+              );
+            },
+          ),
         );
 }

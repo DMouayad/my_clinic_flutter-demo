@@ -8,8 +8,12 @@ class AppearanceSettingsPage extends AppPage {
       : super(
           routeSettings:
               const RouteSettings(name: Routes.appearanceSettingsScreenRoute),
-          mobileScreenInfo: const PageScreenInfo(
-            screen: AppearanceSettingsScreen(),
+          pageScreensInfo: PageScreensInfo(
+            screensBuilder: (context, animation, secondaryAnimation) {
+              return const PageScreensBuilder(
+                defaultScreen: AppearanceSettingsScreen(),
+              );
+            },
           ),
         );
 }

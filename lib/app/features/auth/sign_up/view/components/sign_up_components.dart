@@ -6,23 +6,22 @@ class SignUpStepIndicator extends Component {
   const SignUpStepIndicator({
     Key? key,
     required this.title,
+    this.padding,
   }) : super(key: key);
-  // @override
-  // Widget desktopBuilder(BuildContext context, ContextInfo contextInfo) {
-  //   return fluent.Chip();
-  // }
+
+  final EdgeInsets? padding;
 
   @override
   Widget builder(BuildContext context, contextInfo) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
       child: RawChip(
         backgroundColor: AppColorScheme.of(context).primaryContainer,
         label: Text(
           title,
           style: context.textTheme.bodyText1?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AppColorScheme.of(context).onBackground,
+            color: AppColorScheme.of(context).onPrimaryContainer,
           ),
         ),
       ),
@@ -30,18 +29,23 @@ class SignUpStepIndicator extends Component {
   }
 }
 
-class SignUpMessage extends StatelessWidget {
+class SignUpMessage extends Component {
   const SignUpMessage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
     return Text(
       AppLocalizations.of(context)!.signUpScreenMessage,
       textAlign: TextAlign.start,
-      style: context.textTheme.headline6?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: context.colorScheme.onBackground,
-      ),
+      style: contextInfo.isDesktop
+          ? context.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: context.colorScheme.onBackground,
+            )
+          : context.textTheme.headline6?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: context.colorScheme.onBackground,
+            ),
     );
   }
 }
@@ -59,14 +63,22 @@ class ErrorCard extends Component {
 
   @override
   Widget windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
-    return fluent_ui.FluentTheme(
-      data: fluent_ui.ThemeData(),
-      child: fluent_ui.Card(
-        backgroundColor: color ?? AppColorScheme.of(context).errorColor,
-        child: Text(
-          errorText,
-          style: context.textTheme.subtitle1?.copyWith(
-            color: AppColorScheme.of(context).onError,
+    return SizedBox(
+      width: contextInfo.widgetSize!.width > 540
+          ? contextInfo.widgetSize!.width * .6
+          : contextInfo.widgetSize!.width * .7,
+      child: fluent_ui.FluentTheme(
+        data: fluent_ui.ThemeData(),
+        child: fluent_ui.Card(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          backgroundColor: color ?? AppColorScheme.of(context).errorColor,
+          child: Text(
+            errorText,
+            textAlign: TextAlign.center,
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: AppColorScheme.of(context).onError,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -80,8 +92,8 @@ class ErrorCard extends Component {
       child: Material(
         type: MaterialType.transparency,
         child: ListTile(
-          // padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          // decoration: BoxDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           tileColor: color ?? AppColorScheme.of(context).errorColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -89,8 +101,10 @@ class ErrorCard extends Component {
           leading: errorIcon,
           title: Text(
             errorText,
+            textAlign: TextAlign.center,
             style: context.textTheme.subtitle1?.copyWith(
               color: AppColorScheme.of(context).onError,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

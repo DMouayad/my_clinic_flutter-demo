@@ -3,7 +3,27 @@ import 'package:flutter/services.dart';
 
 import 'app_color_scheme.dart';
 
-class AppThemes {
+class MaterialAppThemes {
+  static TooltipThemeData getTooltipThemeDataForDesktop(BuildContext context) {
+    return TooltipThemeData(
+      height: context.isDesktopPlatform ? 32.0 : null,
+      verticalOffset: context.isDesktopPlatform ? 24.0 : null,
+      // showDuration:
+      waitDuration: const Duration(seconds: 1),
+      textStyle: context.isDesktopPlatform
+          ? context.textTheme.bodyLarge?.copyWith(
+              color: context.colorScheme.onPrimaryContainer,
+            )
+          : null,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(context.isDesktopPlatform ? 4 : 16),
+        color: context.colorScheme.primaryContainer,
+      ),
+    );
+  }
+
+  static ThemeData themeOf(BuildContext context) =>
+      context.isDarkMode ? defaultDarkTheme : lightTheme;
   static final ThemeData defaultDarkTheme = ThemeData.dark().copyWith(
     // Colors //
     brightness: Brightness.dark,

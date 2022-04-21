@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets/components/scaffold_with_appbar.dart';
-import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
+import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_back_button.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/components/sign_up_components.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/view/step_one_sign_up/components/account_info_form.dart';
 
@@ -9,10 +9,9 @@ class StepOneSignUpScreen extends ResponsiveScreen {
 
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
-    print(contextInfo);
-
     return ScaffoldWithAppBar(
       title: const SignUpMessage(),
+      leading: const CustomBackButton(),
       actions: [
         SignUpStepIndicator(
           title: AppLocalizations.of(context)!.stepOne,
@@ -23,19 +22,10 @@ class StepOneSignUpScreen extends ResponsiveScreen {
           horizontal: context.horizontalMargins,
           vertical: 25,
         ),
-        child: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 45.0, bottom: 70),
-                child: AppNameText(
-                  fontSize: 26,
-                  fontColor: context.colorScheme.secondary,
-                ),
-              ),
-            ),
-            const SignUpAccountInfoForm(),
-          ],
+        child: const Center(
+          child: SingleChildScrollView(
+            child: SignUpAccountInfoForm(),
+          ),
         ),
       ),
     );

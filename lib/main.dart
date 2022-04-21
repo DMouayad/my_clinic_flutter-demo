@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui' as ui;
 import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
@@ -13,10 +12,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //
 //
-import 'package:clinic_v2/app/infrastructure/themes/themes.dart';
+import 'package:clinic_v2/app/infrastructure/themes/material_themes.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 import 'app/features/auth/auth_cubit/auth_cubit.dart';
+import 'app/infrastructure/themes/fluent_themes.dart';
 import 'core/features/authentication/data/auth_data.dart';
 
 void main() async {
@@ -71,60 +71,104 @@ class ClinicApp extends StatelessWidget {
               BlocProvider.value(value: _preferencesCubit),
               BlocProvider.value(value: _authCubit),
             ],
-            child: BlocBuilder<AppearancePreferencesCubit,
-                AppearancePreferencesState>(
-              builder: (context, state) {
-                return MaterialApp(
-                  title: 'Clinic',
-                  debugShowCheckedModeBanner: false,
-                  theme: AppThemes.lightTheme,
-                  darkTheme: AppThemes.defaultDarkTheme,
-                  themeMode: (state is UserPreferencesState)
-                      ? state.themeMode
-                      : ThemeMode.system,
-                  home: home,
-                  builder: (context, app) {
-                    if (_preferencesCubit.state
-                        is AppearancePreferencesInitial) {
-                      _preferencesCubit.provideLocale(
-                        Locale(
-                          kIsWeb
-                              ? ui.window.locale.languageCode
-                              : Platform.localeName.substring(0, 2),
-                        ),
-                      );
-                      print(context.themeMode);
-                      _preferencesCubit.provideThemeMode(context.themeMode);
-                    }
-                    return app!;
-                  },
-                  locale: (state is UserPreferencesState) ? state.locale : null,
-                  onGenerateRoute: AppRoute.onGenerateRoute,
-                  localeListResolutionCallback:
-                      (deviceLocales, supportedLocales) {
-                    final supportedLocalesCodes =
-                        supportedLocales.map((e) => e.languageCode);
-                    if (deviceLocales != null) {
-                      for (var locale in deviceLocales) {
-                        if (supportedLocalesCodes
-                            .contains(locale.languageCode)) {
-                          return locale;
-                        }
-                      }
-                    }
-                    return supportedLocales.first;
-                  },
-                  localizationsDelegates: const [
-                    ...AppLocalizations.localizationsDelegates,
-                    fluent_ui.DefaultFluentLocalizations.delegate,
-                  ],
-                  supportedLocales: AppLocalizations.supportedLocales,
-                );
-              },
-            ),
+            child: context.isWindowsPlatform
+                ? _WindowsApp(home: home)
+                : _AndroidApp(home: home),
           );
         },
       ),
     );
+  }
+}
+
+class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
+  const _WindowsApp({this.home, Key? key}) : super(key: key);
+
+  /// ### used only for testing purposes
+  final Widget? home;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppearancePreferencesCubit, AppearancePreferencesState>(
+        builder: (context, state) {
+      return fluent_ui.FluentApp(
+        title: 'Clinic',
+        debugShowCheckedModeBanner: false,
+        theme: FluentAppThemes.lightTheme,
+        darkTheme: FluentAppThemes.defaultDarkTheme,
+        themeMode: (state is UserPreferencesState)
+            ? state.themeMode
+            : ThemeMode.system,
+        home: home,
+        builder: appBuilder,
+        locale: (state is UserPreferencesState) ? state.locale : null,
+        onGenerateRoute: AppRoute.onGenerateRoute,
+        localeListResolutionCallback: localeResolutionCallBack,
+        localizationsDelegates: const [
+          ...AppLocalizations.localizationsDelegates,
+          fluent_ui.DefaultFluentLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+      );
+    });
+  }
+}
+
+class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
+  const _AndroidApp({this.home, Key? key}) : super(key: key);
+
+  /// ### used only for testing purposes
+  final Widget? home;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppearancePreferencesCubit, AppearancePreferencesState>(
+      builder: (context, state) {
+        return MaterialApp(
+          title: 'Clinic',
+          debugShowCheckedModeBanner: false,
+          theme: MaterialAppThemes.lightTheme,
+          darkTheme: MaterialAppThemes.defaultDarkTheme,
+          themeMode: (state is UserPreferencesState)
+              ? state.themeMode
+              : ThemeMode.system,
+          home: home,
+          builder: appBuilder,
+          locale: (state is UserPreferencesState) ? state.locale : null,
+          onGenerateRoute: AppRoute.onGenerateRoute,
+          localeListResolutionCallback: localeResolutionCallBack,
+          localizationsDelegates: const [
+            ...AppLocalizations.localizationsDelegates,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+        );
+      },
+    );
+  }
+}
+
+mixin _ClinicAppHelper {
+  Widget appBuilder(BuildContext context, Widget? app) {
+    final preferencesCubit = context.read<AppearancePreferencesCubit>();
+    if (preferencesCubit.state is AppearancePreferencesInitial) {
+      preferencesCubit.provideLocale(
+        Locale(
+          Platform.localeName.substring(0, 2),
+        ),
+      );
+      preferencesCubit.provideThemeMode(context.themeMode);
+    }
+    return app!;
+  }
+
+  Locale localeResolutionCallBack(
+      List<Locale>? deviceLocales, Iterable<Locale> supportedLocales) {
+    final supportedLocalesCodes = supportedLocales.map((e) => e.languageCode);
+    if (deviceLocales != null) {
+      for (var locale in deviceLocales) {
+        if (supportedLocalesCodes.contains(locale.languageCode)) {
+          return locale;
+        }
+      }
+    }
+    return supportedLocales.first;
   }
 }

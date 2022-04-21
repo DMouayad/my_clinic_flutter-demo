@@ -9,7 +9,7 @@ class AppNameText extends Component {
   @override
   Widget builder(context, contextInfo) {
     return Text(
-      'CLINIC',
+      AppLocalizations.of(context)!.clinic,
       style: context.textTheme.headline6?.copyWith(
         letterSpacing: 1.2,
         fontSize: fontSize,

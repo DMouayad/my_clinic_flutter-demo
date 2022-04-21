@@ -10,33 +10,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LargeLoginScreen extends ResponsiveScreen {
   const LargeLoginScreen({required this.animation, Key? key}) : super(key: key);
   final Animation<double> animation;
-  // @override
-  // Widget? tabletBuilder(BuildContext context, ContextInfo contextInfo) {
-  //   print('tablet');
-  //   print(contextInfo.isPortraitTablet);
-  //   return super.tabletBuilder(context, contextInfo);
-  // }
 
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
-    print(contextInfo.isTablet);
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return TwoSidesScreenLayout(
           leftSideAnimation: animation,
           rightSideBlurred: state is LoginInProgress,
-          leftSide: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: context.horizontalMargins,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                LoginMessage(),
-                Center(child: LoginForm()),
-              ],
-            ),
+          leftSide: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.horizontalMargins,
+                  vertical: context.height * .1,
+                ),
+                child: const LoginMessage(),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal:
+                        contextInfo.isTablet ? 0 : context.horizontalMargins,
+                  ),
+                  child: const LoginForm(),
+                ),
+              ),
+            ],
           ),
           rightSide: Hero(
             tag: 'appName',
@@ -52,9 +54,11 @@ class LargeLoginScreen extends ResponsiveScreen {
                   ),
                 ),
                 if (contextInfo.isDesktopPlatform)
-                  const Align(
-                    alignment: Alignment.topRight,
-                    child: AppearanceSettingsBar(),
+                  Align(
+                    alignment: context.isArabicLocale
+                        ? Alignment.topLeft
+                        : Alignment.topRight,
+                    child: const AppearanceSettingsBar(),
                   ),
               ],
             ),

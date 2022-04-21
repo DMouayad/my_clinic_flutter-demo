@@ -20,7 +20,7 @@ class CustomElevatedButton extends Component {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
+    return ElevatedButton.icon(
       style: ButtonStyle(
         elevation: MaterialStateProperty.all(elevation),
         fixedSize: MaterialStateProperty.all(const Size.fromHeight(40)),

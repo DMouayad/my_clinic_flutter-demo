@@ -1,4 +1,5 @@
 {
+    "clinic": "كلينك",
     "loading": "جار التحميل...",
     "login": "تسجيل الدخول",
     "loginScreenMessage": "تسجيل الدخول لحساب كلينك الخاص بك",
@@ -16,6 +17,9 @@
     "passwordIsTooShort": "كلمة السر قصيرة!",
     "exitSignUpDialogTitle": "الخروج من عملية التسجيل",
     "exitSignUpDialogMessage": "جميع المعلومات المدخلة سيتم فقدانها، هل أنت متأكد من الخروج؟",
+    "enableDarkTheme": "تفعيل الوضع الداكن",
+    "enableLightTheme": "تفعيل الوضع الفاتح",
+    "selectAppLang": "اختر لغة التطبيق",
     "exit": "الخروج",
     "cancel": "إلغاء",
     "dismiss": "إغلاق",

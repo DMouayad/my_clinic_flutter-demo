@@ -36,7 +36,7 @@ mixin ResponsiveBuilder {
         return MediaQuery(
           data: contextInfo.mediaQuery.copyWith(
               textScaleFactor:
-                  _getDeviceTextScaleFactor(contextInfo.deviceType)),
+                  _getDeviceTextScaleFactor(contextInfo.deviceTypeByScreen)),
           child: _getBuilder(context, contextInfo),
         );
       },
@@ -44,37 +44,40 @@ mixin ResponsiveBuilder {
   }
 
   Widget _getBuilder(BuildContext context, ContextInfo contextInfo) {
-    switch (contextInfo.deviceType) {
+    if (context.isIOSPlatform &&
+        macDesktopBuilder(context, contextInfo) != null) {
+      return macDesktopBuilder(context, contextInfo)!;
+    } else if (context.isWindowsPlatform &&
+        windowsDesktopBuilder(context, contextInfo) != null) {
+      return windowsDesktopBuilder(context, contextInfo)!;
+    }
+    if (context.isIOSPlatform &&
+        iosMobileBuilder(context, contextInfo) != null) {
+      return iosMobileBuilder(context, contextInfo)!;
+    } else if (context.isAndroidPlatform &&
+        androidMobileBuilder(context, contextInfo) != null) {
+      return androidMobileBuilder(context, contextInfo)!;
+    }
+    if (context.isIOSPlatform &&
+        iosTabletBuilder(context, contextInfo) != null) {
+      return iosTabletBuilder(context, contextInfo)!;
+    } else if (context.isAndroidPlatform &&
+        androidTabletBuilder(context, contextInfo) != null) {
+      return androidTabletBuilder(context, contextInfo)!;
+    }
+    switch (contextInfo.deviceTypeByScreen) {
       case DeviceType.mobile:
-        if (context.isIOSPlatform &&
-            iosMobileBuilder(context, contextInfo) != null) {
-          return iosMobileBuilder(context, contextInfo)!;
-        } else if (context.isAndroidPlatform &&
-            androidMobileBuilder(context, contextInfo) != null) {
-          return androidMobileBuilder(context, contextInfo)!;
-        } else if (mobileBuilder(context, contextInfo) != null) {
+        if (mobileBuilder(context, contextInfo) != null) {
           return mobileBuilder(context, contextInfo)!;
         }
         break;
       case DeviceType.tablet:
-        if (context.isIOSPlatform &&
-            iosTabletBuilder(context, contextInfo) != null) {
-          return iosTabletBuilder(context, contextInfo)!;
-        } else if (context.isAndroidPlatform &&
-            androidTabletBuilder(context, contextInfo) != null) {
-          return androidTabletBuilder(context, contextInfo)!;
-        } else if (tabletBuilder(context, contextInfo) != null) {
+        if (tabletBuilder(context, contextInfo) != null) {
           return tabletBuilder(context, contextInfo)!;
         }
         break;
       case DeviceType.desktop:
-        if (context.isIOSPlatform &&
-            macDesktopBuilder(context, contextInfo) != null) {
-          return macDesktopBuilder(context, contextInfo)!;
-        } else if (context.isWindowsPlatform &&
-            windowsDesktopBuilder(context, contextInfo) != null) {
-          return windowsDesktopBuilder(context, contextInfo)!;
-        } else if (desktopBuilder(context, contextInfo) != null) {
+        if (desktopBuilder(context, contextInfo) != null) {
           return desktopBuilder(context, contextInfo)!;
         }
         break;
@@ -82,6 +85,7 @@ mixin ResponsiveBuilder {
       default:
         break;
     }
+
     return mobileBuilder(context, contextInfo) ??
         tabletBuilder(context, contextInfo) ??
         desktopBuilder(context, contextInfo) ??

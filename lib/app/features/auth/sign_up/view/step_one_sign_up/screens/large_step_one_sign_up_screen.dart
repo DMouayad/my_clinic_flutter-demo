@@ -73,10 +73,13 @@ class _StepOneRightSide extends ResponsiveScreen {
                     ],
                   ),
                 ),
-                const Align(
-                  alignment: Alignment.topRight,
-                  child: AppearanceSettingsBar(),
-                ),
+                if (context.isDesktopPlatform)
+                  Align(
+                    alignment: context.isArabicLocale
+                        ? Alignment.topLeft
+                        : Alignment.topRight,
+                    child: const AppearanceSettingsBar(),
+                  ),
               ],
             ),
           ),
@@ -92,6 +95,7 @@ class _StepOneLeftSide extends ResponsiveScreen {
   @override
   Widget builder(BuildContext context, contextInfo) {
     return ScaffoldWithAppBar(
+      showBottomTitle: contextInfo.isTablet,
       title: const SignUpMessage(),
       actions: [
         SignUpStepIndicator(
@@ -101,7 +105,7 @@ class _StepOneLeftSide extends ResponsiveScreen {
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: context.horizontalMargins,
+            horizontal: contextInfo.isDesktop ? context.horizontalMargins : 0,
           ),
           child: const SignUpAccountInfoForm(),
         ),

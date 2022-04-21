@@ -35,6 +35,7 @@ class _LoginFormState extends State<LoginForm> {
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InputTextField(
+            // filled: false,
             controller: _formHelper.usernameController,
             prefixIcon: Icons.person,
             textInputAction: TextInputAction.next,
@@ -42,6 +43,7 @@ class _LoginFormState extends State<LoginForm> {
               if (value?.isEmpty ?? false) {
                 return AppLocalizations.of(context)?.fieldIsRequired;
               }
+              return null;
             },
             hintText: AppLocalizations.of(context)?.username,
             textStyle: context.textTheme.bodyText1?.copyWith(
@@ -50,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 12),
           InputTextField(
+            // filled: false,
             controller: _formHelper.passwordController,
             prefixIcon: Icons.remove_red_eye,
             textInputAction: TextInputAction.done,
@@ -57,6 +60,7 @@ class _LoginFormState extends State<LoginForm> {
               if (password?.isEmpty ?? true) {
                 return AppLocalizations.of(context)?.fieldIsRequired;
               }
+              return null;
             },
             hintText: AppLocalizations.of(context)?.password,
             textStyle: context.textTheme.bodyText1?.copyWith(

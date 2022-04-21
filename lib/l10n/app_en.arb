@@ -1,4 +1,5 @@
 {
+    "clinic": "CLINIC",
     "loading": "Loading...",
     "login": "Login",
     "username": "Username",
@@ -16,6 +17,9 @@
     "createAccount": "Create new account",
     "exitSignUpDialogTitle": "Exit sign up process",
     "exitSignUpDialogMessage": "all entered info will be lost Are you sure to exit?",
+    "enableDarkTheme": "Enable dark mode",
+    "enableLightTheme": "Enable light mode",
+    "selectAppLang": "Select app language",
     "exit": "Exit",
     "cancel": "Cancel",
     "dismiss": "DISMISS",

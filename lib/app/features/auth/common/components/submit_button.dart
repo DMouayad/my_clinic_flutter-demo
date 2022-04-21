@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart'
     show BuildContext, Component, ContextThemeExtensions;
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_elevated_button.dart';
@@ -26,15 +27,16 @@ class SubmitButton extends Component {
           ? contextInfo.widgetSize!.width
           : contextInfo.widgetSize!.width * .8,
       height: height ?? 45,
-      child: contextInfo.isDesktop
+      child: contextInfo.isDesktopPlatform
           ? FluentTheme(
               data: ThemeData(),
               child: OutlinedButton(
                 onPressed: onPressed,
-                child: Row(
+                child: Flex(
+                  direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(text),
+                    Flexible(child: AutoSizeText(text)),
                     const SizedBox(width: 8),
                     Icon(
                       iconData,

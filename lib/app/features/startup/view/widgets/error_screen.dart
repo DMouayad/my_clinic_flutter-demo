@@ -2,6 +2,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:clinic_v2/app/common/widgets/components/appearance_settings_bar.dart';
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_text_button.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
@@ -53,13 +54,12 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ErrorCard(
-                  // color: Colors.black26,
                   errorText:
                       (context.read<StartupCubit>().state as StartupFailure)
                           .error
                           .message,
                 ),
-                if (context.isMobilePlatform) ...[
+                if (context.isMobilePlatform)
                   CustomTextButton(
                     label: 'open wifi settings',
                     labelColor: context.colorScheme.onBackground,
@@ -68,8 +68,7 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
                     },
                     iconWidget: const Icon(Icons.settings_applications),
                   ),
-                  const SizedBox(height: 40),
-                ],
+                const SizedBox(height: 40),
               ],
             ),
           ),
@@ -86,6 +85,7 @@ class _LargeStartupErrorScreen extends Component {
 
   @override
   Widget builder(BuildContext context, contextInfo) {
+    final error = (context.read<StartupCubit>().state as StartupFailure).error;
     return Flex(
       direction: Axis.horizontal,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,7 +107,9 @@ class _LargeStartupErrorScreen extends Component {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: contextInfo.isDesktopPlatform
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
@@ -123,16 +125,24 @@ class _LargeStartupErrorScreen extends Component {
                     ],
                   ),
                 ),
+
                 Align(
                   alignment: Alignment.center,
-                  child: SizedBox(
-                    child: ErrorCard(
-                      color: context.colorScheme.errorColor,
-                      errorText:
-                          (context.read<StartupCubit>().state as StartupFailure)
-                              .error
-                              .message,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        error.code == ErrorCode.connectionNotFound.name
+                            ? Icons.signal_wifi_bad_sharp
+                            : Icons.error_outline,
+                        size: 50,
+                        color: context.colorScheme.errorColor,
+                      ),
+                      ErrorCard(
+                        color: context.colorScheme.errorColor,
+                        errorText: error.message,
+                      ),
+                    ],
                   ),
                 ),
                 BlocBuilder<StartupCubit, StartupState>(

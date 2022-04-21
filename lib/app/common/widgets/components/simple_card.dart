@@ -11,7 +11,7 @@ class SimpleCard extends Component {
   final EdgeInsets? padding;
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, contextInfo) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,
@@ -19,7 +19,8 @@ class SimpleCard extends Component {
       padding: padding ?? const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius:
+            BorderRadius.circular(contextInfo.isDesktopPlatform ? 6 : 16),
       ),
       child: child,
     );

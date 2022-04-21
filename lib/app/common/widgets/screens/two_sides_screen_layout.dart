@@ -26,9 +26,9 @@ class TwoSidesScreenLayout extends StatelessWidget {
   final Color? backgroundColor;
   @override
   Widget build(context) {
-    return Scaffold(
-      backgroundColor: backgroundColor,
-      body: Row(
+    return Material(
+      color: backgroundColor ?? context.colorScheme.backgroundColor,
+      child: Row(
         children: [
           Expanded(
             flex: leftSideFlex,

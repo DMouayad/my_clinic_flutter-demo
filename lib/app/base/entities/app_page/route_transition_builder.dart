@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/material.dart';
 
 enum RouteTransitionType {
@@ -13,6 +14,8 @@ enum RouteTransitionType {
   sharedAxisHorizontal,
   fadeScale,
   platformDefault,
+  desktopEntrance,
+  desktopDrillIn,
   none,
 }
 //
@@ -72,6 +75,16 @@ mixin CustomRouteTransitionBuilder {
 
       case RouteTransitionType.slideFromRight:
         return _slide(page, animation, startOffset: const Offset(1, 0));
+      case RouteTransitionType.desktopDrillIn:
+        return fluent_ui.DrillInPageTransition(
+          animation: animation,
+          child: page,
+        );
+      case RouteTransitionType.desktopEntrance:
+        return fluent_ui.EntrancePageTransition(
+          animation: animation,
+          child: page,
+        );
     }
   }
 

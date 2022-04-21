@@ -9,18 +9,18 @@ class StartupPage extends AppPage {
   StartupPage()
       : super(
           routeSettings: const RouteSettings(name: Routes.startupScreen),
-          mobileScreenInfo: _startUpPage(),
-          desktopScreenInfo: _startUpPage(),
+          pageScreensInfo: PageScreensInfo(
+            screensBuilder: (context, animation, secondaryAnimation) {
+              return PageScreensBuilder(
+                defaultScreen: BlocProvider(
+                  lazy: false,
+                  create: (_) {
+                    return StartupCubit()..initServerConnection();
+                  },
+                  child: const StartupScreen(),
+                ),
+              );
+            },
+          ),
         );
-  static PageScreenInfo _startUpPage() {
-    return PageScreenInfo(
-      screen: BlocProvider(
-        lazy: false,
-        create: (_) {
-          return StartupCubit()..initServerConnection();
-        },
-        child: const StartupScreen(),
-      ),
-    );
-  }
 }

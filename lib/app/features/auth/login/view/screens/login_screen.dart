@@ -10,10 +10,12 @@ class LoginScreen extends ResponsiveScreen {
   @override
   Widget builder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
+      showLeading: false,
       title: AppNameText(
         fontColor: context.colorScheme.primary,
         fontSize: 32,
       ),
+      appBarBackgroundColor: context.colorScheme.backgroundColor,
       centerTitle: true,
       body: Center(
         child: SingleChildScrollView(
