@@ -1,6 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-
-/// COPIED FROM GETX PACKAGE
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 extension ResponsiveContextExtensions on BuildContext {
   double get horizontalMargins {
@@ -26,13 +25,14 @@ extension ContextSizeExtensions on BuildContext {
 extension ContextThemeExtensions on BuildContext {
   /// similar to [MediaQuery.of(context).theme]
   ThemeData get theme => Theme.of(this);
+  fluent_ui.ThemeData get fluentTheme => fluent_ui.FluentTheme.of(this);
 
   /// Check if dark mode theme is enable
   bool get isDarkMode => (theme.brightness == Brightness.dark);
   ThemeMode get themeMode => isDarkMode ? ThemeMode.dark : ThemeMode.light;
 
-  /// similar to [MediaQuery.of(context).padding]
   TextTheme get textTheme => Theme.of(this).textTheme;
+  fluent_ui.Typography get fluentTextTheme => fluentTheme.typography;
   AppColorScheme get colorScheme => AppColorScheme.of(this);
   bool get isDesktopPlatform {
     return Theme.of(this).platform == TargetPlatform.windows ||

@@ -4,12 +4,11 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 class UserPreferencesListItem extends Component {
   final bool selected;
   final PreferencesListItemData itemData;
-  final void Function() onTap;
-
+  final int index;
   const UserPreferencesListItem({
     required this.selected,
+    required this.index,
     required this.itemData,
-    required this.onTap,
     Key? key,
   }) : super(key: key);
 
@@ -22,8 +21,7 @@ class UserPreferencesListItem extends Component {
           vertical: 1.0,
         ),
         onTap: () {
-          itemData.onSelected();
-          onTap();
+          if (itemData.onSelected != null) itemData.onSelected!(index);
         },
         tileColor: fluent_ui.ButtonState.resolveWith(
           (states) => states.isHovering
@@ -56,35 +54,35 @@ class UserPreferencesListItem extends Component {
   @override
   Widget builder(BuildContext context, contextInfo) {
     return ListTile(
-        horizontalTitleGap: contextInfo.isTablet ? 8 : null,
-        selectedColor: context.colorScheme.primary,
-        selected: selected,
-        dense: false,
-        leading: Icon(
-          itemData.icon,
+      horizontalTitleGap: contextInfo.isTablet ? 8 : null,
+      selectedColor: context.colorScheme.primary,
+      selected: selected,
+      dense: false,
+      leading: Icon(
+        itemData.icon,
+      ),
+      title: Text(
+        itemData.name,
+        style: context.textTheme.subtitle1?.copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: contextInfo.isTablet ? 14 : null,
         ),
-        title: Text(
-          itemData.name,
-          style: context.textTheme.subtitle1?.copyWith(
-            fontWeight: FontWeight.w600,
-            fontSize: contextInfo.isTablet ? 14 : null,
-          ),
-        ),
-        onTap: () {
-          itemData.onSelected();
-          onTap();
-        });
+      ),
+      onTap: () {
+        if (itemData.onSelected != null) itemData.onSelected!(index);
+      },
+    );
   }
 }
 
 class PreferencesListItemData {
   final IconData icon;
   final String name;
-  final void Function() onSelected;
+  final void Function(int tileIndex)? onSelected;
 
   PreferencesListItemData({
     required this.icon,
     required this.name,
-    required this.onSelected,
+    this.onSelected,
   });
 }

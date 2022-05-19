@@ -2,8 +2,9 @@ import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/compon
 //
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class UserPreferencesList extends StatefulWidget {
+class UserPreferencesList extends StatelessWidget {
   const UserPreferencesList({
+    required this.selectedItemIndex,
     required this.onAppearanceTileTapped,
     required this.onCalendarTileTapped,
     required this.showDentalServicesTile,
@@ -14,36 +15,31 @@ class UserPreferencesList extends StatefulWidget {
         ),
         super(key: key);
   //
-  final void Function() onAppearanceTileTapped;
-  final void Function() onCalendarTileTapped;
-  final void Function()? onDentalServicesTileTapped;
+  final void Function(int tileIndex) onAppearanceTileTapped;
+  final void Function(int tileIndex) onCalendarTileTapped;
+  final void Function(int tileIndex)? onDentalServicesTileTapped;
   final bool showDentalServicesTile;
+  final int selectedItemIndex;
 
-  @override
-  State<UserPreferencesList> createState() => _UserPreferencesListState();
-}
-
-class _UserPreferencesListState extends State<UserPreferencesList> {
-  int selectedItemIndex = 0;
   @override
   Widget build(BuildContext context) {
     final _preferencesListData = [
       PreferencesListItemData(
         name: AppLocalizations.of(context)!.calendar,
         icon: Icons.calendar_today_outlined,
-        onSelected: widget.onCalendarTileTapped,
+        onSelected: onCalendarTileTapped,
       ),
       PreferencesListItemData(
         name: AppLocalizations.of(context)!.appearance,
         icon: Icons.devices,
-        onSelected: widget.onAppearanceTileTapped,
+        onSelected: onAppearanceTileTapped,
       ),
-      if (widget.showDentalServicesTile)
+      if (showDentalServicesTile)
         PreferencesListItemData(
           name: 'Dental services',
           // name: AppLocalizations.of(context)!.dentalServices,
           icon: Icons.medical_services_outlined,
-          onSelected: widget.onDentalServicesTileTapped!,
+          onSelected: onDentalServicesTileTapped!,
         ),
     ];
     return ListView(
@@ -53,13 +49,9 @@ class _UserPreferencesListState extends State<UserPreferencesList> {
           .map((e) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 3.0),
                 child: UserPreferencesListItem(
+                  index: e.key,
                   selected: e.key == selectedItemIndex,
                   itemData: e.value,
-                  onTap: () {
-                    if (selectedItemIndex != e.key) {
-                      setState(() => selectedItemIndex = e.key);
-                    }
-                  },
                 ),
               ))
           .toList(),

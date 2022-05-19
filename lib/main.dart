@@ -1,4 +1,5 @@
 import 'dart:io';
+// import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //
 import 'package:clinic_v2/app/infrastructure/themes/material_themes.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'app/features/auth/auth_cubit/auth_cubit.dart';
 import 'app/infrastructure/themes/fluent_themes.dart';
@@ -22,6 +24,8 @@ import 'core/features/authentication/data/auth_data.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
+  await windowManager.ensureInitialized();
+  await windowManager.setMinimumSize(const Size(560, 700));
   final parseAuthRepository = ParseAuthRepository();
   //
   final storage = await HydratedStorage.build(
@@ -39,6 +43,13 @@ void main() async {
           parseAuthRepository,
         ),
       );
+      // doWhenWindowReady(() {
+      //   final initialSize = Size(600, 450);
+      //   appWindow.minSize = initialSize;
+      //   // appWindow.size = initialSize;
+      //   appWindow.alignment = Alignment.center;
+      //   appWindow.show();
+      // });
     },
     storage: storage,
   );

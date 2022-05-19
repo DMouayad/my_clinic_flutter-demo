@@ -10,7 +10,8 @@ class _WindowsLocaleMenu extends StatelessWidget {
         ? _buildDropDownMenu(context)
         : WindowsSettingTile(
             tileLabel: AppLocalizations.of(context)!.language,
-            leadingIcon: fluent_ui.Icon(fluent_ui.FluentIcons.locale_language),
+            leadingIcon:
+                const fluent_ui.Icon(fluent_ui.FluentIcons.locale_language),
             titleText: AppLocalizations.of(context)!.selectAppLang,
             trailing: SizedBox(
               width: 300,
@@ -59,11 +60,11 @@ class _WindowsLocaleMenu extends StatelessWidget {
         // message: ,
         child: fluent_ui.DropDownButton(
           menuDecoration: BoxDecoration(
-            color: context.colorScheme.primaryContainer,
+            color: context.colorScheme.backgroundColor,
           ),
           title: Text(
             Locale(Localizations.localeOf(context).languageCode).toString(),
-            style: context.textTheme.titleLarge?.copyWith(
+            style: context.textTheme.titleMedium?.copyWith(
               color: context.colorScheme.onBackground,
             ),
           ),

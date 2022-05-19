@@ -34,16 +34,18 @@ class StartupCubit extends Cubit<StartupState> {
   }
 
   void retryToInitWhenConnectionIsRestored() {
-    final connectivityStream = Parse().connectivityStream.listen((event) {});
+    if (state is! StartupRetryInProgress) {
+      final connectivityStream = Parse().connectivityStream.listen((event) {});
 
-    connectivityStream.onData((connectivityResult) {
-      if (connectivityResult != ParseConnectivityResult.none &&
-          state is! StartupSuccess) {
-        emit(StartupRetryInProgress());
-        initServerConnection();
-        connectivityStream.cancel();
-      }
-    });
+      connectivityStream.onData((connectivityResult) {
+        if (connectivityResult != ParseConnectivityResult.none &&
+            state is! StartupSuccess) {
+          emit(StartupRetryInProgress());
+          initServerConnection();
+          connectivityStream.cancel();
+        }
+      });
+    }
   }
 
   Future<CustomResponse<NoResult>> _initParse() async {

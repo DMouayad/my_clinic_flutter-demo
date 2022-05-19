@@ -26,7 +26,7 @@ class SubmitButton extends Component {
       width: expandInWidth
           ? contextInfo.widgetSize!.width
           : contextInfo.widgetSize!.width * .8,
-      height: height ?? 45,
+      height: height ?? 44,
       child: contextInfo.isDesktopPlatform
           ? FluentTheme(
               data: ThemeData(),
@@ -45,8 +45,8 @@ class SubmitButton extends Component {
                   ],
                 ),
                 style: ButtonStyle(
-                  padding:
-                      ButtonState.all(const EdgeInsets.fromLTRB(16, 2, 24, 2)),
+                  // padding:
+                  // ButtonState.all(const EdgeInsets.fromLTRB(16, 2, 24, 2)),
                   border: ButtonState.all(BorderSide.none),
                   // border: ButtonState.resolveWith(
                   //     (states) => _getDesktopButtonBorder(states, context)),
@@ -55,20 +55,19 @@ class SubmitButton extends Component {
                     fontWeight: FontWeight.w600,
                   )),
 
-                  foregroundColor:
-                      ButtonState.all(context.colorScheme.onPrimary),
-                  // shape: ButtonState.all(
-                  //   RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(20),
-                  //   ),
-                  // ),
+                  foregroundColor: ButtonState.all(context.isDarkMode
+                      ? context.colorScheme.onPrimary
+                      : context.colorScheme.onBackground),
+
                   backgroundColor: ButtonState.resolveWith((states) {
                     if (states.isHovering) {
-                      return context.colorScheme.primary;
+                      return context.fluentTheme.accentColor.normal;
+                      // return context.fluentTheme.accentColor.dark
+                      //     .withOpacity(.6);
                     } else if (states.isPressing) {
-                      return context.colorScheme.onBackground?.withOpacity(.5);
+                      return context.fluentTheme.accentColor.normal;
                     } else {
-                      return context.colorScheme.secondary;
+                      return context.fluentTheme.accentColor.lighter;
                     }
                   }),
                 ),
@@ -80,13 +79,5 @@ class SubmitButton extends Component {
               iconData: iconData,
             ),
     );
-  }
-
-  BorderSide _getDesktopButtonBorder(
-      Set<ButtonStates> states, BuildContext context) {
-    if (states.contains(ButtonStates.hovering)) {
-      return BorderSide(color: context.colorScheme.onBackground!);
-    }
-    return BorderSide.none;
   }
 }

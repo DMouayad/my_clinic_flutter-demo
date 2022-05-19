@@ -55,7 +55,13 @@ class InputTextField extends Component {
     final kOutlinedBorder = OutlineInputBorder(
       borderRadius:
           BorderRadius.circular(contextInfo.isDesktopPlatform ? 6 : 14),
-      borderSide: BorderSide(color: context.colorScheme.textFieldBorderColor),
+      borderSide: BorderSide(
+          color: context.isDesktopPlatform
+              ? context.isDarkMode
+                  ? context.fluentTheme.accentColor.light.withOpacity(.2)
+                  : context.fluentTheme.accentColor.darkest.withOpacity(.2)
+              // ? context.colorScheme.primaryContainer!
+              : context.colorScheme.textFieldBorderColor),
     );
     return Theme(
       data: MaterialAppThemes.themeOf(context),
@@ -79,10 +85,10 @@ class InputTextField extends Component {
           decoration: InputDecoration(
             isDense: isDense,
             filled: filled,
-            // fillColor: AppColorScheme.of(context).,
-            fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
-            hoverColor:
-                hoverColor ?? AppColorScheme.of(context).secondaryContainer,
+            fillColor: Colors.transparent,
+            // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
+            // hoverColor:
+            // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
             prefixIcon: Icon(
               prefixIcon,
               // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
@@ -95,7 +101,12 @@ class InputTextField extends Component {
             ),
             enabledBorder: kOutlinedBorder,
             focusedBorder: kOutlinedBorder.copyWith(
-              borderSide: BorderSide(color: context.colorScheme.primary!),
+              borderSide: BorderSide(
+                width: 1.5,
+                color: context.isDesktopPlatform
+                    ? context.fluentTheme.accentColor.dark
+                    : context.colorScheme.primary!,
+              ),
             ),
             errorBorder: kOutlinedBorder.copyWith(
               borderSide: BorderSide(color: context.colorScheme.errorColor!),

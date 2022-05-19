@@ -1,5 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
+import 'package:clinic_v2/app/common/widgets/components/windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/features/startup/view/widgets/loading_indicator.dart';
 
 class LoadingAppScreen extends ResponsiveScreen {
@@ -28,16 +29,32 @@ class LoadingAppScreen extends ResponsiveScreen {
   }
 
   @override
-  Widget tabletBuilder(context, contextInfo) {
-    return _largeLoadingScreen(context);
+  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+    return WindowsTwoSidesScreen(
+      leftSideBlurred: false,
+      showInProgressIndicator: false,
+      leftSide: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LoadingIndicator(
+              currentDotColor: context.colorScheme.primary!,
+              defaultDotColor: AppColorScheme.of(context).primaryContainer!,
+              numDots: 5,
+              size: 60,
+            ),
+            const SizedBox(height: 24),
+            Text(
+              AppLocalizations.of(context)!.loading,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
-  Widget desktopBuilder(context, contextInfo) {
-    return _largeLoadingScreen(context);
-  }
-
-  Widget _largeLoadingScreen(BuildContext context) {
+  Widget tabletBuilder(context, contextInfo) {
     return Scaffold(
       body: Row(
         children: [

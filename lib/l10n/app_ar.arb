@@ -1,7 +1,9 @@
 {
     "clinic": "كلينك",
+    "connecting": "جار الاتصال...",
     "loading": "جار التحميل...",
     "login": "تسجيل الدخول",
+    "retry": "إعادة المحاولة",
     "loginScreenMessage": "تسجيل الدخول لحساب كلينك الخاص بك",
     "signUpScreenMessage": "إنشاء حساب كلينك جديد",
     "stepOne": "الخطوة الأولى",

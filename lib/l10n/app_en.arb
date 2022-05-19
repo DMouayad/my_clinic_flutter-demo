@@ -1,6 +1,8 @@
 {
     "clinic": "CLINIC",
     "loading": "Loading...",
+    "connecting": "Connecting...",
+    "retry": "Retry",
     "login": "Login",
     "username": "Username",
     "email": "Email",

@@ -40,6 +40,20 @@ class CustomParseUser extends ParseUser
     return userJson;
   }
 
+  @override
+  CustomParseUser copy({
+    String? appUserId,
+    String? username,
+    String? emailAddress,
+  }) {
+    return CustomParseUser(
+      role: UserRole.dentist,
+      appUserId: appUserId ?? this.appUserId,
+      username: username ?? name,
+      emailAddress: emailAddress ?? email,
+    );
+  }
+
   factory CustomParseUser.clone() {
     return CustomParseUser(
       role: UserRole.dentist,
@@ -55,7 +69,7 @@ class CustomParseUser extends ParseUser
   factory CustomParseUser.fromJson(Map<String, dynamic> objectData) {
     return CustomParseUser(
       role: UserRole.values.byName(objectData['role']),
-      appUserId: objectData['app_user_id'] ?? null,
+      appUserId: objectData['app_user_id'],
       username: objectData['username'],
       emailAddress: objectData['email'],
     )..objectId = objectData['objectId'];

@@ -1,4 +1,4 @@
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +60,8 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
       child: CustomPaint(
         child: Container(),
         painter: DottedCircularProgressIndicatorPainterFb(
-            dotColor:
-                widget.defaultDotColor ?? context.colorScheme.primaryContainer!,
+            dotColor: widget.defaultDotColor ??
+                context.colorScheme.onPrimaryContainer!,
             currentDotColor:
                 widget.currentDotColor ?? context.colorScheme.secondary!,
             percentage: 0,
@@ -91,7 +91,7 @@ class DottedCircularProgressIndicatorPainterFb extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double smallestSide = Math.min(size.width, size.height);
+    final double smallestSide = math.min(size.width, size.height);
     final double radius = (smallestSide / 2 - dotWidth / 2) - dotWidth / 2;
     final Offset centerPoint = Offset(size.width / 2, size.height / 2);
 
@@ -134,16 +134,16 @@ class Circle {
   }
 
   double _calcRadiansPerDot() {
-    return 2 * Math.pi / (totalNumOfDots);
+    return 2 * math.pi / (totalNumOfDots);
   }
 
   double _calcDotX(int thisDotNum) {
     //offset from indicator circles center
-    return radius * Math.sin(_calcDotAngle(thisDotNum));
+    return radius * math.sin(_calcDotAngle(thisDotNum));
   }
 
   double _calcDotY(int thisDotNum) {
     //offset from indicator circles center
-    return radius * Math.cos(_calcDotAngle(thisDotNum));
+    return radius * math.cos(_calcDotAngle(thisDotNum));
   }
 }

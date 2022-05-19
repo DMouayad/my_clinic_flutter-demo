@@ -19,7 +19,7 @@ class AppearanceSettingsBar extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
             LocaleDropDownMenu(LocaleDropDownMenuType.menuOnly),
             SizedBox(width: 8),

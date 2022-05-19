@@ -82,7 +82,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
             SizedBox(height: context.height * .1),
             SubmitButton(
               text: AppLocalizations.of(context)!.continueToNextStep,
-              iconData: Icons.arrow_downward_rounded,
+              iconData: Icons.navigate_next,
               onPressed: () {
                 _formHelper.validateInput();
                 if (_formHelper.inputIsValid) {

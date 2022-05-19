@@ -10,7 +10,7 @@ class AppColorScheme {
     return AppColorScheme(context);
   }
 
-  static const ColorScheme darkColorScheme = ColorScheme.dark(
+  static final ColorScheme darkColorScheme = ColorScheme.dark(
     // primary: Color(0xFF85beb7),
     primary: Color(0xFF78aba5),
     secondary: Color(0xFF5c9091),
@@ -19,7 +19,9 @@ class AppColorScheme {
     secondaryContainer: Color(0xFF30393e),
     onSecondaryContainer: Color(0xFFfdfdfd),
     onPrimary: Color(0xFF1e2827),
-    error: Color(0xFFcf6679),
+    error: Colors.red[400]!,
+    // error: Color(0xFFA80000),
+    // error: Color(0xFFcf6679),
     onError: Color(0xFFfff1f3),
     onBackground: Color(0xFFd4d5d6),
     background: Color(0xFF272f33),
@@ -28,21 +30,22 @@ class AppColorScheme {
   );
 
   // Light //
-  static const ColorScheme lightColorScheme = ColorScheme.light(
+  static final ColorScheme lightColorScheme = ColorScheme.light(
     // primary: Color(0xFF7aa29d),
-    primary: Color(0xFF85beb7),
-    onPrimary: Color(0xFFffffff),
-    primaryContainer: Color(0xFFe7f2f1),
-    onPrimaryContainer: Color(0xFF283937),
-    secondary: Color(0xFF4a8485),
-    secondaryContainer: Color(0xFFdbe6e7),
-    onSecondaryContainer: Color(0xFF162828),
-    error: Color(0xFFca0025),
-    onError: Color(0xFFfff1f4),
-    onBackground: Color(0xFF2d3c3a),
-    background: Color(0xFFffffff),
-    surface: Color(0xFFf3f9f8),
-    onSurface: Color(0xFF293634),
+    primary: const Color(0xFF85beb7),
+    onPrimary: const Color(0xFFffffff),
+    primaryContainer: const Color(0xFFe7f2f1),
+    onPrimaryContainer: const Color(0xFF283937),
+    secondary: const Color(0xFF4a8485),
+    secondaryContainer: const Color(0xFFdbe6e7),
+    onSecondaryContainer: const Color(0xFF162828),
+    error: Colors.red[700]!,
+    // error: Color(0xFFca0025),
+    onError: const Color(0xFFfff1f4),
+    onBackground: const Color(0xFF2d3c3a),
+    background: const Color(0xFFffffff),
+    surface: const Color(0xFFf3f9f8),
+    onSurface: const Color(0xFF293634),
     // ============================== //
     /** NEW COLOR SCHEME **
      *

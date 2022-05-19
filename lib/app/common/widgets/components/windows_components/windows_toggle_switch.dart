@@ -1,7 +1,3 @@
-// import 'package:flutter/material.dart';
-// import '';
-// import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/infrastructure/themes/app_color_scheme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
