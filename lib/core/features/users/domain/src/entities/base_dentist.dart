@@ -11,7 +11,7 @@ abstract class BaseDentist extends BaseAppUser {
   BaseDentist({
     required String id,
     required bool isLoggedIn,
-    required UserCalendar userCalendar,
+    required DentistCalendar userCalendar,
     required this.dentalServices,
     required this.medicationsList,
   }) : super(

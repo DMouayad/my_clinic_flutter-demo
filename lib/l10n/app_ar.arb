@@ -65,5 +65,8 @@
     "darkMode": "الوضع الليلي",
     "enabled": "مفعّل",
     "disabled": "غير مفعّل",
-    "appLanguage:": "لغة التطبيق"
+    "appLanguage:": "لغة التطبيق",
+    "noInternetConnection": "لا يوجد اتصال بالانترنت!",
+    "or": "أو",
+    "delete": "حذف"
 }

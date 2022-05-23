@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-mixin TimeOfDayJsonHelper {
+class TimeOfDayJsonHelper {
   static Map<String, dynamic> toJson(TimeOfDay timeOfDay) {
     return {
       'hour': timeOfDay.hour,

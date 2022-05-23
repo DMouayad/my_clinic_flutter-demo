@@ -61,15 +61,21 @@ class ParseServer {
     throw UnimplementedError();
   }
 
-  static Future<CustomResponse<UserRole>> getUserRole(
-      {required String emailAddress}) async {
+  static Future<CustomResponse<UserRole>> getUserRole({
+    required String emailAddress,
+  }) async {
     final ParseCloudFunction function =
         ParseCloudFunction('getUserRoleByEmail');
     final Map<String, String> params = <String, String>{
       'email_address': emailAddress
     };
+
     if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
-      final response = await function.execute(parameters: params);
+      final response = await function
+          .execute(parameters: params)
+          .timeout(const Duration(seconds: 30), onTimeout: () {
+        return ParseResponse();
+      });
       if (response.success) {
         return response.result is String
             ? CustomResponse.success(

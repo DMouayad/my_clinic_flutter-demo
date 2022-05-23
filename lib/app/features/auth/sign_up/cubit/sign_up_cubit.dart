@@ -1,11 +1,9 @@
-import 'package:clinic_v2/app/features/auth/sign_up/view/step_two_sign_up/step_two_sign_up_page.dart';
 import 'package:clinic_v2/core/common/helpers/parse_server.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:clinic_v2/core/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
 import 'package:clinic_v2/core/features/users/domain/dentist_contracts.dart';
-import 'package:clinic_v2/core/features/users/domain/src/entities/base_app_user.dart';
 import 'package:clinic_v2/core/features/users/domain/src/entities/base_server_user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,31 +21,28 @@ class SignUpCubit extends Cubit<SignUpState> {
   }) async {
     // check if provided email address is approved by CLINIC's admin.
 
-    _validateUserEmail(emailAddress);
-    stream.listen((state) {
-      if (state is SignUpEmailIsValid) {
-        _proceedToSignUpStepTwo(
-          emailAddress: emailAddress,
-          username: username,
-          password: password,
-        );
-      }
-    });
+    final isValid = await _validateUserEmail(emailAddress);
+    if (isValid) {
+      _proceedToSignUpStepTwo(
+        emailAddress: emailAddress,
+        username: username,
+        password: password,
+      );
+    } else {
+      emit(SignUpEmailIsNotValid());
+    }
   }
 
-  Future<void> _validateUserEmail(String emailAddress) async {
+  Future<bool> _validateUserEmail(String emailAddress) async {
     emit(SignUpInProgress());
     final validationResponse =
         await ParseServer.checkIfEmailAddressIsValid(emailAddress);
 
     if (validationResponse.success) {
-      if ((validationResponse.result ?? false)) {
-        emit(SignUpEmailIsValid());
-      } else {
-        emit(SignUpEmailIsNotValid());
-      }
+      return validationResponse.result ?? false;
     } else {
       emit(SignUpError(validationResponse.error!));
+      return false;
     }
   }
 

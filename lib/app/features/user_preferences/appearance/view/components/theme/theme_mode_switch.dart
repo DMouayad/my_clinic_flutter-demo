@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/windows_components/windows_settings_tile.dart';
-import 'package:clinic_v2/app/common/widgets/components/windows_components/windows_toggle_switch.dart';
+import 'package:clinic_v2/app/common/widgets//windows_components/windows_settings_tile.dart';
+import 'package:clinic_v2/app/common/widgets//windows_components/windows_toggle_switch.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/infrastructure/themes/material_themes.dart';
 

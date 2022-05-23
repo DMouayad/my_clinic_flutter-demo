@@ -1,5 +1,4 @@
-
-import 'package:clinic_v2/core/common/models/user_calendar.dart';
+import 'package:clinic_v2/core/common/models/dentist_calendar.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ abstract class BaseAppUser {
   ThemeMode? selectedThemeMode;
   Locale? selectedLocale;
   bool isLoggedIn;
-  UserCalendar userCalendar;
+  DentistCalendar userCalendar;
 
   BaseAppUser({
     required this.id,

@@ -15,8 +15,6 @@ class StartupScreen extends StatelessWidget {
   Widget build(context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        print(state);
-
         if (state is StoredUserWasFetched) {
           context.read<AuthCubit>().getAuthState();
         }

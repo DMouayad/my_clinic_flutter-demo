@@ -1,6 +1,6 @@
 library dentist_contracts;
 
-import 'package:clinic_v2/core/common/models/user_calendar.dart';
+import 'package:clinic_v2/core/common/models/dentist_calendar.dart';
 //
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart'
     show DentalService;

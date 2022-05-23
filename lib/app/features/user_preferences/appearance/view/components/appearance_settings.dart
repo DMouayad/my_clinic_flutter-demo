@@ -10,15 +10,22 @@ class AppearanceSettingsScreen extends Component {
 
   @override
   Widget builder(BuildContext context, contextInfo) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.loose(contextInfo.widgetSize!),
-      child: Column(
-        children: const [
-          ThemeModeSwitch(
-            ThemeModeSwitchType.tile,
+    return Material(
+      color: context.colorScheme.backgroundColor,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.loose(contextInfo.widgetSize!),
+          child: Column(
+            children: const [
+              ThemeModeSwitch(
+                ThemeModeSwitchType.tile,
+              ),
+              Divider(),
+              LocaleDropDownMenu(LocaleDropDownMenuType.tileWithMenu),
+            ],
           ),
-          LocaleDropDownMenu(LocaleDropDownMenuType.tileWithMenu),
-        ],
+        ),
       ),
     );
   }

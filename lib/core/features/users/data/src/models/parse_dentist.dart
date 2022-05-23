@@ -29,7 +29,7 @@ class ParseDentist extends ParseObject
           Locale.fromSubtags(languageCode: json['selected_locale'] ?? 'en'),
       selectedThemeMode:
           ThemeMode.values.elementAt(json['selected_theme'] ?? 0),
-      userCalendar: UserCalendar.fromJson(json['user_calendar']),
+      userCalendar: DentistCalendar.fromJson(json['user_calendar']),
     );
     decodedParseDentist.objectId = json[keyVarObjectId];
     //
@@ -55,7 +55,7 @@ class ParseDentist extends ParseObject
   ThemeMode? selectedThemeMode;
 
   @override
-  UserCalendar userCalendar;
+  DentistCalendar userCalendar;
 
   @override
   ParseDentist clone(Map<String, dynamic> map) {

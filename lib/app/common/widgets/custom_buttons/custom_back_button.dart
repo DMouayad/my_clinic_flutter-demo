@@ -14,12 +14,16 @@ class CustomBackButton extends Component {
         splashColor: Colors.transparent,
         tooltipTheme: MaterialAppThemes.getTooltipThemeDataForDesktop(context),
       ),
-      child: const BackButton(),
+      child: BackButton(
+        color: context.colorScheme.onBackground,
+      ),
     );
   }
 
   @override
-  Widget mobileBuilder(BuildContext context, ContextInfo contextInfo) {
-    return const BackButton();
+  Widget builder(BuildContext context, ContextInfo contextInfo) {
+    return BackButton(
+      color: context.colorScheme.onBackground,
+    );
   }
 }

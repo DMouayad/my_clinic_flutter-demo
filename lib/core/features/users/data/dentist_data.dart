@@ -2,7 +2,7 @@ library dentist_data;
 
 import 'dart:convert';
 //
-import 'package:clinic_v2/core/common/models/user_calendar.dart';
+import 'package:clinic_v2/core/common/models/dentist_calendar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //

@@ -13,6 +13,7 @@ class StartupCubit extends Cubit<StartupState> {
   StartupCubit() : super(StartupInProgress());
 
   Future<void> initServerConnection() async {
+    if (state is! StartupInProgress) emit(StartupInProgress());
     final initResponse = await _initParse();
     if (initResponse.success) {
       emit(StartupSuccess());

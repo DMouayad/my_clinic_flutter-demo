@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/app_name_text.dart';
-import 'package:clinic_v2/app/common/widgets/components/windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/app/features/startup/view/widgets/loading_indicator.dart';
+import 'package:clinic_v2/app/common/widgets//app_name_text.dart';
+import 'package:clinic_v2/app/common/widgets//windows_components/two_sides_screen.dart';
+import 'package:clinic_v2/app/common/widgets//loading_indicator.dart';
 
 class LoadingAppScreen extends ResponsiveScreen {
   const LoadingAppScreen({Key? key}) : super(key: key);
@@ -54,9 +54,11 @@ class LoadingAppScreen extends ResponsiveScreen {
   }
 
   @override
-  Widget tabletBuilder(context, contextInfo) {
+  Widget tabletBuilder(BuildContext context, ContextInfo contextInfo) {
     return Scaffold(
-      body: Row(
+      body: Flex(
+        direction:
+            contextInfo.isPortraitTablet ? Axis.vertical : Axis.horizontal,
         children: [
           Expanded(
             child: Center(

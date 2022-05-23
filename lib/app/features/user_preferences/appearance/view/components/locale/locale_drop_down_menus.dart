@@ -10,31 +10,48 @@ class _WindowsLocaleMenu extends StatelessWidget {
         ? _buildDropDownMenu(context)
         : WindowsSettingTile(
             tileLabel: AppLocalizations.of(context)!.language,
-            leadingIcon:
-                const fluent_ui.Icon(fluent_ui.FluentIcons.locale_language),
+            leadingIcon: fluent_ui.Icon(
+              fluent_ui.FluentIcons.locale_language,
+              color: context.colorScheme.onBackground,
+            ),
             titleText: AppLocalizations.of(context)!.selectAppLang,
             trailing: SizedBox(
               width: 300,
-              child: fluent_ui.Combobox<Locale>(
-                itemHeight: 52,
-                onChanged: (selectedValue) {
-                  if (selectedValue != null) {
-                    context
-                        .read<AppearancePreferencesCubit>()
-                        .provideLocale(selectedValue);
-                  }
-                },
-                value: Locale(Localizations.localeOf(context).languageCode),
-                isExpanded: true,
-                items: AppLocalizations.supportedLocales
-                    .map((e) => fluent_ui.ComboboxItem(
-                          value: e,
-                          child: Text(
-                            e.languageCode.toUpperCase(),
-                            style: context.textTheme.labelLarge,
-                          ),
-                        ))
-                    .toList(),
+              child: fluent_ui.FluentTheme(
+                data: context.fluentTheme.copyWith(
+                  buttonTheme: fluent_ui.ButtonThemeData.all(
+                    fluent_ui.ButtonStyle(backgroundColor:
+                        fluent_ui.ButtonState.resolveWith((states) {
+                      if (states.isHovering) {
+                        return context.colorScheme.secondary;
+                      }
+                    })),
+                  ),
+                ),
+                child: fluent_ui.Combobox<Locale>(
+                  itemHeight: 52,
+                  comboboxColor: context.colorScheme.secondary,
+                  // icon: Icon(fluent_ui.FluentIcons.),
+                  // focusColor: context.colorScheme.secondary,
+                  onChanged: (selectedValue) {
+                    if (selectedValue != null) {
+                      context
+                          .read<AppearancePreferencesCubit>()
+                          .provideLocale(selectedValue);
+                    }
+                  },
+                  value: Locale(Localizations.localeOf(context).languageCode),
+                  isExpanded: true,
+                  items: AppLocalizations.supportedLocales
+                      .map((e) => fluent_ui.ComboboxItem(
+                            value: e,
+                            child: Text(
+                              e.languageCode.toUpperCase(),
+                              style: context.textTheme.labelLarge,
+                            ),
+                          ))
+                      .toList(),
+                ),
               ),
             ),
           );
@@ -81,6 +98,20 @@ class _WindowsLocaleMenu extends StatelessWidget {
                     title: Text(
                       e.languageCode.toUpperCase(),
                       style: context.textTheme.labelLarge,
+                    ),
+                    trailing: fluent_ui.Checkbox(
+                      checked: Localizations.localeOf(context).languageCode ==
+                          e.languageCode,
+                      // onChanged: (_) {},
+                      onChanged: (checked) {
+                        if (checked ?? false) {
+                          context
+                              .read<AppearancePreferencesCubit>()
+                              .provideLocale(e);
+                        }
+                        // close dropdown menu
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ))
               .toList(),

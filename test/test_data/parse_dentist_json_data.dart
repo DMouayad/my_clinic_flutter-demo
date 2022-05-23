@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:clinic_v2/core/common/models/user_calendar.dart';
+import 'package:clinic_v2/core/common/models/dentist_calendar.dart';
+import 'package:clinic_v2/core/common/models/work_shift.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-
 
 final Map<String, dynamic> parseDentistTestJson = {
   keyVarClassName: 'Dentist',
@@ -47,12 +47,15 @@ ParseDentist get tDentistInstance {
     selectedLocale: const Locale('en'),
     selectedThemeMode: ThemeMode.system,
     isLoggedIn: true,
-    userCalendar: UserCalendar(
-      calendarWorkDays: [
-        CalendarWorkDay(
-          day: DateTime.sunday,
-          workHours: [const TimeOfDay(hour: 10, minute: 0)],
-        ),
+    userCalendar: DentistCalendar(
+      workShifts: [
+        WorkShift(
+            start: const TimeOfDay(hour: 10, minute: 0),
+            end: const TimeOfDay(hour: 20, minute: 0),
+            days: [
+              DateTime.saturday,
+              DateTime.sunday,
+            ])
       ],
     ),
   )..objectId = 'dentist_test_id';

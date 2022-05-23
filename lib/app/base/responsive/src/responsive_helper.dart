@@ -43,7 +43,8 @@ mixin ResponsiveBuilder {
     );
   }
 
-  Widget _getBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? _returnBuilderByPlatform(
+      BuildContext context, ContextInfo contextInfo) {
     if (context.isIOSPlatform &&
         macDesktopBuilder(context, contextInfo) != null) {
       return macDesktopBuilder(context, contextInfo)!;
@@ -65,31 +66,43 @@ mixin ResponsiveBuilder {
         androidTabletBuilder(context, contextInfo) != null) {
       return androidTabletBuilder(context, contextInfo)!;
     }
+    return null;
+  }
+
+  Widget? _returnBuilderByScreenSize(
+      BuildContext context, ContextInfo contextInfo) {
     switch (contextInfo.deviceTypeByScreen) {
       case DeviceType.mobile:
         if (mobileBuilder(context, contextInfo) != null) {
           return mobileBuilder(context, contextInfo)!;
+        } else if (builder(context, contextInfo) != null) {
+          return builder(context, contextInfo)!;
         }
         break;
       case DeviceType.tablet:
         if (tabletBuilder(context, contextInfo) != null) {
           return tabletBuilder(context, contextInfo)!;
+        } else if (builder(context, contextInfo) != null) {
+          return builder(context, contextInfo)!;
         }
         break;
       case DeviceType.desktop:
         if (desktopBuilder(context, contextInfo) != null) {
           return desktopBuilder(context, contextInfo)!;
+        } else if (builder(context, contextInfo) != null) {
+          return builder(context, contextInfo)!;
         }
         break;
 
       default:
-        break;
+        throw UnimplementedError('No screen provided');
     }
+    return null;
+  }
 
-    return mobileBuilder(context, contextInfo) ??
-        tabletBuilder(context, contextInfo) ??
-        desktopBuilder(context, contextInfo) ??
-        builder(context, contextInfo)!;
+  Widget _getBuilder(BuildContext context, ContextInfo contextInfo) {
+    return _returnBuilderByPlatform(context, contextInfo) ??
+        _returnBuilderByScreenSize(context, contextInfo)!;
   }
 
   double _getDeviceTextScaleFactor(DeviceType deviceType) {

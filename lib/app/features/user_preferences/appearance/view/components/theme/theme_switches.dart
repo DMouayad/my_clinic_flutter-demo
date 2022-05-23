@@ -61,7 +61,9 @@ class _ThemeSwitchIcon extends Component {
   @override
   Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
     return fluent_ui.Tooltip(
-      message: AppLocalizations.of(context)!.enableDarkTheme,
+      message: context.isDarkMode
+          ? AppLocalizations.of(context)!.enableLightTheme
+          : AppLocalizations.of(context)!.enableDarkTheme,
       child: fluent_ui.IconButton(
         icon: icon,
         onPressed: onThemeModeChanged,

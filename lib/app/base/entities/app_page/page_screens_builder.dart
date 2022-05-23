@@ -14,6 +14,8 @@ class PageScreensBuilder extends Component {
   final Widget? tabletScreen;
   final Widget? desktopScreen;
   final Widget? defaultScreen;
+
+  /// if set this will be used for both tablet and desktop screens
   final Widget? wideScreen;
 
   @override

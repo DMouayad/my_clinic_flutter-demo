@@ -6,6 +6,7 @@
     "login": "Login",
     "username": "Username",
     "email": "Email",
+    "noInternetConnection": "No internet connection found!",
     "password": "Password",
     "required": "required!",
     "loginScreenMessage": "Login to your CLINIC's account",
@@ -65,5 +66,7 @@
     "darkMode": "Dark mode",
     "enabled": "enabled",
     "disabled": "disabled",
-    "appLanguage": "App language"
+    "appLanguage": "App language",
+    "or": "Or",
+    "delete": "Delete"
 }

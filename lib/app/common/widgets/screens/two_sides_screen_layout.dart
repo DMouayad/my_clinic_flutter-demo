@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/color_barrier.dart';
+import 'package:clinic_v2/app/common/widgets//color_barrier.dart';
 
 class TwoSidesScreenLayout extends StatelessWidget {
   const TwoSidesScreenLayout({

@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/common/widgets/components/windows_components/two_sides_screen.dart';
+import 'package:clinic_v2/app/common/widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/auth/login/view/components/login_form.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
