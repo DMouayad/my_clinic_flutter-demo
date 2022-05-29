@@ -1,7 +1,7 @@
 // import 'package:clinic_v2/app/base/responsive/responsive.dart';
-part of 'theme_mode_switch.dart';
+part of 'adaptive_theme_switch.dart';
 
-class _ThemeSwitchTile extends Component {
+class _ThemeSwitchTile extends ResponsiveStatelessWidget {
   const _ThemeSwitchTile({
     required this.onThemeModeChanged,
     required this.themeIcon,
@@ -12,7 +12,7 @@ class _ThemeSwitchTile extends Component {
   final void Function() onThemeModeChanged;
 
   @override
-  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return WindowsSettingTile(
       tileLabel: 'Theme',
       leadingIcon: themeIcon,
@@ -25,7 +25,7 @@ class _ThemeSwitchTile extends Component {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return SwitchListTile.adaptive(
       value: context.isDarkMode,
       title: Text(
@@ -48,7 +48,7 @@ class _ThemeSwitchTile extends Component {
   }
 }
 
-class _ThemeSwitchIcon extends Component {
+class _ThemeSwitchIcon extends ResponsiveStatelessWidget {
   const _ThemeSwitchIcon({
     required this.icon,
     required this.onThemeModeChanged,
@@ -59,7 +59,7 @@ class _ThemeSwitchIcon extends Component {
   final Widget icon;
 
   @override
-  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return fluent_ui.Tooltip(
       message: context.isDarkMode
           ? AppLocalizations.of(context)!.enableLightTheme
@@ -72,7 +72,7 @@ class _ThemeSwitchIcon extends Component {
   }
 
   @override
-  Widget? mobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? mobileScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     return Material(
       type: MaterialType.transparency,
       child: Theme(

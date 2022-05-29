@@ -16,17 +16,17 @@ class _StepTwoSignUpScreenState
     extends StateWithResponsiveBuilder<StepTwoSignUpScreen> {
   // when on Windows we always use the WindowsStepTwoSignUpScreen
   @override
-  Widget windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return const WindowsStepTwoSignUpScreen();
   }
 
   @override
-  Widget? tabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     return const TabletStepTwoSignUpScreen();
   }
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
       titleText: AppLocalizations.of(context)!.signUpScreenMessage,
       actions: [

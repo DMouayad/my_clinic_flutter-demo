@@ -2,7 +2,7 @@ import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/infrastructure/themes/material_themes.dart';
 // import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
-class InputTextField extends Component {
+class InputTextField extends ResponsiveStatelessWidget {
   final String? initialValue;
   final String? hintText;
   final TextEditingController? controller;
@@ -51,7 +51,7 @@ class InputTextField extends Component {
   }) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     final kOutlinedBorder = OutlineInputBorder(
       borderRadius:
           BorderRadius.circular(contextInfo.isDesktopPlatform ? 6 : 14),
@@ -64,7 +64,7 @@ class InputTextField extends Component {
               : context.colorScheme.textFieldBorderColor),
     );
     return Theme(
-      data: MaterialAppThemes.themeOf(context),
+      data: MaterialAppThemes.of(context),
       child: SizedBox(
         width: contextInfo.widgetSize!.width * .8,
         // height: context.isDesktop ? 55 : null,

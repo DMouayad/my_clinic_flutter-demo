@@ -7,11 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/sign_up_components.dart';
 import '../components/account_info_form.dart';
 
-class StepOneSignUpScreen extends ResponsiveScreen {
+class StepOneSignUpScreen extends ResponsiveStatelessWidget {
   const StepOneSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return ScaffoldWithAppBar(

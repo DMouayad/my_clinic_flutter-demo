@@ -13,15 +13,15 @@ part 'theme_switches.dart';
 
 enum ThemeModeSwitchType { tile, icon }
 
-class ThemeModeSwitch extends StatefulWidget {
-  const ThemeModeSwitch(this.switchType, {Key? key}) : super(key: key);
+class AdaptiveThemeSwitch extends StatefulWidget {
+  const AdaptiveThemeSwitch(this.switchType, {Key? key}) : super(key: key);
   final ThemeModeSwitchType switchType;
   @override
-  State<ThemeModeSwitch> createState() => _ThemeSettingsSwitchState();
+  State<AdaptiveThemeSwitch> createState() => _ThemeSettingsSwitchState();
 }
 
 class _ThemeSettingsSwitchState
-    extends StateWithResponsiveBuilder<ThemeModeSwitch>
+    extends StateWithResponsiveBuilder<AdaptiveThemeSwitch>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 

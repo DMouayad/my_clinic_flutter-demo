@@ -23,6 +23,8 @@ extension ContextSizeExtensions on BuildContext {
 }
 
 extension ContextThemeExtensions on BuildContext {
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
+
   /// similar to [MediaQuery.of(context).theme]
   ThemeData get theme => Theme.of(this);
   fluent_ui.ThemeData get fluentTheme => fluent_ui.FluentTheme.of(this);
@@ -41,6 +43,7 @@ extension ContextThemeExtensions on BuildContext {
   }
 
   bool get isIOSPlatform => Theme.of(this).platform == TargetPlatform.iOS;
+  bool get isMacOsPlatform => Theme.of(this).platform == TargetPlatform.macOS;
   bool get isWindowsPlatform =>
       Theme.of(this).platform == TargetPlatform.windows;
   bool get isAndroidPlatform =>
@@ -48,6 +51,7 @@ extension ContextThemeExtensions on BuildContext {
   bool get isMobilePlatform =>
       Theme.of(this).platform == TargetPlatform.iOS ||
       Theme.of(this).platform == TargetPlatform.android;
+  TargetPlatform get platform => Theme.of(this).platform;
   bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
   bool get isEnglishLocale => Localizations.localeOf(this).languageCode == 'en';
 }

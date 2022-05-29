@@ -3,7 +3,7 @@ import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
 import 'user_preferences_list_item.dart';
 
-class UserPreferencesList extends Component {
+class UserPreferencesList extends ResponsiveStatelessWidget {
   const UserPreferencesList({
     this.selectedItemIndex = 0,
     required this.onAppearanceTileTapped,
@@ -23,7 +23,7 @@ class UserPreferencesList extends Component {
   final int selectedItemIndex;
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     final _preferencesListData = [
       PreferencesListItemData(
         name: AppLocalizations.of(context)!.calendar,

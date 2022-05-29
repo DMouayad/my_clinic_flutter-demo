@@ -22,7 +22,7 @@ class MaterialAppThemes {
     );
   }
 
-  static ThemeData themeOf(BuildContext context) =>
+  static ThemeData of(BuildContext context) =>
       context.isDarkMode ? defaultDarkTheme : lightTheme;
   static final ThemeData defaultDarkTheme = ThemeData.dark().copyWith(
     // Colors //

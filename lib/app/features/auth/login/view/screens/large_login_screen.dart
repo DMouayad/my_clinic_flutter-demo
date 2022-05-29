@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/login_message.dart';
 
-class LargeLoginScreen extends ResponsiveScreen {
+class LargeLoginScreen extends ResponsiveStatelessWidget {
   const LargeLoginScreen({required this.animation, Key? key}) : super(key: key);
   final Animation<double> animation;
 
   @override
-  Widget windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(

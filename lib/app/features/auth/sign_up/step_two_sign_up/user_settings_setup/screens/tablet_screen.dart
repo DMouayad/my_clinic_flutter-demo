@@ -8,7 +8,7 @@ import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart
 import 'package:clinic_v2/app/features/auth/sign_up/components/sign_up_components.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/step_two_sign_up/components/user_preferences_list.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/appearance_settings.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/appearance_settings_screen.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class _TabletStepTwoSignUpScreenState
   int selectedItemIndex = 0;
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
       actions: [
         SignUpStepIndicator(

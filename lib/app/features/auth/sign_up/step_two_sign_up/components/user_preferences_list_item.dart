@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
-class UserPreferencesListItem extends Component {
+class UserPreferencesListItem extends ResponsiveStatelessWidget {
   final bool selected;
   final PreferencesListItemData itemData;
   final int index;
@@ -13,7 +13,7 @@ class UserPreferencesListItem extends Component {
   }) : super(key: key);
 
   @override
-  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     if (!contextInfo.isMobile || !contextInfo.isPortraitTablet) {
       return fluent_ui.TappableListTile(
         contentPadding: const EdgeInsets.symmetric(
@@ -52,7 +52,7 @@ class UserPreferencesListItem extends Component {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return ListTile(
       horizontalTitleGap: contextInfo.isTablet ? 8 : null,
       selectedColor: context.colorScheme.primary,

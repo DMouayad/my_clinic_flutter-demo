@@ -45,10 +45,7 @@ class ParseServer {
         errorMessage: 'An error occurred \n ${e.message}',
       );
     } on TimeoutException catch (_) {
-      return CustomResponse.failure(
-        errorMessage:
-            'Cannot connect to the server, check your internet connection and try again',
-      );
+      return CustomResponse.errorConnectingToServer();
     } catch (e) {
       return CustomResponse.failure(
         errorMessage: 'An error occurred \n $e',
@@ -71,22 +68,24 @@ class ParseServer {
     };
 
     if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
-      final response = await function
-          .execute(parameters: params)
-          .timeout(const Duration(seconds: 30), onTimeout: () {
-        return ParseResponse();
-      });
-      if (response.success) {
-        return response.result is String
-            ? CustomResponse.success(
-                result: UserRole.values.byName(response.result as String),
-              )
-            : CustomResponse.failure(
-                errorMessage:
-                    'expected a String for UserRole but got ${response.result.runtimeType}',
-              );
-      } else {
-        return CustomResponse.failure(errorMessage: response.error!.message);
+      try {
+        final response = await function
+            .execute(parameters: params)
+            .timeout(const Duration(seconds: 30));
+        if (response.success) {
+          return response.result is String
+              ? CustomResponse.success(
+                  result: UserRole.values.byName(response.result as String),
+                )
+              : CustomResponse.failure(
+                  errorMessage:
+                      'expected a String for UserRole but got ${response.result.runtimeType}',
+                );
+        } else {
+          return CustomResponse.failure(errorMessage: response.error!.message);
+        }
+      } on TimeoutException {
+        return CustomResponse.errorConnectingToServer();
       }
     } else {
       return CustomResponse.internetConnectionError();
@@ -100,14 +99,20 @@ class ParseServer {
       'email_address': emailAddress
     };
     if ((await Parse().checkConnectivity()) != ParseConnectivityResult.none) {
-      final response = await function.execute(parameters: params);
-      return CustomResponse(
-        success: response.success,
-        result: response.result,
-        error: response.error != null
-            ? CustomError.fromParseError(response.error!)
-            : null,
-      );
+      try {
+        final response = await function
+            .execute(parameters: params)
+            .timeout(const Duration(seconds: 30));
+        return CustomResponse(
+          success: response.success,
+          result: response.result,
+          error: response.error != null
+              ? CustomError.fromParseError(response.error!)
+              : null,
+        );
+      } on TimeoutException {
+        return CustomResponse.errorConnectingToServer();
+      }
     } else {
       return CustomResponse.internetConnectionError();
     }

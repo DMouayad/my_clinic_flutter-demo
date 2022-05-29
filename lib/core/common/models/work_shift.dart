@@ -1,16 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:clinic_v2/core/common/helpers/time_of_day_json_helper.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import 'package:clinic_v2/core/common/helpers/time_of_day_json_helper.dart';
-
-class WorkShift {
+class WorkShift extends Equatable {
   final TimeOfDay start;
   final TimeOfDay end;
   final List<int> days;
 
-  WorkShift({
+  const WorkShift({
     required this.start,
     required this.end,
     required this.days,
@@ -28,18 +27,22 @@ class WorkShift {
     return DateTime(now.year, now.month, now.day, end.hour, end.minute);
   }
 
+  Duration get duration {
+    return endDateTime.difference(startDateTime);
+  }
+
   Map<String, dynamic> toMap() {
     return {
-      'start': TimeOfDayJsonHelper.toJson(start),
-      'end': TimeOfDayJsonHelper.toJson(end),
+      'start': TimeOfDayHelper.toJson(start),
+      'end': TimeOfDayHelper.toJson(end),
       'days': days,
     };
   }
 
   factory WorkShift.fromMap(Map<String, dynamic> map) {
     return WorkShift(
-      start: TimeOfDayJsonHelper.fromJson(map['start']),
-      end: TimeOfDayJsonHelper.fromJson(map['end']),
+      start: TimeOfDayHelper.fromJson(map['start']),
+      end: TimeOfDayHelper.fromJson(map['end']),
       days: List<int>.from(map['days']),
     );
   }
@@ -48,19 +51,6 @@ class WorkShift {
 
   factory WorkShift.fromJson(String source) =>
       WorkShift.fromMap(json.decode(source));
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is WorkShift &&
-        other.start == start &&
-        other.end == end &&
-        listEquals(other.days, days);
-  }
-
-  @override
-  int get hashCode => start.hashCode ^ end.hashCode ^ days.hashCode;
 
   WorkShift copyWith({
     TimeOfDay? start,
@@ -76,4 +66,21 @@ class WorkShift {
 
   @override
   String toString() => 'WorkShift(start: $start, end: $end, days: $days)';
+
+  @override
+  List<Object?> get props => [start, end, days];
 }
+/*
+mixin _WorkShiftHelperFunctions on WorkShift {
+
+  List<WorkShift> splitIntoTwoShifts(){
+    final int newShiftsWorkDays = (days.length /2).r;
+    List<int> firstShiftDays=days.getRange(0, shiftWorkDaysNumber/2);
+    List<int> secondShiftDays=[];
+
+
+   return [
+     WorkShift(start: start.hour, end: end, days: days.removeRange(0, end))
+   ]
+  }
+}*/

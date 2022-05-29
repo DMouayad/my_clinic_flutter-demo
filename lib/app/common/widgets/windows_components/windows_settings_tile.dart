@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
-class WindowsSettingTile extends Component {
+class WindowsSettingTile extends ResponsiveStatelessWidget {
   const WindowsSettingTile({
     Key? key,
     required this.tileLabel,
@@ -18,7 +18,7 @@ class WindowsSettingTile extends Component {
   final String titleText;
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return InfoLabel(
       labelStyle: context.textTheme.titleMedium?.copyWith(
         color: context.colorScheme.onBackground,

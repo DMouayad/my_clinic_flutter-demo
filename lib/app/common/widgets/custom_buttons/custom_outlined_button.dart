@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class CustomOutlinedButton extends Component {
+class CustomOutlinedButton extends ResponsiveStatelessWidget {
   const CustomOutlinedButton({
     Key? key,
     required this.label,

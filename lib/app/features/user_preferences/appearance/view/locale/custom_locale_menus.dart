@@ -1,4 +1,4 @@
-part of 'locale_menu.dart';
+part of 'adaptive_locale_menu.dart';
 
 class _WindowsLocaleMenu extends StatelessWidget {
   const _WindowsLocaleMenu(this.type, {Key? key}) : super(key: key);

@@ -28,6 +28,7 @@ void main() async {
   await windowManager.setMinimumSize(const Size(560, 700));
   final parseAuthRepository = ParseAuthRepository();
   //
+
   final storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory

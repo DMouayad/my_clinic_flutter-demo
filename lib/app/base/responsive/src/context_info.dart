@@ -31,7 +31,7 @@ class ContextInfo {
   bool get isMobilePlatform => context.isMobilePlatform;
 
   bool get isDesktopPlatform => context.isDesktopPlatform;
-
+  bool get isLTR => !context.isArabicLocale;
   @override
   String toString() {
     return 'ContextInfo(orientation: $orientation, deviceTypeByScreen: $deviceTypeByScreen,'

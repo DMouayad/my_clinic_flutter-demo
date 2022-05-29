@@ -3,7 +3,7 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 const buttonHight = 40;
 
-class CustomFilledButton extends Component {
+class CustomFilledButton extends ResponsiveStatelessWidget {
   const CustomFilledButton({
     Key? key,
     required this.label,
@@ -23,7 +23,7 @@ class CustomFilledButton extends Component {
   final bool fillHeight;
   final bool fillWidth;
   @override
-  Widget windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return SizedBox(
       height: fillHeight ? contextInfo.widgetSize!.height : null,
       width: fillWidth ? contextInfo.widgetSize!.width : null,
@@ -49,7 +49,7 @@ class CustomFilledButton extends Component {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return TextButton.icon(
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(const Size.fromHeight(40)),

@@ -1,15 +1,16 @@
 //
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/locale/locale_menu.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/theme/theme_mode_switch.dart';
 
-class AppearanceSettingsScreen extends Component {
+import 'locale/adaptive_locale_menu.dart';
+import 'theme/adaptive_theme_switch.dart';
+
+class AppearanceSettingsScreen extends ResponsiveStatelessWidget {
   const AppearanceSettingsScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Material(
       color: context.colorScheme.backgroundColor,
       child: Padding(
@@ -18,11 +19,11 @@ class AppearanceSettingsScreen extends Component {
           constraints: BoxConstraints.loose(contextInfo.widgetSize!),
           child: Column(
             children: const [
-              ThemeModeSwitch(
+              AdaptiveThemeSwitch(
                 ThemeModeSwitchType.tile,
               ),
               Divider(),
-              LocaleDropDownMenu(LocaleDropDownMenuType.tileWithMenu),
+              AdaptiveLocaleMenu(LocaleDropDownMenuType.tileWithMenu),
             ],
           ),
         ),

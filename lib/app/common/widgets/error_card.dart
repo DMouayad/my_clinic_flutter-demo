@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class ErrorCard extends Component {
+class ErrorCard extends ResponsiveStatelessWidget {
   const ErrorCard({
     required this.errorText,
     this.errorIcon,
@@ -35,7 +35,7 @@ class ErrorCard extends Component {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return SizedBox(
       width: _getCardWidth(contextInfo.widgetSize!.width),
       height: 55,

@@ -4,11 +4,11 @@ import 'package:clinic_v2/app/common/widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/features/auth/login/view/components/login_form.dart';
 import 'package:clinic_v2/app/features/auth/login/view/components/login_message.dart';
 
-class LoginScreen extends ResponsiveScreen {
+class LoginScreen extends ResponsiveStatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
       showLeading: false,
       title: AppNameText(

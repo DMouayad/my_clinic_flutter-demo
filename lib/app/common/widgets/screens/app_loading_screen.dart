@@ -1,13 +1,13 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets//app_name_text.dart';
-import 'package:clinic_v2/app/common/widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/common/widgets//loading_indicator.dart';
+import 'package:clinic_v2/app/common/widgets//windows_components/two_sides_screen.dart';
 
-class LoadingAppScreen extends ResponsiveScreen {
+class LoadingAppScreen extends ResponsiveStatelessWidget {
   const LoadingAppScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobileBuilder(context, ContextInfo contextInfo) {
+  Widget mobileScreenBuilder(context, ContextInfo contextInfo) {
     return Scaffold(
       body: Center(
         child: Column(
@@ -29,7 +29,7 @@ class LoadingAppScreen extends ResponsiveScreen {
   }
 
   @override
-  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return WindowsTwoSidesScreen(
       leftSideBlurred: false,
       showInProgressIndicator: false,
@@ -54,7 +54,7 @@ class LoadingAppScreen extends ResponsiveScreen {
   }
 
   @override
-  Widget tabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     return Scaffold(
       body: Flex(
         direction:

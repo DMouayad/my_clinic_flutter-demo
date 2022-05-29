@@ -7,7 +7,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import '../app_name_text.dart';
 import '../appearance_settings_bar.dart';
 
-class WindowsTwoSidesScreen extends ResponsiveScreen {
+class WindowsTwoSidesScreen extends ResponsiveStatelessWidget {
   const WindowsTwoSidesScreen({
     required this.showInProgressIndicator,
     required this.leftSide,
@@ -24,7 +24,7 @@ class WindowsTwoSidesScreen extends ResponsiveScreen {
   final Widget leftSide;
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return TwoSidesScreenLayout(
       leftSideAnimation: leftSideAnimation,
       leftSideBlurred: leftSideBlurred ?? showInProgressIndicator,

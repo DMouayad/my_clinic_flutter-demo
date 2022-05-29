@@ -1,29 +1,54 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
-class CustomDialog extends Component {
+class CustomDialog extends ResponsiveStatelessWidget {
   const CustomDialog({
     required this.titleText,
-    required this.contentText,
+    this.contentText,
     this.actions = const [],
     this.withOkOptionButton = false,
+    this.content,
     Key? key,
   }) : super(key: key);
   final String titleText;
-  final String contentText;
+  final String? contentText;
+  final Widget? content;
   final List<Widget> actions;
   final bool withOkOptionButton;
 
   @override
-  Widget? windowsDesktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
     return fluent_ui.ContentDialog(
-      title: Text(titleText),
-      content: Text(contentText),
+      style: fluent_ui.ContentDialogThemeData(
+        barrierColor: context.colorScheme.backgroundColor,
+        // ac
+      ),
+      title: Text(
+        titleText,
+        style: context.fluentTextTheme.title?.copyWith(
+          color: context.colorScheme.errorColor,
+        ),
+      ),
+      content: () {
+        return content ??
+            ((contentText != null)
+                ? Text(
+                    contentText!,
+                    style: context.textTheme.titleMedium?.copyWith(
+                      // color: context.colorScheme.onPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : null);
+      }(),
       actions: [
         if (withOkOptionButton)
           fluent_ui.FilledButton(
               child: Text(
-                'Done',
+                'Ok',
+                style: context.fluentTextTheme.bodyLarge?.copyWith(
+                  color: context.colorScheme.onPrimary,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -34,7 +59,7 @@ class CustomDialog extends Component {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
-    return AlertDialog();
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+    return const AlertDialog();
   }
 }

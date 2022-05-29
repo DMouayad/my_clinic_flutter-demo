@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/sign_up_components.dart';
 import '../components/account_info_form.dart';
 
-class LargeStepOneSignUpScreen extends ResponsiveScreen {
+class LargeStepOneSignUpScreen extends ResponsiveStatelessWidget {
   const LargeStepOneSignUpScreen({
     Key? key,
     required this.animation,
@@ -18,7 +18,7 @@ class LargeStepOneSignUpScreen extends ResponsiveScreen {
   final Animation<double> animation;
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(
@@ -42,11 +42,11 @@ class LargeStepOneSignUpScreen extends ResponsiveScreen {
   }
 }
 
-class _StepOneLeftSide extends ResponsiveScreen {
+class _StepOneLeftSide extends ResponsiveStatelessWidget {
   const _StepOneLeftSide({Key? key}) : super(key: key);
 
   @override
-  Widget desktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget computerScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     return WindowsNavView.onlyAppBar(
       appBarColor: context.colorScheme.backgroundColor,
       backgroundColor: context.colorScheme.backgroundColor,
@@ -71,7 +71,7 @@ class _StepOneLeftSide extends ResponsiveScreen {
   }
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return ScaffoldWithAppBar(
       showBottomTitle: contextInfo.isTablet,
       title: const SignUpMessage(),

@@ -119,20 +119,22 @@ import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart'
     show DentalService;
 import 'package:clinic_v2/core/common/models/work_shift.dart';
+const kDaysOfWeek = {
+  'sunday': DateTime.sunday,
+  'monday': DateTime.monday,
+  'tuesday': DateTime.tuesday,
+  'wednesday': DateTime.wednesday,
+  'thursday': DateTime.thursday,
+  'friday': DateTime.friday,
+  'saturday': DateTime.saturday,
 
+};
 final kDefaultWorkShifts = [
   WorkShift(
     start: const TimeOfDay(hour: 10, minute: 0),
     end: const TimeOfDay(hour: 20, minute: 0),
-    days: [
-      DateTime.saturday,
-      DateTime.sunday,
-      DateTime.monday,
-      DateTime.tuesday,
-      DateTime.wednesday,
-      DateTime.thursday,
-    ],
-  )
+    days: kDaysOfWeek.values.toList(),
+  ),
 ];
 final kDefaultDentalDentalServices = [
   DentalService(

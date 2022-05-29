@@ -1,22 +1,24 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_filled_button.dart';
-import 'package:clinic_v2/app/features/auth/sign_up/step_two_sign_up/components/user_preferences_list_item.dart';
-import 'package:clinic_v2/app/features/user_preferences/dentist_preferences/calendar/calendar_settings_screen.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
-import 'package:flutter_bloc/flutter_bloc.dart';
 //
 
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/widgets//windows_components/custom_nav_view.dart';
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_back_button.dart';
+import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_filled_button.dart';
 import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/appearance_settings.dart';
+import 'package:clinic_v2/app/features/auth/sign_up/step_two_sign_up/components/user_preferences_list_item.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/appearance_settings_screen.dart';
+import 'package:clinic_v2/app/features/user_preferences/dentist_preferences/calendar/bloc/calendar_settings_bloc.dart';
+import 'package:clinic_v2/app/features/user_preferences/dentist_preferences/calendar/view/calendar_settings_screen.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../helpers/dentist_info_helper.dart';
 
 class WindowsStepTwoSignUpScreen extends StatefulWidget {
   const WindowsStepTwoSignUpScreen({Key? key}) : super(key: key);
+
   @override
   State<WindowsStepTwoSignUpScreen> createState() =>
       WindowsStepTwoSignUpScreenState();
@@ -27,6 +29,7 @@ class WindowsStepTwoSignUpScreenState
   int selectedPaneIndex = 0;
   Widget content = const SizedBox.shrink();
   late final DentistSetupHelper _dentistSetupHelper;
+
   @override
   void initState() {
     _dentistSetupHelper = DentistSetupHelper();
@@ -34,7 +37,7 @@ class WindowsStepTwoSignUpScreenState
   }
 
   @override
-  Widget? builder(BuildContext context, ContextInfo contextInfo) {
+  Widget? defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     final bool showDentalServicesTile =
         (context.read<SignUpCubit>().state as SignUpStepTwo).serverUser.role ==
             UserRole.dentist;
@@ -60,7 +63,7 @@ class WindowsStepTwoSignUpScreenState
       ),
       child: WindowsNavView.raw(
         backgroundColor: context.colorScheme.surface,
-        appBar: contextInfo.isMobile
+        appBar: contextInfo.isMobile || contextInfo.isPortraitTablet
             ? fluent_ui.NavigationAppBar(
                 title: Text(
                   AppLocalizations.of(context)!.signUpScreenMessage,
@@ -84,12 +87,20 @@ class WindowsStepTwoSignUpScreenState
         content: fluent_ui.NavigationBody(
           index: selectedPaneIndex,
           children: [
-            CalendarSettingsScreen(
-              currentCalendar: _dentistSetupHelper.calendar,
-              onCalendarUpdated: (newCal) {
-                _dentistSetupHelper.calendar = newCal;
-                print(_dentistSetupHelper.calendar);
-              },
+            BlocProvider(
+              create: (context) =>
+                  CalendarSettingsBloc(_dentistSetupHelper.calendar),
+              child: BlocListener<CalendarSettingsBloc, CalendarSettingsState>(
+                listener: (context, state) {
+                  if (state is CalendarSettingsStateChanged) {
+                    print(state.calendar);
+                    _dentistSetupHelper.calendar = state.calendar;
+                  }
+                },
+                child: Builder(builder: (context) {
+                  return const CalendarSettingsScreen();
+                }),
+              ),
             ),
             const AppearanceSettingsScreen(),
             if (showDentalServicesTile) fluent_ui.Container(),
@@ -109,7 +120,7 @@ class WindowsStepTwoSignUpScreenState
       indicator: fluent_ui.StickyNavigationIndicator(
         color: context.colorScheme.primary,
       ),
-      displayMode: contextInfo.isMobile
+      displayMode: contextInfo.isMobile || contextInfo.isPortraitTablet
           ? fluent_ui.PaneDisplayMode.compact
           : fluent_ui.PaneDisplayMode.open,
       // leading: const CustomBackButton(),
@@ -145,7 +156,7 @@ class WindowsStepTwoSignUpScreenState
                     if (states.isHovering) {
                       return context.isDarkMode
                           ? Colors.white10
-                          : Colors.black12;
+                          : context.colorScheme.primaryContainer;
                     }
                     return Colors.transparent;
                   }),
@@ -163,10 +174,9 @@ class WindowsStepTwoSignUpScreenState
                 ))
             .toList()
       ],
-      footerItems: !contextInfo.isMobile
+      footerItems: (contextInfo.isDesktop || contextInfo.isLandScapeTablet)
           ? [
               _CustomPaneButton(
-                context: context,
                 title: Text(
                   'Complete sign up',
                   style: context.textTheme.titleMedium?.copyWith(
@@ -174,12 +184,7 @@ class WindowsStepTwoSignUpScreenState
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                icon: Icon(
-                  Icons.done,
-                  size: 22,
-                  color: context.colorScheme.onPrimary,
-                ),
-                onTap: () {},
+                onPressed: () {},
               )
             ]
           : [],
@@ -193,7 +198,7 @@ class _StepTwoSignUoMessage extends fluent_ui.PaneItemHeader {
   @override
   Widget build(BuildContext context) {
     return fluent_ui.Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: Text(
         'Configure your app settings and calendar.',
         style: context.fluentTextTheme.bodyLarge,
@@ -210,9 +215,9 @@ class _PaneSignUpStepsIndicator extends fluent_ui.PaneItemHeader {
   fluent_ui.Widget build(fluent_ui.BuildContext context) {
     return Card(
       color: context.colorScheme.primaryContainer,
-      elevation: 1,
+      elevation: .3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
       child: fluent_ui.Center(
         child: fluent_ui.Padding(
           padding: const EdgeInsets.all(6.0),
@@ -229,27 +234,25 @@ class _PaneSignUpStepsIndicator extends fluent_ui.PaneItemHeader {
   }
 }
 
-class _CustomPaneButton extends fluent_ui.PaneItem {
-  final void Function() onTap;
-  _CustomPaneButton({
-    required BuildContext context,
-    required Widget icon,
-    required Widget title,
-    required this.onTap,
-  }) : super(
-          icon: icon,
+class _CustomPaneButton extends fluent_ui.PaneItemAction {
+  _CustomPaneButton(
+      {required fluent_ui.Widget title,
+      required fluent_ui.VoidCallback onPressed})
+      : super(
           title: title,
-          tileColor: fluent_ui.ButtonState.resolveWith(
-              (states) => context.colorScheme.primary),
+          icon: const SizedBox.shrink(),
+          onTap: onPressed,
         );
+
   @override
-  fluent_ui.Widget build(
-    fluent_ui.BuildContext context,
+  Widget build(
+    BuildContext context,
     bool selected,
-    fluent_ui.VoidCallback? onPressed, {
+    VoidCallback? onPressed, {
     fluent_ui.PaneDisplayMode? displayMode,
     bool showTextOnTop = true,
     bool? autofocus,
+    int index = -1,
   }) {
     return fluent_ui.SizedBox(
       height: 50,

@@ -1,11 +1,13 @@
-import 'package:clinic_v2/core/features/users/domain/src/repositories/base_user_repository.dart';
-import 'package:flutter/material.dart';
-//
-import 'package:clinic_v2/core/common/models/custom_error.dart';
 //
 import 'package:bloc/bloc.dart';
+//
+import 'package:clinic_v2/core/common/models/custom_error.dart';
+import 'package:clinic_v2/core/features/users/domain/src/repositories/base_user_repository.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
 import 'events_handler.dart';
+
 //
 part 'user_event.dart';
 part 'user_state.dart';
@@ -21,7 +23,6 @@ class UserBloc<E extends UserEvent, S extends UserState>
   }) : super(initState) {
     _userRepository = userRepository;
     _eventsHandler = AppUserBlocEventsHandler(_userRepository);
-
     on<UserLocaleRequested>(
       (event, emit) => emit(_eventsHandler.getSelectedLocaleState()),
     );

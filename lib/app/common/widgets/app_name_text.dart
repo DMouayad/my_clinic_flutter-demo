@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class AppNameText extends Component {
+class AppNameText extends ResponsiveStatelessWidget {
   const AppNameText({
     Key? key,
     this.fontSize,
@@ -11,7 +11,7 @@ class AppNameText extends Component {
   final Color? fontColor;
   final FontWeight? fontWeight;
   @override
-  Widget builder(context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Text(
       AppLocalizations.of(context)!.clinic,
       style: context.textTheme.headline6?.copyWith(

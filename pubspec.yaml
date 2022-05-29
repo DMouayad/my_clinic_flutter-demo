@@ -16,6 +16,7 @@ dependencies:
   auto_size_text: ^3.0.0
   # bitsdojo_window: ^0.1.1
   cupertino_icons: ^1.0.2
+  time_range_picker: ^2.1.0
   dartz: ^0.10.1
   dot_navigation_bar: null
   equatable: null

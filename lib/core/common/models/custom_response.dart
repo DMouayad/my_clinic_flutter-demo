@@ -32,11 +32,25 @@ class CustomResponse<T> {
     );
   }
 
-  factory CustomResponse.internetConnectionError({String? errorMessage}) {
+  factory CustomResponse.errorConnectingToServer({
+    String errorMessage =
+        'Cannot connect to the server, check your internet connection and try again',
+  }) {
     return CustomResponse(
       success: false,
       error: CustomError(
-        message: errorMessage ?? 'No internet connection found!',
+        message: errorMessage,
+        code: ErrorCode.errorConnectingToServer.name,
+      ),
+    );
+  }
+  factory CustomResponse.internetConnectionError({
+    String errorMessage = 'No internet connection found!',
+  }) {
+    return CustomResponse(
+      success: false,
+      error: CustomError(
+        message: errorMessage,
         code: ErrorCode.connectionNotFound.name,
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class CustomElevatedButton extends Component {
+class CustomElevatedButton extends ResponsiveStatelessWidget {
   const CustomElevatedButton({
     Key? key,
     required this.label,

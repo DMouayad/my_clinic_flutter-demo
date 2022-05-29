@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class SignUpStepIndicator extends Component {
+class SignUpStepIndicator extends ResponsiveStatelessWidget {
   final String title;
   const SignUpStepIndicator({
     Key? key,
@@ -11,7 +11,7 @@ class SignUpStepIndicator extends Component {
   final EdgeInsets? padding;
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return
         // SizedBox(
         //   width: contextInfo.widgetSize!.width * .4,
@@ -79,11 +79,11 @@ class SignUpStepIndicator extends Component {
   }
 }
 
-class SignUpMessage extends Component {
+class SignUpMessage extends ResponsiveStatelessWidget {
   const SignUpMessage({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Text(
       AppLocalizations.of(context)!.signUpScreenMessage,
       textAlign: TextAlign.start,

@@ -5,7 +5,7 @@ import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_back_button.d
 import 'color_barrier.dart';
 import 'loading_indicator.dart';
 
-class ScaffoldWithAppBar extends Component {
+class ScaffoldWithAppBar extends ResponsiveStatelessWidget {
   const ScaffoldWithAppBar({
     this.showLeading = true,
     this.centerTitle = false,
@@ -51,7 +51,7 @@ class ScaffoldWithAppBar extends Component {
   /// progress indicator in the center
   final bool showLoadingIndicator;
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Stack(
       alignment: Alignment.center,
       children: [

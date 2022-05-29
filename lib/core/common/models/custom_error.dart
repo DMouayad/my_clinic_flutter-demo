@@ -19,4 +19,5 @@ class CustomError {
 
 enum ErrorCode {
   connectionNotFound,
+  errorConnectingToServer,
 }

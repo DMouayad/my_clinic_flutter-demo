@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class SimpleCard extends Component {
+class SimpleCard extends ResponsiveStatelessWidget {
   const SimpleCard({
     required this.child,
     this.padding,
@@ -11,7 +11,7 @@ class SimpleCard extends Component {
   final EdgeInsets? padding;
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,

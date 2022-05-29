@@ -1,5 +1,5 @@
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/locale/locale_menu.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/view/components/theme/theme_mode_switch.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/locale/adaptive_locale_menu.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/view/theme/adaptive_theme_switch.dart';
 import 'package:flutter/material.dart';
 
 class AppearanceSettingsBar extends StatelessWidget {
@@ -21,9 +21,9 @@ class AppearanceSettingsBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: const [
-            LocaleDropDownMenu(LocaleDropDownMenuType.menuOnly),
+            AdaptiveLocaleMenu(LocaleDropDownMenuType.menuOnly),
             SizedBox(width: 8),
-            ThemeModeSwitch(
+            AdaptiveThemeSwitch(
               ThemeModeSwitchType.icon,
             ),
           ],

@@ -41,6 +41,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
                 if (value?.isEmpty ?? false) {
                   return AppLocalizations.of(context)?.fieldIsRequired;
                 }
+                return null;
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
               hintText: AppLocalizations.of(context)?.username,
@@ -57,6 +58,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
                 if (value?.isEmpty ?? false) {
                   return AppLocalizations.of(context)?.fieldIsRequired;
                 }
+                return null;
               },
               hintText: AppLocalizations.of(context)?.email,
               textStyle: context.textTheme.bodyText1?.copyWith(
@@ -72,6 +74,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
                 if (password?.isEmpty ?? true) {
                   return AppLocalizations.of(context)?.fieldIsRequired;
                 }
+                return null;
               },
               hintText: AppLocalizations.of(context)?.password,
               textStyle: context.textTheme.bodyText1?.copyWith(

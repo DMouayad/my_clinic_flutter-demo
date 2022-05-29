@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:equatable/equatable.dart';
 
 import 'work_shift.dart';
 
-class DentistCalendar {
+class DentistCalendar extends Equatable {
   final List<WorkShift> workShifts;
-  DentistCalendar({required this.workShifts});
+  const DentistCalendar({required this.workShifts});
 
   bool get allDaysHaveSameWorkShift => workShifts.length == 1;
 
@@ -31,9 +31,6 @@ class DentistCalendar {
   @override
   String toString() => 'DentistCalendar(workShifts: $workShifts)';
 
-  @override
-  int get hashCode => workShifts.hashCode;
-
   factory DentistCalendar.fromMap(Map<String, dynamic> map) {
     return DentistCalendar(
       workShifts: List<WorkShift>.from(
@@ -47,12 +44,12 @@ class DentistCalendar {
   factory DentistCalendar.fromJson(String source) =>
       DentistCalendar.fromMap(json.decode(source));
 
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is DentistCalendar && listEquals(other.workShifts, workShifts);
-  }
+  // @override
+  // bool operator ==(Object other) {
+  //   if (identical(this, other)) return true;
+  //
+  //   return other is DentistCalendar && listEquals(other.workShifts, workShifts);
+  // }
 
   DentistCalendar copyWith({
     List<WorkShift>? workShifts,
@@ -61,6 +58,9 @@ class DentistCalendar {
       workShifts: workShifts ?? this.workShifts,
     );
   }
+
+  @override
+  List<Object?> get props => [workShifts];
 }
 
 const _weekDays = [

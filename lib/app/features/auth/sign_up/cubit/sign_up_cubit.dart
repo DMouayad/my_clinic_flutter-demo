@@ -1,5 +1,6 @@
 import 'package:clinic_v2/core/common/helpers/parse_server.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
+import 'package:clinic_v2/core/common/models/custom_response.dart';
 import 'package:clinic_v2/core/common/utilities/enums.dart';
 import 'package:clinic_v2/core/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
@@ -21,29 +22,26 @@ class SignUpCubit extends Cubit<SignUpState> {
   }) async {
     // check if provided email address is approved by CLINIC's admin.
 
-    final isValid = await _validateUserEmail(emailAddress);
-    if (isValid) {
-      _proceedToSignUpStepTwo(
-        emailAddress: emailAddress,
-        username: username,
-        password: password,
-      );
+    final validationResponse = await _validateUserEmail(emailAddress);
+    if (validationResponse.success) {
+      final isValid = validationResponse.result ?? false;
+      if (isValid) {
+        _proceedToSignUpStepTwo(
+          emailAddress: emailAddress,
+          username: username,
+          password: password,
+        );
+      } else {
+        emit(SignUpEmailIsNotValid());
+      }
     } else {
-      emit(SignUpEmailIsNotValid());
+      emit(SignUpError(validationResponse.error!));
     }
   }
 
-  Future<bool> _validateUserEmail(String emailAddress) async {
+  Future<CustomResponse<bool>> _validateUserEmail(String emailAddress) async {
     emit(SignUpInProgress());
-    final validationResponse =
-        await ParseServer.checkIfEmailAddressIsValid(emailAddress);
-
-    if (validationResponse.success) {
-      return validationResponse.result ?? false;
-    } else {
-      emit(SignUpError(validationResponse.error!));
-      return false;
-    }
+    return await ParseServer.checkIfEmailAddressIsValid(emailAddress);
   }
 
   Future<void> _proceedToSignUpStepTwo({

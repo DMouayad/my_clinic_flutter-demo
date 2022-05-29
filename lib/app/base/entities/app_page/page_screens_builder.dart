@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class PageScreensBuilder extends Component {
+class PageScreensBuilder extends ResponsiveStatelessWidget {
   const PageScreensBuilder({
     this.desktopScreen,
     this.tabletScreen,
@@ -19,7 +19,7 @@ class PageScreensBuilder extends Component {
   final Widget? wideScreen;
 
   @override
-  Widget? builder(BuildContext context, contextInfo) {
+  Widget? defaultBuilder(BuildContext context, contextInfo) {
     if (defaultScreen != null) {
       return defaultScreen!;
     }
@@ -27,7 +27,7 @@ class PageScreensBuilder extends Component {
   }
 
   @override
-  Widget? mobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? mobileScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     if (mobileScreen != null) {
       return mobileScreen!;
     }
@@ -35,7 +35,7 @@ class PageScreensBuilder extends Component {
   }
 
   @override
-  Widget? tabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     if (tabletScreen != null) {
       return tabletScreen!;
     } else if (wideScreen != null) {
@@ -45,7 +45,7 @@ class PageScreensBuilder extends Component {
   }
 
   @override
-  Widget? desktopBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? computerScreenBuilder(BuildContext context, ContextInfo contextInfo) {
     if (desktopScreen != null) {
       return desktopScreen!;
     } else if (wideScreen != null) {

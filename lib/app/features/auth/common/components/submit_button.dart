@@ -1,10 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/base/responsive/responsive.dart'
-    show BuildContext, Component, ContextThemeExtensions;
+    show BuildContext, ResponsiveStatelessWidget, ContextThemeExtensions;
 import 'package:clinic_v2/app/common/widgets/custom_buttons/custom_elevated_button.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
-class SubmitButton extends Component {
+class SubmitButton extends ResponsiveStatelessWidget {
   final void Function() onPressed;
   final String text;
   final IconData iconData;
@@ -21,7 +21,7 @@ class SubmitButton extends Component {
   }) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, contextInfo) {
+  Widget defaultBuilder(BuildContext context, contextInfo) {
     return SizedBox(
       width: expandInWidth
           ? contextInfo.widgetSize!.width
@@ -61,13 +61,15 @@ class SubmitButton extends Component {
 
                   backgroundColor: ButtonState.resolveWith((states) {
                     if (states.isHovering) {
-                      return context.fluentTheme.accentColor.normal;
+                      return context.fluentTheme.accentColor.lighter;
+
+                      // return context.fluentTheme.accentColor.normal;
                       // return context.fluentTheme.accentColor.dark
                       //     .withOpacity(.6);
                     } else if (states.isPressing) {
                       return context.fluentTheme.accentColor.normal;
                     } else {
-                      return context.fluentTheme.accentColor.lighter;
+                      return context.fluentTheme.accentColor.normal;
                     }
                   }),
                 ),

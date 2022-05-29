@@ -1,25 +1,26 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:clinic_v2/app/common/widgets//app_name_text.dart';
 //
 import 'package:clinic_v2/app/common/widgets//error_card.dart';
+import 'package:clinic_v2/app/common/widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/common/widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
-import 'package:clinic_v2/app/common/widgets//scaffold_with_appbar.dart';
-import 'package:clinic_v2/app/common/widgets//app_name_text.dart';
 import 'package:clinic_v2/core/common/models/custom_error.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../base/responsive/responsive.dart';
 
-class ErrorStartingAppScreen extends ResponsiveScreen {
+class ErrorStartingAppScreen extends ResponsiveStatelessWidget {
   final CustomError error;
   const ErrorStartingAppScreen(this.error, {Key? key}) : super(key: key);
 
   @override
-  Widget desktopBuilder(context, ContextInfo contextInfo) {
+  Widget computerScreenBuilder(context, ContextInfo contextInfo) {
     return _largeErrorScreen(context, contextInfo);
   }
 
   @override
-  Widget? tabletBuilder(context, ContextInfo contextInfo) {
+  Widget? tabletScreenBuilder(context, ContextInfo contextInfo) {
     if (contextInfo.isLandScapeTablet) {
       return _largeErrorScreen(context, contextInfo);
     }
@@ -27,7 +28,7 @@ class ErrorStartingAppScreen extends ResponsiveScreen {
   }
 
   @override
-  Widget mobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     final error = (context.read<StartupCubit>().state as StartupFailure).error;
     return ScaffoldWithAppBar(
       appBarBackgroundColor: Colors.transparent,

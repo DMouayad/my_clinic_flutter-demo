@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/base/responsive/responsive.dart';
 
-class DoneButton extends Component {
+class DoneButton extends ResponsiveStatelessWidget {
   const DoneButton({
     this.label,
     this.onPressed,
@@ -11,7 +11,7 @@ class DoneButton extends Component {
   final void Function()? onPressed;
 
   @override
-  Widget builder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return Container(
       color: context.theme.scaffoldBackgroundColor.withOpacity(.9),
       padding: const EdgeInsets.all(10.0),
