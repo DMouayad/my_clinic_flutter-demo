@@ -1,25 +1,21 @@
 import 'dart:io';
+
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
-import 'package:clinic_v2/app/common/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
-import 'package:clinic_v2/app/infrastructure/navigation/app_router.dart';
-import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+//
+//
+import 'package:clinic_v2/app/themes/material_themes.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 //
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-//
-//
-import 'package:clinic_v2/app/infrastructure/themes/material_themes.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'app/features/auth/auth_cubit/auth_cubit.dart';
-import 'app/infrastructure/themes/fluent_themes.dart';
-import 'core/features/authentication/data/auth_data.dart';
+import 'lib2/app/features/auth/auth_cubit/auth_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +37,6 @@ void main() async {
         ClinicApp(
           AppearancePreferencesCubit(),
           AuthCubit(parseAuthRepository),
-          parseAuthRepository,
         ),
       );
       // doWhenWindowReady(() {
@@ -59,36 +54,27 @@ void main() async {
 class ClinicApp extends StatelessWidget {
   const ClinicApp(
     this._preferencesCubit,
-    this._authCubit,
-    this._authRepository, {
+    this._authCubit, {
     Key? key,
     this.home,
   }) : super(key: key);
 
   final AppearancePreferencesCubit _preferencesCubit;
   final AuthCubit _authCubit;
-  final BaseAuthRepository _authRepository;
 
   /// ### used only for testing purposes
   final Widget? home;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authRepository,
-      child: Builder(
-        builder: (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: _preferencesCubit),
-              BlocProvider.value(value: _authCubit),
-            ],
-            child: context.isWindowsPlatform
-                ? _WindowsApp(home: home)
-                : _AndroidApp(home: home),
-          );
-        },
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => _preferencesCubit),
+        BlocProvider(create: (_) => _authCubit),
+      ],
+      child: context.isWindowsPlatform
+          ? _WindowsApp(home: home)
+          : _AndroidApp(home: home),
     );
   }
 }

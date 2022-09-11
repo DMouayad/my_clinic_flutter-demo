@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
-import 'package:clinic_v2/core/common/models/custom_error.dart';
-import 'package:clinic_v2/core/common/models/custom_response.dart';
+import 'package:clinic_v2/common/common/entities/custom_error.dart';
+import 'package:clinic_v2/common/common/entities/custom_response.dart';
 import 'package:mockito/mockito.dart';
 
 void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
@@ -12,11 +12,11 @@ void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
     ),
   );
   when(startupCubit.initServerConnection())
-      .thenAnswer((_) async => const CustomResponse(success: true));
+      .thenAnswer((_) async => const SuccessResult: true));
 }
 
 void setupStartupCubitForStartupFailure(
-    StartupCubit startupCubit, CustomError startupError,
+    StartupCubit startupCubit, ErrorResult startupError,
     {bool withRetryThenSuccess = false}) {
   if (withRetryThenSuccess) {
     when(startupCubit.stream).thenAnswer(
@@ -45,7 +45,7 @@ void setupStartupCubitForStartupFailure(
     );
     when(startupCubit.initServerConnection()).thenAnswer(
       (_) async {
-        CustomResponse(success: false, error: startupError);
+        SuccessResult: false, error: startupError);
       },
     );
   }

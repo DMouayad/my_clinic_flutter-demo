@@ -1,8 +1,9 @@
-import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
-import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/common/features/authentication/domain/auth_domain.dart';
 import 'package:clinic_v2/main.dart';
+
 import '../app/features/auth/auth_cubit_test.mocks.dart';
 
 ClinicApp getClinicAppForTest({

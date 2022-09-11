@@ -1,4 +1,4 @@
-import 'package:clinic_v2/core/common/models/custom_response.dart';
+import 'package:clinic_v2/common/common/entities/custom_response.dart';
 import 'package:mockito/mockito.dart';
 
 import 'auth_cubit_test.mocks.dart';
@@ -8,7 +8,7 @@ void setupMockedAuthRepoWithLoggedInUser(
 ) {
   when(authRepository.init()).thenAnswer((_) async => true);
   when(authRepository.loadCurrentUser())
-      .thenAnswer((_) async => CustomResponse.success());
+      .thenAnswer((_) async => SuccessResult());
   when(authRepository.hasLoggedInUser()).thenReturn(true);
 }
 
@@ -17,6 +17,6 @@ void setupMockedAuthRepoWithNoLoggedInUser(
 ) {
   when(authRepository.init()).thenAnswer((_) async => true);
   when(authRepository.loadCurrentUser())
-      .thenAnswer((_) async => CustomResponse.success());
+      .thenAnswer((_) async => SuccessResult());
   when(authRepository.hasLoggedInUser()).thenReturn(false);
 }

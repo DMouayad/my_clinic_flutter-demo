@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
-import 'package:clinic_v2/core/common/models/custom_error.dart';
+import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -9,7 +9,7 @@ import 'startup_cubit_test_helpers.dart';
 
 @GenerateMocks([StartupCubit])
 void main() {
-  final connectionError = CustomError(
+  final connectionError = ErrorResult(
     message: 'No internet connection found!',
     code: ErrorCode.connectionNotFound.name,
   );

@@ -5,7 +5,7 @@ import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
 import 'package:clinic_v2/app/features/startup/view/widgets/error_screen.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
-import 'package:clinic_v2/core/common/models/custom_error.dart';
+import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +18,7 @@ import '../cubit/startup_cubit_test.mocks.dart';
 import '../cubit/startup_cubit_test_helpers.dart';
 
 void main() {
-  final connectionError = CustomError(
+  final connectionError = ErrorResult(
     message: 'No internet connection found!',
   );
   group('StartupScreen tests', () {

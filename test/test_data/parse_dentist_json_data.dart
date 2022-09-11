@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:clinic_v2/core/common/models/dentist_calendar.dart';
-import 'package:clinic_v2/core/common/models/work_shift.dart';
-import 'package:clinic_v2/core/common/utilities/enums.dart';
-import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
+import 'package:clinic_v2/common/common/entities/dentist_calendar.dart';
+import 'package:clinic_v2/common/common/entities/work_shift.dart';
+import 'package:clinic_v2/common/common/utilities/enums.dart';
+import 'package:clinic_v2/common/features/users/data/dentist_data.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
@@ -25,7 +25,7 @@ final Map<String, dynamic> parseDentistTestJson = {
   'is_logged_in': true,
   'selected_locale': 'en',
   'selected_theme': 0,
-  'user_calendar':
+  'calendar':
       '{"calendarWorkDays":[{"day":7,"workHours":[{"hour":10,"minute":0}]}]}'
 };
 
@@ -47,7 +47,7 @@ ParseDentist get tDentistInstance {
     selectedLocale: const Locale('en'),
     selectedThemeMode: ThemeMode.system,
     isLoggedIn: true,
-    userCalendar: DentistCalendar(
+    calendar: WorkSchedule(
       workShifts: [
         WorkShift(
             start: const TimeOfDay(hour: 10, minute: 0),

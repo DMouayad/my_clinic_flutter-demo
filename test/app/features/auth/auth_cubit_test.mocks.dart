@@ -4,11 +4,11 @@
 
 import 'dart:async' as _i5;
 
-import 'package:clinic_v2/core/common/models/custom_response.dart' as _i2;
-import 'package:clinic_v2/core/common/utilities/enums.dart' as _i6;
-import 'package:clinic_v2/core/features/authentication/domain/auth_domain.dart'
+import 'package:clinic_v2/common/common/entities/custom_response.dart' as _i2;
+import 'package:clinic_v2/common/common/utilities/enums.dart' as _i6;
+import 'package:clinic_v2/common/features/authentication/domain/auth_domain.dart'
     as _i4;
-import 'package:clinic_v2/core/features/users/domain/src/entities/base_server_user.dart'
+import 'package:clinic_v2/common/features/users/domain/src/entities/base_server_user.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -21,8 +21,7 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeCustomResponse_0<T> extends _i1.Fake
-    implements _i2.CustomResponse<T> {}
+class _FakeCustomResponse_0<T> extends _i1.Fake implements _i2.Result<T> {}
 
 /// A class which mocks [BaseAuthRepository].
 ///
@@ -41,39 +40,38 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
   _i5.Future<bool> init() => (super.noSuchMethod(Invocation.method(#init, []),
       returnValue: Future<bool>.value(false)) as _i5.Future<bool>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> loadCurrentUser() =>
+  _i5.Future<_i2.Result<_i2.None>> loadCurrentUser() =>
       (super.noSuchMethod(Invocation.method(#loadCurrentUser, []),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
   @override
   bool hasLoggedInUser() =>
       (super.noSuchMethod(Invocation.method(#hasLoggedInUser, []),
           returnValue: false) as bool);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> resetUserPassword(
-          String? emailAddress) =>
+  _i5.Future<_i2.Result<_i2.None>> resetUserPassword(String? emailAddress) =>
       (super.noSuchMethod(Invocation.method(#resetUserPassword, [emailAddress]),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> logoutUser() =>
+  _i5.Future<_i2.Result<_i2.None>> logoutUser() =>
       (super.noSuchMethod(Invocation.method(#logoutUser, []),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> login(
+  _i5.Future<_i2.Result<_i2.None>> login(
           {String? username, String? password}) =>
       (super.noSuchMethod(
               Invocation.method(
                   #login, [], {#username: username, #password: password}),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> signUp(
+  _i5.Future<_i2.Result<_i2.None>> signUp(
           {String? emailAddress,
           String? username,
           String? password,
@@ -85,18 +83,18 @@ class MockBaseAuthRepository<T extends _i3.BaseServerUser> extends _i1.Mock
                 #password: password,
                 #role: role
               }),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
   @override
-  _i5.Future<_i2.CustomResponse<_i2.NoResult>> addNewUserInfoByAdmin(
+  _i5.Future<_i2.Result<_i2.None>> addNewUserInfoByAdmin(
           {String? emailAddress, _i6.UserRole? userRole}) =>
       (super.noSuchMethod(
               Invocation.method(#addNewUserInfoByAdmin, [],
                   {#emailAddress: emailAddress, #userRole: userRole}),
-              returnValue: Future<_i2.CustomResponse<_i2.NoResult>>.value(
-                  _FakeCustomResponse_0<_i2.NoResult>()))
-          as _i5.Future<_i2.CustomResponse<_i2.NoResult>>);
+              returnValue: Future<_i2.Result<_i2.None>>.value(
+                  _FakeCustomResponse_0<_i2.None>()))
+          as _i5.Future<_i2.Result<_i2.None>>);
 }
 
 /// A class which mocks [BaseServerUser].

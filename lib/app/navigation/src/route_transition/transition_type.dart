@@ -1,0 +1,16 @@
+enum RouteTransitionType {
+  fade,
+  fadeThrough,
+  slideFromTop,
+  slideFromFromBottom,
+  slideFromLeft,
+  slideFromRight,
+  sharedAxisScaled,
+  sharedAxisVertical,
+  sharedAxisHorizontal,
+  fadeScale,
+  platformDefault,
+  desktopEntrance,
+  desktopDrillIn,
+  none,
+}

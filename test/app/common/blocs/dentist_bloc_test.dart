@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clinic_v2/app/base/responsive/responsive.dart';
 import 'package:clinic_v2/app/common/blocs/app_user_bloc/user_bloc.dart';
 import 'package:clinic_v2/app/common/blocs/dentist_bloc/dentist_bloc.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

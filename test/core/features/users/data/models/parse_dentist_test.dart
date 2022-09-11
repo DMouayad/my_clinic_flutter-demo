@@ -1,4 +1,4 @@
-import 'package:clinic_v2/core/features/users/data/dentist_data.dart';
+import 'package:clinic_v2/common/features/users/data/dentist_data.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../../../../helpers/parse_tests_helpers.dart';
 import '../../../../../test_data/parse_dentist_json_data.dart';
