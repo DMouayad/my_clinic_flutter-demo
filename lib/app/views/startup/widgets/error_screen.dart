@@ -4,13 +4,13 @@ import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/infrastructure/entities/result/base_error.dart';
-import 'package:clinic_v2/infrastructure/entities/result/error_code.dart';
+import 'package:clinic_v2/infrastructure/entities/result/basic_error.dart';
+import 'package:clinic_v2/infrastructure/entities/result/error_exception.dart';
 import 'package:clinic_v2/lib2/app/features/startup/cubit/startup_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ErrorStartingAppScreen extends CustomStatelessWidget {
-  final BaseError error;
+  final BasicError error;
   const ErrorStartingAppScreen(this.error, {Key? key}) : super(key: key);
 
   @override
@@ -50,7 +50,7 @@ class ErrorStartingAppScreen extends CustomStatelessWidget {
   }
 
   Widget _screenContent(
-    BaseError error,
+    BasicError error,
     BuildContext context,
     ContextInfo contextInfo,
   ) {

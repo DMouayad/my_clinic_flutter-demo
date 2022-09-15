@@ -1,19 +1,18 @@
 import 'dart:async';
 
-
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/core/utils/enums.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class ParseCloudFunctionsHelper {
-  static Future<Result<VoidResult, BaseError>> addUserEmailAddressByAdmin({
+  static Future<Result<VoidResult, BasicError>> addUserEmailAddressByAdmin({
     required String emailAddress,
     required UserRole role,
   }) {
     throw UnimplementedError();
   }
 
-  // static Future<Result<UserRole, BaseError>> getUserRole({
+  // static Future<Result<UserRole, BasicError>> getUserRole({
   //   required String emailAddress,
   // }) async {
   //   final ParseCloudFunction function =
@@ -35,7 +34,7 @@ class ParseCloudFunctionsHelper {
   //   );
   // }
 
-  static Future<Result<bool, BaseError>> checkIfEmailAddressIsValid(
+  static Future<Result<bool, BasicError>> checkIfEmailAddressIsValid(
       String emailAddress) async {
     final ParseCloudFunction function = ParseCloudFunction('isAUserEmail');
     final Map<String, String> params = <String, String>{
@@ -49,7 +48,7 @@ class ParseCloudFunctionsHelper {
     );
   }
 
-  static Future<Result<ParseResponse, BaseError>> _handleFunctionCall(
+  static Future<Result<ParseResponse, BasicError>> _handleFunctionCall(
     ParseCloudFunction function,
     Map<String, dynamic>? params,
   ) async {

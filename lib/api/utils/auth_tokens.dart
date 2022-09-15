@@ -1,0 +1,60 @@
+import 'dart:convert';
+
+import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
+
+class AuthTokens {
+  final String refreshToken;
+  final PersonalAccessToken accessToken;
+
+  const AuthTokens({
+    required this.refreshToken,
+    required this.accessToken,
+  });
+
+  factory AuthTokens.fromJson(String json) =>
+      AuthTokens.fromMap(jsonDecode(json));
+
+  factory AuthTokens.fromMap(Map<String, dynamic> map) {
+    assert(map.containsKey('refresh_token'));
+
+    final accessTokenMap = map.get('access_token');
+    assert(accessTokenMap is Map<String, dynamic>);
+
+    return AuthTokens(
+      refreshToken: map['refresh_token'] as String,
+      accessToken: PersonalAccessToken.fromMap(accessTokenMap),
+    );
+  }
+}
+
+class PersonalAccessToken {
+  final String token;
+  final DateTime? expiresAt;
+
+  const PersonalAccessToken({
+    required this.token,
+    this.expiresAt,
+  });
+  factory PersonalAccessToken.fromJson(String json) =>
+      PersonalAccessToken.fromMap(jsonDecode(json));
+
+  factory PersonalAccessToken.fromMap(Map<String, dynamic> map) {
+    return PersonalAccessToken(
+      token: map['token'],
+      expiresAt: DateTime.tryParse(map['expires_at']),
+    );
+  }
+  String toJson() => jsonEncode(toMap());
+  Map<String, dynamic> toMap() {
+    return {
+      'token': token,
+      'expires_at': expiresAt,
+    };
+  }
+
+  bool get isExpired {
+    if (expiresAt == null) return false;
+    return expiresAt!.isAfter(DateTime.now()) ||
+        expiresAt!.isAtSameMomentAs(DateTime.now());
+  }
+}

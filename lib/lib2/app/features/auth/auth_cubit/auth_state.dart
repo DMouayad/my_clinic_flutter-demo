@@ -20,7 +20,7 @@ class StoredUserWasFetched extends AuthState {
 }
 
 class AuthError extends AuthState {
-  final BaseError error;
+  final BasicError error;
   const AuthError(this.error);
 
   @override

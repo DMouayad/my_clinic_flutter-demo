@@ -8,7 +8,7 @@ abstract class SignUpState extends Equatable {
 }
 
 class SignUpError extends SignUpState {
-  final BaseError error;
+  final BasicError error;
 
   const SignUpError(this.error);
   @override

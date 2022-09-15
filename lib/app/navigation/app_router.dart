@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/navigation/src/routes.dart';
+import 'package:clinic_v2/app/views/login/login_page.dart';
 import 'package:clinic_v2/app/views/startup/startup_page.dart';
 import 'package:clinic_v2/lib2/app/features/auth/auth_cubit/auth_cubit.dart';
-import 'package:clinic_v2/lib2/app/features/auth/login/login_page.dart';
 import 'package:clinic_v2/lib2/app/features/startup/view/startup_page.dart';
 import 'package:flutter/cupertino.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:clinic_v2/app/core/entities/result/base_error.dart';
+import 'package:clinic_v2/app/core/entities/result/basic_error.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/services/startup/base_startup_service.dart';
 import 'package:equatable/equatable.dart';

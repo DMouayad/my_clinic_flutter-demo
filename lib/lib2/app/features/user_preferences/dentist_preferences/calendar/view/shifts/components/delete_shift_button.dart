@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/shared_widgets/custom_expander.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widgett.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:fluent_ui/fluent_ui.dart ' as fluent_ui;
 
 class DeleteShiftButton extends CustomStatelessWidget {

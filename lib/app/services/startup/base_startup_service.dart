@@ -6,7 +6,7 @@ abstract class BaseStartupService {
   bool shouldRetryToInit = true;
   Stream<Result>? onStartupStatusChanged;
   StreamController<Result>? _startupStatusStreamController;
-  Future<Result<VoidResult, BaseError>?> init() async {
+  Future<Result<VoidResult, BasicError>?> init() async {
     if (shouldRetryToInit) {
       _startupStatusStreamController = StreamController<Result>();
       onStartupStatusChanged = _startupStatusStreamController!.stream;

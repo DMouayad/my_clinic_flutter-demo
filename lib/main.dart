@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -22,44 +21,33 @@ void main() async {
   //
   await windowManager.ensureInitialized();
   await windowManager.setMinimumSize(const Size(560, 700));
-  final parseAuthRepository = ParseAuthRepository();
+
   //
 
-  final storage = await HydratedStorage.build(
-    storageDirectory: kIsWeb
-        ? HydratedStorage.webStorageDirectory
-        : await getApplicationDocumentsDirectory(),
+  runApp(
+    ClinicApp(
+      AppearancePreferencesCubit(),
+      // AuthCubit(parseAuthRepository),
+    ),
   );
-  //
-  HydratedBlocOverrides.runZoned(
-    () {
-      runApp(
-        ClinicApp(
-          AppearancePreferencesCubit(),
-          AuthCubit(parseAuthRepository),
-        ),
-      );
-      // doWhenWindowReady(() {
-      //   final initialSize = Size(600, 450);
-      //   appWindow.minSize = initialSize;
-      //   // appWindow.size = initialSize;
-      //   appWindow.alignment = Alignment.center;
-      //   appWindow.show();
-      // });
-    },
-    storage: storage,
-  );
+  // doWhenWindowReady(() {
+  //   final initialSize = Size(600, 450);
+  //   appWindow.minSize = initialSize;
+  //   // appWindow.size = initialSize;
+  //   appWindow.alignment = Alignment.center;
+  //   appWindow.show();
+  // });
 }
 
 class ClinicApp extends StatelessWidget {
   const ClinicApp(
-    this._preferencesCubit,
+    // this._preferencesCubit,
     this._authCubit, {
     Key? key,
     this.home,
   }) : super(key: key);
 
-  final AppearancePreferencesCubit _preferencesCubit;
+  // final AppearancePreferencesCubit _preferencesCubit;
   final AuthCubit _authCubit;
 
   /// ### used only for testing purposes
@@ -70,7 +58,7 @@ class ClinicApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => _preferencesCubit),
-        BlocProvider(create: (_) => _authCubit),
+        // BlocProvider(create: (_) => _authCubit),
       ],
       child: context.isWindowsPlatform
           ? _WindowsApp(home: home)

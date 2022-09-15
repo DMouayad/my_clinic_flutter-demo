@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/blocs/startup_cubit/startup_cubit.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
-import 'package:clinic_v2/app/services/startup/ConnectivityStartupService.dart';
+import 'package:clinic_v2/app/services/startup/connectivity_startup_service.dart';
 //
 import 'package:flutter/material.dart';
 //

@@ -1,11 +1,13 @@
 library result;
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
-import 'base_error.dart';
-import 'error_code.dart';
+import 'basic_error.dart';
+import 'error_exception.dart';
 
-export 'base_error.dart';
+export 'basic_error.dart';
 
 part 'error_result.dart';
 part 'success_result.dart';
@@ -17,7 +19,7 @@ part 'success_result.dart';
 ///   SuccessResult(result)
 ///   ```
 /// - Unsuccessful: ```
-///   BaseError error)
+///   BasicError error)
 ///   ```
 ///
 /// #### For More Info refer to:
@@ -26,8 +28,8 @@ part 'success_result.dart';
 ///
 ///  **See also:**
 /// * [ErrorCode] to represent a specific error type.
-/// * [BaseError] to define a custom error.
-abstract class Result<R extends Object, E extends BaseError> {
+/// * [BasicError] to define a custom error.
+abstract class Result<R extends Object, E extends BasicError> {
   const Result._();
 
   bool get isSuccess => this is SuccessResult;
@@ -41,13 +43,13 @@ abstract class Result<R extends Object, E extends BaseError> {
   ///
   T when<T>({
     required T Function(R result) onSuccess,
-    required T Function(BaseError error) onError,
+    required T Function(E error) onError,
   });
 
   ///
   Future<T> whenAsync<T>({
     required Future<T> Function(R result) onSuccess,
-    required Future<T> Function(BaseError error) onError,
+    required Future<T> Function(E error) onError,
   });
 }
 
@@ -60,8 +62,8 @@ class VoidResult extends ResultType {}
 
 abstract class ResultNotObtained extends ResultType {}
 
-class JsonResult extends ResultType {
-  final String json;
+class JsonObjectResult extends ResultType {
+  final Map<String, dynamic> jsonObj;
 
-  const JsonResult(this.json);
+  const JsonObjectResult(this.jsonObj);
 }

@@ -14,7 +14,7 @@ class ParseServerConnection {
   static bool _serverIsInitialized = false;
   static bool get isInitialized => _serverIsInitialized;
 
-  static Future<Result<bool, BaseError>> init() async {
+  static Future<Result<bool, BasicError>> init() async {
     try {
       final hasInternetConnection =
           (await Parse().checkConnectivity()) != ParseConnectivityResult.none;

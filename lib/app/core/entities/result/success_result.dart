@@ -36,7 +36,7 @@ class SuccessResult<R extends Object, E extends NoError> extends Result<R, E> {
     return ifSuccess(result);
   }
 
-  factory SuccessResult.withJsonResult(String json) {
-    return SuccessResult(json as R);
+  factory SuccessResult.withJson(String json) {
+    return SuccessResult(JsonObjectResult(jsonDecode(json)) as R);
   }
 }

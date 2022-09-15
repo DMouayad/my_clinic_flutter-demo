@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:clinic_v2/common/common/entities/custom_error.dart';
-import 'package:clinic_v2/common/features/authentication/domain/auth_domain.dart';
 import 'package:equatable/equatable.dart';
 
 part 'auth_state.dart';

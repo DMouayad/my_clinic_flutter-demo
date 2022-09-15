@@ -2,9 +2,9 @@ part of result;
 
 /// Used as a return type for an unsuccessful execution of a function.
 ///
-///  contains the `error` which have occurred. The variable `error` must be of the type [BaseError].
+///  contains the `error` which have occurred. The variable `error` must be of the type [BasicError].
 
-class ErrorResult<ErrorType extends BaseError,
+class ErrorResult<ErrorType extends BasicError,
     NoResult extends ResultNotObtained> extends Result<NoResult, ErrorType> {
   final ErrorType error;
   ErrorResult(this.error) : super._();
@@ -26,41 +26,34 @@ class ErrorResult<ErrorType extends BaseError,
   }
 
   @override
-  T fold<T>(
-      {required T Function(NoResult result) ifSuccess,
-      required T Function(ErrorType error) ifError}) {
+  T fold<T>({
+    required T Function(NoResult result) ifSuccess,
+    required T Function(ErrorType error) ifError,
+  }) {
     return ifError(error);
   }
 
   factory ErrorResult.fromException(Object e) {
-    return ErrorResult(BaseError(
+    return ErrorResult(BasicError(
       message: e.toString(),
-      type: e.runtimeType.toString(),
+      exception: ErrorException(e.runtimeType.toString()),
     ) as ErrorType);
   }
   factory ErrorResult.withMessage(String message) {
     return ErrorResult(
-      BaseError(
-        message: message,
-      ) as ErrorType,
+      BasicError(message: message) as ErrorType,
     );
   }
   factory ErrorResult.fromDioError(DioError e) {
     return ErrorResult(
-      BaseError(
+      BasicError(
         message: e.message,
-        type: e.type.name,
+        exception: ErrorException(e.type.name),
         description: {'request options': e.requestOptions}.toString(),
       ) as ErrorType,
     );
   }
-
-  factory ErrorResult.cannotConnectToServer() {
-    return ErrorResult(
-        BaseError(code: ErrorCode.cannotConnectToServer()) as ErrorType);
-  }
-  factory ErrorResult.noInternetConnection() {
-    return ErrorResult(
-        BaseError(code: ErrorCode.noConnectionFound()) as ErrorType);
+  factory ErrorResult.fromErrorException(ErrorException errorException) {
+    return ErrorResult(BasicError(exception: errorException) as ErrorType);
   }
 }
