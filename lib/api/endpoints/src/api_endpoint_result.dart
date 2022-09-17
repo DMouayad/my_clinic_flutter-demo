@@ -12,7 +12,7 @@ abstract class ApiEndpointResult extends ResultType {
       case LogoutEndpointResult:
         return LogoutEndpointResult() as R;
       case RequestEmailVerificationApiEndpoint:
-        return RequestEmailVerificationApiEndpointResult() as R;
+        return RequestEmailVerificationEndpointResult() as R;
       default:
         throw UnimplementedError();
     }

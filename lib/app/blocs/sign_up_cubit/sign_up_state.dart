@@ -7,6 +7,8 @@ abstract class SignUpState extends Equatable {
   List<Object?> get props => [];
 }
 
+class SignUpInitialState extends SignUpState {}
+
 class SignUpError extends SignUpState {
   final BasicError error;
 
@@ -15,18 +17,18 @@ class SignUpError extends SignUpState {
   List<Object?> get props => [error];
 }
 
-class SignUpStepOne extends SignUpState {}
-
 class SignUpInProgress extends SignUpState {}
 
-class SignUpStepTwo extends SignUpState {
+class SignUpSuccess extends SignUpState {
   final BaseServerUser serverUser;
 
-  const SignUpStepTwo(this.serverUser);
+  const SignUpSuccess(this.serverUser);
   @override
   List<Object?> get props => [serverUser];
 }
 
-class SignUpEmailIsNotValid extends SignUpState {}
+class SignUpEmailIsNotAuthorizedToRegister extends SignUpState {}
 
-class SignUpEmailIsValid extends SignUpState {}
+class SignUpEmailNotFound extends SignUpState {}
+
+class SignUpPasswordIsIncorrect extends SignUpState {}

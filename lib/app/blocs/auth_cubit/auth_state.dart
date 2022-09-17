@@ -15,8 +15,9 @@ class LoginInProgress extends AuthState {
   const LoginInProgress();
 }
 
-class StoredUserWasFetched extends AuthState {
-  const StoredUserWasFetched();
+class UserWasLoaded extends AuthState {
+  final BaseServerUser user;
+  const UserWasLoaded(this.user);
 }
 
 class AuthError extends AuthState {
@@ -28,11 +29,10 @@ class AuthError extends AuthState {
 }
 
 class AuthHasLoggedInUser extends AuthState {
-  const AuthHasLoggedInUser();
-  // final BaseServerUser currentUser;
-  // const AuthHasLoggedInUser(this.currentUser);
-  // @override
-  // List<Object> get props => [currentUser];
+  final BaseServerUser currentUser;
+  const AuthHasLoggedInUser(this.currentUser);
+  @override
+  List<Object> get props => [currentUser];
 }
 
 class AuthHasNoLoggedInUser extends AuthState {

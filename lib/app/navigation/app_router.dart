@@ -1,9 +1,7 @@
 import 'package:clinic_v2/app/navigation/src/routes.dart';
 import 'package:clinic_v2/app/views/login/login_page.dart';
 import 'package:clinic_v2/app/views/startup/startup_page.dart';
-import 'package:clinic_v2/lib2/app/features/auth/auth_cubit/auth_cubit.dart';
-import 'package:clinic_v2/lib2/app/features/startup/view/startup_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppRouter with Routes {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -11,7 +9,7 @@ class AppRouter with Routes {
       case Routes.startupScreen:
         return StartupPage().route;
       case Routes.loginScreenRoute:
-        return LoginPage(authCubit: settings.arguments as AuthCubit).route;
+        return LoginPage().route;
       // case Routes.appearanceSettingsScreenRoute:
       //   return AppearanceSettingsPage().route;
       // case Routes.homeScreenRoute:

@@ -3,35 +3,35 @@ import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
 import 'package:clinic_v2/app/services/auth_token/base_auth_token_provider.dart';
 
-class MyClinicApiAuthRepository extends BaseAuthRepository<MyClinicApiUser> {
+class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   late final MyClinicApiAuthDataSource _dataSource;
 
   MyClinicApiAuthRepository(BaseAuthTokensService authTokenProvider) {
     _dataSource = MyClinicApiAuthDataSource(authTokenProvider);
   }
-  MyClinicApiUser? _currentUser;
+
+  @override
+  MyClinicApiUser? currentUser;
   @override
   void setCurrentUser(MyClinicApiUser user) {
-    _currentUser = user;
+    currentUser = user;
   }
 
   @override
   Stream<bool> get hasLoggedInUser => throw UnimplementedError();
   @override
-  Future<Result<AuthRepoLoginResult, BasicError>> login({
+  Future<Result<MyClinicApiUser, BasicError>> login({
     required String email,
     required String password,
   }) async {
     // login user with email and password
-    final result = await _dataSource.login(email, password);
+    final loginResult = await _dataSource.login(email, password);
 
-    return result.when(
+    return loginResult.when(
       onSuccess: (result) {
         // set returned user as the current user
-        setCurrentUser(result.user);
-        return SuccessResult(
-          AuthRepoLoginResult(_currentUser!, result.userPreferences),
-        );
+        setCurrentUser(result);
+        return SuccessResult(currentUser!);
       },
       onError: (error) => ErrorResult(error),
     );
@@ -43,10 +43,7 @@ class MyClinicApiAuthRepository extends BaseAuthRepository<MyClinicApiUser> {
     required String name,
     required String password,
   }) async {
-    // login user with email and password
-    final result = await _dataSource.register(name, email, password);
-
-    return result.when(
+    return (await _dataSource.register(name, email, password)).when(
       onSuccess: (result) {
         // set current user to the retrieved user
         setCurrentUser(result);
@@ -58,11 +55,7 @@ class MyClinicApiAuthRepository extends BaseAuthRepository<MyClinicApiUser> {
 
   @override
   Future<Result<VoidResult, BasicError>> logout() async {
-    final result = await _dataSource.logout();
-    return result.when(
-      onSuccess: (_) => SuccessResult.voidResult(),
-      onError: (error) => ErrorResult(error),
-    );
+    return await _dataSource.logout();
   }
 
   @override
@@ -74,15 +67,17 @@ class MyClinicApiAuthRepository extends BaseAuthRepository<MyClinicApiUser> {
 
   @override
   Future<Result<VoidResult, BasicError>> requestVerificationEmail() async {
-    final result = await _dataSource.sendVerificationEmail();
-    return result.when(
-      onSuccess: (_) => SuccessResult.voidResult(),
-      onError: (error) => ErrorResult(error),
-    );
+    return await _dataSource.sendVerificationEmail();
   }
 
   @override
-  Future onInit() async {
-    return await _dataSource.loadUser();
+  Future<Result<MyClinicApiUser, BasicError>> onInit() async {
+    return (await _dataSource.loadUser()).when(
+      onSuccess: (result) {
+        currentUser = result;
+        return SuccessResult(result);
+      },
+      onError: (error) => ErrorResult(error),
+    );
   }
 }

@@ -9,6 +9,7 @@ part 'src/auth/logout_endpoint.dart';
 part 'src/auth/refresh_access_token_endpoint.dart';
 part 'src/auth/register_endpoint.dart';
 part 'src/auth/request_email_verification_endpoint.dart';
+part 'src/user/get_user_info_endpoint.dart';
 part 'src/user_preferences_endpoints.dart';
 
 /// A class that provides all required data to perform an HTTP request for
@@ -29,11 +30,13 @@ abstract class ApiEndpoint {
   factory ApiEndpoint.login(String email, String password) = LoginApiEndpoint._;
   factory ApiEndpoint.register(String name, String email, String password) =
       RegisterApiEndpoint._;
-  factory ApiEndpoint.logout(String token) = LogoutApiEndpoint._;
-  factory ApiEndpoint.requestEmailVerification(String token) =
+  factory ApiEndpoint.logout(String accessToken) = LogoutApiEndpoint._;
+  factory ApiEndpoint.requestEmailVerification(String accessToken) =
       RequestEmailVerificationApiEndpoint._;
   factory ApiEndpoint.refreshAccessToken(String refreshToken) =
       RefreshAccessTokenEndpoint._;
+
+  factory ApiEndpoint.getUserInfo(String accessToken) = GetUserInfoEndpoint._;
   // factory ApiEndpoint.getUserPreferences(String token) =
   //     GetUserPreferencesApiEndpoint._;
 }

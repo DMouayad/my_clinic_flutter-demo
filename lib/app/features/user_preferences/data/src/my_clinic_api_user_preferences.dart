@@ -27,7 +27,7 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'userId': userId,
+      'user_id': userId,
       'theme_preference': themePreference,
       'locale_preference': localePreference,
     };
@@ -36,7 +36,7 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
   factory MyClinicApiUserPreferences.fromMap(Map<String, dynamic> map) {
     return MyClinicApiUserPreferences(
       id: map['id'],
-      userId: map['id'],
+      userId: map['user_id'],
       themePreference: map.get('theme_preference'),
       localePreference: map.get('locale_preference'),
     );

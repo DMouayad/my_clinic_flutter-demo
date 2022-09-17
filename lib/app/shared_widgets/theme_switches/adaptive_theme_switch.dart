@@ -1,27 +1,26 @@
+import 'package:flutter/cupertino.dart';
+//
 import 'package:animate_do/animate_do.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
-import 'package:clinic_v2/app/shared_widgets//windows_components/windows_settings_tile.dart';
-import 'package:clinic_v2/app/shared_widgets//windows_components/windows_toggle_switch.dart';
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:clinic_v2/app/themes/material_themes.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-part 'theme_switches.dart';
-
-enum ThemeModeSwitchType { tile, icon }
+import 'theme_icon_switch.dart';
+import 'theme_switches.dart';
 
 class AdaptiveThemeSwitch extends StatefulWidget {
-  const AdaptiveThemeSwitch(this.switchType, {Key? key}) : super(key: key);
+  const AdaptiveThemeSwitch({
+    required this.switchType,
+    required this.onThemeChanged,
+    Key? key,
+  }) : super(key: key);
+
   final ThemeModeSwitchType switchType;
+  final void Function(ThemeMode themeMode) onThemeChanged;
   @override
   State<AdaptiveThemeSwitch> createState() => _ThemeSettingsSwitchState();
 }
 
-class _ThemeSettingsSwitchState
-    extends StateWithResponsiveBuilder<AdaptiveThemeSwitch>
+class _ThemeSettingsSwitchState extends State<AdaptiveThemeSwitch>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
@@ -30,7 +29,7 @@ class _ThemeSettingsSwitchState
     animationController = AnimationController(
       vsync: this,
       value: 0,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 800),
     );
     super.initState();
   }
@@ -38,11 +37,11 @@ class _ThemeSettingsSwitchState
   @override
   Widget build(BuildContext context) {
     return widget.switchType == ThemeModeSwitchType.tile
-        ? _ThemeSwitchTile(
+        ? ThemeTileSwitch(
             themeIcon: _animatedThemeIcon(context),
             onThemeModeChanged: _onThemeModeChanged,
           )
-        : _ThemeSwitchIcon(
+        : ThemeIconSwitch(
             icon: _animatedThemeIcon(context),
             onThemeModeChanged: _onThemeModeChanged,
           );
@@ -50,7 +49,7 @@ class _ThemeSettingsSwitchState
 
   void _onThemeModeChanged() {
     final newThemeMode = context.isDarkMode ? ThemeMode.light : ThemeMode.dark;
-    context.read<AppearancePreferencesCubit>().provideThemeMode(newThemeMode);
+    widget.onThemeChanged(newThemeMode);
     setState(() {
       context.isDarkMode
           ? animationController.reverse(from: 1)
@@ -88,3 +87,5 @@ class _ThemeSettingsSwitchState
     }
   }
 }
+
+enum ThemeModeSwitchType { tile, icon }

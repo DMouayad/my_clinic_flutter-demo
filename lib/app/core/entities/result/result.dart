@@ -8,6 +8,7 @@ import 'basic_error.dart';
 import 'error_exception.dart';
 
 export 'basic_error.dart';
+export 'error_exception.dart';
 
 part 'error_result.dart';
 part 'success_result.dart';

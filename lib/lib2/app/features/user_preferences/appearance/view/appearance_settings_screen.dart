@@ -23,7 +23,7 @@ class AppearanceSettingsScreen extends CustomStatelessWidget {
                 ThemeModeSwitchType.tile,
               ),
               Divider(),
-              AdaptiveLocaleMenu(LocaleDropDownMenuType.tileWithMenu),
+              AdaptiveLocaleMenu(DropdownMenuType.tileWithMenu),
             ],
           ),
         ),

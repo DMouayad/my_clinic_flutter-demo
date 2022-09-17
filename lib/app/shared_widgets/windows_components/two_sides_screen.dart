@@ -1,11 +1,10 @@
+import 'package:fluent_ui/fluent_ui.dart';
+//
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/loading_indicator.dart';
-import 'package:fluent_ui/fluent_ui.dart';
-
 import '../app_name_text.dart';
 import '../screens/two_sides_screen_layout.dart';
-import 'appearance_settings_bar.dart';
 
 class WindowsTwoSidesScreen extends CustomStatelessWidget {
   const WindowsTwoSidesScreen({
@@ -14,6 +13,7 @@ class WindowsTwoSidesScreen extends CustomStatelessWidget {
     this.leftSideAnimation,
     this.errorText,
     this.leftSideBlurred,
+    this.topOptionsBar,
     Key? key,
   }) : super(key: key);
 
@@ -22,7 +22,7 @@ class WindowsTwoSidesScreen extends CustomStatelessWidget {
   final bool? leftSideBlurred;
   final String? errorText;
   final Widget leftSide;
-
+  final Widget? topOptionsBar;
   @override
   Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return TwoSidesScreenLayout(
@@ -64,12 +64,13 @@ class WindowsTwoSidesScreen extends CustomStatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: context.isArabicLocale
-                      ? Alignment.topLeft
-                      : Alignment.topRight,
-                  child: const AppearanceSettingsBar(),
-                ),
+                if (topOptionsBar != null)
+                  Align(
+                    alignment: context.isArabicLocale
+                        ? Alignment.topLeft
+                        : Alignment.topRight,
+                    child: topOptionsBar,
+                  ),
               ],
             ),
           ),

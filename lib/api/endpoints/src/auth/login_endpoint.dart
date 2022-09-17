@@ -10,12 +10,11 @@ class LoginApiEndpoint extends ApiEndpoint {
 }
 
 class LoginEndpointResult implements ApiEndpointResult {
-  final Map<String, dynamic> userWithRoleMap;
-  final Map<String, dynamic> userPreferencesMap;
+  final Map<String, dynamic> userWithRoleAndPrefs;
+
   final AuthTokens authTokens;
   const LoginEndpointResult({
-    required this.userWithRoleMap,
-    required this.userPreferencesMap,
+    required this.userWithRoleAndPrefs,
     required this.authTokens,
   });
   factory LoginEndpointResult.fromJson(String json) {
@@ -24,8 +23,7 @@ class LoginEndpointResult implements ApiEndpointResult {
 
   factory LoginEndpointResult.fromMap(Map<String, dynamic> map) {
     return LoginEndpointResult(
-      userWithRoleMap: map['user'] as Map<String, dynamic>,
-      userPreferencesMap: map['user']['preferences'] as Map<String, dynamic>,
+      userWithRoleAndPrefs: map['user'] as Map<String, dynamic>,
       authTokens: AuthTokens.fromMap(map),
     );
   }

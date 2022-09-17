@@ -39,7 +39,7 @@ class WindowsStepTwoSignUpScreenState
   @override
   Widget? defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     final bool showDentalServicesTile =
-        (context.read<SignUpCubit>().state as SignUpStepTwo).serverUser.role ==
+        (context.read<SignUpCubit>().state as SignUpSuccess).serverUser.role ==
             UserRole.dentist;
     final _preferencesListData = [
       PreferencesListItemData(

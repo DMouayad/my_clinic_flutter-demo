@@ -1,13 +1,13 @@
-import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
+import 'package:clinic_v2/app/blocs/sign_up_cubit/sign_up_cubit.dart';
+import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/custom_nav_view.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../components/sign_up_components.dart';
-import '../components/account_info_form.dart';
+import '../components/sign_up_components.dart';
+import 'account_info_form.dart';
 
 class LargeStepOneSignUpScreen extends CustomStatelessWidget {
   const LargeStepOneSignUpScreen({
@@ -27,7 +27,7 @@ class LargeStepOneSignUpScreen extends CustomStatelessWidget {
           leftSide: const _StepOneLeftSide(),
           errorText: () {
             if (state is SignUpError) {
-              if (state.error.code == ErrorCode.connectionNotFound.name) {
+              if (state.error.exception == ErrorException.noConnectionFound()) {
                 return AppLocalizations.of(context)!.noInternetConnection;
               }
               return state.error.message;
@@ -64,7 +64,19 @@ class _StepOneLeftSide extends CustomStatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: contextInfo.isDesktop ? context.horizontalMargins : 0,
           ),
-          child: const SignUpAccountInfoForm(),
+          child: SignUpAccountInfoForm(
+            onSubmit: (
+              String emailAddress,
+              String password,
+              String username,
+            ) {
+              context.read<SignUpCubit>().submitStepOne(
+                    emailAddress: emailAddress,
+                    username: username,
+                    password: password,
+                  );
+            },
+          ),
         ),
       ),
     );
@@ -85,7 +97,19 @@ class _StepOneLeftSide extends CustomStatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: contextInfo.isDesktop ? context.horizontalMargins : 0,
           ),
-          child: const SignUpAccountInfoForm(),
+          child: SignUpAccountInfoForm(
+            onSubmit: (
+              String emailAddress,
+              String password,
+              String username,
+            ) {
+              context.read<SignUpCubit>().submitStepOne(
+                    emailAddress: emailAddress,
+                    username: username,
+                    password: password,
+                  );
+            },
+          ),
         ),
       ),
     );

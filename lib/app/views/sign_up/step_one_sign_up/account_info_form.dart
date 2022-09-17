@@ -1,13 +1,18 @@
-import 'package:clinic_v2/app/features/auth/common/components/submit_button.dart';
-import 'package:clinic_v2/app/features/auth/common/helpers/form_helper.dart';
-import 'package:clinic_v2/app/features/auth/sign_up/cubit/sign_up_cubit.dart';
+import 'package:clinic_v2/app/core/helpers/form_helper.dart';
 import 'package:clinic_v2/app/shared_widgets//input_text_field.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/submit_button.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpAccountInfoForm extends StatefulWidget {
-  const SignUpAccountInfoForm({Key? key}) : super(key: key);
+  const SignUpAccountInfoForm({required this.onSubmit, Key? key})
+      : super(key: key);
+  final void Function(
+    String emailAddress,
+    String username,
+    String password,
+  ) onSubmit;
+
   @override
   State<SignUpAccountInfoForm> createState() => _SignUpFormState();
 }
@@ -89,11 +94,11 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               onPressed: () {
                 _formHelper.validateInput();
                 if (_formHelper.inputIsValid) {
-                  context.read<SignUpCubit>().submitStepOne(
-                        emailAddress: _formHelper.emailController!.text,
-                        username: _formHelper.usernameController.text,
-                        password: _formHelper.passwordController.text,
-                      );
+                  widget.onSubmit(
+                    _formHelper.emailController!.text,
+                    _formHelper.usernameController.text,
+                    _formHelper.passwordController.text,
+                  );
                   FocusScope.of(context).unfocus();
                 }
               },

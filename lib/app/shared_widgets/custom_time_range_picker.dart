@@ -76,7 +76,7 @@ class CustomTimeRangePicker extends CustomStatelessWidget {
   @override
   Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
     return TimeRangePicker(
-      onCancel: onCancel,
+      // onCancel: onCancel,
       handlerColor: context.colorScheme.onPrimaryContainer,
       snap: true,
       padding: 70,

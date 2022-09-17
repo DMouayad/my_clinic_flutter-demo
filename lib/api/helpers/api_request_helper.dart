@@ -14,14 +14,11 @@ mixin ApiRequestHelper on DioHelper {
     try {
       final response = await performDioRequest(apiEndpoint);
       if (response.success) {
-        if (response.statusCode == HttpStatus.noContent) {
-          return SuccessResult.voidResult();
-        }
         return SuccessResult(ApiEndpointResult.fromJson<R>(response.data));
       }
       return ErrorResult(ApiResponseError.fromJson(response.data));
     } on SocketException {
-      return ErrorResult.noInternetConnection();
+      return ErrorResult.fromErrorException(ErrorException.noConnectionFound());
     } on DioError catch (e) {
       return ErrorResult.fromDioError(e);
     } catch (e) {

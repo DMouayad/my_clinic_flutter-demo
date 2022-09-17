@@ -1,13 +1,17 @@
 /// List of the exceptions which can be returned from the MyClinic API
 /// with an error response
 enum ApiExceptionClass {
-   userNotFound: "UserNotFoundException";
-  static const cannotDeleteOnlyAdminStaffEmail =
-      "DeletingOnlyAdminStaffEmailException";
-  static const emailAlreadyRegistered = "EmailAlreadyRegisteredException";
-  static const roleNotFound = "RoleNotFoundException";
-  static const staffEmailAlreadyExists = "StaffEmailAlreadyExistsException";
-  static const userPreferencesAlreadySaved = "StaffEmailAlreadyExistsException";
-  static const userDataDoesntMatchHisStaffEmail =
-      "UserDoesntMatchHisStaffEmailException";
+  userNotFound("UserNotFoundException"),
+  cannotDeleteOnlyAdminStaffEmail("DeletingOnlyAdminStaffEmailException"),
+  emailAlreadyRegistered("EmailAlreadyRegisteredException"),
+  roleNotFound("RoleNotFoundException"),
+  staffEmailAlreadyExists("StaffEmailAlreadyExistsException"),
+  userPreferencesAlreadySaved("StaffEmailAlreadyExistsException"),
+  userDataDoesntMatchHisStaffEmail("UserDoesntMatchHisStaffEmailException"),
+  emailUnauthorizedToRegister("EmailUnauthorizedToRegisterException"),
+  invalidEmailCredential("InvalidEmailCredentialException"),
+  invalidPasswordCredential("InvalidPasswordCredentialException");
+
+  final String name;
+  const ApiExceptionClass(this.name);
 }

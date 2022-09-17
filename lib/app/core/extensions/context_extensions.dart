@@ -55,4 +55,5 @@ extension ContextThemeExtensions on BuildContext {
   TargetPlatform get platform => Theme.of(this).platform;
   bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
   bool get isEnglishLocale => Localizations.localeOf(this).languageCode == 'en';
+  Locale get locale => Localizations.localeOf(this);
 }

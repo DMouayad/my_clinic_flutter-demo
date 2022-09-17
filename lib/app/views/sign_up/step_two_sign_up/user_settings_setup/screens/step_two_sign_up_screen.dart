@@ -44,7 +44,7 @@ class _StepTwoSignUpScreenState
               },
               onCalendarTileTapped: (_) {},
               showDentalServicesTile: false,
-              // (context.read<SignUpCubit>().state as SignUpStepTwo)
+              // (context.read<SignUpCubit>().state as SignUpSuccess)
               //         .serverUser
               //         .role ==
               //     UserRole.dentist,

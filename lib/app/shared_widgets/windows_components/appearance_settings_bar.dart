@@ -1,9 +1,17 @@
-import 'package:clinic_v2/lib2/app/features/user_preferences/appearance/view/locale/adaptive_locale_menu.dart';
-import 'package:clinic_v2/lib2/app/features/user_preferences/appearance/view/theme/adaptive_theme_switch.dart';
 import 'package:flutter/material.dart';
 
+import '../dropdown_menus/adaptive_locale_menu.dart';
+import '../dropdown_menus/utils.dart';
+import '../theme_switches/adaptive_theme_switch.dart';
+
 class AppearanceSettingsBar extends StatelessWidget {
-  const AppearanceSettingsBar({Key? key}) : super(key: key);
+  const AppearanceSettingsBar({
+    required this.onLocaleChanged,
+    required this.onThemeModeChanged,
+    Key? key,
+  }) : super(key: key);
+  final void Function(Locale locale) onLocaleChanged;
+  final void Function(ThemeMode themeMode) onThemeModeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +28,19 @@ class AppearanceSettingsBar extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            AdaptiveLocaleMenu(LocaleDropDownMenuType.menuOnly),
-            SizedBox(width: 8),
+          children: [
+            AdaptiveLocaleMenu(
+              type: DropdownMenuType.menuOnly,
+              onChanged: (Locale locale) {
+                onLocaleChanged(locale);
+              },
+            ),
+            const SizedBox(width: 8),
             AdaptiveThemeSwitch(
-              ThemeModeSwitchType.icon,
+              switchType: ThemeModeSwitchType.icon,
+              onThemeChanged: (ThemeMode themeMode) {
+                onThemeModeChanged(themeMode);
+              },
             ),
           ],
         ),

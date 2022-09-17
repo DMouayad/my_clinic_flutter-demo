@@ -6,7 +6,8 @@ import 'package:clinic_v2/app/shared_widgets/submit_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({required this.onSubmit, Key? key}) : super(key: key);
+  final void Function(String email, String password) onSubmit;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -78,10 +79,10 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () {
               setState(() => _formHelper.validateInput());
               if (_formHelper.inputIsValid) {
-                context.read<AuthCubit>().login(
-                      _formHelper.usernameController.text,
-                      _formHelper.passwordController.text,
-                    );
+                widget.onSubmit(
+                  _formHelper.emailController!.text,
+                  _formHelper.passwordController.text,
+                );
               }
             },
           ),
@@ -97,7 +98,6 @@ class _LoginFormState extends State<LoginForm> {
           TextButton(
             onPressed: () => Navigator.of(context).pushNamed(
               Routes.stepOneSignUpScreenRoute,
-              arguments: context.read<AuthCubit>(),
             ),
             child: Text(
               AppLocalizations.of(context)!.createAccount,

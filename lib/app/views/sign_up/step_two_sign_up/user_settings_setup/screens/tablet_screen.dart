@@ -77,7 +77,7 @@ class _TabletStepTwoSignUpScreenState
                                 // onItemSelected:,
                                 showDentalServicesTile: (context
                                             .read<SignUpCubit>()
-                                            .state as SignUpStepTwo)
+                                            .state as SignUpSuccess)
                                         .serverUser
                                         .role ==
                                     UserRole.dentist,
