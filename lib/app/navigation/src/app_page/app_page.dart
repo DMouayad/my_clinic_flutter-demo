@@ -34,6 +34,7 @@ class AppPage extends Page {
         Animation<double> animation,
         Animation<double> secondaryAnimation,
       ) {
+        print(pageScreensBuilder);
         return pageTransitions.buildRouteWithTransition(
           context,
           pageScreensBuilder(context, animation, secondaryAnimation),

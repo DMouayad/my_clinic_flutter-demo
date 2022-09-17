@@ -1,9 +1,9 @@
-import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
+import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart';
 import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:clinic_v2/common/common/entities/custom_response.dart';
 import 'package:mockito/mockito.dart';
 
-void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
+void setupStartupCubitForStartupSuccess(StartupBloc startupCubit) {
   when(startupCubit.state).thenReturn(StartupSuccess());
 
   when(startupCubit.stream).thenAnswer(
@@ -16,7 +16,7 @@ void setupStartupCubitForStartupSuccess(StartupCubit startupCubit) {
 }
 
 void setupStartupCubitForStartupFailure(
-    StartupCubit startupCubit, ErrorResult startupError,
+    StartupBloc startupCubit, ErrorResult startupError,
     {bool withRetryThenSuccess = false}) {
   if (withRetryThenSuccess) {
     when(startupCubit.stream).thenAnswer(

@@ -4,12 +4,12 @@ import 'package:clinic_v2/app/core/entities/result/result.dart';
 
 abstract class BaseStartupService {
   bool shouldRetryToInit = true;
-  Stream<Result>? onStartupStatusChanged;
+  Stream<Result>? startupStatusResult;
   StreamController<Result>? _startupStatusStreamController;
   Future<Result<VoidResult, BasicError>?> init() async {
     if (shouldRetryToInit) {
       _startupStatusStreamController = StreamController<Result>();
-      onStartupStatusChanged = _startupStatusStreamController!.stream;
+      startupStatusResult = _startupStatusStreamController!.stream;
     }
   }
 

@@ -8,8 +8,8 @@ import '../../../helpers/clinic_app_helper.dart';
 import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
-  group('App locale tests using AppearancePreferencesCubit', () {
-    AppearancePreferencesCubit? preferencesCubit;
+  group('App locale tests using PreferencesCubit', () {
+    PreferencesCubit? preferencesCubit;
     late ClinicApp myApp;
 
     setUp(() async {
@@ -17,7 +17,7 @@ void main() {
         await preferencesCubit!.close();
       }
       await mockHydratedStorage(() async {
-        preferencesCubit = AppearancePreferencesCubit();
+        preferencesCubit = PreferencesCubit();
         myApp = getClinicAppForTest(
           preferencesCubit: preferencesCubit!,
           home: Scaffold(appBar: AppBar()),
@@ -95,7 +95,7 @@ void main() {
     });
 
     group(
-      'AppearancePreferencesCubit updating app-locale tests',
+      'PreferencesCubit updating app-locale tests',
       () {
         testWidgets(
           'Verify app locale is updated after calling [provideLocale]',

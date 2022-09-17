@@ -97,6 +97,7 @@ class ScaffoldWithAppBar extends CustomStatelessWidget {
             actions: actions,
             bottom: showBottomTitle
                 ? _AppBarBottomTitle(
+                    preferredSize: const Size(double.infinity, 50),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: context.horizontalMargins),
@@ -117,7 +118,6 @@ class ScaffoldWithAppBar extends CustomStatelessWidget {
                         ],
                       ),
                     ),
-                    preferredSize: const Size(double.infinity, 50),
                   )
                 : appBarBottom,
           ),

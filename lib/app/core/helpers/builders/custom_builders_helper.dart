@@ -4,10 +4,10 @@ import 'package:clinic_v2/app/core/entities/context_info.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'custom_builders.dart';
 
-mixin CustomBuildersHelper<T> on CustomBuilders<T> {
+mixin CustomBuildersHelper<T extends Object> on CustomBuilders<T> {
   @protected
   T getCurrentContextBuilder(BuildContext context) {
-    if (T is Widget) {
+    if (T == Widget) {
       return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           ContextInfo contextInfo = ContextInfo(
@@ -30,6 +30,7 @@ mixin CustomBuildersHelper<T> on CustomBuilders<T> {
       ContextInfo contextInfo = ContextInfo(
         context,
       );
+
       return _returnBuilderByPlatform(context, contextInfo) ??
           _returnBuilderByScreenSize(context, contextInfo) ??
           defaultBuilder(context, contextInfo)!;

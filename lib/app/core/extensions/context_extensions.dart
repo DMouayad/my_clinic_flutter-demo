@@ -1,8 +1,9 @@
 import 'package:clinic_v2/app/themes/app_color_scheme.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-extension ResponsiveContextExtensions on BuildContext {
+extension ResponsiveContextExtension on BuildContext {
   double get horizontalMargins {
     final screenWidth = MediaQuery.of(this).size.width;
     if (screenWidth <= 600) {
@@ -18,12 +19,12 @@ extension ResponsiveContextExtensions on BuildContext {
   }
 }
 
-extension ContextSizeExtensions on BuildContext {
+extension ContextScreenSizeExtension on BuildContext {
   double get height => MediaQuery.of(this).size.height;
   double get width => MediaQuery.of(this).size.width;
 }
 
-extension ContextThemeExtensions on BuildContext {
+extension ContextThemeExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
   /// similar to [MediaQuery.of(context).theme]
@@ -42,7 +43,9 @@ extension ContextThemeExtensions on BuildContext {
         Theme.of(this).platform == TargetPlatform.macOS ||
         Theme.of(this).platform == TargetPlatform.linux;
   }
+}
 
+extension ContextPlatformExtension on BuildContext {
   bool get isIOSPlatform => Theme.of(this).platform == TargetPlatform.iOS;
   bool get isMacOsPlatform => Theme.of(this).platform == TargetPlatform.macOS;
   bool get isWindowsPlatform =>
@@ -53,7 +56,11 @@ extension ContextThemeExtensions on BuildContext {
       Theme.of(this).platform == TargetPlatform.iOS ||
       Theme.of(this).platform == TargetPlatform.android;
   TargetPlatform get platform => Theme.of(this).platform;
+}
+
+extension ContextLocaleExtension on BuildContext {
   bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
   bool get isEnglishLocale => Localizations.localeOf(this).languageCode == 'en';
   Locale get locale => Localizations.localeOf(this);
+  AppLocalizations? get localizations => AppLocalizations.of(this);
 }

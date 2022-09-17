@@ -7,8 +7,8 @@ import '../../../helpers/clinic_app_helper.dart';
 import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
-  group('App themeMode testing with AppearancePreferencesCubit', () {
-    AppearancePreferencesCubit? preferencesCubit;
+  group('App themeMode testing with PreferencesCubit', () {
+    PreferencesCubit? preferencesCubit;
     late ClinicApp myApp;
 
     setUp(() async {
@@ -16,7 +16,7 @@ void main() {
         await preferencesCubit!.close();
       }
       await mockHydratedStorage(() async {
-        preferencesCubit = AppearancePreferencesCubit();
+        preferencesCubit = PreferencesCubit();
         myApp = getClinicAppForTest(
           preferencesCubit: preferencesCubit!,
           home: Scaffold(appBar: AppBar()),

@@ -15,13 +15,13 @@ class AppRouter with Routes {
       // case Routes.homeScreenRoute:
       //   return HomePage().route;
       // case Routes.stepOneSignUpScreenRoute:
-      //   return StepOneSignUpPage(authCubit: settings.arguments as AuthCubit)
+      //   return SignUpPage(authCubit: settings.arguments as AuthBloc)
       //       .route;
       // case Routes.stepTwoSignUpScreenRoute:
       //   final arguments = settings.arguments as Map<String, dynamic>;
       //   return StepTwoSignUpPage(
-      //     authCubit: arguments['auth_cubit'] as AuthCubit,
-      //     signUpCubit: arguments['sign_up_cubit'] as SignUpCubit,
+      //     authCubit: arguments['auth_cubit'] as AuthBloc,
+      //     signUpCubit: arguments['sign_up_cubit'] as AuthBloc,
       //   ).route;
       default:
         throw UnimplementedError(

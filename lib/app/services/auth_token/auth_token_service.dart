@@ -4,10 +4,20 @@ import 'base_auth_token_provider.dart';
 
 class AuthTokenServiceProvider {
   AuthTokenServiceProvider._() {
-    // initialize service instance
-    service = SecureStorageAuthTokensService();
+    _service = SecureStorageAuthTokensService();
   }
 
-  late final BaseAuthTokensService service;
-  static AuthTokenServiceProvider instance = AuthTokenServiceProvider._();
+  // static AuthTokenServiceProvider init(BaseAuthTokensService service) {
+  //   return AuthTokenServiceProvider._(service);
+  // }
+
+  late final BaseAuthTokensService _service;
+  BaseAuthTokensService get service => _service;
+  static AuthTokenServiceProvider get instance {
+    _instance ??= AuthTokenServiceProvider._();
+
+    return _instance!;
+  }
+
+  static AuthTokenServiceProvider? _instance;
 }

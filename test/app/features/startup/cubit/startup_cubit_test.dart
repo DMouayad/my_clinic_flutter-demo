@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
+import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart';
 import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -7,16 +7,16 @@ import 'package:mockito/mockito.dart';
 import 'startup_cubit_test.mocks.dart';
 import 'startup_cubit_test_helpers.dart';
 
-@GenerateMocks([StartupCubit])
+@GenerateMocks([StartupBloc])
 void main() {
   final connectionError = ErrorResult(
     message: 'No internet connection found!',
     code: ErrorCode.connectionNotFound.name,
   );
-  group('StartupCubit tests', () {
+  group('StartupBloc tests', () {
     final MockStartupCubit startupCubit = MockStartupCubit();
     group('Startup failing tests', () {
-      blocTest<StartupCubit, StartupState>(
+      blocTest<StartupBloc, StartupState>(
         'should emit [StartupFailure] when [initServerConnection] was not successful due to connection exception',
         setUp: () => setupStartupCubitForStartupFailure(
           startupCubit,
@@ -73,7 +73,7 @@ void main() {
       });
     });
 
-    blocTest<StartupCubit, StartupState>(
+    blocTest<StartupBloc, StartupState>(
       'should emits [StartupSuccess] when [initServerConnection] was successful',
       setUp: () => setupStartupCubitForStartupSuccess(startupCubit),
       build: () => startupCubit,

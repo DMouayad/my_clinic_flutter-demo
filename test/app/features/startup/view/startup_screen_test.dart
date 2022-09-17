@@ -1,9 +1,9 @@
-import 'package:clinic_v2/app/features/auth/auth_cubit/auth_cubit.dart';
+import 'package:clinic_v2/app/features/auth/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
-import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart';
+import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
-import 'package:clinic_v2/app/features/startup/view/widgets/error_screen.dart';
+import 'package:clinic_v2/app/features/startup/view/widgets/startup_error_screen.dart';
 import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
 import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:clinic_v2/main.dart';
@@ -22,7 +22,7 @@ void main() {
     message: 'No internet connection found!',
   );
   group('StartupScreen tests', () {
-    AuthCubit? authCubit;
+    AuthBloc? authCubit;
     MockStartupCubit? startupCubit;
     late MockBaseAuthRepository mockAuthRepository;
     late Widget startupScreenMock;
@@ -36,7 +36,7 @@ void main() {
       }
       mockAuthRepository = MockBaseAuthRepository();
       startupCubit = MockStartupCubit();
-      authCubit = AuthCubit(mockAuthRepository);
+      authCubit = AuthBloc(mockAuthRepository);
 
       startupScreenMock = WidgetsApp(
         color: Colors.red,
@@ -45,8 +45,8 @@ void main() {
             builder: (context) {
               return MultiBlocProvider(
                 providers: [
-                  BlocProvider<StartupCubit>.value(value: startupCubit!),
-                  BlocProvider<AuthCubit>.value(value: authCubit!),
+                  BlocProvider<StartupBloc>.value(value: startupCubit!),
+                  BlocProvider<AuthBloc>.value(value: authCubit!),
                 ],
                 child: const StartupScreen(),
               );
@@ -67,16 +67,16 @@ void main() {
       });
 
       testWidgets(
-        'should find [ErrorStartingAppScreen] when [StartupCubit] emits [StartupFailure]',
+        'should find [ErrorStartingAppScreen] when [StartupBloc] emits [StartupFailure]',
         (WidgetTester tester) async {
           // act
           await tester.pumpWidget(startupScreenMock);
 
-          // expect StartupCubit state to be StartupFailure
+          // expect StartupBloc state to be StartupFailure
           expect(startupCubit!.state, StartupFailure(connectionError));
 
           await tester.pumpWidget(startupScreenMock);
-          // expect ErrorStartingAppScreen to be returned as a result to StartupCubit's state
+          // expect ErrorStartingAppScreen to be returned as a result to StartupBloc's state
           expect(find.byType(ErrorStartingAppScreen), findsOneWidget);
         },
       );
@@ -84,12 +84,12 @@ void main() {
   });
 
   group('Startup success scenario', () {
-    AuthCubit? authCubit;
+    AuthBloc? authCubit;
     MockStartupCubit? startupCubit;
     late MockBaseAuthRepository authRepository;
 
     // in this test group [ClinicApp] is needed to verify the correct route is pushed based on
-    // [AuthCubit] state
+    // [AuthBloc] state
     late ClinicApp clinicApp;
     setUp(
       () async {
@@ -98,15 +98,15 @@ void main() {
         }
         authRepository = MockBaseAuthRepository();
         startupCubit = MockStartupCubit();
-        authCubit = AuthCubit(authRepository);
+        authCubit = AuthBloc(authRepository);
 
         setupStartupCubitForStartupSuccess(startupCubit!);
         await mockHydratedStorage(() {
           clinicApp = ClinicApp(
-            AppearancePreferencesCubit(),
+            PreferencesCubit(),
             authCubit!,
             authRepository,
-            home: BlocProvider<StartupCubit>.value(
+            home: BlocProvider<StartupBloc>.value(
               value: startupCubit!,
               child: Builder(builder: (context) {
                 return const StartupScreen();
@@ -118,8 +118,8 @@ void main() {
     );
 
     testWidgets(
-      'should navigate to [HomeScreen] when [StartupCubit] state is'
-      'success and [AuthCubit] state is [AuthHasLoggedInUser]',
+      'should navigate to [HomeScreen] when [StartupBloc] state is'
+      'success and [AuthBloc] state is [AuthHasLoggedInUser]',
       (WidgetTester tester) async {
         // arrange
         setupMockedAuthRepoWithLoggedInUser(authRepository);
@@ -135,8 +135,8 @@ void main() {
       },
     );
     testWidgets(
-      'should navigate to [LoginScreen] when [StartupCubit] state is'
-      'success and [AuthCubit] state is [AuthHasNoLoggedInUser]',
+      'should navigate to [LoginScreen] when [StartupBloc] state is'
+      'success and [AuthBloc] state is [AuthHasNoLoggedInUser]',
       (WidgetTester tester) async {
         // arrange
         setupMockedAuthRepoWithNoLoggedInUser(authRepository);

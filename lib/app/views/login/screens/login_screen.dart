@@ -1,6 +1,11 @@
+import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/scaffold_with_appbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../components/login_form.dart';
+import '../components/login_message.dart';
 
 class LoginScreen extends CustomStatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -33,7 +38,15 @@ class LoginScreen extends CustomStatelessWidget {
               SizedBox(
                 height: contextInfo.widgetSize!.height * .1,
               ),
-              const Center(child: LoginForm()),
+              Center(
+                child: LoginForm(
+                  onSubmit: (String email, String password) {
+                    context
+                        .read<AuthBloc>()
+                        .add(LoginRequested(email, password));
+                  },
+                ),
+              ),
             ],
           ),
         ),

@@ -7,6 +7,7 @@ import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/features/authentication/data/src/my_clinic_api_user.dart';
 import 'package:clinic_v2/app/features/authentication/domain/src/base_auth_data_source.dart';
 import 'package:clinic_v2/app/services/auth_token/base_auth_token_provider.dart';
+import 'package:flutter/material.dart';
 
 class MyClinicApiAuthDataSource
     with DioHelper, ApiRequestHelper
@@ -41,6 +42,8 @@ class MyClinicApiAuthDataSource
     String username,
     String email,
     String password,
+    ThemeMode themeModePreference,
+    Locale localePreference,
   ) async {
     final response = await requestApiEndpoint<RegisterEndpointResult>(
       ApiEndpoint.register(username, email, password),

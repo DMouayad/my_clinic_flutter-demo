@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/core/entities/context_info.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:clinic_v2/app/core/helpers/builders/custom_builders.dart';
@@ -33,6 +34,59 @@ class RouteTransitionBuilder
     this.linux = RouteTransitionType.platformDefault,
     this.defaultTransition = RouteTransitionType.platformDefault,
   });
+
+  @override
+  RouteTransitionType? defaultBuilder(BuildContext context, contextInfo) {
+    return defaultTransition;
+  }
+
+  @override
+  RouteTransitionType? mobileScreenBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return mobile;
+  }
+
+  @override
+  RouteTransitionType? tabletScreenBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return tablet;
+  }
+
+  @override
+  RouteTransitionType? androidMobileBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return androidMobile;
+  }
+
+  @override
+  RouteTransitionType? androidTabletBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return androidTablet;
+  }
+
+  @override
+  RouteTransitionType? iosMobileBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return iosMobile;
+  }
+
+  @override
+  RouteTransitionType? iosTabletBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return iosTablet;
+  }
+
+  @override
+  RouteTransitionType? windowsBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return windows;
+  }
+
+  @override
+  RouteTransitionType? macBuilder(
+      BuildContext context, ContextInfo contextInfo) {
+    return macOS;
+  }
 
   Widget buildRouteWithTransition(
     BuildContext context,

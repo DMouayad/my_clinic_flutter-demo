@@ -5,7 +5,7 @@
 import 'dart:async' as _i3;
 
 import 'package:bloc/bloc.dart' as _i4;
-import 'package:clinic_v2/app/features/startup/cubit/startup_cubit.dart' as _i2;
+import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -19,10 +19,10 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeStartupState_0 extends _i1.Fake implements _i2.StartupState {}
 
-/// A class which mocks [StartupCubit].
+/// A class which mocks [StartupBloc].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStartupCubit extends _i1.Mock implements _i2.StartupCubit {
+class MockStartupCubit extends _i1.Mock implements _i2.StartupBloc {
   MockStartupCubit() {
     _i1.throwOnMissingStub(this);
   }

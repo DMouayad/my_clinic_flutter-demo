@@ -6,6 +6,7 @@
     "login": "Login",
     "username": "Username",
     "email": "Email",
+    "cannotConnectToServer":"Cannot connect to server, please try again",
     "noInternetConnection": "No internet connection found!",
     "password": "Password",
     "required": "required!",

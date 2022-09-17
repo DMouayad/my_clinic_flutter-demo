@@ -4,7 +4,7 @@ import 'package:clinic_v2/app/core/entities/context_info.dart';
 
 export 'custom_builders_helper.dart';
 
-abstract class CustomBuilders<T> {
+abstract class CustomBuilders<T extends Object> {
   T? defaultBuilder(BuildContext context, ContextInfo contextInfo) => null;
 
   T? windowsBuilder(BuildContext context, ContextInfo contextInfo) => null;

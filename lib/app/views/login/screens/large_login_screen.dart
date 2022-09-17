@@ -1,7 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+//
+import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../components/login_form.dart';
 import '../components/login_message.dart';
 
 class LargeLoginScreen extends CustomStatelessWidget {
@@ -10,7 +13,7 @@ class LargeLoginScreen extends CustomStatelessWidget {
 
   @override
   Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(
           leftSideAnimation: animation,
@@ -32,7 +35,13 @@ class LargeLoginScreen extends CustomStatelessWidget {
                     horizontal:
                         contextInfo.isTablet ? 0 : context.horizontalMargins,
                   ),
-                  child: const LoginForm(),
+                  child: LoginForm(
+                    onSubmit: (String email, String password) {
+                      context
+                          .read<AuthBloc>()
+                          .add(LoginRequested(email, password));
+                    },
+                  ),
                 ),
               ),
             ],

@@ -2,6 +2,7 @@
     "clinic": "كلينك",
     "connecting": "جار الاتصال...",
     "loading": "جار التحميل...",
+
     "login": "تسجيل الدخول",
     "retry": "إعادة المحاولة",
     "loginScreenMessage": "تسجيل الدخول لحساب كلينك الخاص بك",
@@ -67,6 +68,7 @@
     "disabled": "غير مفعّل",
     "appLanguage:": "لغة التطبيق",
     "noInternetConnection": "لا يوجد اتصال بالانترنت!",
+        "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",
     "or": "أو",
     "delete": "حذف"
 }

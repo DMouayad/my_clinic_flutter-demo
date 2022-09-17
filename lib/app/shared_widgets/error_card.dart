@@ -9,14 +9,14 @@ class ErrorCard extends CustomStatelessWidget {
     this.actionButton,
     Key? key,
   }) : super(key: key);
-  final String errorText;
+  final String? errorText;
   final Color? color;
   final Widget? errorIcon;
   final Widget? actionButton;
 
   Widget _title(BuildContext context) {
     return AutoSizeText(
-      errorText,
+      errorText ?? 'An error occurred',
       textAlign: TextAlign.center,
       minFontSize: 10,
       style: context.textTheme.bodyLarge?.copyWith(

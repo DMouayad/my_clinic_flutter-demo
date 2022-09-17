@@ -1,22 +1,24 @@
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/src/base_user_preferences.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 
 import 'base_server_user.dart';
 
-abstract class BaseAuthRepository<T extends BaseServerUser> {
-  T? currentUser;
-  void setCurrentUser(T user);
+abstract class BaseAuthRepository<U extends BaseServerUser> {
+  U? currentUser;
+  void setCurrentUser(U user);
 
   Stream<bool> get hasLoggedInUser;
 
-  Future<Result<T, BasicError>> onInit();
+  Future<Result<U, BasicError>> onInit();
 
   Future<Result<VoidResult, BasicError>> register({
     required String email,
     required String name,
     required String password,
+    required ThemeMode themeModePreference,
+    required Locale localePreference,
   });
-  Future<Result<T, BasicError>> login({
+  Future<Result<U, BasicError>> login({
     required String email,
     required String password,
   });
