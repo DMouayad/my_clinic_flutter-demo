@@ -1,5 +1,5 @@
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 //
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/adaptive_locale_menu.dart';
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/utils.dart';
 import 'package:clinic_v2/app/shared_widgets/theme_switches/adaptive_theme_switch.dart';
@@ -10,7 +10,7 @@ class AppearanceSettingsScreen extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
     return Material(
       color: context.colorScheme.backgroundColor,
       child: Padding(
@@ -23,7 +23,7 @@ class AppearanceSettingsScreen extends CustomStatelessWidget {
                 switchType: ThemeModeSwitchType.tile,
                 onThemeChanged: (theme) {},
               ),
-              Divider(),
+              const Divider(),
               AdaptiveLocaleMenu(
                 type: DropdownMenuType.tileWithMenu,
                 onChanged: (locale) {},

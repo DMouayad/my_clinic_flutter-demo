@@ -1,9 +1,9 @@
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+import 'package:flutter/material.dart';
 
-import '../custom_widget/custom_widget.dart';
-
-class ThemeIconSwitch extends CustomStatelessWidget {
+class ThemeIconSwitch extends StatelessWidget {
   const ThemeIconSwitch({
     required this.icon,
     required this.onThemeModeChanged,
@@ -12,13 +12,18 @@ class ThemeIconSwitch extends CustomStatelessWidget {
 
   final void Function() onThemeModeChanged;
   final Widget icon;
-
   @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
+    return context.isWindowsPlatform
+        ? windowsBuilder(context)
+        : mobileScreenBuilder(context);
+  }
+
+  Widget windowsBuilder(BuildContext context) {
     return fluent_ui.Tooltip(
       message: context.isDarkMode
-          ? AppLocalizations.of(context)!.enableLightTheme
-          : AppLocalizations.of(context)!.enableDarkTheme,
+          ? context.localizations!.enableLightTheme
+          : context.localizations!.enableDarkTheme,
       child: fluent_ui.IconButton(
         icon: icon,
         onPressed: onThemeModeChanged,
@@ -26,8 +31,7 @@ class ThemeIconSwitch extends CustomStatelessWidget {
     );
   }
 
-  @override
-  Widget? mobileScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget mobileScreenBuilder(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
       child: Theme(
@@ -37,8 +41,8 @@ class ThemeIconSwitch extends CustomStatelessWidget {
         ),
         child: IconButton(
           tooltip: context.isDarkMode
-              ? AppLocalizations.of(context)!.enableLightTheme
-              : AppLocalizations.of(context)!.enableDarkTheme,
+              ? context.localizations!.enableLightTheme
+              : context.localizations!.enableDarkTheme,
           icon: icon,
           onPressed: onThemeModeChanged,
         ),

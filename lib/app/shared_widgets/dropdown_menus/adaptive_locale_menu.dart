@@ -2,7 +2,7 @@ import 'android_dropdown_menu.dart';
 import 'windows_dropdown_menu.dart';
 import 'windows_tile_with_dropdown_menu.dart';
 
-import '../custom_widget/custom_widget.dart';
+import '../custom_widget.dart';
 import 'utils.dart';
 
 class AdaptiveLocaleMenu extends CustomStatelessWidget {
@@ -19,7 +19,7 @@ class AdaptiveLocaleMenu extends CustomStatelessWidget {
   }
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
     final currentLocale = context.locale;
     final title = AppLocalizations.of(context)?.language ?? 'Language';
     final items = AppLocalizations.supportedLocales

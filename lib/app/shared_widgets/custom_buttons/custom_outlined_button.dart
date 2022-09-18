@@ -1,6 +1,9 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
+//
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:clinic_v2/app/themes/app_color_scheme.dart';
 
-class CustomOutlinedButton extends CustomStatelessWidget {
+class CustomOutlinedButton extends StatelessWidget {
   const CustomOutlinedButton({
     Key? key,
     required this.label,

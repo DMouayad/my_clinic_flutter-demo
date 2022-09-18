@@ -1,6 +1,5 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
-// import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 class InputTextField extends CustomStatelessWidget {
   final String? initialValue;
@@ -51,10 +50,9 @@ class InputTextField extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
     final kOutlinedBorder = OutlineInputBorder(
-      borderRadius:
-          BorderRadius.circular(contextInfo.isDesktopPlatform ? 6 : 14),
+      borderRadius: BorderRadius.circular(context.isDesktopPlatform ? 6 : 14),
       borderSide: BorderSide(
           color: context.isDesktopPlatform
               ? context.isDarkMode
@@ -66,7 +64,7 @@ class InputTextField extends CustomStatelessWidget {
     return Theme(
       data: MaterialAppThemes.of(context),
       child: SizedBox(
-        width: contextInfo.widgetSize!.width * .8,
+        width: widgetInfo.widgetSize.width * .8,
         // height: context.isDesktop ? 55 : null,
         child: TextFormField(
           controller: controller,

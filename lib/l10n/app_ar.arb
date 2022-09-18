@@ -70,5 +70,7 @@
     "noInternetConnection": "لا يوجد اتصال بالانترنت!",
         "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",
     "or": "أو",
-    "delete": "حذف"
+    "delete": "حذف",
+        "ok":"حسناً"
+
 }

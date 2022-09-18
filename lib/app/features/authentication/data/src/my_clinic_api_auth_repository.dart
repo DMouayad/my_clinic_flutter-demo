@@ -12,6 +12,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   MyClinicApiAuthRepository({
     required BaseAuthTokensService authTokensService,
   }) {
+    hasLoggedInUserStreamController = StreamController();
     _dataSource = MyClinicApiAuthDataSource(authTokensService);
   }
 
@@ -97,7 +98,6 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
 
   @override
   Future<Result<MyClinicApiUser, BasicError>> onInit() async {
-    hasLoggedInUserStreamController = StreamController()..add(false);
     return (await _dataSource.loadUser()).when(
       onSuccess: (result) {
         currentUser = result;

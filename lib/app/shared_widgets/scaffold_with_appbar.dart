@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
+//
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+//
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
 import 'color_barrier.dart';
 import 'custom_buttons/custom_back_button.dart';
 import 'loading_indicator.dart';
 
-class ScaffoldWithAppBar extends CustomStatelessWidget {
+class ScaffoldWithAppBar extends StatelessWidget {
   const ScaffoldWithAppBar({
     this.showLeading = true,
     this.centerTitle = false,
@@ -51,7 +54,7 @@ class ScaffoldWithAppBar extends CustomStatelessWidget {
   /// progress indicator in the center
   final bool showLoadingIndicator;
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [

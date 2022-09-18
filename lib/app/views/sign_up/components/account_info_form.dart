@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+//
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/core/helpers/form_helper.dart';
 import 'package:clinic_v2/app/shared_widgets//input_text_field.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/submit_button.dart';
-import 'package:flutter/cupertino.dart';
 
 class SignUpAccountInfoForm extends StatefulWidget {
   const SignUpAccountInfoForm({required this.onSubmit, Key? key})
@@ -44,12 +46,12 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               prefixIcon: Icons.person,
               validator: (String? value) {
                 if (value?.isEmpty ?? false) {
-                  return AppLocalizations.of(context)?.fieldIsRequired;
+                  return context.localizations?.fieldIsRequired;
                 }
                 return null;
               },
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              hintText: AppLocalizations.of(context)?.username,
+              hintText: context.localizations?.username,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
@@ -61,11 +63,11 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (String? value) {
                 if (value?.isEmpty ?? false) {
-                  return AppLocalizations.of(context)?.fieldIsRequired;
+                  return context.localizations?.fieldIsRequired;
                 }
                 return null;
               },
-              hintText: AppLocalizations.of(context)?.email,
+              hintText: context.localizations?.email,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
@@ -77,19 +79,19 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (String? password) {
                 if (password?.isEmpty ?? true) {
-                  return AppLocalizations.of(context)?.fieldIsRequired;
+                  return context.localizations?.fieldIsRequired;
                 }
                 return null;
               },
-              hintText: AppLocalizations.of(context)?.password,
+              hintText: context.localizations?.password,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
               obscure: true,
             ),
-            SizedBox(height: context.height * .1),
+            SizedBox(height: context.screenHeight * .1),
             SubmitButton(
-              text: AppLocalizations.of(context)!.continueToNextStep,
+              text: context.localizations!.continueToNextStep,
               iconData: Icons.navigate_next,
               onPressed: () {
                 _formHelper.validateInput();

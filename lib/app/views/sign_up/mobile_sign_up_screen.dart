@@ -1,18 +1,21 @@
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
+//
+import 'package:flutter_bloc/flutter_bloc.dart';
+//
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_buttons/custom_back_button.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components/account_info_form.dart';
 import 'components/sign_up_step_indicator.dart';
 import 'components/sign_up_message.dart';
 
-class MobileSignUpScreen extends CustomStatelessWidget {
+class MobileSignUpScreen extends StatelessWidget {
   const MobileSignUpScreen({Key? key}) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return ScaffoldWithAppBar(
@@ -21,7 +24,7 @@ class MobileSignUpScreen extends CustomStatelessWidget {
           leading: const CustomBackButton(),
           actions: [
             SignUpStepIndicator(
-              title: AppLocalizations.of(context)!.stepOne,
+              title: context.localizations!.stepOne,
             ),
           ],
           body: Padding(

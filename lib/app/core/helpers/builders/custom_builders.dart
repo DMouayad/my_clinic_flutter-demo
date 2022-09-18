@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'package:clinic_v2/app/core/entities/context_info.dart';
+import 'package:clinic_v2/app/core/entities/widget_info.dart';
 
 export 'custom_builders_helper.dart';
 
 abstract class CustomBuilders<T extends Object> {
-  T? defaultBuilder(BuildContext context, ContextInfo contextInfo) => null;
+  T? defaultBuilder(BuildContext context) => null;
 
-  T? windowsBuilder(BuildContext context, ContextInfo contextInfo) => null;
-  T? macBuilder(BuildContext context, ContextInfo contextInfo) => null;
+  T? windowsBuilder(BuildContext context) => null;
+  T? macBuilder(BuildContext context) => null;
 
-  T? iosMobileBuilder(BuildContext context, ContextInfo contextInfo) => null;
-  T? androidMobileBuilder(BuildContext context, ContextInfo contextInfo) =>
-      null;
+  T? iosMobileBuilder(BuildContext context) => null;
+  T? androidMobileBuilder(BuildContext context) => null;
 
-  T? iosTabletBuilder(BuildContext context, ContextInfo contextInfo) => null;
-  T? androidTabletBuilder(BuildContext context, ContextInfo contextInfo) =>
-      null;
+  T? iosTabletBuilder(BuildContext context) => null;
+  T? androidTabletBuilder(BuildContext context) => null;
 
-  T? tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) => null;
-  T? mobileScreenBuilder(BuildContext context, ContextInfo contextInfo) => null;
+  T? tabletScreenBuilder(BuildContext context) => null;
+  T? mobileScreenBuilder(BuildContext context) => null;
 
   /// tablet screen or desktop screen
-  T? wideScreenBuilder(BuildContext context, ContextInfo contextInfo) => null;
-  T? desktopScreenBuilder(BuildContext context, ContextInfo contextInfo) =>
-      null;
+  T? wideScreenBuilder(BuildContext context) => null;
+  T? desktopScreenBuilder(BuildContext context) => null;
 }

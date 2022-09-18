@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 //
 import 'package:animate_do/animate_do.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+
 import 'theme_icon_switch.dart';
 import 'theme_switches.dart';
 

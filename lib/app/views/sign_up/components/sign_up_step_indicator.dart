@@ -1,6 +1,7 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 
-class SignUpStepIndicator extends CustomStatelessWidget {
+class SignUpStepIndicator extends StatelessWidget {
   final String title;
   const SignUpStepIndicator({
     Key? key,
@@ -11,7 +12,7 @@ class SignUpStepIndicator extends CustomStatelessWidget {
   final EdgeInsets? padding;
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return
         // SizedBox(
         //   width: contextInfo.widgetSize!.width * .4,
@@ -62,15 +63,15 @@ class SignUpStepIndicator extends CustomStatelessWidget {
         Material(
       type: MaterialType.transparency,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-            16, contextInfo.isDesktopPlatform ? 12 : 16, 16, 0),
+        padding:
+            EdgeInsets.fromLTRB(16, context.isDesktopPlatform ? 12 : 16, 16, 0),
         child: RawChip(
-          backgroundColor: AppColorScheme.of(context).primaryContainer,
+          backgroundColor: context.colorScheme.primaryContainer,
           label: Text(
             title,
             style: context.textTheme.bodyText1?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColorScheme.of(context).onPrimaryContainer,
+              color: context.colorScheme.onPrimaryContainer,
             ),
           ),
         ),

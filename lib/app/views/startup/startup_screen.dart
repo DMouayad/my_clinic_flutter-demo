@@ -18,10 +18,7 @@ class StartupScreen extends StatelessWidget {
           Navigator.of(context).popAndPushNamed(Routes.homeScreenRoute);
         }
         if (state is AuthHasNoLoggedInUser) {
-          Navigator.of(context).popAndPushNamed(
-            Routes.loginScreenRoute,
-            arguments: context.read<AuthBloc>(),
-          );
+          Navigator.of(context).popAndPushNamed(Routes.loginScreenRoute);
         }
       },
       child: BlocConsumer<StartupBloc, StartupState>(

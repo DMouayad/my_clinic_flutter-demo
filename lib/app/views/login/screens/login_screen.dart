@@ -1,9 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+//
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets/app_name_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/scaffold_with_appbar.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
+//
 import '../components/login_form.dart';
 import '../components/login_message.dart';
 
@@ -11,7 +12,7 @@ class LoginScreen extends CustomStatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, widgetInfo) {
     return ScaffoldWithAppBar(
       showLeading: false,
       title: AppNameText(
@@ -36,7 +37,7 @@ class LoginScreen extends CustomStatelessWidget {
                 child: const LoginMessage(),
               ),
               SizedBox(
-                height: contextInfo.widgetSize!.height * .1,
+                height: widgetInfo.widgetSize.height * .1,
               ),
               Center(
                 child: LoginForm(

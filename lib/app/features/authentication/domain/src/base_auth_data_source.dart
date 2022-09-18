@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
 
 abstract class BaseAuthDataSource<T extends BaseServerUser> {
   Future<Result> register(

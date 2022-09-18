@@ -1,12 +1,22 @@
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
+//
 import 'package:clinic_v2/app/shared_widgets/app_name_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/loading_indicator.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
-class LoadingAppScreen extends CustomStatelessWidget {
+
+class LoadingAppScreen extends StatelessWidget {
   const LoadingAppScreen({Key? key}) : super(key: key);
 
   @override
-  Widget mobileScreenBuilder(context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
+    if (context.isWindowsPlatform) return windowsBuilder(context);
+    if (context.isMobile) return mobileScreenBuilder(context);
+    if (context.isTablet) return tabletScreenBuilder(context);
+    throw UnimplementedError();
+  }
+
+  Widget mobileScreenBuilder(context) {
     return Scaffold(
       body: Center(
         child: Column(
@@ -14,7 +24,7 @@ class LoadingAppScreen extends CustomStatelessWidget {
           children: [
             LoadingIndicator(
               currentDotColor: context.colorScheme.primary!,
-              defaultDotColor: AppColorScheme.of(context).primaryContainer!,
+              defaultDotColor: context.colorScheme.primaryContainer!,
               size: 60,
             ),
             AppNameText(
@@ -27,8 +37,7 @@ class LoadingAppScreen extends CustomStatelessWidget {
     );
   }
 
-  @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context) {
     return WindowsTwoSidesScreen(
       leftSideBlurred: false,
       showInProgressIndicator: false,
@@ -38,13 +47,13 @@ class LoadingAppScreen extends CustomStatelessWidget {
           children: [
             LoadingIndicator(
               currentDotColor: context.colorScheme.primary!,
-              defaultDotColor: AppColorScheme.of(context).primaryContainer!,
+              defaultDotColor: context.colorScheme.primaryContainer!,
               numDots: 5,
               size: 60,
             ),
             const SizedBox(height: 24),
             Text(
-              AppLocalizations.of(context)!.loading,
+              context.localizations!.loading,
             ),
           ],
         ),
@@ -52,12 +61,10 @@ class LoadingAppScreen extends CustomStatelessWidget {
     );
   }
 
-  @override
-  Widget tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget tabletScreenBuilder(BuildContext context) {
     return Scaffold(
       body: Flex(
-        direction:
-            contextInfo.isPortraitTablet ? Axis.vertical : Axis.horizontal,
+        direction: context.isPortraitTablet ? Axis.vertical : Axis.horizontal,
         children: [
           Expanded(
             child: Center(
@@ -66,14 +73,13 @@ class LoadingAppScreen extends CustomStatelessWidget {
                 children: [
                   LoadingIndicator(
                     currentDotColor: context.colorScheme.primary!,
-                    defaultDotColor:
-                        AppColorScheme.of(context).primaryContainer!,
+                    defaultDotColor: context.colorScheme.primaryContainer!,
                     numDots: 5,
                     size: 60,
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    AppLocalizations.of(context)!.loading,
+                    context.localizations!.loading,
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:fluent_ui/fluent_ui.dart' hide Colors;
+import 'package:flutter/material.dart';
 
 class WindowsToggleSwitch extends StatelessWidget {
   const WindowsToggleSwitch({
@@ -17,8 +18,8 @@ class WindowsToggleSwitch extends StatelessWidget {
     return ToggleSwitch(
       content: AutoSizeText(
         checked
-            ? AppLocalizations.of(context)!.enabled
-            : AppLocalizations.of(context)!.disabled,
+            ? context.localizations!.enabled
+            : context.localizations!.disabled,
         style: context.textTheme.bodyText2,
       ),
       style: _getSwitchStyle(context),
@@ -60,7 +61,7 @@ class WindowsToggleSwitch extends StatelessWidget {
               ? states.isHovering
                   ? context.isDarkMode
                       ? context.colorScheme.secondaryContainer
-                      : AppColorScheme.darkColorScheme.primary
+                      : context.darkColorScheme.primary
                   : Colors.transparent
               // ? ButtonThemeData.uncheckedInputColor(style, states)
               : Colors.transparent,

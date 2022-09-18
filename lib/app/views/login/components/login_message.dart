@@ -1,4 +1,5 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 
 class LoginMessage extends StatelessWidget {
   const LoginMessage({Key? key}) : super(key: key);
@@ -6,7 +7,7 @@ class LoginMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      AppLocalizations.of(context)!.loginScreenMessage,
+      context.localizations!.loginScreenMessage,
       textAlign: TextAlign.start,
       style: context.textTheme.headline6?.copyWith(
         fontWeight: FontWeight.bold,

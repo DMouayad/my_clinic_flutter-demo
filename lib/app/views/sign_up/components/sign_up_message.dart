@@ -1,14 +1,15 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 
-class SignUpMessage extends CustomStatelessWidget {
+class SignUpMessage extends StatelessWidget {
   const SignUpMessage({Key? key}) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return Text(
-      AppLocalizations.of(context)!.signUpScreenMessage,
+      context.localizations!.signUpScreenMessage,
       textAlign: TextAlign.start,
-      style: contextInfo.isDesktop
+      style: context.isDesktop
           ? context.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
               color: context.colorScheme.onBackground,

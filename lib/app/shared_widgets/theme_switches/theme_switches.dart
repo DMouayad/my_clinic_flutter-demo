@@ -1,8 +1,10 @@
-import '../custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
+//
 import '../windows_components/windows_settings_tile.dart';
 import '../windows_components/windows_toggle_switch.dart';
 
-class ThemeTileSwitch extends CustomStatelessWidget {
+class ThemeTileSwitch extends StatelessWidget {
   const ThemeTileSwitch({
     required this.onThemeModeChanged,
     required this.themeIcon,
@@ -11,13 +13,18 @@ class ThemeTileSwitch extends CustomStatelessWidget {
 
   final Widget themeIcon;
   final void Function() onThemeModeChanged;
-
   @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
+    return context.isWindowsPlatform
+        ? windowsBuilder(context)
+        : defaultBuilder(context);
+  }
+
+  Widget windowsBuilder(BuildContext context) {
     return WindowsSettingTile(
       tileLabel: 'Theme',
       leadingIcon: themeIcon,
-      titleText: AppLocalizations.of(context)!.darkMode,
+      titleText: context.localizations!.darkMode,
       trailing: WindowsToggleSwitch(
         checked: context.isDarkMode,
         onChanged: (_) => onThemeModeChanged(),
@@ -25,20 +32,19 @@ class ThemeTileSwitch extends CustomStatelessWidget {
     );
   }
 
-  @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context) {
     return SwitchListTile.adaptive(
       value: context.isDarkMode,
       title: Text(
-        AppLocalizations.of(context)!.darkMode,
+        context.localizations!.darkMode,
         style: context.textTheme.subtitle1,
       ),
       // contentPadding: const EdgeInsets.symmetric(horizontal: 0),
       secondary: themeIcon,
       subtitle: Text(
         context.isDarkMode
-            ? AppLocalizations.of(context)!.enabled
-            : AppLocalizations.of(context)!.disabled,
+            ? context.localizations!.enabled
+            : context.localizations!.disabled,
         style: context.textTheme.bodyText2?.copyWith(
           color: context.colorScheme.primary,
         ),

@@ -69,5 +69,6 @@
     "disabled": "disabled",
     "appLanguage": "App language",
     "or": "Or",
-    "delete": "Delete"
+    "delete": "Delete",
+    "ok":"Ok"
 }

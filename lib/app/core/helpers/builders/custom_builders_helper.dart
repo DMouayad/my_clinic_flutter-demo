@@ -1,58 +1,38 @@
 import 'package:flutter/material.dart';
 
-import 'package:clinic_v2/app/core/entities/context_info.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'custom_builders.dart';
 
 mixin CustomBuildersHelper<T extends Object> on CustomBuilders<T> {
   @protected
   T getCurrentContextBuilder(BuildContext context) {
-    if (T == Widget) {
-      return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          ContextInfo contextInfo = ContextInfo(
-            context,
-            widgetSize: Size(constraints.maxWidth, constraints.maxHeight),
-          );
-          return MediaQuery(
-            data: contextInfo.mediaQuery.copyWith(
-              textScaleFactor:
-                  _getDeviceTextScaleFactor(contextInfo.deviceTypeByScreen),
-            ),
-            child: (_returnBuilderByPlatform(context, contextInfo)
-                    as Widget?) ??
-                (_returnBuilderByScreenSize(context, contextInfo) as Widget?) ??
-                (defaultBuilder(context, contextInfo)! as Widget),
-          );
-        },
-      ) as T;
-    } else {
-      ContextInfo contextInfo = ContextInfo(
-        context,
-      );
-
-      return _returnBuilderByPlatform(context, contextInfo) ??
-          _returnBuilderByScreenSize(context, contextInfo) ??
-          defaultBuilder(context, contextInfo)!;
-    }
+    return _returnBuilderByPlatform(context) ??
+        _returnBuilderByScreenSize(context) ??
+        _getDefaultBuilder(context);
   }
 
-  T? _returnBuilderByPlatform(BuildContext context, ContextInfo contextInfo) {
-    late final T? Function(BuildContext context, ContextInfo contextInfo)
-        _builderByPlatform;
+  T _getDefaultBuilder(BuildContext context) {
+    return ((context.isDesktop || context.isTablet) &&
+            wideScreenBuilder(context) != null)
+        ? wideScreenBuilder(context)!
+        : defaultBuilder(context)!;
+  }
 
-    switch (contextInfo.context.platform) {
+  T? _returnBuilderByPlatform(BuildContext context) {
+    late final T? Function(BuildContext context) _builderByPlatform;
+
+    switch (context.platform) {
       case TargetPlatform.android:
-        if (contextInfo.isTablet) {
+        if (context.isTablet) {
           _builderByPlatform = androidTabletBuilder;
-        } else if (contextInfo.isMobile) {
+        } else if (context.isMobile) {
           _builderByPlatform = androidMobileBuilder;
         }
         break;
       case TargetPlatform.iOS:
-        if (contextInfo.isTablet) {
+        if (context.isTablet) {
           _builderByPlatform = iosTabletBuilder;
-        } else if (contextInfo.isMobile) {
+        } else if (context.isMobile) {
           _builderByPlatform = iosMobileBuilder;
         }
         break;
@@ -65,18 +45,17 @@ mixin CustomBuildersHelper<T extends Object> on CustomBuilders<T> {
       default:
         break;
     }
-    if (_builderByPlatform(context, contextInfo) != null) {
-      return _builderByPlatform(context, contextInfo)!;
+    if (_builderByPlatform(context) != null) {
+      return _builderByPlatform(context)!;
     } else {
       return null;
     }
   }
 
-  T? _returnBuilderByScreenSize(BuildContext context, ContextInfo contextInfo) {
-    late final T? Function(BuildContext context, ContextInfo contextInfo)
-        _builderByScreenSize;
+  T? _returnBuilderByScreenSize(BuildContext context) {
+    late final T? Function(BuildContext context) _builderByScreenSize;
 
-    switch (contextInfo.deviceTypeByScreen) {
+    switch (context.deviceTypeByScreen) {
       case DeviceType.mobile:
         _builderByScreenSize = mobileScreenBuilder;
         break;
@@ -89,8 +68,8 @@ mixin CustomBuildersHelper<T extends Object> on CustomBuilders<T> {
       default:
         break;
     }
-    if (_builderByScreenSize(context, contextInfo) != null) {
-      return _builderByScreenSize(context, contextInfo)!;
+    if (_builderByScreenSize(context) != null) {
+      return _builderByScreenSize(context)!;
     } else {
       return null;
     }

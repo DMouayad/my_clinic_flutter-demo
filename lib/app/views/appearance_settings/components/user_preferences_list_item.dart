@@ -1,10 +1,14 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
+//
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+//
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
-class UserPreferencesListItem extends CustomStatelessWidget {
+class UserPreferencesListItem extends StatelessWidget {
   final bool selected;
   final PreferencesListItemData itemData;
   final int index;
+
   const UserPreferencesListItem({
     this.selected = false,
     required this.index,
@@ -13,8 +17,15 @@ class UserPreferencesListItem extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
-    if (!contextInfo.isMobile || !contextInfo.isPortraitTablet) {
+  Widget build(BuildContext context) {
+    if (context.isWindowsPlatform) {
+      return windowsBuilder(context) ?? defaultBuilder(context);
+    }
+    return defaultBuilder(context);
+  }
+
+  Widget? windowsBuilder(BuildContext context) {
+    if (!context.isMobile || !context.isPortraitTablet) {
       return fluent_ui.TappableListTile(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12.0,
@@ -35,7 +46,7 @@ class UserPreferencesListItem extends CustomStatelessWidget {
           color: selected
               ? context.colorScheme.primary
               : context.colorScheme.onPrimaryContainer,
-          size: contextInfo.isTablet ? 24 : 26,
+          size: context.isTablet ? 24 : 26,
         ),
         title: Text(
           itemData.name,
@@ -51,10 +62,9 @@ class UserPreferencesListItem extends CustomStatelessWidget {
     return null;
   }
 
-  @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context) {
     return ListTile(
-      horizontalTitleGap: contextInfo.isTablet ? 8 : null,
+      horizontalTitleGap: context.isTablet ? 8 : null,
       selectedColor: context.colorScheme.primary,
       selected: selected,
       dense: false,
@@ -65,7 +75,7 @@ class UserPreferencesListItem extends CustomStatelessWidget {
         itemData.name,
         style: context.textTheme.subtitle1?.copyWith(
           fontWeight: FontWeight.w600,
-          fontSize: contextInfo.isTablet ? 14 : null,
+          fontSize: context.isTablet ? 14 : null,
         ),
       ),
       onTap: () {

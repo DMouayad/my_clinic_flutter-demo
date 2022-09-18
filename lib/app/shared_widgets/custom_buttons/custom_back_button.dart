@@ -1,10 +1,11 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
+import 'package:flutter/material.dart';
 
-class CustomBackButton extends CustomStatelessWidget {
+class CustomBackButton extends StatelessWidget {
   const CustomBackButton({Key? key}) : super(key: key);
-  @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+
+  Widget _windowsBuilder(BuildContext context) {
     return Theme(
       data: context.theme.copyWith(
         splashFactory: NoSplash.splashFactory,
@@ -19,9 +20,11 @@ class CustomBackButton extends CustomStatelessWidget {
   }
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
-    return BackButton(
-      color: context.colorScheme.onBackground,
-    );
+  Widget build(BuildContext context) {
+    return context.isWindowsPlatform
+        ? _windowsBuilder(context)
+        : BackButton(
+            color: context.colorScheme.onBackground,
+          );
   }
 }

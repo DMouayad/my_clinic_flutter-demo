@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/core/entities/context_info.dart';
+import 'package:clinic_v2/app/core/entities/widget_info.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:clinic_v2/app/core/helpers/builders/custom_builders.dart';
@@ -36,55 +36,47 @@ class RouteTransitionBuilder
   });
 
   @override
-  RouteTransitionType? defaultBuilder(BuildContext context, contextInfo) {
+  RouteTransitionType? defaultBuilder(BuildContext context) {
     return defaultTransition;
   }
 
   @override
-  RouteTransitionType? mobileScreenBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? mobileScreenBuilder(BuildContext context) {
     return mobile;
   }
 
   @override
-  RouteTransitionType? tabletScreenBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? tabletScreenBuilder(BuildContext context) {
     return tablet;
   }
 
   @override
-  RouteTransitionType? androidMobileBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? androidMobileBuilder(BuildContext context) {
     return androidMobile;
   }
 
   @override
-  RouteTransitionType? androidTabletBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? androidTabletBuilder(BuildContext context) {
     return androidTablet;
   }
 
   @override
-  RouteTransitionType? iosMobileBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? iosMobileBuilder(BuildContext context) {
     return iosMobile;
   }
 
   @override
-  RouteTransitionType? iosTabletBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? iosTabletBuilder(BuildContext context) {
     return iosTablet;
   }
 
   @override
-  RouteTransitionType? windowsBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? windowsBuilder(BuildContext context) {
     return windows;
   }
 
   @override
-  RouteTransitionType? macBuilder(
-      BuildContext context, ContextInfo contextInfo) {
+  RouteTransitionType? macBuilder(BuildContext context) {
     return macOS;
   }
 

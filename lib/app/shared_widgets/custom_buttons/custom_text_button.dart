@@ -1,4 +1,5 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String label;

@@ -1,6 +1,7 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 
-class SimpleCard extends CustomStatelessWidget {
+class SimpleCard extends StatelessWidget {
   const SimpleCard({
     required this.child,
     this.padding,
@@ -11,7 +12,7 @@ class SimpleCard extends CustomStatelessWidget {
   final EdgeInsets? padding;
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: 8,
@@ -19,8 +20,7 @@ class SimpleCard extends CustomStatelessWidget {
       padding: padding ?? const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
-        borderRadius:
-            BorderRadius.circular(contextInfo.isDesktopPlatform ? 6 : 16),
+        borderRadius: BorderRadius.circular(context.isDesktopPlatform ? 6 : 16),
       ),
       child: child,
     );

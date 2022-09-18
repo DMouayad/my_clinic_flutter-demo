@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_buttons/custom_elevated_button.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
-
-import 'custom_widget/custom_widget.dart';
 
 class SubmitButton extends CustomStatelessWidget {
   final void Function() onPressed;
@@ -21,13 +20,13 @@ class SubmitButton extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget defaultBuilder(BuildContext context, contextInfo) {
+  Widget customBuild(BuildContext context, widgetInfo) {
     return SizedBox(
       width: expandInWidth
-          ? contextInfo.widgetSize!.width
-          : contextInfo.widgetSize!.width * .8,
+          ? widgetInfo.widgetSize.width
+          : widgetInfo.widgetSize.width * .8,
       height: height ?? 44,
-      child: contextInfo.isDesktopPlatform
+      child: context.isDesktopPlatform
           ? fluent_ui.FluentTheme(
               data: fluent_ui.ThemeData(),
               child: fluent_ui.OutlinedButton(

@@ -1,6 +1,9 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
+//
+import 'package:clinic_v2/app/core/helpers/builders/custom_builders.dart';
 
-class PageScreensBuilder extends CustomStatelessWidget {
+class PageScreensBuilder extends StatelessWidget
+    with CustomBuilders<Widget>, CustomBuildersHelper<Widget> {
   const PageScreensBuilder({
     this.mobileScreen,
     this.tabletScreen,
@@ -31,52 +34,57 @@ class PageScreensBuilder extends CustomStatelessWidget {
   final Widget? defaultScreen;
 
   @override
-  Widget? defaultBuilder(BuildContext context, contextInfo) {
+  Widget? defaultBuilder(BuildContext context) {
     return defaultScreen;
   }
 
   @override
-  Widget? mobileScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? mobileScreenBuilder(BuildContext context) {
     return mobileScreen;
   }
 
   @override
-  Widget? tabletScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? tabletScreenBuilder(BuildContext context) {
     return tabletScreen ?? defaultWideScreen;
   }
 
   @override
-  Widget? wideScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? wideScreenBuilder(BuildContext context) {
     return defaultWideScreen;
   }
 
   @override
-  Widget? androidMobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? androidMobileBuilder(BuildContext context) {
     return androidMobileScreen;
   }
 
   @override
-  Widget? androidTabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? androidTabletBuilder(BuildContext context) {
     return androidTabletScreen;
   }
 
   @override
-  Widget? iosMobileBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? iosMobileBuilder(BuildContext context) {
     return iosMobileScreen;
   }
 
   @override
-  Widget? iosTabletBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? iosTabletBuilder(BuildContext context) {
     return iosTabletScreen;
   }
 
   @override
-  Widget? windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? windowsBuilder(BuildContext context) {
     return windowsScreen;
   }
 
   @override
-  Widget? macBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget? macBuilder(BuildContext context) {
     return macOSScreen;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return getCurrentContextBuilder(context);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 
 class ErrorCard extends CustomStatelessWidget {
   const ErrorCard({
@@ -35,7 +35,7 @@ class ErrorCard extends CustomStatelessWidget {
   }
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
     return SizedBox(
       width: _getCardWidth(contextInfo.widgetSize!.width),
       height: 55,

@@ -1,32 +1,23 @@
+import 'package:flutter/material.dart';
+//
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/shared_widgets/app_name_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
-class ErrorStartingAppScreen extends CustomStatelessWidget {
+class ErrorStartingAppScreen extends StatelessWidget {
   final BasicError error;
   const ErrorStartingAppScreen(this.error, {Key? key}) : super(key: key);
 
-  @override
-  Widget desktopScreenBuilder(context, ContextInfo contextInfo) {
-    return _largeErrorScreen(context, contextInfo);
+  Widget desktopScreenBuilder(BuildContext context) {
+    return _largeErrorScreen(context);
   }
 
-  @override
-  Widget? tabletScreenBuilder(context, ContextInfo contextInfo) {
-    if (contextInfo.isLandScapeTablet) {
-      return _largeErrorScreen(context, contextInfo);
-    }
-    return null;
-  }
-
-  @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context) {
     return ScaffoldWithAppBar(
       appBarBackgroundColor: Colors.transparent,
       bodyWithSafeArea: false,
@@ -35,21 +26,20 @@ class ErrorStartingAppScreen extends CustomStatelessWidget {
         fontColor: context.colorScheme.secondary,
         fontSize: 36,
       ),
-      body: _screenContent(error, context, contextInfo),
+      body: _screenContent(error, context),
     );
   }
 
-  Widget _largeErrorScreen(BuildContext context, contextInfo) {
+  Widget _largeErrorScreen(BuildContext context) {
     return WindowsTwoSidesScreen(
       showInProgressIndicator: false,
-      leftSide: _screenContent(error, context, contextInfo),
+      leftSide: _screenContent(error, context),
     );
   }
 
   Widget _screenContent(
     BasicError error,
     BuildContext context,
-    ContextInfo contextInfo,
   ) {
     return Center(
       child: Column(
@@ -97,5 +87,16 @@ class ErrorStartingAppScreen extends CustomStatelessWidget {
           "Cannot connect to the server, please try again";
     }
     return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (context.isLandScapeTablet) {
+      return _largeErrorScreen(context);
+    }
+    if (context.isDesktop) {
+      return _largeErrorScreen(context);
+    }
+    return defaultBuilder(context);
   }
 }

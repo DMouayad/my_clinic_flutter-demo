@@ -1,9 +1,12 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:clinic_v2/app/themes/material_themes.dart';
+import 'package:flutter/material.dart';
+//
 import 'package:time_range_picker/time_range_picker.dart';
+//
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:clinic_v2/app/themes/material_themes.dart';
 
 Future<void> showCustomTimeRangePicker(
-  ContextInfo contextInfo, {
+  BuildContext context, {
   TimeOfDay? start,
   TimeOfDay? end,
   TimeRange? disabledTime,
@@ -13,14 +16,14 @@ Future<void> showCustomTimeRangePicker(
 }) async {
   final timeRangePicker = FittedBox(
     child: Dialog(
-      backgroundColor: contextInfo.context.colorScheme.backgroundColor,
+      backgroundColor: context.colorScheme.backgroundColor,
       child: SizedBox(
         width: () {
-          if (contextInfo.isDesktop) {
+          if (context.isDesktop) {
             return 500.0;
-          } else if (contextInfo.isLandScapeTablet) {
+          } else if (context.isLandScapeTablet) {
             return 400.0;
-          } else if (contextInfo.isPortraitTablet) {
+          } else if (context.isPortraitTablet) {
             return 300.0;
           } else {
             return 220.0;
@@ -38,7 +41,7 @@ Future<void> showCustomTimeRangePicker(
     ),
   );
   await showDialog(
-    context: contextInfo.context,
+    context: context,
     builder: (context) {
       return Theme(
         data: MaterialAppThemes.of(context).copyWith(
@@ -55,7 +58,7 @@ Future<void> showCustomTimeRangePicker(
   );
 }
 
-class CustomTimeRangePicker extends CustomStatelessWidget {
+class CustomTimeRangePicker extends StatelessWidget {
   const CustomTimeRangePicker({
     this.start,
     this.end,
@@ -73,8 +76,9 @@ class CustomTimeRangePicker extends CustomStatelessWidget {
   final void Function(TimeOfDay)? onStartChange;
   final void Function(TimeOfDay)? onEndChange;
   final void Function()? onCancel;
+
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return TimeRangePicker(
       // onCancel: onCancel,
       handlerColor: context.colorScheme.onPrimaryContainer,
@@ -97,7 +101,7 @@ class CustomTimeRangePicker extends CustomStatelessWidget {
       backgroundColor: context.colorScheme.backgroundColor,
       use24HourFormat: false,
       autoAdjustLabels: true,
-      handlerRadius: contextInfo.isDesktop ? 12 : 5,
+      handlerRadius: context.isDesktop ? 12 : 5,
       ticks: 24,
       labelStyle: context.textTheme.bodyMedium?.copyWith(
         fontWeight: FontWeight.w600,
@@ -113,15 +117,14 @@ class CustomTimeRangePicker extends CustomStatelessWidget {
         color: context.colorScheme.onPrimary,
         fontWeight: FontWeight.w600,
       ),
-      strokeWidth:
-          contextInfo.isMobile || contextInfo.isPortraitTablet ? 5 : 10,
+      strokeWidth: context.isMobile || context.isPortraitTablet ? 5 : 10,
       labelOffset: 40,
       backgroundWidget: ConstrainedBox(
         constraints: BoxConstraints.loose(
           Size(
-            contextInfo.isMobile
+            context.isMobile
                 ? 60.0
-                : contextInfo.isTablet
+                : context.isTablet
                     ? 70
                     : 100,
             70,
@@ -133,21 +136,21 @@ class CustomTimeRangePicker extends CustomStatelessWidget {
             Expanded(
               child: Icon(
                 Icons.wb_sunny_outlined,
-                size: contextInfo.isDesktop ? 32 : 22,
+                size: context.isDesktop ? 32 : 22,
               ),
             ),
             Expanded(
               child: VerticalDivider(
                 thickness: 2,
-                indent: !contextInfo.isDesktop ? 10 : 0,
-                endIndent: !contextInfo.isDesktop ? 10 : 0,
+                indent: !context.isDesktop ? 10 : 0,
+                endIndent: !context.isDesktop ? 10 : 0,
                 color: context.isDarkMode ? Colors.white24 : Colors.black38,
               ),
             ),
             Expanded(
               child: Icon(
                 Icons.nightlight_round,
-                size: contextInfo.isDesktop ? 32 : 22,
+                size: context.isDesktop ? 32 : 22,
               ),
             ),
           ],

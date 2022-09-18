@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 const buttonHight = 40;
@@ -22,15 +22,13 @@ class CustomFilledButton extends CustomStatelessWidget {
   final Color? labelColor;
   final bool fillHeight;
   final bool fillWidth;
-  @override
-  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+
+  Widget windowsBuilder(BuildContext context, WidgetInfo contextInfo) {
     return SizedBox(
       height: fillHeight ? contextInfo.widgetSize!.height : null,
       width: fillWidth ? contextInfo.widgetSize!.width : null,
       child: fluent_ui.FilledButton(
-        child: Text(
-          label,
-        ),
+        child: Text(label),
         onPressed: onPressed,
         style: fluent_ui.ButtonStyle(
           backgroundColor: fluent_ui.ButtonState.all(backgroundColor),
@@ -48,9 +46,11 @@ class CustomFilledButton extends CustomStatelessWidget {
     );
   }
 
-  @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget defaultBuilder(BuildContext context, WidgetInfo contextInfo) {
     return TextButton.icon(
+      label: Text(label),
+      onPressed: onPressed,
+      icon: Icon(iconData, size: 20),
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all(const Size.fromHeight(40)),
         padding:
@@ -77,14 +77,13 @@ class CustomFilledButton extends CustomStatelessWidget {
           ),
         ),
       ),
-      label: Text(
-        label,
-      ),
-      onPressed: onPressed,
-      icon: Icon(
-        iconData,
-        size: 20,
-      ),
     );
+  }
+
+  @override
+  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
+    return context.isWindowsPlatform
+        ? windowsBuilder(context, contextInfo)
+        : defaultBuilder(context, contextInfo);
   }
 }

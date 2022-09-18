@@ -3,6 +3,20 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+extension DeviceInfoExtension on BuildContext {
+  DeviceType get deviceTypeByScreen {
+    if (isDesktop) {
+      return DeviceType.desktop;
+    }
+
+    if (isTablet) {
+      return DeviceType.tablet;
+    }
+
+    return DeviceType.mobile;
+  }
+}
+
 extension ResponsiveContextExtension on BuildContext {
   double get horizontalMargins {
     final screenWidth = MediaQuery.of(this).size.width;
@@ -20,12 +34,25 @@ extension ResponsiveContextExtension on BuildContext {
 }
 
 extension ContextScreenSizeExtension on BuildContext {
-  double get height => MediaQuery.of(this).size.height;
-  double get width => MediaQuery.of(this).size.width;
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
+  Size get deviceScreenSize => mediaQuery.size;
+  double get screenHeight => deviceScreenSize.height;
+  double get screenWidth => deviceScreenSize.width;
+  Orientation get orientation => mediaQuery.orientation;
+  bool get isPortraitMode => orientation == Orientation.portrait;
+  bool get isLandscapeMode => orientation == Orientation.landscape;
+
+  bool get isMobile => screenWidth < 600;
+
+  bool get isLandScapeTablet => isTablet && isLandscapeMode;
+  bool get isPortraitTablet => isTablet && isPortraitMode;
+  bool get isTablet => (screenWidth >= 600 && screenWidth < 980);
+
+  bool get isDesktop => screenWidth >= 980;
 }
 
 extension ContextThemeExtension on BuildContext {
-  MediaQueryData get mediaQuery => MediaQuery.of(this);
+  MediaQueryData get mediaQueryData => MediaQuery.of(this);
 
   /// similar to [MediaQuery.of(context).theme]
   ThemeData get theme => Theme.of(this);
@@ -38,6 +65,7 @@ extension ContextThemeExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   fluent_ui.Typography get fluentTextTheme => fluentTheme.typography;
   AppColorScheme get colorScheme => AppColorScheme.of(this);
+  ColorScheme get darkColorScheme => AppColorScheme.darkColorScheme;
   bool get isDesktopPlatform {
     return Theme.of(this).platform == TargetPlatform.windows ||
         Theme.of(this).platform == TargetPlatform.macOS ||
@@ -64,3 +92,5 @@ extension ContextLocaleExtension on BuildContext {
   Locale get locale => Localizations.localeOf(this);
   AppLocalizations? get localizations => AppLocalizations.of(this);
 }
+
+enum DeviceType { mobile, tablet, desktop }

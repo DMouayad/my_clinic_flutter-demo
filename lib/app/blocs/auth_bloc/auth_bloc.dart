@@ -1,8 +1,10 @@
-import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
+//
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+//
+import 'package:clinic_v2/app/core/entities/result/result.dart';
+import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
 
 part 'auth_state.dart';
 part 'sign_up_state.dart';
@@ -14,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(this.authRepository) : super(const AuthInitial()) {
     authRepository.hasLoggedInUser.listen((_) {
+      print(_);
       add(const AuthHasUserStateChanged());
     });
 
@@ -40,7 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<AuthState> _initAuth() async {
     return (await authRepository.onInit()).when(
       onSuccess: (BaseServerUser result) => AuthHasLoggedInUser(result),
-      onError: (BasicError error) => AuthError(error),
+      onError: (BasicError error) => AuthHasNoLoggedInUser(),
     );
   }
 

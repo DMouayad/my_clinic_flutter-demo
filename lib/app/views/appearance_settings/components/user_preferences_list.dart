@@ -1,9 +1,10 @@
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 //
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 
 import 'user_preferences_list_item.dart';
 
-class UserPreferencesList extends CustomStatelessWidget {
+class UserPreferencesList extends StatelessWidget {
   const UserPreferencesList({
     this.selectedItemIndex = 0,
     required this.onAppearanceTileTapped,
@@ -22,15 +23,15 @@ class UserPreferencesList extends CustomStatelessWidget {
   final int selectedItemIndex;
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     final preferencesListData = [
       PreferencesListItemData(
-        name: AppLocalizations.of(context)!.calendar,
+        name: context.localizations!.calendar,
         icon: Icons.calendar_today_outlined,
         onSelected: onCalendarTileTapped,
       ),
       PreferencesListItemData(
-        name: AppLocalizations.of(context)!.appearance,
+        name: context.localizations!.appearance,
         icon: Icons.devices,
         onSelected: onAppearanceTileTapped,
       ),
@@ -51,7 +52,7 @@ class UserPreferencesList extends CustomStatelessWidget {
                 child: UserPreferencesListItem(
                   index: e.key,
                   selected:
-                      contextInfo.isMobile ? false : e.key == selectedItemIndex,
+                      context.isMobile ? false : e.key == selectedItemIndex,
                   itemData: e.value,
                 ),
               ))

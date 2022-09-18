@@ -1,18 +1,20 @@
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
 
 import '../components/login_form.dart';
 import '../components/login_message.dart';
 
-class LargeLoginScreen extends CustomStatelessWidget {
-  const LargeLoginScreen({required this.animation, Key? key}) : super(key: key);
+class WindowsLoginScreen extends StatelessWidget {
+  const WindowsLoginScreen({required this.animation, Key? key})
+      : super(key: key);
   final Animation<double> animation;
 
   @override
-  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(
@@ -25,7 +27,7 @@ class LargeLoginScreen extends CustomStatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.horizontalMargins,
-                  vertical: context.height * .1,
+                  vertical: context.screenHeight * .1,
                 ),
                 child: const LoginMessage(),
               ),
@@ -33,7 +35,7 @@ class LargeLoginScreen extends CustomStatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal:
-                        contextInfo.isTablet ? 0 : context.horizontalMargins,
+                        context.isTablet ? 0 : context.horizontalMargins,
                   ),
                   child: LoginForm(
                     onSubmit: (String email, String password) {

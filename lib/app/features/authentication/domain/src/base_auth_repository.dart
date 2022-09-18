@@ -1,6 +1,5 @@
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-
+import 'package:flutter/material.dart';
 import 'base_server_user.dart';
 
 abstract class BaseAuthRepository<U extends BaseServerUser> {

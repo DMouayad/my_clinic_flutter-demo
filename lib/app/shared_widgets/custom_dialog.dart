@@ -1,8 +1,10 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:flutter/material.dart';
+//
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
-class CustomDialog extends CustomStatelessWidget {
-  const CustomDialog({
+class WindowsCustomDialog extends StatelessWidget {
+  const WindowsCustomDialog({
     required this.titleText,
     this.contentText,
     this.actions = const [],
@@ -17,11 +19,10 @@ class CustomDialog extends CustomStatelessWidget {
   final bool withOkOptionButton;
 
   @override
-  Widget windowsBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return fluent_ui.ContentDialog(
       style: fluent_ui.ContentDialogThemeData(
         barrierColor: context.colorScheme.backgroundColor,
-        // ac
       ),
       title: Text(
         titleText,
@@ -45,7 +46,7 @@ class CustomDialog extends CustomStatelessWidget {
         if (withOkOptionButton)
           fluent_ui.FilledButton(
               child: Text(
-                'Ok',
+                context.localizations!.ok,
                 style: context.fluentTextTheme.bodyLarge?.copyWith(
                   color: context.colorScheme.onPrimary,
                 ),
@@ -56,10 +57,5 @@ class CustomDialog extends CustomStatelessWidget {
         ...actions,
       ],
     );
-  }
-
-  @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
-    return const AlertDialog();
   }
 }

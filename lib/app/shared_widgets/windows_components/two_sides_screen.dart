@@ -1,12 +1,12 @@
 import 'package:fluent_ui/fluent_ui.dart';
 //
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/loading_indicator.dart';
 import '../app_name_text.dart';
 import '../screens/two_sides_screen_layout.dart';
 
-class WindowsTwoSidesScreen extends CustomStatelessWidget {
+class WindowsTwoSidesScreen extends StatelessWidget {
   const WindowsTwoSidesScreen({
     required this.showInProgressIndicator,
     required this.leftSide,
@@ -23,8 +23,9 @@ class WindowsTwoSidesScreen extends CustomStatelessWidget {
   final String? errorText;
   final Widget leftSide;
   final Widget? topOptionsBar;
+
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return TwoSidesScreenLayout(
       leftSideAnimation: leftSideAnimation,
       leftSideBlurred: leftSideBlurred ?? showInProgressIndicator,
@@ -32,8 +33,8 @@ class WindowsTwoSidesScreen extends CustomStatelessWidget {
       rightSide: Hero(
         tag: 'appName',
         child: SizedBox(
-          width: contextInfo.screenWidth / 2,
-          height: contextInfo.screenHeight,
+          width: context.screenWidth / 2,
+          height: context.screenHeight,
           child: Acrylic(
             child: Stack(
               children: [

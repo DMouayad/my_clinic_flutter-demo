@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
 class WindowsSettingTile extends CustomStatelessWidget {
@@ -18,7 +18,7 @@ class WindowsSettingTile extends CustomStatelessWidget {
   final String titleText;
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
     return InfoLabel(
       labelStyle: context.textTheme.titleMedium?.copyWith(
         color: context.colorScheme.onBackground,
@@ -28,11 +28,10 @@ class WindowsSettingTile extends CustomStatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Flex(
-          direction:
-              contextInfo.isPortraitTablet ? Axis.vertical : Axis.horizontal,
-          // mainAxisAlignment: contextInfo.isDesktop
+          direction: context.isPortraitTablet ? Axis.vertical : Axis.horizontal,
+          // mainAxisAlignment: context.isDesktop
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: contextInfo.isPortraitTablet
+          mainAxisAlignment: context.isPortraitTablet
               ? MainAxisAlignment.spaceAround
               : MainAxisAlignment.start,
           children: [
@@ -52,16 +51,16 @@ class WindowsSettingTile extends CustomStatelessWidget {
                 ],
               ),
             ),
-            if (!contextInfo.isPortraitTablet) const Spacer(),
+            if (!context.isPortraitTablet) const Spacer(),
             if (trailing != null)
               Expanded(
-                flex: contextInfo.isPortraitTablet
+                flex: context.isPortraitTablet
                     ? 0
-                    : contextInfo.widgetSize!.width > 485
+                    : widgetInfo.widgetSize.width > 485
                         ? 0
                         : 1,
                 child: Padding(
-                  padding: contextInfo.isPortraitTablet
+                  padding: context.isPortraitTablet
                       ? const EdgeInsets.symmetric(
                           vertical: 12.0,
                           horizontal: 8.0,

@@ -1,16 +1,19 @@
+import 'package:flutter/material.dart';
+//
+import 'package:flutter_bloc/flutter_bloc.dart';
+//
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
-import 'package:clinic_v2/app/shared_widgets//windows_components/custom_nav_view.dart';
-import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget/custom_widget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view.dart';
+import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
 import 'components/account_info_form.dart';
 import 'components/sign_up_message.dart';
 import 'components/sign_up_step_indicator.dart';
 
-class WideSignUpScreen extends CustomStatelessWidget {
+class WideSignUpScreen extends StatelessWidget {
   const WideSignUpScreen({
     Key? key,
     required this.animation,
@@ -19,7 +22,7 @@ class WideSignUpScreen extends CustomStatelessWidget {
   final Animation<double> animation;
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(
@@ -29,7 +32,7 @@ class WideSignUpScreen extends CustomStatelessWidget {
           errorText: () {
             if (state is SignUpError) {
               if (state.error.exception == ErrorException.noConnectionFound()) {
-                return AppLocalizations.of(context)!.noInternetConnection;
+                return context.localizations!.noInternetConnection;
               }
               return state.error.message;
             }
@@ -40,11 +43,10 @@ class WideSignUpScreen extends CustomStatelessWidget {
   }
 }
 
-class _StepOneLeftSide extends CustomStatelessWidget {
+class _StepOneLeftSide extends StatelessWidget {
   const _StepOneLeftSide({Key? key}) : super(key: key);
 
-  @override
-  Widget desktopScreenBuilder(BuildContext context, ContextInfo contextInfo) {
+  Widget windowsBuilder(BuildContext context) {
     return WindowsNavView.onlyAppBar(
       appBarColor: context.colorScheme.backgroundColor,
       backgroundColor: context.colorScheme.backgroundColor,
@@ -52,7 +54,7 @@ class _StepOneLeftSide extends CustomStatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           SignUpStepIndicator(
-            title: AppLocalizations.of(context)!.stepOne,
+            title: context.localizations!.stepOne,
           ),
         ],
       ),
@@ -60,7 +62,41 @@ class _StepOneLeftSide extends CustomStatelessWidget {
       content: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: contextInfo.isDesktop ? context.horizontalMargins : 0,
+            horizontal: context.isDesktop ? context.horizontalMargins : 0,
+          ),
+          child: SignUpAccountInfoForm(
+            onSubmit: (
+              String emailAddress,
+              String password,
+              String username,
+            ) {
+              context.read<AuthBloc>().add(SignUpRequested(
+                    email: emailAddress,
+                    username: username,
+                    password: password,
+                    themeMode: context.themeMode,
+                    locale: context.locale,
+                  ));
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget defaultBuilder(BuildContext context) {
+    return ScaffoldWithAppBar(
+      showBottomTitle: context.isTablet,
+      title: const SignUpMessage(),
+      actions: [
+        SignUpStepIndicator(
+          title: context.localizations!.stepOne,
+        ),
+      ],
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.isDesktop ? context.horizontalMargins : 0,
           ),
           child: SignUpAccountInfoForm(
             onSubmit: (
@@ -83,37 +119,9 @@ class _StepOneLeftSide extends CustomStatelessWidget {
   }
 
   @override
-  Widget defaultBuilder(BuildContext context, ContextInfo contextInfo) {
-    return ScaffoldWithAppBar(
-      showBottomTitle: contextInfo.isTablet,
-      title: const SignUpMessage(),
-      actions: [
-        SignUpStepIndicator(
-          title: AppLocalizations.of(context)!.stepOne,
-        ),
-      ],
-      body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: contextInfo.isDesktop ? context.horizontalMargins : 0,
-          ),
-          child: SignUpAccountInfoForm(
-            onSubmit: (
-              String emailAddress,
-              String password,
-              String username,
-            ) {
-              context.read<AuthBloc>().add(SignUpRequested(
-                    email: emailAddress,
-                    username: username,
-                    password: password,
-                    themeMode: context.themeMode,
-                    locale: context.locale,
-                  ));
-            },
-          ),
-        ),
-      ),
-    );
+  Widget build(BuildContext context) {
+    return context.isWindowsPlatform
+        ? windowsBuilder(context)
+        : defaultBuilder(context);
   }
 }
