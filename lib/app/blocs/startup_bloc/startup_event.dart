@@ -4,7 +4,7 @@ abstract class StartupEvent {
   const StartupEvent();
 }
 
-class InitializeStartupEvent extends StartupEvent {}
+class StartupInitRequested extends StartupEvent {}
 
 class StartupStateChangeRequested extends StartupEvent {
   final Result result;

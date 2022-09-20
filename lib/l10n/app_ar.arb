@@ -2,24 +2,31 @@
     "clinic": "كلينك",
     "connecting": "جار الاتصال...",
     "loading": "جار التحميل...",
+    "retry": "إعادة المحاولة",
 
     "login": "تسجيل الدخول",
-    "retry": "إعادة المحاولة",
-    "loginScreenMessage": "تسجيل الدخول لحساب كلينك الخاص بك",
-    "signUpScreenMessage": "إنشاء حساب كلينك جديد",
-    "stepOne": "الخطوة الأولى",
-    "stepTwo": "الخطوة الثانية",
-    "continueToNextStep": "المتابعة للخطوة الثانية",
-    "emailAddressNotValid": "البريد الالكتروني المعطى غير صالح، الرجاء المحاولة مرة أخرى",
     "createAccount": "إنشاء حساب جديد",
     "email": "البريد الالكتروني",
     "username": "اسم المستخدم",
     "password": "كلمة المرور",
-    "required": "!مطلوب",
-    "fieldCannotBeEmpty": "!هذا الحقل لا يمكن أن يكون فارغاً",
-    "passwordIsTooShort": "كلمة السر قصيرة!",
-    "exitSignUpDialogTitle": "الخروج من عملية التسجيل",
-    "exitSignUpDialogMessage": "جميع المعلومات المدخلة سيتم فقدانها، هل أنت متأكد من الخروج؟",
+
+    "loginScreenMessage": "أهلاً بك، أبدأ حالاً من خلال تسجيل الدخول للحساب الخاص بك.",
+    "signUpScreenMessage": "إنشاء حساب كلينك جديد",
+
+    "stepOne": "الخطوة الأولى",
+    "stepTwo": "الخطوة الثانية",
+    "continueToNextStep": "المتابعة للخطوة الثانية",
+
+    "emailIsRequired": "حقل الايميل لا يمكن أن يكون فارغاً!",
+    "passwordIsRequired": "حقل كلمة المرور لا يمكن أن يكون فارغاً",
+    "usernameIsRequired": "حقل اسم المستخدم لا يمكن أن يكون فارغاً",
+    "passwordIsTooShort": "كلمة السر يجب أن تتكون من 8 أحرف على الأقل!",
+    "emailInvalid": "يرجى ادخال البريد الالكتروني بالصيغة الصحيحة، مثال(youremail@example.com)",
+
+    "exitSignUpDialogTitle": "إلغاء عملية التسجيل",
+    "exitSignUpDialogMessage": "جميع المعلومات المدخلة سيتم فقدانها، هل أنت متأكد؟",
+
+
     "enableDarkTheme": "تفعيل الوضع الداكن",
     "enableLightTheme": "تفعيل الوضع الفاتح",
     "selectAppLang": "اختر لغة التطبيق",
@@ -67,10 +74,19 @@
     "enabled": "مفعّل",
     "disabled": "غير مفعّل",
     "appLanguage:": "لغة التطبيق",
-    "noInternetConnection": "لا يوجد اتصال بالانترنت!",
-        "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",
+
     "or": "أو",
     "delete": "حذف",
-        "ok":"حسناً"
+    "ok":"حسناً",
+
+    "noInternetConnection": "قم بالتحقق من اتصال الانترنت لديك ثم المحاولة مجدداً",
+    "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",
+    "userUnauthorized": "فشلت العملية لعدم امتلاكك صلاحيات الوصول المناسبة",
+    "emailAlreadyExists": "البريد الالكتروني مسجل مسبقاً",
+    "emailAddressNotFound": "البريد الالكتروني غير مسجل، الرجاء المحاولة مجدداً أو قم بإنشاء حساب جديد",
+    "passwordIsIncorrect": "كلمة السر خاطئة!",
+    "emailUnauthorizedToRegister": "البريد الالكتروني المعطى غير مسموح له بالتسجيل، الرجاء المحاولة مجدداً"
+
+
 
 }

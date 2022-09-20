@@ -31,6 +31,6 @@ class AuthInitRequested extends AuthEvent {
   const AuthInitRequested();
 }
 
-class AuthHasUserStateChanged extends AuthEvent {
-  const AuthHasUserStateChanged();
+class AuthStatusChangeRequested extends AuthEvent {
+  const AuthStatusChangeRequested();
 }

@@ -2,13 +2,16 @@ part of '../api_endpoints.dart';
 
 abstract class ApiEndpointResult extends ResultType {
   const ApiEndpointResult();
-  static R fromJson<R extends ApiEndpointResult>(String json) {
-    final String dataJson = jsonDecode(json)['data'];
-    switch (R.runtimeType) {
+
+  static R fromJson<R extends ApiEndpointResult>(
+      Map<String, dynamic> jsonObject) {
+    final data = jsonObject['data'];
+
+    switch (R) {
       case LoginEndpointResult:
-        return LoginEndpointResult.fromJson(dataJson) as R;
+        return LoginEndpointResult.fromMap(data) as R;
       case RegisterEndpointResult:
-        return RegisterEndpointResult.fromJson(dataJson) as R;
+        return RegisterEndpointResult.fromMap(data) as R;
       case LogoutEndpointResult:
         return LogoutEndpointResult() as R;
       case RequestEmailVerificationApiEndpoint:

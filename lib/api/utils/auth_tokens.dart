@@ -48,7 +48,7 @@ class PersonalAccessToken {
   Map<String, dynamic> toMap() {
     return {
       'token': token,
-      'expires_at': expiresAt,
+      'expires_at': expiresAt?.toIso8601String(),
     };
   }
 

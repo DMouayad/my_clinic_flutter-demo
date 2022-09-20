@@ -5,8 +5,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 class ConnectivityStartupService extends BaseStartupService {
   @override
   Future<Result<VoidResult, BasicError>> init() async {
-    super.init();
-
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       if (shouldRetryToInit) retryToInit();
@@ -22,8 +20,9 @@ class ConnectivityStartupService extends BaseStartupService {
         addStartupStreamEvent(
           ErrorResult.fromErrorException(ErrorException.noConnectionFound()),
         );
+      } else {
+        addStartupStreamEvent(SuccessResult.voidResult());
       }
-      addStartupStreamEvent(SuccessResult.voidResult());
     });
   }
 }

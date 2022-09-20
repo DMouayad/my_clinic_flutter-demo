@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:clinic_v2/app/core/entities/widget_info.dart';
-
 export 'custom_builders_helper.dart';
 
 abstract class CustomBuilders<T extends Object> {

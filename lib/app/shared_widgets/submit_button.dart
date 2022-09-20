@@ -31,6 +31,27 @@ class SubmitButton extends CustomStatelessWidget {
               data: fluent_ui.ThemeData(),
               child: fluent_ui.OutlinedButton(
                 onPressed: onPressed,
+                style: fluent_ui.ButtonStyle(
+                  border: fluent_ui.ButtonState.all(BorderSide.none),
+                  textStyle: fluent_ui.ButtonState.all(
+                      context.textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w600,
+                  )),
+                  foregroundColor: fluent_ui.ButtonState.all(
+                    context.isDarkMode
+                        ? context.colorScheme.onPrimary
+                        : context.colorScheme.onBackground,
+                  ),
+                  backgroundColor: fluent_ui.ButtonState.resolveWith((states) {
+                    if (states.isHovering) {
+                      return context.fluentTheme.accentColor.lighter;
+                    } else if (states.isPressing) {
+                      return context.fluentTheme.accentColor.normal;
+                    } else {
+                      return context.fluentTheme.accentColor.normal;
+                    }
+                  }),
+                ),
                 child: Flex(
                   direction: Axis.horizontal,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -42,35 +63,6 @@ class SubmitButton extends CustomStatelessWidget {
                       size: 22,
                     ),
                   ],
-                ),
-                style: fluent_ui.ButtonStyle(
-                  // padding:
-                  // ButtonState.all(const EdgeInsets.fromLTRB(16, 2, 24, 2)),
-                  // border: fluent_ui.ButtonState.all(BorderSide.none),
-                  // border: ButtonState.resolveWith(
-                  //     (states) => _getDesktopButtonBorder(states, context)),
-                  textStyle: fluent_ui.ButtonState.all(
-                      context.textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
-                  )),
-
-                  foregroundColor: fluent_ui.ButtonState.all(context.isDarkMode
-                      ? context.colorScheme.onPrimary
-                      : context.colorScheme.onBackground),
-
-                  backgroundColor: fluent_ui.ButtonState.resolveWith((states) {
-                    if (states.isHovering) {
-                      return context.fluentTheme.accentColor.lighter;
-
-                      // return context.fluentTheme.accentColor.normal;
-                      // return context.fluentTheme.accentColor.dark
-                      //     .withOpacity(.6);
-                    } else if (states.isPressing) {
-                      return context.fluentTheme.accentColor.normal;
-                    } else {
-                      return context.fluentTheme.accentColor.normal;
-                    }
-                  }),
                 ),
               ),
             )

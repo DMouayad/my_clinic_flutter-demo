@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'error_exception.dart';
 
-class BasicError {
+class BasicError extends Equatable {
   final String? message;
   final ErrorException? exception;
   final String? description;
@@ -13,14 +15,14 @@ class BasicError {
 
   @override
   String toString() {
-    return {
-      'error': {
-        'message': message,
-        'exception': exception.toString(),
-        'description': description,
-      }
-    }.toString();
+    return ''' <$runtimeType>
+                 message: $message 
+                 exception: ${exception?.name} 
+                 description: $description ''';
   }
+
+  @override
+  List<Object?> get props => [message, description, exception];
 }
 
 abstract class NoError extends BasicError {}

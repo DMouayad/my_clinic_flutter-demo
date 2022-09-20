@@ -1,31 +1,33 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+//
+import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:window_manager/window_manager.dart';
 // import 'package:bitsdojo_window/bitsdojo_window.dart';
+//
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/navigation/app_router.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
 import 'package:clinic_v2/app/services/auth_token/auth_token_service.dart';
+import 'package:clinic_v2/app/services/logger_service.dart';
 import 'package:clinic_v2/app/themes/fluent_themes.dart';
-//
 import 'package:clinic_v2/app/themes/material_themes.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 //
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:window_manager/window_manager.dart';
-import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
   await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(560, 700));
-
+  await windowManager.setMinimumSize(const Size(660, 700));
+  AuthTokenServiceProvider.instance.service.deleteRefreshToken();
+  AuthTokenServiceProvider.instance.service.deleteAccessToken();
   //
-
+  Log.i("Logger is working");
   runApp(
     ClinicApp(
       PreferencesCubit(),
@@ -58,6 +60,7 @@ class ClinicApp extends StatelessWidget {
 
   /// ### used only for testing purposes
   final Widget? home;
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +70,15 @@ class ClinicApp extends StatelessWidget {
         BlocProvider(create: (_) => _authCubit),
       ],
       child: context.isWindowsPlatform
-          ? _WindowsApp(home: home)
-          : _AndroidApp(home: home),
+          ? _WindowsApp(navigatorKey, home: home)
+          : _AndroidApp(navigatorKey, home: home),
     );
   }
 }
 
 class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
-  const _WindowsApp({this.home, Key? key}) : super(key: key);
+  const _WindowsApp(this.navigatorKey, {this.home, Key? key}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey;
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -86,6 +90,7 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
       return fluent_ui.FluentApp(
         title: 'Clinic',
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         theme: FluentAppThemes.lightTheme,
         darkTheme: FluentAppThemes.defaultDarkTheme,
         themeMode: (state is UserPreferencesState)
@@ -108,7 +113,8 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
 }
 
 class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
-  const _AndroidApp({this.home, Key? key}) : super(key: key);
+  const _AndroidApp(this.navigatorKey, {this.home, Key? key}) : super(key: key);
+  final GlobalKey<NavigatorState> navigatorKey;
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -118,6 +124,7 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
       builder: (context, state) {
         return MaterialApp(
           title: 'Clinic',
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: MaterialAppThemes.lightTheme,
           darkTheme: MaterialAppThemes.defaultDarkTheme,
@@ -149,7 +156,19 @@ mixin _ClinicAppHelper {
       );
       preferencesCubit.provideThemeMode(context.themeMode);
     }
-    return app!;
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) async {
+        if (state is AuthHasLoggedInUser) {
+          ClinicApp.navigatorKey.currentState
+              ?.popAndPushNamed(Routes.homeScreenRoute);
+        }
+        if (state is AuthHasNoLoggedInUser) {
+          ClinicApp.navigatorKey.currentState
+              ?.popAndPushNamed(Routes.loginScreenRoute);
+        }
+      },
+      child: app!,
+    );
   }
 
   Locale localeResolutionCallBack(

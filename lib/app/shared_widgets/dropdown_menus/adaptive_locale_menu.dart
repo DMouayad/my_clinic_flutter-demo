@@ -5,7 +5,7 @@ import 'windows_tile_with_dropdown_menu.dart';
 import '../custom_widget.dart';
 import 'utils.dart';
 
-class AdaptiveLocaleMenu extends CustomStatelessWidget {
+class AdaptiveLocaleMenu extends StatelessWidget {
   const AdaptiveLocaleMenu({
     required this.onChanged,
     required this.type,
@@ -19,7 +19,7 @@ class AdaptiveLocaleMenu extends CustomStatelessWidget {
   }
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
+  Widget build(BuildContext context) {
     final currentLocale = context.locale;
     final title = AppLocalizations.of(context)?.language ?? 'Language';
     final items = AppLocalizations.supportedLocales
@@ -39,10 +39,12 @@ class AdaptiveLocaleMenu extends CustomStatelessWidget {
                 title: title,
                 items: items,
                 onChanged: _onLocaleChanged,
+                tooltipMessage: context.localizations!.selectAppLang,
               )
             : WindowsTileWithDropdownMenu(
                 title: title,
                 labelText: 'label',
+                tooltipMessage: context.localizations!.selectAppLang,
                 onChanged: _onLocaleChanged,
                 selectedItem: selectedItem,
                 items: items,

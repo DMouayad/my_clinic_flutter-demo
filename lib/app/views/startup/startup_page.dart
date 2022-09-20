@@ -16,7 +16,7 @@ class StartupPage extends AppPage {
                 lazy: false,
                 create: (_) {
                   return StartupBloc(ConnectivityStartupService())
-                    ..add(InitializeStartupEvent());
+                    ..add(StartupInitRequested());
                 },
                 child: const StartupScreen(),
               ),

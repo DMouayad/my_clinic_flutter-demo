@@ -14,7 +14,8 @@ class LoginPage extends AppPage {
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
               mobileScreen: const LoginScreen(),
-              windowsScreen: WindowsLoginScreen(animation: animation),
+              windowsMediumScreen: WindowsLoginScreen(animation: animation),
+              windowsLargeScreen: WindowsLoginScreen(animation: animation),
             );
           },
         );

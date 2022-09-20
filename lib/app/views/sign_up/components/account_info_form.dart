@@ -46,7 +46,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               prefixIcon: Icons.person,
               validator: (String? value) {
                 if (value?.isEmpty ?? false) {
-                  return context.localizations?.fieldIsRequired;
+                  return context.localizations?.usernameIsRequired;
                 }
                 return null;
               },
@@ -63,7 +63,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (String? value) {
                 if (value?.isEmpty ?? false) {
-                  return context.localizations?.fieldIsRequired;
+                  return context.localizations?.emailIsRequired;
                 }
                 return null;
               },
@@ -79,7 +79,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               validator: (String? password) {
                 if (password?.isEmpty ?? true) {
-                  return context.localizations?.fieldIsRequired;
+                  return context.localizations?.passwordIsRequired;
                 }
                 return null;
               },
@@ -89,7 +89,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
               ),
               obscure: true,
             ),
-            SizedBox(height: context.screenHeight * .1),
+            // SizedBox(height: context.screenHeight * .1),
             SubmitButton(
               text: context.localizations!.continueToNextStep,
               iconData: Icons.navigate_next,
@@ -98,7 +98,7 @@ class _SignUpFormState extends State<SignUpAccountInfoForm> {
                 if (_formHelper.inputIsValid) {
                   widget.onSubmit(
                     _formHelper.emailController!.text,
-                    _formHelper.usernameController.text,
+                    _formHelper.usernameController!.text,
                     _formHelper.passwordController.text,
                   );
                   FocusScope.of(context).unfocus();

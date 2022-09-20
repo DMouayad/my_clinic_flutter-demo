@@ -48,12 +48,16 @@ class ErrorResult<ErrorType extends BasicError,
     return ErrorResult(
       BasicError(
         message: e.message,
-        exception: ErrorException(e.type.name),
-        description: {'request options': e.requestOptions}.toString(),
+        // exception: ErrorException(e.type.name),
+        // description: {'request options': e.requestOptions}.toString(),
       ) as ErrorType,
     );
   }
   factory ErrorResult.fromErrorException(ErrorException errorException) {
     return ErrorResult(BasicError(exception: errorException) as ErrorType);
+  }
+  @override
+  String toString() {
+    return 'ErrorResult: $error';
   }
 }

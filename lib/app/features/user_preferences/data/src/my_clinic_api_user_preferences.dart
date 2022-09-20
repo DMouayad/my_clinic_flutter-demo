@@ -5,7 +5,7 @@ import 'package:clinic_v2/app/features/user_preferences/domain/user_preferences_
 import 'package:flutter/material.dart';
 
 class MyClinicApiUserPreferences extends BaseUserPreferences {
-  MyClinicApiUserPreferences({
+  const MyClinicApiUserPreferences({
     required int id,
     required int userId,
     required ThemeMode themePreference,
@@ -28,8 +28,8 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
     return {
       'id': id,
       'user_id': userId,
-      'theme_preference': themePreference,
-      'locale_preference': localePreference,
+      'theme': themePreference,
+      'locale': localePreference,
     };
   }
 
@@ -37,8 +37,8 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
     return MyClinicApiUserPreferences(
       id: map['id'],
       userId: map['user_id'],
-      themePreference: map.get('theme_preference'),
-      localePreference: map.get('locale_preference'),
+      themePreference: ThemeMode.values.byName(map.get('theme')),
+      localePreference: Locale(map.get('locale')),
     );
   }
 }

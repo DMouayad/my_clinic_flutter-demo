@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //
 import 'package:clinic_v2/app/core/helpers/builders/custom_builders.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
 class PageScreensBuilder extends StatelessWidget
     with CustomBuilders<Widget>, CustomBuildersHelper<Widget> {
@@ -11,7 +12,9 @@ class PageScreensBuilder extends StatelessWidget
     this.androidTabletScreen,
     this.iosTabletScreen,
     this.iosMobileScreen,
-    this.windowsScreen,
+    this.windowsLargeScreen,
+    this.windowsMediumScreen,
+    this.windowsSmallScreen,
     this.macOSScreen,
     this.linuxScreen,
     this.defaultWideScreen,
@@ -25,7 +28,9 @@ class PageScreensBuilder extends StatelessWidget
   final Widget? tabletScreen;
   final Widget? iosTabletScreen;
   final Widget? iosMobileScreen;
-  final Widget? windowsScreen;
+  final Widget? windowsLargeScreen;
+  final Widget? windowsSmallScreen;
+  final Widget? windowsMediumScreen;
   final Widget? macOSScreen;
   final Widget? linuxScreen;
 
@@ -75,7 +80,15 @@ class PageScreensBuilder extends StatelessWidget
 
   @override
   Widget? windowsBuilder(BuildContext context) {
-    return windowsScreen;
+    if (context.isMobile) {
+      return windowsSmallScreen;
+    }
+    if (context.isTablet) {
+      return windowsMediumScreen;
+    }
+    if (context.isDesktop) {
+      return windowsLargeScreen;
+    }
   }
 
   @override

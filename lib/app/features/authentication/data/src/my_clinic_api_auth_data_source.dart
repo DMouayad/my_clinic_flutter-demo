@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:clinic_v2/api/endpoints/api_endpoints.dart';
-import 'package:clinic_v2/api/errors/api_response_error.dart';
 import 'package:clinic_v2/api/helpers/api_request_helper.dart';
 import 'package:clinic_v2/api/helpers/dio_helper.dart';
 import 'package:clinic_v2/api/utils/auth_tokens.dart';
@@ -8,6 +9,7 @@ import 'package:clinic_v2/app/features/authentication/data/src/my_clinic_api_use
 import 'package:clinic_v2/app/features/authentication/domain/src/base_auth_data_source.dart';
 import 'package:clinic_v2/app/services/auth_token/base_auth_token_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 
 class MyClinicApiAuthDataSource
     with DioHelper, ApiRequestHelper
@@ -22,8 +24,13 @@ class MyClinicApiAuthDataSource
     String password,
   ) async {
     final response = await requestApiEndpoint<LoginEndpointResult>(
-      ApiEndpoint.login(email, password),
+      ApiEndpoint.login(
+        email,
+        password,
+        await _getUserDeviceId(email),
+      ),
     );
+    print(response);
     return response.when(
       onSuccess: (result) {
         // save returned auth tokens to storage
@@ -46,7 +53,12 @@ class MyClinicApiAuthDataSource
     Locale localePreference,
   ) async {
     final response = await requestApiEndpoint<RegisterEndpointResult>(
-      ApiEndpoint.register(username, email, password),
+      ApiEndpoint.register(
+        username,
+        email,
+        password,
+        await _getUserDeviceId(email),
+      ),
     );
     return response.when(
       onSuccess: (endpointResult) {
@@ -124,6 +136,7 @@ class MyClinicApiAuthDataSource
       return SuccessResult(accessToken.token);
     } else {
       final refreshToken = await _authTokensService.getRefreshToken();
+      print(refreshToken);
       // if a refresh token found => request to refresh auth tokens
       if (refreshToken != null) {
         return (await _refreshAuthTokens(refreshToken)).when(
@@ -138,7 +151,7 @@ class MyClinicApiAuthDataSource
     }
   }
 
-  Future<Result<AuthTokens, ApiResponseError>> _refreshAuthTokens(
+  Future<Result<AuthTokens, BasicError>> _refreshAuthTokens(
     String refreshToken,
   ) async {
     final response = await requestApiEndpoint<RefreshAccessTokenEndpointResult>(
@@ -157,5 +170,10 @@ class MyClinicApiAuthDataSource
   Future<void> _saveAuthTokens(AuthTokens authTokens) async {
     await _authTokensService.saveRefreshToken(authTokens.refreshToken);
     await _authTokensService.saveAccessToken(authTokens.accessToken);
+  }
+
+  Future<String> _getUserDeviceId(String email) async {
+    return await PlatformDeviceId.getDeviceId ??
+        (Platform.localHostname + ' - ' + email);
   }
 }

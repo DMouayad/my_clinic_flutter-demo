@@ -6,15 +6,13 @@ abstract class SignUpState extends AuthState {
 
 class SignUpInitialState extends SignUpState {}
 
-class SignUpError extends SignUpState {
-  final BasicError error;
-
-  const SignUpError(this.error);
-  @override
-  List<Object> get props => [error];
+class SignUpErrorState extends AuthErrorState {
+  const SignUpErrorState(super.error);
 }
 
-class SignUpInProgress extends SignUpState {}
+class SignUpInProgress extends SignUpState {
+  const SignUpInProgress();
+}
 
 class SignUpSuccess extends SignUpState {
   final BaseServerUser serverUser;
@@ -24,8 +22,9 @@ class SignUpSuccess extends SignUpState {
   List<Object> get props => [serverUser];
 }
 
-class SignUpEmailIsNotAuthorizedToRegister extends SignUpState {}
-
-class SignUpEmailNotFound extends SignUpState {}
-
-class SignUpPasswordIsIncorrect extends SignUpState {}
+class SignUpEmailIsNotAuthorizedToRegister extends SignUpErrorState {
+  SignUpEmailIsNotAuthorizedToRegister()
+      : super(
+          BasicError(exception: ErrorException.emailUnauthorizedToRegister()),
+        );
+}

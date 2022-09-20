@@ -4,7 +4,7 @@ mixin Routes {
       searchScreenRoute = '/search_screen',
       upcomingScreenRoute = '/upcoming_screen',
       loginScreenRoute = '/login_screen',
-      stepOneSignUpScreenRoute = '/step_one_sign_up_screen',
+      signUpScreenRoute = '/sign_up_screen',
       stepTwoSignUpScreenRoute = '/step_two_sign_up_screen',
       settingsScreen = '/settings_screen',
       addPatientScreenRoute = '/add_patient_screen',

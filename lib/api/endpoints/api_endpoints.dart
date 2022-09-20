@@ -27,9 +27,16 @@ abstract class ApiEndpoint {
     this.data,
   });
 
-  factory ApiEndpoint.login(String email, String password) = LoginApiEndpoint._;
-  factory ApiEndpoint.register(String name, String email, String password) =
-      RegisterApiEndpoint._;
+  factory ApiEndpoint.login(String email, String password, String deviceId) =
+      LoginApiEndpoint._;
+
+  factory ApiEndpoint.register(
+    String name,
+    String email,
+    String password,
+    String deviceId,
+  ) = RegisterApiEndpoint._;
+
   factory ApiEndpoint.logout(String accessToken) = LogoutApiEndpoint._;
   factory ApiEndpoint.requestEmailVerification(String accessToken) =
       RequestEmailVerificationApiEndpoint._;

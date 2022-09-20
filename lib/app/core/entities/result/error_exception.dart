@@ -1,24 +1,27 @@
 import 'package:clinic_v2/api/errors/api_exception_class.dart';
+import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
-class ErrorException {
+class ErrorException extends Equatable {
   const ErrorException(this.name);
   final String name;
+  String? getMessage(BuildContext context) => null;
 
-  factory ErrorException.noConnectionFound() {
-    return const ErrorException('NoInternetConnectionFound');
-  }
-  factory ErrorException.cannotConnectToServer() {
-    return const ErrorException('CannotConnectToServer');
-  }
-  factory ErrorException.userUnauthorized() {
-    return const ErrorException('UserUnauthorized');
-  }
-  factory ErrorException.noRefreshTokenFound() {
-    return const ErrorException('NoRefreshTokenFound');
-  }
-  factory ErrorException.emailAlreadyRegistered() {
-    return const ErrorException('EmailAlreadyRegistered');
-  }
+  factory ErrorException.noConnectionFound() = NoConnectionFoundException;
+  factory ErrorException.cannotConnectToServer() =
+      CannotConnectToServerException;
+  factory ErrorException.userUnauthorized() = _UserUnauthorizedException;
+  factory ErrorException.noRefreshTokenFound() = _NoRefreshTokenFoundException;
+  factory ErrorException.emailAlreadyRegistered() =
+      EmailAlreadyRegisteredException;
+  factory ErrorException.invalidEmailCredential() =
+      InvalidEmailCredentialException;
+  factory ErrorException.invalidPasswordCredential() =
+      InvalidPasswordCredentialException;
+  factory ErrorException.emailUnauthorizedToRegister() =
+      EmailUnauthorizedToRegisterException;
+
   factory ErrorException.deletingOnlyAdminStaffEmail() {
     return const ErrorException('DeletingOnlyAdminStaffEmail');
   }
@@ -35,16 +38,6 @@ class ErrorException {
   }
   factory ErrorException.userDoesntMatchHisStaffEmail() {
     return const ErrorException('UserDoesntMatchHisStaffEmail');
-  }
-
-  factory ErrorException.invalidEmailCredential() {
-    return const ErrorException('InvalidEmailCredential');
-  }
-  factory ErrorException.invalidPasswordCredential() {
-    return const ErrorException('InvalidPasswordCredential');
-  }
-  factory ErrorException.emailUnauthorizedToRegister() {
-    return const ErrorException('EmailUnauthorizedToRegister');
   }
 
   factory ErrorException.fromApiException(ApiExceptionClass apiExceptionClass) {
@@ -81,5 +74,70 @@ class ErrorException {
   @override
   String toString() {
     return 'ErrorException{name: $name}';
+  }
+
+  @override
+  List<Object?> get props => [name];
+}
+
+class NoConnectionFoundException extends ErrorException {
+  const NoConnectionFoundException() : super('NoInternetConnectionFound');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.noInternetConnection;
+  }
+}
+
+class CannotConnectToServerException extends ErrorException {
+  const CannotConnectToServerException() : super('CannotConnectToServer');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.cannotConnectToServer;
+  }
+}
+
+class _UserUnauthorizedException extends ErrorException {
+  const _UserUnauthorizedException() : super('UserUnauthorized');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.userUnauthorized;
+  }
+}
+
+class _NoRefreshTokenFoundException extends ErrorException {
+  const _NoRefreshTokenFoundException() : super('NoRefreshTokenFound');
+}
+
+class EmailAlreadyRegisteredException extends ErrorException {
+  const EmailAlreadyRegisteredException() : super('EmailAlreadyRegistered');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.emailAlreadyExists;
+  }
+}
+
+class InvalidEmailCredentialException extends ErrorException {
+  const InvalidEmailCredentialException() : super('InvalidEmailCredential');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.emailAddressNotFound;
+  }
+}
+
+class InvalidPasswordCredentialException extends ErrorException {
+  const InvalidPasswordCredentialException()
+      : super('InvalidPasswordCredential');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.passwordIsIncorrect;
+  }
+}
+
+class EmailUnauthorizedToRegisterException extends ErrorException {
+  const EmailUnauthorizedToRegisterException()
+      : super('EmailUnauthorizedToRegister');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.emailUnauthorizedToRegister;
   }
 }

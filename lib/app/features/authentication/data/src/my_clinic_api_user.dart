@@ -62,4 +62,9 @@ class MyClinicApiUser implements BaseServerUser {
       preferences: MyClinicApiUserPreferences.fromMap(map['preferences']),
     );
   }
+
+  @override
+  List<Object?> get props => [appUserId, name, email, role, preferences];
+  @override
+  bool? get stringify => true;
 }

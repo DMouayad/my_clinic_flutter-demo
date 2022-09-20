@@ -39,7 +39,7 @@ class WindowsDropdownMenu extends BaseDropdownMenu {
         ),
       ),
       child: fluent_ui.Tooltip(
-        message: tooltipMessage,
+        message: tooltipMessage ?? "options",
         child: fluent_ui.DropDownButton(
           menuColor: context.colorScheme.backgroundColor,
           title: Text(

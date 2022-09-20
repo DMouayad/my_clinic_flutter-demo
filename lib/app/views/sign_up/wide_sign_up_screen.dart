@@ -30,7 +30,7 @@ class WideSignUpScreen extends StatelessWidget {
           leftSideAnimation: animation,
           leftSide: const _StepOneLeftSide(),
           errorText: () {
-            if (state is SignUpError) {
+            if (state is SignUpErrorState) {
               if (state.error.exception == ErrorException.noConnectionFound()) {
                 return context.localizations!.noInternetConnection;
               }

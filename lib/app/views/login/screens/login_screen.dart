@@ -41,6 +41,12 @@ class LoginScreen extends CustomStatelessWidget {
               ),
               Center(
                 child: LoginForm(
+                  errorText: () {
+                    final state = context.read<AuthBloc>().state;
+                    if (state is LoginErrorState) {
+                      return state.error.message;
+                    }
+                  }(),
                   onSubmit: (String email, String password) {
                     context
                         .read<AuthBloc>()

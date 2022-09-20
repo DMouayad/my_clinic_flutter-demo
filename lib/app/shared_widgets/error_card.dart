@@ -19,7 +19,7 @@ class ErrorCard extends CustomStatelessWidget {
       errorText ?? 'An error occurred',
       textAlign: TextAlign.center,
       minFontSize: 10,
-      style: context.textTheme.bodyLarge?.copyWith(
+      style: context.textTheme.titleMedium?.copyWith(
         color: AppColorScheme.of(context).onError,
         fontWeight: FontWeight.w600,
       ),
@@ -35,10 +35,14 @@ class ErrorCard extends CustomStatelessWidget {
   }
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
     return SizedBox(
-      width: _getCardWidth(contextInfo.widgetSize!.width),
-      height: 55,
+      width: _getCardWidth(widgetInfo.widgetSize.width),
+      height: context.isMobile
+          ? 55
+          : context.isTablet
+              ? 65
+              : 75,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
         decoration: BoxDecoration(

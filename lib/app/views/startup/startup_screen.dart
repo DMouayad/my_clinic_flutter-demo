@@ -12,29 +12,19 @@ class StartupScreen extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocConsumer<StartupBloc, StartupState>(
       listener: (context, state) {
-        if (state is AuthHasLoggedInUser) {
-          Navigator.of(context).popAndPushNamed(Routes.homeScreenRoute);
-        }
-        if (state is AuthHasNoLoggedInUser) {
-          Navigator.of(context).popAndPushNamed(Routes.loginScreenRoute);
-        }
+        // if (state is StartupSuccess) {
+        context.read<AuthBloc>().add(const AuthInitRequested());
+        // }
       },
-      child: BlocConsumer<StartupBloc, StartupState>(
-        listener: (context, state) {
-          if (state is StartupSuccess) {
-            context.read<AuthBloc>().add(const AuthInitRequested());
-          }
-        },
-        builder: (context, state) {
-          if (state is StartupFailure) {
-            return ErrorStartingAppScreen(state.error);
-          }
-          // return loading screen while startup process is in progress
-          return const LoadingAppScreen();
-        },
-      ),
+      builder: (context, state) {
+        if (state is StartupFailure) {
+          return ErrorStartingAppScreen(state.error);
+        }
+        // return loading screen while startup process is in progress
+        return const LoadingAppScreen();
+      },
     );
   }
 }

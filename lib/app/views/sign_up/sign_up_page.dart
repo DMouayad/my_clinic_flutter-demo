@@ -10,8 +10,7 @@ import 'wide_sign_up_screen.dart';
 class SignUpPage extends AppPage {
   SignUpPage()
       : super(
-          routeSettings:
-              const RouteSettings(name: Routes.stepOneSignUpScreenRoute),
+          routeSettings: const RouteSettings(name: Routes.signUpScreenRoute),
           pageTransitions: const RouteTransitionBuilder(
             tablet: RouteTransitionType.none,
             windows: RouteTransitionType.none,

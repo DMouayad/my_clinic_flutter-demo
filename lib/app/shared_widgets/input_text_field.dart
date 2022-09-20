@@ -19,10 +19,13 @@ class InputTextField extends CustomStatelessWidget {
   final TextStyle? textStyle;
   final TextStyle? hintTextStyle;
   final Color? prefixIconColor;
+  final Color? suffixIconColor;
   final Key? formKey;
   final bool isDense;
   final AutovalidateMode? autovalidateMode;
   final TextInputAction? textInputAction;
+  final int? maxLength;
+  final Widget? suffixIcon;
 
   const InputTextField({
     Key? key,
@@ -47,6 +50,9 @@ class InputTextField extends CustomStatelessWidget {
     this.onChanged,
     this.formKey,
     this.isDense = false,
+    this.maxLength,
+    this.suffixIcon,
+    this.suffixIconColor,
   }) : super(key: key);
 
   @override
@@ -65,8 +71,8 @@ class InputTextField extends CustomStatelessWidget {
       data: MaterialAppThemes.of(context),
       child: SizedBox(
         width: widgetInfo.widgetSize.width * .8,
-        // height: context.isDesktop ? 55 : null,
         child: TextFormField(
+          maxLength: maxLength,
           controller: controller,
           key: formKey,
           initialValue: initialValue,
@@ -87,6 +93,8 @@ class InputTextField extends CustomStatelessWidget {
             // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
             // hoverColor:
             // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
+            suffixIcon: suffixIcon,
+            suffixIconColor: suffixIconColor,
             prefixIcon: Icon(
               prefixIcon,
               // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
@@ -112,8 +120,8 @@ class InputTextField extends CustomStatelessWidget {
             focusedErrorBorder: kOutlinedBorder,
             errorStyle: context.textTheme.bodyText2?.copyWith(
               color: context.colorScheme.errorColor!,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+              // fontSize: 12,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

@@ -11,18 +11,6 @@ class AuthInitial extends AuthState {
   const AuthInitial();
 }
 
-class LoginInProgress extends AuthState {
-  const LoginInProgress();
-}
-
-class AuthError extends AuthState {
-  final BasicError error;
-  const AuthError(this.error);
-
-  @override
-  List<Object> get props => [error];
-}
-
 class AuthHasLoggedInUser extends AuthState {
   final BaseServerUser currentUser;
   const AuthHasLoggedInUser(this.currentUser);
@@ -32,4 +20,12 @@ class AuthHasLoggedInUser extends AuthState {
 
 class AuthHasNoLoggedInUser extends AuthState {
   const AuthHasNoLoggedInUser();
+}
+
+class AuthErrorState extends AuthState {
+  final BasicError error;
+  const AuthErrorState(this.error);
+
+  @override
+  List<Object> get props => [error];
 }

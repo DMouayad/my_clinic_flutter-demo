@@ -18,7 +18,7 @@ class AppColorScheme {
     secondaryContainer: const Color(0xFF30393e),
     onSecondaryContainer: const Color(0xFFfdfdfd),
     onPrimary: const Color(0xFF1e2827),
-    error: Colors.red[600]!,
+    error: Colors.redAccent.shade200,
     onError: const Color(0xFFfff1f3),
     onBackground: const Color(0xFFd4d5d6),
     background: const Color(0xFF272f33),

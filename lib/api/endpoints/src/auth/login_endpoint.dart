@@ -1,11 +1,11 @@
 part of '../../api_endpoints.dart';
 
 class LoginApiEndpoint extends ApiEndpoint {
-  LoginApiEndpoint._(String email, String password)
+  LoginApiEndpoint._(String email, String password, String deviceId)
       : super._(
           RequestMethod.POST,
           urlWithoutBaseUrl: '/login',
-          data: {'email': email, 'password': password},
+          data: {'email': email, 'password': password, 'device_id': deviceId},
         );
 }
 

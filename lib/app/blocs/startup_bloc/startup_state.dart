@@ -16,4 +16,8 @@ class StartupFailure extends StartupState {
   const StartupFailure(this.error);
   @override
   List<Object> get props => [error];
+  @override
+  String toString() {
+    return "Startup Failed: $error";
+  }
 }

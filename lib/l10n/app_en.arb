@@ -3,24 +3,30 @@
     "loading": "Loading...",
     "connecting": "Connecting...",
     "retry": "Retry",
+
     "login": "Login",
+    "createAccount": "Create new account",
     "username": "Username",
     "email": "Email",
-    "cannotConnectToServer":"Cannot connect to server, please try again",
-    "noInternetConnection": "No internet connection found!",
     "password": "Password",
-    "required": "required!",
-    "loginScreenMessage": "Login to your CLINIC's account",
+
+
+    "loginScreenMessage": "Welcome,\nGet started now by logging in to your account.",
     "signUpScreenMessage": "Creating new CLINIC's account",
+
     "stepOne": "Step one",
     "stepTwo": "Step two",
     "continueToNextStep": "Continue to step two",
-    "emailAddressNotValid": "Provided email is not valid!, please try again",
-    "fieldCannotBeEmpty": "This field can not be empty!",
-    "passwordIsTooShort": "Password is too short!",
-    "createAccount": "Create new account",
+
+    "emailIsRequired": "Email field cannot be empty!",
+    "passwordIsRequired": "Password field cannot be empty!",
+    "usernameIsRequired": "Username field cannot be empty!",
+    "passwordIsTooShort": "Password must contain 8 characters at least!",
+    "emailInvalid": "Please enter a valid email address, ex:(youremail@example.com)",
+
     "exitSignUpDialogTitle": "Exit sign up process",
     "exitSignUpDialogMessage": "all entered info will be lost Are you sure to exit?",
+
     "enableDarkTheme": "Enable dark mode",
     "enableLightTheme": "Enable light mode",
     "selectAppLang": "Select app language",
@@ -46,7 +52,6 @@
     "selectType": "select type",
     "dentalServiceInfo": "dental service info",
     "dentalServicePrices": "dental service prices",
-    "fieldIsRequired": "this field is required!",
     "patients": "Patients",
     "appts": "Appointments",
     "payments": "Payments",
@@ -67,8 +72,17 @@
     "darkMode": "Dark mode",
     "enabled": "enabled",
     "disabled": "disabled",
-    "appLanguage": "App language",
+    "appLanguage": "Language",
     "or": "Or",
     "delete": "Delete",
-    "ok":"Ok"
+    "ok":"Ok",
+
+
+    "cannotConnectToServer":"Cannot connect to server, please try again.",
+    "noInternetConnection": "Please check your internet connection and try again.",
+    "userUnauthorized": "Request failed due to missing access rights.",
+    "emailAlreadyExists": "This email address is already registered",
+    "emailAddressNotFound": "Email isn't registered, please try again or create a new account",
+    "passwordIsIncorrect": "Incorrect Password!",
+    "emailUnauthorizedToRegister": "Entered email address is not allowed to register, please try again."
 }

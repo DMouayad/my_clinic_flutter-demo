@@ -46,7 +46,6 @@ class ErrorStartingAppScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // if (contextInfo.isMobile || contextInfo.isPortraitTablet)
           const Spacer(),
           Expanded(
             child: Flash(
@@ -63,8 +62,7 @@ class ErrorStartingAppScreen extends StatelessWidget {
           ),
           ErrorCard(
             color: context.colorScheme.errorColor,
-            errorText: error.message ??
-                _getErrorTextFromException(
+            errorText: _getErrorTextFromException(
                   error.exception,
                   context,
                 ) ??
@@ -78,7 +76,7 @@ class ErrorStartingAppScreen extends StatelessWidget {
 
   String? _getErrorTextFromException(
       ErrorException? errorException, BuildContext context) {
-    if (errorException == ErrorException.noConnectionFound()) {
+    if (errorException is NoConnectionFoundException) {
       return context.localizations?.noInternetConnection ??
           "No Internet connection";
     }
