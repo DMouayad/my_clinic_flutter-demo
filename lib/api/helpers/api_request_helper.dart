@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:clinic_v2/api/endpoints/api_endpoints.dart';
+import 'package:clinic_v2/api/endpoints/api_endpoint.dart';
 import 'package:clinic_v2/api/errors/api_response_error.dart';
 import 'package:clinic_v2/api/helpers/dio_helper.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';

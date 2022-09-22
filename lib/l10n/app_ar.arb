@@ -5,21 +5,24 @@
     "retry": "إعادة المحاولة",
 
     "login": "تسجيل الدخول",
+    "signUp": "تسجيل",
     "createAccount": "إنشاء حساب جديد",
     "email": "البريد الالكتروني",
     "username": "اسم المستخدم",
     "password": "كلمة المرور",
+    "phoneNo": "رقم الهاتف",
 
-    "loginScreenMessage": "أهلاً بك، أبدأ حالاً من خلال تسجيل الدخول للحساب الخاص بك.",
+    "loginScreenMessage": "أهلاً بك،\n أبدأ حالاً من خلال تسجيل الدخول لحسابك الشخصي",
     "signUpScreenMessage": "إنشاء حساب كلينك جديد",
 
     "stepOne": "الخطوة الأولى",
     "stepTwo": "الخطوة الثانية",
     "continueToNextStep": "المتابعة للخطوة الثانية",
 
-    "emailIsRequired": "حقل الايميل لا يمكن أن يكون فارغاً!",
+    "emailIsRequired": "حقل البريد الالكتروني لا يمكن أن يكون فارغاً!",
     "passwordIsRequired": "حقل كلمة المرور لا يمكن أن يكون فارغاً",
     "usernameIsRequired": "حقل اسم المستخدم لا يمكن أن يكون فارغاً",
+    "phoneNoIsRequired": "حقل رقم الهاتف لا يمكن أن يكون فارغاً",
     "passwordIsTooShort": "كلمة السر يجب أن تتكون من 8 أحرف على الأقل!",
     "emailInvalid": "يرجى ادخال البريد الالكتروني بالصيغة الصحيحة، مثال(youremail@example.com)",
 

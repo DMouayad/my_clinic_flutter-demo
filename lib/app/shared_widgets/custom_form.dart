@@ -1,28 +1,38 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/core/helpers/form_helper.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
-import 'package:clinic_v2/app/shared_widgets//input_text_field.dart';
-import 'package:clinic_v2/app/shared_widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
+import '../core/helpers/form_helper.dart';
+import 'input_text_field.dart';
+import 'submit_button.dart';
+
+class CustomForm extends StatefulWidget {
+  const CustomForm({
     required this.onSubmit,
+    required this.isLoginForm,
     this.errorText,
     Key? key,
   }) : super(key: key);
 
-  final void Function(String email, String password) onSubmit;
+  final void Function(
+    String email,
+    String password,
+    String? phoneNumber,
+    String? username,
+  ) onSubmit;
   final String? errorText;
+  final bool isLoginForm;
+
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  _CustomFormState createState() => _CustomFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _CustomFormState extends State<CustomForm> {
   late final FormHelper _formHelper;
   @override
   void initState() {
-    _formHelper = FormHelper(isLoginForm: true);
+    _formHelper = FormHelper(isLoginForm: widget.isLoginForm);
     super.initState();
   }
 
@@ -34,6 +44,8 @@ class _LoginFormState extends State<LoginForm> {
 
   bool? _emailIsValid;
   bool? _passwordIsValid;
+  bool? _usernameIsValid;
+  bool? _phoneNoIsValid;
   final _errorSuffixIcon = const Icon(Icons.error_outline, color: Colors.red);
 
   @override
@@ -61,6 +73,52 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
             const SizedBox(height: 20),
+          ],
+          if (!widget.isLoginForm) ...[
+            InputTextField(
+              controller: _formHelper.usernameController,
+              prefixIcon: Icons.person,
+              validator: (value) {
+                final errorText = _formHelper.usernameValidator(value, context);
+                if (errorText != null) {
+                  setState(() => _usernameIsValid = false);
+                } else {
+                  setState(() => _usernameIsValid = true);
+                }
+                return errorText;
+              },
+              hintText: context.localizations?.username,
+              textStyle: context.textTheme.bodyText1?.copyWith(
+                fontSize: 18,
+              ),
+              suffixIconColor: context.colorScheme.errorColor,
+              suffixIcon: (_usernameIsValid ?? true) ? null : _errorSuffixIcon,
+            ),
+            const SizedBox(height: 12),
+            InputTextField(
+              controller: _formHelper.phoneNoController,
+              prefixIcon: Icons.phone,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              validator: (value) {
+                final errorText = _formHelper.phoneNoValidator(value, context);
+                if (errorText != null) {
+                  setState(() => _phoneNoIsValid = false);
+                } else {
+                  setState(() => _phoneNoIsValid = true);
+                }
+                return errorText;
+              },
+              keyboardType: TextInputType.phone,
+              hintText: context.localizations?.phoneNo,
+              textStyle: context.textTheme.bodyText1?.copyWith(
+                fontSize: 18,
+              ),
+              suffixIconColor: context.colorScheme.errorColor,
+              suffixIcon: (_phoneNoIsValid ?? true) ? null : _errorSuffixIcon,
+            ),
+            const SizedBox(height: 12),
           ],
           InputTextField(
             controller: _formHelper.emailController,
@@ -107,41 +165,51 @@ class _LoginFormState extends State<LoginForm> {
             obscure: true,
             suffixIcon: (_passwordIsValid ?? true) ? null : _errorSuffixIcon,
           ),
-          SizedBox(height: context.screenHeight * .1),
+          SizedBox(height: context.screenHeight * .14),
           SubmitButton(
-            text: context.localizations!.login,
-            iconData: Icons.login,
+            text: widget.isLoginForm
+                ? context.localizations!.login
+                : context.localizations!.signUp,
+            iconData: widget.isLoginForm ? Icons.login : Icons.app_registration,
             onPressed: () {
               setState(() => _formHelper.validateInput());
               if (_formHelper.inputIsValid) {
                 widget.onSubmit(
                   _formHelper.emailController!.text,
                   _formHelper.passwordController.text,
+                  widget.isLoginForm
+                      ? null
+                      : _formHelper.phoneNoController!.text,
+                  widget.isLoginForm
+                      ? null
+                      : _formHelper.usernameController!.text,
                 );
               }
             },
           ),
-          const SizedBox(height: 20),
-          Text(
-            context.localizations!.or,
-            style: context.textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: context.colorScheme.onBackground,
-            ),
-          ),
-          const SizedBox(height: 8),
-          TextButton(
-            onPressed: () => Navigator.of(context).pushNamed(
-              Routes.signUpScreenRoute,
-            ),
-            child: Text(
-              context.localizations!.createAccount,
-              style: context.textTheme.subtitle2?.copyWith(
+          if (widget.isLoginForm) ...[
+            const SizedBox(height: 20),
+            Text(
+              context.localizations!.or,
+              style: context.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: context.colorScheme.onBackground,
               ),
             ),
-          ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: () => Navigator.of(context).pushNamed(
+                Routes.signUpScreen,
+              ),
+              child: Text(
+                context.localizations!.createAccount,
+                style: context.textTheme.subtitle2?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: context.colorScheme.onBackground,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

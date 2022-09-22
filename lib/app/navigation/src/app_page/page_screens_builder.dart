@@ -89,6 +89,7 @@ class PageScreensBuilder extends StatelessWidget
     if (context.isDesktop) {
       return windowsLargeScreen;
     }
+    return null;
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
+import 'package:flutter/services.dart';
 
 class InputTextField extends CustomStatelessWidget {
   final String? initialValue;
@@ -26,6 +27,7 @@ class InputTextField extends CustomStatelessWidget {
   final TextInputAction? textInputAction;
   final int? maxLength;
   final Widget? suffixIcon;
+  final List<TextInputFormatter>? inputFormatters;
 
   const InputTextField({
     Key? key,
@@ -53,6 +55,7 @@ class InputTextField extends CustomStatelessWidget {
     this.maxLength,
     this.suffixIcon,
     this.suffixIconColor,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -83,6 +86,7 @@ class InputTextField extends CustomStatelessWidget {
           cursorColor: cursorColor,
           keyboardType: keyboardType,
           onEditingComplete: onEditingComplete,
+          inputFormatters: inputFormatters,
           textInputAction: textInputAction,
           style: textStyle ?? context.textTheme.bodyText1,
           autovalidateMode: autovalidateMode,

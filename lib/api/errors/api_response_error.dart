@@ -18,7 +18,6 @@ class ApiResponseError extends BasicError {
         );
 
   static ApiResponseError fromMap(Map<String, dynamic> map) {
-    print(map);
     final errorMap = map['error'] as Map<String, dynamic>;
     final apiExceptionClass = map['error']['exception'] as String?;
     late ErrorException? errorException;
@@ -28,7 +27,7 @@ class ApiResponseError extends BasicError {
         ApiExceptionClass.values.firstWhere((c) => c.name == apiExceptionClass),
       );
     } else if (map['status'] == HttpStatus.unauthorized) {
-      errorException = ErrorException.userUnauthorized();
+      errorException = const ErrorException.userUnauthorized();
     }
     return ApiResponseError(
       message: errorMap.get('message'),

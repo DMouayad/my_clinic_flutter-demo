@@ -7,13 +7,19 @@ import 'package:clinic_v2/app/features/user_preferences/data/src/my_clinic_api_u
 
 class MyClinicApiUser implements BaseServerUser {
   MyClinicApiUser({
+    required this.id,
     required this.name,
     required this.email,
     required this.role,
-    required this.preferences,
+    this.preferences,
     this.appUserId,
+    this.emailVerifiedAt,
   });
 
+  @override
+  final DateTime? emailVerifiedAt;
+  @override
+  final int id;
   @override
   final String name;
   @override
@@ -21,9 +27,9 @@ class MyClinicApiUser implements BaseServerUser {
   @override
   final UserRole role;
   @override
-  final MyClinicApiUserPreferences preferences;
+  final MyClinicApiUserPreferences? preferences;
   @override
-  final String? appUserId;
+  final int? appUserId;
 
   String toJson() {
     return jsonEncode(toMap());
@@ -31,10 +37,12 @@ class MyClinicApiUser implements BaseServerUser {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'email': email,
       'role': role.name,
-      'preferences': preferences.toMap(),
+      'email_verified_at': emailVerifiedAt?.toIso8601String(),
+      'preferences': preferences?.toMap(),
       'app_user_id': appUserId,
     };
   }
@@ -45,21 +53,37 @@ class MyClinicApiUser implements BaseServerUser {
 
   factory MyClinicApiUser.fromMap(Map<String, dynamic> map) {
     return MyClinicApiUser(
+      id: map['id'],
       name: map['name'],
       email: map['email'],
       role: UserRole.values.byName(map['role']),
       appUserId: map.get('app_user_id'),
+      emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
       preferences: MyClinicApiUserPreferences.fromMap(map['preferences']),
     );
   }
-  factory MyClinicApiUser.fromApiResponseMap(Map<String, dynamic> map) {
-    final roleName = map['role']['slug'] as String;
+
+  factory MyClinicApiUser.fromStaffEmailMap(
+      Map<String, dynamic> map, String role) {
     return MyClinicApiUser(
+      id: map['id'],
       name: map['name'],
       email: map['email'],
+      role: UserRole.values.byName(role),
+      emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
+    );
+  }
+  factory MyClinicApiUser.fromApiResponseMap(Map<String, dynamic> map) {
+    final roleName = map.get('role').get('role') as String;
+    final prefsMap = map.get('preferences') as Map<String, dynamic>;
+    return MyClinicApiUser(
+      id: map['id'],
+      name: map['name'],
+      email: map['email'],
+      emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
       appUserId: map.get('app_user_id'),
       role: UserRole.values.byName(roleName),
-      preferences: MyClinicApiUserPreferences.fromMap(map['preferences']),
+      preferences: MyClinicApiUserPreferences.fromMap(prefsMap),
     );
   }
 

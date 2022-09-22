@@ -13,6 +13,7 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
   Future<Result<VoidResult, BasicError>> register({
     required String email,
     required String name,
+    required String phoneNumber,
     required String password,
     required ThemeMode themeModePreference,
     required Locale localePreference,

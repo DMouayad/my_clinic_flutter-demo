@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 // abstract class AdaptiveStatelessWidget extends StatelessWidget
 //     with CustomBuilders<Widget>, CustomBuildersHelper<Widget> {
 //   const AdaptiveStatelessWidget({super.key});

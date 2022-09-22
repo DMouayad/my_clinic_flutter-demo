@@ -8,7 +8,8 @@ class ConnectivityStartupService extends BaseStartupService {
     final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       if (shouldRetryToInit) retryToInit();
-      return ErrorResult.fromErrorException(ErrorException.noConnectionFound());
+      return ErrorResult.fromErrorException(
+          const ErrorException.noConnectionFound());
     }
     return SuccessResult.voidResult();
   }
@@ -18,7 +19,8 @@ class ConnectivityStartupService extends BaseStartupService {
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none) {
         addStartupStreamEvent(
-          ErrorResult.fromErrorException(ErrorException.noConnectionFound()),
+          ErrorResult.fromErrorException(
+              const ErrorException.noConnectionFound()),
         );
       } else {
         addStartupStreamEvent(SuccessResult.voidResult());

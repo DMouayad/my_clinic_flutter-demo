@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/blocs/startup_bloc/startup_bloc.dart';
-import 'package:clinic_v2/app/navigation/navigation.dart';
 import 'package:clinic_v2/app/views/startup/startup_view.dart';
 
 class StartupScreen extends StatelessWidget {

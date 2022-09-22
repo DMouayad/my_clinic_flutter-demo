@@ -1,13 +1,13 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 
-class CustomTextButton extends StatelessWidget {
+class AdaptiveTextIconButton extends StatelessWidget {
   final String label;
   final void Function() onPressed;
   final Widget iconWidget;
   final double labelFontSize;
   final Color? labelColor;
-  const CustomTextButton({
+  const AdaptiveTextIconButton({
     required this.label,
     required this.onPressed,
     required this.iconWidget,

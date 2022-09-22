@@ -21,9 +21,6 @@ class WindowsCustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return fluent_ui.ContentDialog(
-      style: fluent_ui.ContentDialogThemeData(
-        barrierColor: context.colorScheme.backgroundColor,
-      ),
       title: Text(
         titleText,
         style: context.fluentTextTheme.title?.copyWith(
@@ -33,11 +30,14 @@ class WindowsCustomDialog extends StatelessWidget {
       content: () {
         return content ??
             ((contentText != null)
-                ? Text(
-                    contentText!,
-                    style: context.textTheme.titleMedium?.copyWith(
-                      // color: context.colorScheme.onPrimary,
-                      fontWeight: FontWeight.w600,
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      contentText!,
+                      style: context.textTheme.subtitle1?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: context.colorScheme.onPrimaryContainer,
+                      ),
                     ),
                   )
                 : null);

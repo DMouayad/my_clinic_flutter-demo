@@ -1,6 +1,6 @@
-part of '../api_endpoints.dart';
+part of '../api_endpoint.dart';
 
-abstract class ApiEndpointResult extends ResultType {
+class ApiEndpointResult extends ResultType {
   const ApiEndpointResult();
 
   static R fromJson<R extends ApiEndpointResult>(
@@ -16,8 +16,10 @@ abstract class ApiEndpointResult extends ResultType {
         return LogoutEndpointResult() as R;
       case RequestEmailVerificationApiEndpoint:
         return RequestEmailVerificationEndpointResult() as R;
+      case GetStaffEmailsWithRolesEndpointResult:
+        return GetStaffEmailsWithRolesEndpointResult(data) as R;
       default:
-        throw UnimplementedError();
+        return const ApiEndpointResult() as R;
     }
   }
 }

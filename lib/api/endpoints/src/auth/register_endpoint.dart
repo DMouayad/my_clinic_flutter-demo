@@ -1,17 +1,19 @@
-part of '../../api_endpoints.dart';
+part of '../../api_endpoint.dart';
 
 class RegisterApiEndpoint extends ApiEndpoint {
-  RegisterApiEndpoint._(
-    String name,
-    String email,
-    String password,
-    String deviceId,
-  ) : super._(
+  RegisterApiEndpoint._({
+    required String name,
+    required String email,
+    required String password,
+    required String phoneNumber,
+    required String deviceId,
+  }) : super._(
           RequestMethod.POST,
           urlWithoutBaseUrl: '/register',
           data: {
             'name': name,
             'email': email,
+            'phone_number': phoneNumber,
             'password': password,
             'device_id': deviceId,
           },

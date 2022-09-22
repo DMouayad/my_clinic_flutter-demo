@@ -6,10 +6,12 @@ class FormHelper {
   late final TextEditingController _passwordController;
   late final TextEditingController? _usernameController;
   late final TextEditingController? _emailController;
+  late final TextEditingController? _phoneNoController;
 
   TextEditingController get passwordController => _passwordController;
   TextEditingController? get usernameController => _usernameController;
   TextEditingController? get emailController => _emailController;
+  TextEditingController? get phoneNoController => _phoneNoController;
   GlobalKey<FormState> get formKey => _formKey;
 
   FormHelper({required bool isLoginForm}) {
@@ -19,9 +21,11 @@ class FormHelper {
     if (isLoginForm) {
       _emailController = TextEditingController();
       _usernameController = null;
+      _phoneNoController = null;
     } else {
       _emailController = TextEditingController();
       _usernameController = TextEditingController();
+      _phoneNoController = TextEditingController();
     }
   }
 
@@ -44,14 +48,42 @@ class FormHelper {
     return null;
   }
 
-  bool get inputIsValid {
-    bool isValid = _passwordController.text.length >= 6 &&
-        (_usernameController?.text.isNotEmpty ?? true) &&
-        (_emailController?.text.isValidEmail ?? true);
-    if (_emailController != null) {
-      isValid = isValid && (_emailController!.text.isNotEmpty);
+  String? usernameValidator(String? value, BuildContext context) {
+    if (!usernameIsValid) {
+      return context.localizations?.usernameIsRequired;
     }
-    return isValid;
+    return null;
+  }
+
+  String? phoneNoValidator(String? value, BuildContext context) {
+    if (!phoneNoIsValid) {
+      return context.localizations?.phoneNoIsRequired;
+    }
+    return null;
+  }
+
+  bool get emailIsValid {
+    if (_emailController != null) {
+      return _emailController!.text.isNotEmpty &&
+          _emailController!.text.isValidEmail;
+    }
+    return true;
+  }
+
+  bool get usernameIsValid {
+    return _usernameController?.text.isNotEmpty ?? true;
+  }
+
+  bool get passwordIsValid {
+    return _passwordController.text.length >= 8;
+  }
+
+  bool get phoneNoIsValid {
+    return _phoneNoController?.text.isNotEmpty ?? true;
+  }
+
+  bool get inputIsValid {
+    return usernameIsValid && emailIsValid && passwordIsValid && phoneNoIsValid;
   }
 
   void validateInput() {
@@ -64,6 +96,7 @@ class FormHelper {
     _passwordController.dispose();
     _usernameController?.dispose();
     _emailController?.dispose();
+    _phoneNoController?.dispose();
   }
 }
 

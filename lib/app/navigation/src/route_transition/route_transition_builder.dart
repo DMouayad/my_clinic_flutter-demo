@@ -1,4 +1,3 @@
-import 'package:clinic_v2/app/core/entities/widget_info.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:clinic_v2/app/core/helpers/builders/custom_builders.dart';

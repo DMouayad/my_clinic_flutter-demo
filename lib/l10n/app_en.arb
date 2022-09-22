@@ -5,10 +5,12 @@
     "retry": "Retry",
 
     "login": "Login",
+    "signUp": "SignUp",
     "createAccount": "Create new account",
     "username": "Username",
     "email": "Email",
     "password": "Password",
+    "phoneNo": "Phone number",
 
 
     "loginScreenMessage": "Welcome,\nGet started now by logging in to your account.",
@@ -21,6 +23,7 @@
     "emailIsRequired": "Email field cannot be empty!",
     "passwordIsRequired": "Password field cannot be empty!",
     "usernameIsRequired": "Username field cannot be empty!",
+    "phoneNoIsRequired": "Phone number field cannot be empty!",
     "passwordIsTooShort": "Password must contain 8 characters at least!",
     "emailInvalid": "Please enter a valid email address, ex:(youremail@example.com)",
 

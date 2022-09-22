@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:clinic_v2/app/shared_widgets/windows_components/appearance_settings_bar.dart';
 
-import 'components/account_info_form.dart';
+import 'components/bloc_sign_up_form.dart';
 import 'components/sign_up_message.dart';
-import 'components/sign_up_step_indicator.dart';
 
 class WideSignUpScreen extends StatelessWidget {
   const WideSignUpScreen({
@@ -28,13 +27,12 @@ class WideSignUpScreen extends StatelessWidget {
         return WindowsTwoSidesScreen(
           showInProgressIndicator: state is SignUpInProgress,
           leftSideAnimation: animation,
+          topOptionsBar: const BlocAppearanceSettingsBar(),
           leftSide: const _StepOneLeftSide(),
           errorText: () {
             if (state is SignUpErrorState) {
-              if (state.error.exception == ErrorException.noConnectionFound()) {
-                return context.localizations!.noInternetConnection;
-              }
-              return state.error.message;
+              return state.error.exception?.getMessage(context) ??
+                  state.error.message;
             }
           }(),
         );
@@ -50,69 +48,28 @@ class _StepOneLeftSide extends StatelessWidget {
     return WindowsNavView.onlyAppBar(
       appBarColor: context.colorScheme.backgroundColor,
       backgroundColor: context.colorScheme.backgroundColor,
-      appBarActions: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SignUpStepIndicator(
-            title: context.localizations!.stepOne,
-          ),
-        ],
-      ),
       appBarTitle: const SignUpMessage(),
       content: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
             horizontal: context.isDesktop ? context.horizontalMargins : 0,
           ),
-          child: SignUpAccountInfoForm(
-            onSubmit: (
-              String emailAddress,
-              String password,
-              String username,
-            ) {
-              context.read<AuthBloc>().add(SignUpRequested(
-                    email: emailAddress,
-                    username: username,
-                    password: password,
-                    themeMode: context.themeMode,
-                    locale: context.locale,
-                  ));
-            },
-          ),
+          child: const BlocSignUpForm(),
         ),
       ),
     );
   }
 
-  Widget defaultBuilder(BuildContext context) {
+  Widget wideScreenBuilder(BuildContext context) {
     return ScaffoldWithAppBar(
       showBottomTitle: context.isTablet,
       title: const SignUpMessage(),
-      actions: [
-        SignUpStepIndicator(
-          title: context.localizations!.stepOne,
-        ),
-      ],
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
             horizontal: context.isDesktop ? context.horizontalMargins : 0,
           ),
-          child: SignUpAccountInfoForm(
-            onSubmit: (
-              String emailAddress,
-              String password,
-              String username,
-            ) {
-              context.read<AuthBloc>().add(SignUpRequested(
-                    email: emailAddress,
-                    username: username,
-                    password: password,
-                    themeMode: context.themeMode,
-                    locale: context.locale,
-                  ));
-            },
-          ),
+          child: const BlocSignUpForm(),
         ),
       ),
     );
@@ -122,6 +79,6 @@ class _StepOneLeftSide extends StatelessWidget {
   Widget build(BuildContext context) {
     return context.isWindowsPlatform
         ? windowsBuilder(context)
-        : defaultBuilder(context);
+        : wideScreenBuilder(context);
   }
 }

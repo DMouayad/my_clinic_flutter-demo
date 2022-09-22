@@ -12,23 +12,12 @@ class AppRouter with Routes {
     switch (settings.name) {
       case Routes.startupScreen:
         return StartupPage().route;
-      case Routes.loginScreenRoute:
+      case Routes.loginScreen:
         return LoginPage().route;
-      case Routes.signUpScreenRoute:
+      case Routes.signUpScreen:
         return SignUpPage().route;
-      // case Routes.appearanceSettingsScreenRoute:
-      //   return AppearanceSettingsPage().route;
-      case Routes.homeScreenRoute:
+      case Routes.homeScreen:
         return HomePage().route;
-      // case Routes.signUpScreenRoute:
-      //   return SignUpPage(authCubit: settings.arguments as AuthBloc)
-      //       .route;
-      // case Routes.stepTwoSignUpScreenRoute:
-      //   final arguments = settings.arguments as Map<String, dynamic>;
-      //   return StepTwoSignUpPage(
-      //     authCubit: arguments['auth_cubit'] as AuthBloc,
-      //     signUpCubit: arguments['sign_up_cubit'] as AuthBloc,
-      //   ).route;
       default:
         throw UnimplementedError(
             '${settings.name} route page is not implemented');

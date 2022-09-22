@@ -49,18 +49,20 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
 
   @override
   Future<Result<VoidResult, BasicError>> register({
-    required String email,
     required String name,
+    required String email,
+    required String phoneNumber,
     required String password,
     required ThemeMode themeModePreference,
     required Locale localePreference,
   }) async {
     return (await _dataSource.register(
-      name,
-      email,
-      password,
-      themeModePreference,
-      localePreference,
+      username: name,
+      email: email,
+      password: password,
+      themeModePreference: themeModePreference,
+      localePreference: localePreference,
+      phoneNumber: phoneNumber,
     ))
         .when(
       onSuccess: (result) {

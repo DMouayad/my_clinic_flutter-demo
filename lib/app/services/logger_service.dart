@@ -1,4 +1,4 @@
-import 'package:clinic_v2/api/endpoints/api_endpoints.dart';
+import 'package:clinic_v2/api/endpoints/api_endpoint.dart';
 import 'package:clinic_v2/app/core/extensions/dio_extension.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

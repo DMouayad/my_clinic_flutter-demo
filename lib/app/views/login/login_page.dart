@@ -6,7 +6,7 @@ import 'screens/login_screen.dart';
 class LoginPage extends AppPage {
   LoginPage()
       : super(
-          routeSettings: const RouteSettings(name: Routes.loginScreenRoute),
+          routeSettings: const RouteSettings(name: Routes.loginScreen),
           pageTransitions: const RouteTransitionBuilder(
             tablet: RouteTransitionType.none,
             windows: RouteTransitionType.desktopDrillIn,

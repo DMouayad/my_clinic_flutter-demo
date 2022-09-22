@@ -1,4 +1,4 @@
-part of '../../api_endpoints.dart';
+part of '../../api_endpoint.dart';
 
 class RefreshAccessTokenEndpoint extends ApiEndpoint {
   RefreshAccessTokenEndpoint._(String refreshToken)

@@ -16,6 +16,14 @@ class AuthHasLoggedInUser extends AuthState {
   const AuthHasLoggedInUser(this.currentUser);
   @override
   List<Object> get props => [currentUser];
+  @override
+  String toString() {
+    return '''<$runtimeType>
+                 ${currentUser.runtimeType}
+                    [id:    ${currentUser.id}
+                    email: ${currentUser.email}
+                    role:  ${currentUser.role}] ''';
+  }
 }
 
 class AuthHasNoLoggedInUser extends AuthState {

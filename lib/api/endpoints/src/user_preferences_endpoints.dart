@@ -1,4 +1,4 @@
-part of '../api_endpoints.dart';
+part of '../api_endpoint.dart';
 
 class GetUserPreferencesApiEndpoint extends ApiEndpoint {
   GetUserPreferencesApiEndpoint._(String token)

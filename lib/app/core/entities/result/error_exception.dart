@@ -8,18 +8,19 @@ class ErrorException extends Equatable {
   final String name;
   String? getMessage(BuildContext context) => null;
 
-  factory ErrorException.noConnectionFound() = NoConnectionFoundException;
-  factory ErrorException.cannotConnectToServer() =
+  const factory ErrorException.noConnectionFound() = NoConnectionFoundException;
+  const factory ErrorException.cannotConnectToServer() =
       CannotConnectToServerException;
-  factory ErrorException.userUnauthorized() = _UserUnauthorizedException;
-  factory ErrorException.noRefreshTokenFound() = _NoRefreshTokenFoundException;
-  factory ErrorException.emailAlreadyRegistered() =
+  const factory ErrorException.userUnauthorized() = _UserUnauthorizedException;
+  const factory ErrorException.noRefreshTokenFound() =
+      _NoRefreshTokenFoundException;
+  const factory ErrorException.emailAlreadyRegistered() =
       EmailAlreadyRegisteredException;
-  factory ErrorException.invalidEmailCredential() =
+  const factory ErrorException.invalidEmailCredential() =
       InvalidEmailCredentialException;
-  factory ErrorException.invalidPasswordCredential() =
+  const factory ErrorException.invalidPasswordCredential() =
       InvalidPasswordCredentialException;
-  factory ErrorException.emailUnauthorizedToRegister() =
+  const factory ErrorException.emailUnauthorizedToRegister() =
       EmailUnauthorizedToRegisterException;
 
   factory ErrorException.deletingOnlyAdminStaffEmail() {
@@ -43,7 +44,7 @@ class ErrorException extends Equatable {
   factory ErrorException.fromApiException(ApiExceptionClass apiExceptionClass) {
     switch (apiExceptionClass) {
       case ApiExceptionClass.emailAlreadyRegistered:
-        return ErrorException.emailAlreadyRegistered();
+        return const ErrorException.emailAlreadyRegistered();
 
       case ApiExceptionClass.cannotDeleteOnlyAdminStaffEmail:
         return ErrorException.deletingOnlyAdminStaffEmail();
@@ -59,13 +60,13 @@ class ErrorException extends Equatable {
         return ErrorException.userDoesntMatchHisStaffEmail();
 
       case ApiExceptionClass.emailUnauthorizedToRegister:
-        return ErrorException.emailUnauthorizedToRegister();
+        return const ErrorException.emailUnauthorizedToRegister();
 
       case ApiExceptionClass.invalidEmailCredential:
-        return ErrorException.invalidEmailCredential();
+        return const ErrorException.invalidEmailCredential();
 
       case ApiExceptionClass.invalidPasswordCredential:
-        return ErrorException.invalidPasswordCredential();
+        return const ErrorException.invalidPasswordCredential();
 
       default:
         return ErrorException(apiExceptionClass.name);

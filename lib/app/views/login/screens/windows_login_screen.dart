@@ -4,10 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/appearance_settings_bar.dart';
-import '../components/login_form.dart';
+import '../components/bloc_login_form.dart';
 import '../components/login_message.dart';
 
 class WindowsLoginScreen extends StatelessWidget {
@@ -22,37 +21,29 @@ class WindowsLoginScreen extends StatelessWidget {
         return WindowsTwoSidesScreen(
           leftSideAnimation: animation,
           showInProgressIndicator: state is LoginInProgress,
-          topOptionsBar: AppearanceSettingsBar(
-            onLocaleChanged: (Locale locale) {
-              context.read<PreferencesCubit>().provideLocale(locale);
-            },
-            onThemeModeChanged: (ThemeMode themeMode) {
-              context.read<PreferencesCubit>().provideThemeMode(themeMode);
-            },
-          ),
+          topOptionsBar: const BlocAppearanceSettingsBar(),
           leftSide: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.horizontalMargins,
-                  vertical: context.screenHeight * .1,
-                ),
-                child: const LoginMessage(),
-              ),
-              Center(
+              Expanded(
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal:
-                        context.isTablet ? 0 : context.horizontalMargins,
+                    horizontal: context.horizontalMargins,
+                    vertical: context.screenHeight * .1,
                   ),
-                  child: LoginForm(
-                    onSubmit: (String email, String password) {
-                      context
-                          .read<AuthBloc>()
-                          .add(LoginRequested(email, password));
-                    },
+                  child: const LoginMessage(),
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal:
+                          context.isTablet ? 0 : context.horizontalMargins,
+                    ),
+                    child: const BlocLoginForm(),
                   ),
                 ),
               ),

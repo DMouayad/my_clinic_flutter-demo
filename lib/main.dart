@@ -24,16 +24,16 @@ void main() async {
   //
   await windowManager.ensureInitialized();
   await windowManager.setMinimumSize(const Size(660, 700));
-  AuthTokenServiceProvider.instance.service.deleteRefreshToken();
-  AuthTokenServiceProvider.instance.service.deleteAccessToken();
-  //
+  AuthTokensServiceProvider.instance.service.deleteRefreshToken();
+  AuthTokensServiceProvider.instance.service.deleteAccessToken();
+  // logger is working
   Log.i("Logger is working");
   runApp(
     ClinicApp(
       PreferencesCubit(),
       AuthBloc(
         MyClinicApiAuthRepository(
-          authTokensService: AuthTokenServiceProvider.instance.service,
+          authTokensService: AuthTokensServiceProvider.instance.service,
         ),
       ),
     ),
@@ -160,11 +160,11 @@ mixin _ClinicAppHelper {
       listener: (context, state) async {
         if (state is AuthHasLoggedInUser) {
           ClinicApp.navigatorKey.currentState
-              ?.popAndPushNamed(Routes.homeScreenRoute);
+              ?.popAndPushNamed(Routes.homeScreen);
         }
         if (state is AuthHasNoLoggedInUser) {
           ClinicApp.navigatorKey.currentState
-              ?.popAndPushNamed(Routes.loginScreenRoute);
+              ?.popAndPushNamed(Routes.loginScreen);
         }
       },
       child: app!,

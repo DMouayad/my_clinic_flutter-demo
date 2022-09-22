@@ -39,8 +39,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         if (state != const SignUpInProgress()) emit(const SignUpInProgress());
 
-        emit(await _signUp(event.email, event.username, event.password,
-            event.themeMode, event.locale));
+        emit(await _signUp(
+          email: event.email,
+          username: event.username,
+          phoneNumber: event.phoneNumber,
+          password: event.password,
+          themeMode: event.themeMode,
+          locale: event.locale,
+        ));
       },
     );
   }
@@ -72,16 +78,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
   }
 
-  Future<AuthState> _signUp(
-    String email,
-    String username,
-    String password,
-    ThemeMode themeMode,
-    Locale locale,
-  ) async {
+  Future<AuthState> _signUp({
+    required String email,
+    required String username,
+    required String phoneNumber,
+    required String password,
+    required ThemeMode themeMode,
+    required Locale locale,
+  }) async {
     final signUpResponse = await authRepository.register(
       email: email,
       name: username,
+      phoneNumber: phoneNumber,
       password: password,
       themeModePreference: themeMode,
       localePreference: locale,

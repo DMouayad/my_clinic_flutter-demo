@@ -1,8 +1,24 @@
+import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../dropdown_menus/adaptive_locale_menu.dart';
 import '../dropdown_menus/utils.dart';
 import '../theme_switches/adaptive_theme_switch.dart';
+
+class BlocAppearanceSettingsBar extends StatelessWidget {
+  const BlocAppearanceSettingsBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppearanceSettingsBar(
+      onLocaleChanged: (Locale locale) =>
+          context.read<PreferencesCubit>().provideLocale(locale),
+      onThemeModeChanged: (ThemeMode themeMode) =>
+          context.read<PreferencesCubit>().provideThemeMode(themeMode),
+    );
+  }
+}
 
 class AppearanceSettingsBar extends StatelessWidget {
   const AppearanceSettingsBar({
