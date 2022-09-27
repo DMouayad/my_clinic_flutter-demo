@@ -8,9 +8,9 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
 
   Stream<bool> get hasLoggedInUser;
 
-  Future<Result<VoidResult, BasicError>> onInit();
+  Future<Result<VoidValue, BasicError>> onInit();
 
-  Future<Result<VoidResult, BasicError>> register({
+  Future<Result<VoidValue, BasicError>> register({
     required String email,
     required String name,
     required String phoneNumber,
@@ -22,9 +22,9 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
     required String email,
     required String password,
   });
-  Future<Result<VoidResult, BasicError>> requestPasswordReset(
+  Future<Result<VoidValue, BasicError>> requestPasswordReset(
     String emailAddress,
   );
-  Future<Result<VoidResult, BasicError>> requestVerificationEmail();
-  Future<Result<VoidResult, BasicError>> logout();
+  Future<Result<VoidValue, BasicError>> requestVerificationEmail();
+  Future<Result<VoidValue, BasicError>> logout();
 }

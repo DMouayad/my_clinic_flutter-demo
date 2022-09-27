@@ -9,7 +9,7 @@ import 'startup_cubit_test_helpers.dart';
 
 @GenerateMocks([StartupBloc])
 void main() {
-  final connectionError = ErrorResult(
+  final connectionError = FailureResult(
     message: 'No internet connection found!',
     code: ErrorCode.connectionNotFound.name,
   );

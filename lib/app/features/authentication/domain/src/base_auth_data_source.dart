@@ -16,7 +16,7 @@ abstract class BaseAuthDataSource<T extends BaseServerUser> {
     String password,
   );
   Future<Result<T, BasicError>> loadUser();
-  Future<Result<VoidResult, BasicError>> logout();
-  Future<Result<VoidResult, BasicError>> requestPasswordReset(String email);
-  Future<Result<VoidResult, BasicError>> sendVerificationEmail();
+  Future<Result<VoidValue, BasicError>> logout();
+  Future<Result<VoidValue, BasicError>> requestPasswordReset(String email);
+  Future<Result<VoidValue, BasicError>> sendVerificationEmail();
 }

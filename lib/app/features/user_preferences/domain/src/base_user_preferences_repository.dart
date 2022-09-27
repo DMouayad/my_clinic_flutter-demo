@@ -5,12 +5,13 @@ import 'base_user_preferences.dart';
 
 abstract class BaseUserPreferencesRepository<T extends BaseUserPreferences> {
   Future onInit() async => null;
-  void setUserPreferences(T userPreferences);
-  ThemeMode getUserThemePreference();
-  Locale getUserLocalePreference();
-  Future<Result<VoidResult, BasicError>> updateUserThemePreference(
+  T? get preferences;
+
+  Future<Result<VoidValue, BasicError>> loadUserPreferences();
+  Future<Result<VoidValue, BasicError>> updateUserThemePreference(
     ThemeMode themeMode,
   );
-  Future<Result<VoidResult, BasicError>> updateUserLocalePreference(
-      Locale locale);
+  Future<Result<VoidValue, BasicError>> updateUserLocalePreference(
+    Locale locale,
+  );
 }

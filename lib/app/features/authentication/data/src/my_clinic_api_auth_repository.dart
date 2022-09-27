@@ -34,21 +34,18 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
     // login user with email and password
     final loginResult = await _dataSource.login(email, password);
 
-    return loginResult.when(
-      onSuccess: (result) {
+    return loginResult.mapSuccess(
+      (result) {
         hasLoggedInUserStreamController.add(true);
-
         // set returned user as the current user
         setCurrentUser(result);
-
-        return SuccessResult(currentUser!);
+        return currentUser!;
       },
-      onError: (error) => ErrorResult(error),
     );
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> register({
+  Future<Result<VoidValue, BasicError>> register({
     required String name,
     required String email,
     required String phoneNumber,
@@ -64,51 +61,47 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
       localePreference: localePreference,
       phoneNumber: phoneNumber,
     ))
-        .when(
-      onSuccess: (result) {
+        .mapSuccessToVoid(
+      (result) {
         hasLoggedInUserStreamController.add(true);
         // set current user to the retrieved user
         setCurrentUser(result);
-        return SuccessResult.voidResult();
       },
-      onError: (error) => ErrorResult(error),
     );
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> logout() async {
-    return (await _dataSource.logout()).when(
-      onSuccess: (_) {
+  Future<Result<VoidValue, BasicError>> logout() async {
+    return (await _dataSource.logout()).fold(
+      ifSuccess: (_) {
         hasLoggedInUserStreamController.add(false);
-        return SuccessResult.voidResult();
       },
-      onError: (error) => ErrorResult(error),
     );
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> requestPasswordReset(
+  Future<Result<VoidValue, BasicError>> requestPasswordReset(
       String emailAddress) {
     // TODO: implement requestPasswordReset
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> requestVerificationEmail() async {
+  Future<Result<VoidValue, BasicError>> requestVerificationEmail() async {
     return await _dataSource.sendVerificationEmail();
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> onInit() async {
-    return (await _dataSource.loadUser()).when(
+  Future<Result<VoidValue, BasicError>> onInit() async {
+    return (await _dataSource.loadUser()).flatMap(
       onSuccess: (result) {
         currentUser = result;
         hasLoggedInUserStreamController.add(true);
         return SuccessResult.voidResult();
       },
-      onError: (error) {
+      onFailure: (error) {
         hasLoggedInUserStreamController.add(false);
-        return ErrorResult(error);
+        return FailureResult(error);
       },
     );
   }

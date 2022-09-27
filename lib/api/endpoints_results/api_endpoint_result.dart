@@ -1,9 +1,8 @@
-import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'endpoints_results.dart';
 
 class EmptyApiEndpointResult extends ApiEndpointResult {}
 
-class ApiEndpointResult extends ResultType {
+class ApiEndpointResult extends Object {
   const ApiEndpointResult();
 
   static R fromJson<R extends ApiEndpointResult>(
@@ -16,8 +15,8 @@ class ApiEndpointResult extends ResultType {
         return LoginEndpointResult.fromMap(data) as R;
       case RegisterEndpointResult:
         return RegisterEndpointResult.fromMap(data) as R;
-      case GetStaffEmailsEndpointResult:
-        return GetStaffEmailsEndpointResult.fromApiResponse(data) as R;
+      case FetchStaffEmailsEndpointResult:
+        return FetchStaffEmailsEndpointResult.fromApiResponse(data) as R;
       case RefreshAccessTokenEndpointResult:
         return RefreshAccessTokenEndpointResult.fromMap(data) as R;
       case FetchUserEndpointResult:

@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 //
-import 'package:clinic_v2/api/utils/auth_tokens.dart';
+import 'package:clinic_v2/app/core/entities/auth_tokens.dart';
 import 'base_auth_tokens_service.dart';
 
 class SecureStorageAuthTokensService extends BaseAuthTokensService {

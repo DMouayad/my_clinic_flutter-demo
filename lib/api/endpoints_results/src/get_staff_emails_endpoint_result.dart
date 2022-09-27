@@ -1,10 +1,10 @@
 import '../api_endpoint_result.dart';
 
-class GetStaffEmailsEndpointResult extends ApiEndpointResult {
+class FetchStaffEmailsEndpointResult extends ApiEndpointResult {
   final List<Map<String, dynamic>> staffEmailsData;
 
-  const GetStaffEmailsEndpointResult(this.staffEmailsData);
-  factory GetStaffEmailsEndpointResult.fromApiResponse(dynamic data) {
+  const FetchStaffEmailsEndpointResult(this.staffEmailsData);
+  factory FetchStaffEmailsEndpointResult.fromApiResponse(dynamic data) {
     final staffEmailsData = (data as List)
         .map((e) => {
               'id': e['id'] as int,
@@ -14,6 +14,6 @@ class GetStaffEmailsEndpointResult extends ApiEndpointResult {
             })
         .toList();
 
-    return GetStaffEmailsEndpointResult(staffEmailsData);
+    return FetchStaffEmailsEndpointResult(staffEmailsData);
   }
 }

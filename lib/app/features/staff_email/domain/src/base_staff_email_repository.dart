@@ -4,10 +4,10 @@ import 'package:clinic_v2/app/features/staff_email/domain/src/base_staff_email.d
 
 abstract class BaseStaffEmailRepository {
   List<BaseStaffEmail>? get staffEmails;
-  Future<Result<VoidResult, BasicError>> addStaffEmail(
+  Future<Result<VoidValue, BasicError>> addStaffEmail(
       String email, UserRole userRole);
-  Future<Result<VoidResult, BasicError>> getStaffEmails();
-  Future<Result<VoidResult, BasicError>> updateStaffEmail(
+  Future<Result<VoidValue, BasicError>> getStaffEmails();
+  Future<Result<VoidValue, BasicError>> updateStaffEmail(
       {required int id, String? email, UserRole? userRole});
-  Future<Result<VoidResult, BasicError>> deleteStaffEmail(int id);
+  Future<Result<VoidValue, BasicError>> deleteStaffEmail(int id);
 }

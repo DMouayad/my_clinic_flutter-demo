@@ -7,7 +7,7 @@ abstract class StaffEmailsEvent extends Equatable {
 }
 
 /// An event to load staff emails from server
-class GetStaffEmails extends StaffEmailsEvent {}
+class FetchStaffEmails extends StaffEmailsEvent {}
 
 /// An event to add a new staff email
 class AddStaffEmail extends StaffEmailsEvent {

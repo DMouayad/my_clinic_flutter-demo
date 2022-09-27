@@ -17,18 +17,17 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
     String email,
     String password,
   ) async {
-    final response =
-        await LoginApiEndpoint(email: email, password: password).request();
+    final response = await LoginApiEndpoint(
+      email: email,
+      password: password,
+    ).request();
 
-    return await response.whenAsync(
-      onSuccess: (result) async {
+    return await response.mapSuccessAsync(
+      (result) async {
         // save returned auth tokens to storage
         await _authTokensService.saveAuthTokens(result.authTokens);
-        return SuccessResult(
-          MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
-        );
+        return MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs);
       },
-      onError: (BasicError error) async => ErrorResult(error),
     );
   }
 
@@ -47,42 +46,36 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
       password: password,
       phoneNumber: phoneNumber,
     ).request();
-    return await response.foldAsync(
-      ifSuccess: (endpointResult) async {
-        await _authTokensService.saveAuthTokens(endpointResult.authTokens);
 
-        return SuccessResult(
-          MyClinicApiUser.fromApiResponse(endpointResult.userWithRole),
-        );
+    return await response.mapSuccessAsync(
+      (result) async {
+        await _authTokensService.saveAuthTokens(result.authTokens);
+        return MyClinicApiUser.fromApiResponse(result.userWithRole);
       },
     );
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> logout() async {
-    final logoutResponse = await LogoutApiEndpoint().request();
-    return logoutResponse.fold();
+  Future<Result<VoidValue, BasicError>> logout() async {
+    return (await LogoutApiEndpoint().request()).mapSuccessToVoid();
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> requestPasswordReset(String email) {
+  Future<Result<VoidValue, BasicError>> requestPasswordReset(String email) {
     // TODO: implement requestPasswordReset
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> sendVerificationEmail() async {
-    return (await RequestEmailVerificationApiEndpoint().request()).fold();
+  Future<Result<VoidValue, BasicError>> sendVerificationEmail() async {
+    return (await RequestEmailVerificationApiEndpoint().request())
+        .mapSuccessToVoid();
   }
 
   @override
   Future<Result<MyClinicApiUser, BasicError>> loadUser() async {
-    final response = await FetchUserEndpoint().request();
-    return response.when(
-      onSuccess: (result) => SuccessResult(
-        MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
-      ),
-      onError: (error) => ErrorResult(error),
+    return (await FetchUserEndpoint().request()).mapSuccess(
+      (result) => MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
     );
   }
 }

@@ -15,14 +15,14 @@ abstract class BaseStartupService {
 
   /// Performs initialization logic
   ///
-  Future<Result<VoidResult, BasicError>?> init();
+  Future<Result<VoidValue, BasicError>?> init();
 
   void retryToInit();
   void addStartupStreamEvent(Result event) {
     _startupStatusStreamController?.add(event);
   }
 
-  void addStartupStreamError(ErrorResult errorResult) {
+  void addStartupStreamError(FailureResult errorResult) {
     _startupStatusStreamController?.add(errorResult);
   }
 }

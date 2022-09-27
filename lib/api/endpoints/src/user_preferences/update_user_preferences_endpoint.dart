@@ -18,6 +18,7 @@ class UpdateUserPreferencesApiEndpoint
             if (theme != null) {
               data['theme'] = theme;
             }
+            return data;
           }(),
         );
 }

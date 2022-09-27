@@ -10,43 +10,35 @@ class MyClinicApiUserPreferencesRepository
     implements BaseUserPreferencesRepository<MyClinicApiUserPreferences> {
   MyClinicApiUserPreferencesRepository(
       BaseAuthTokensService authTokenProvider) {
-    _dataSource = MyClinicApiUserPreferencesDataSource(authTokenProvider);
+    _dataSource = const MyClinicApiUserPreferencesDataSource();
   }
   late final MyClinicApiUserPreferencesDataSource _dataSource;
-  MyClinicApiUserPreferences? userPreferences;
+  MyClinicApiUserPreferences? _userPreferences;
 
   @override
-  Future onInit() {
-    // TODO: implement onInit
-    throw UnimplementedError();
-  }
+  Future onInit() async => null;
 
   @override
-  Future<Result<VoidResult, BasicError>> updateUserLocalePreference(
+  Future<Result<VoidValue, BasicError>> updateUserLocalePreference(
     Locale locale,
   ) async {
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<VoidResult, BasicError>> updateUserThemePreference(
+  Future<Result<VoidValue, BasicError>> updateUserThemePreference(
       ThemeMode themeMode) {
     // TODO: implement updateUserThemePreference
     throw UnimplementedError();
   }
 
   @override
-  Locale getUserLocalePreference() {
-    return _dataSource.userPreferences!.localePreference;
+  Future<Result<VoidValue, BasicError>> loadUserPreferences() async {
+    return (await _dataSource.fetchUserPreferences()).mapSuccessToVoid(
+      (result) => _userPreferences = preferences,
+    );
   }
 
   @override
-  ThemeMode getUserThemePreference() {
-    return _dataSource.userPreferences!.themePreference;
-  }
-
-  @override
-  void setUserPreferences(MyClinicApiUserPreferences userPreferences) {
-    _dataSource.userPreferences = userPreferences;
-  }
+  MyClinicApiUserPreferences? get preferences => _userPreferences;
 }

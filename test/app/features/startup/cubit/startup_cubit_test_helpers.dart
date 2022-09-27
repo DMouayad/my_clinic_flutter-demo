@@ -16,7 +16,7 @@ void setupStartupCubitForStartupSuccess(StartupBloc startupCubit) {
 }
 
 void setupStartupCubitForStartupFailure(
-    StartupBloc startupCubit, ErrorResult startupError,
+    StartupBloc startupCubit, FailureResult startupError,
     {bool withRetryThenSuccess = false}) {
   if (withRetryThenSuccess) {
     when(startupCubit.stream).thenAnswer(

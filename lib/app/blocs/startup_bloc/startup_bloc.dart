@@ -37,13 +37,13 @@ class StartupBloc extends Bloc<StartupEvent, StartupState> {
   }
 
   StartupState _getStartupState(Result? result) {
-    return result!.when(
+    return result!.mapTo(
       onSuccess: (_) {
         // cancel subscription since startup process is finished
         _startupResultStreamSubscription?.cancel();
         return StartupSuccess();
       },
-      onError: (error) => StartupFailure(error),
+      onFailure: (error) => StartupFailure(error),
     );
   }
 

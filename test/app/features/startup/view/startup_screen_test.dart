@@ -18,7 +18,7 @@ import '../cubit/startup_cubit_test.mocks.dart';
 import '../cubit/startup_cubit_test_helpers.dart';
 
 void main() {
-  final connectionError = ErrorResult(
+  final connectionError = FailureResult(
     message: 'No internet connection found!',
   );
   group('StartupScreen tests', () {

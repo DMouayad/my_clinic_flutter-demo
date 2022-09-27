@@ -28,12 +28,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) => emit(_getAuthHasUserState()),
     );
     on<AuthInitRequested>((event, emit) async {
-      (await authRepository.onInit()).when(
-        onSuccess: (_) {
-          // no need to add events or emit new states because we are listening to
-          // [authRepository.hasLoggedInUser] stream
-        },
-        onError: (error) => emit(AuthErrorState(error)),
+      (await authRepository.onInit()).fold(
+        ifFailure: (error) => emit(AuthErrorState(error)),
       );
     });
 
@@ -59,6 +55,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
     );
   }
+  @override
+  Future<void> close() async {
+    await _authHasUserStreamSub.cancel();
+    return super.close();
+  }
 
   AuthState _getAuthHasUserState() {
     return authRepository.currentUser != null
@@ -71,9 +72,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       email: email,
       password: password,
     );
-    return loginResponse.when(
+    return loginResponse.mapTo(
       onSuccess: (user) => AuthHasLoggedInUser(user),
-      onError: (error) {
+      onFailure: (error) {
         if (error.exception ==
             const ErrorException.invalidPasswordCredential()) {}
         return LoginErrorState(error);
@@ -98,9 +99,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       localePreference: locale,
     );
 
-    return signUpResponse.when(
+    return signUpResponse.mapTo(
       onSuccess: (result) => SignUpSuccess(authRepository.currentUser!),
-      onError: (error) {
+      onFailure: (error) {
         if (error.exception is EmailUnauthorizedToRegisterException) {
           return const SignUpEmailIsNotAuthorizedToRegister();
         }

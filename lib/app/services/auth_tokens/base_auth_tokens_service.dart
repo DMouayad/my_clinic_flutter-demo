@@ -61,16 +61,11 @@ abstract class BaseAuthTokensService {
       final refreshToken = await getRefreshToken();
       // if a refresh token found => request to refresh auth tokens
       if (refreshToken != null) {
-        return (await refreshAuthTokens(refreshToken)).when(
-          onSuccess: (result) {
-            return SuccessResult(result.accessToken.token);
-          },
-          onError: (error) {
-            return ErrorResult(error);
-          },
+        return (await refreshAuthTokens(refreshToken)).mapSuccess(
+          (result) => result.accessToken.token,
         );
       } else {
-        return ErrorResult.fromErrorException(
+        return FailureResult.fromErrorException(
           const ErrorException.noRefreshTokenFound(),
         );
       }
@@ -80,16 +75,11 @@ abstract class BaseAuthTokensService {
   Future<Result<AuthTokens, BasicError>> refreshAuthTokens(
     String refreshToken,
   ) async {
-    return await (await refreshTokensService.refreshAuthTokens(
+    final refreshTokensResponse = await refreshTokensService.refreshAuthTokens(
       refreshToken: refreshToken,
-      deviceId: await DeviceIdHelper.get,
-    ))
-        .whenAsync(
-      onSuccess: (tokens) async {
-        await saveAuthTokens(tokens);
-        return SuccessResult(tokens);
-      },
-      onError: (error) async => ErrorResult(error),
+    );
+    return await refreshTokensResponse.foldAsync(
+      ifSuccess: (tokens) async => await saveAuthTokens(tokens),
     );
   }
 }

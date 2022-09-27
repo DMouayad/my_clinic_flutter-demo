@@ -6,7 +6,7 @@ import 'base_user_preferences.dart';
 abstract class BaseUserPreferencesDataSource<T extends BaseUserPreferences> {
   Future<Result<T, BasicError>> fetchUserPreferences();
 
-  Future<Result<VoidResult, BasicError>> updateUserPreferences({
+  Future<Result<VoidValue, BasicError>> updateUserPreferences({
     ThemeMode? themeMode,
     Locale? locale,
   });
