@@ -3,6 +3,11 @@ import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+/// Represents specific app exceptions
+///
+/// used in:
+/// - determining the error message
+/// - converting [ApiExceptionClass] to app [ErrorException]
 class ErrorException extends Equatable {
   const ErrorException(this.name);
   final String name;
@@ -22,6 +27,9 @@ class ErrorException extends Equatable {
       InvalidPasswordCredentialException;
   const factory ErrorException.emailUnauthorizedToRegister() =
       EmailUnauthorizedToRegisterException;
+  const factory ErrorException.invalidApiRequest() = InvalidApiRequestException;
+  const factory ErrorException.failedToRefreshTokens() =
+      FailedToRefreshAuthTokensException;
 
   factory ErrorException.deletingOnlyAdminStaffEmail() {
     return const ErrorException('DeletingOnlyAdminStaffEmail');
@@ -67,6 +75,8 @@ class ErrorException extends Equatable {
 
       case ApiExceptionClass.invalidPasswordCredential:
         return const ErrorException.invalidPasswordCredential();
+      case ApiExceptionClass.validationError:
+        return const ErrorException.invalidApiRequest();
 
       default:
         return ErrorException(apiExceptionClass.name);
@@ -140,5 +150,22 @@ class EmailUnauthorizedToRegisterException extends ErrorException {
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.emailUnauthorizedToRegister;
+  }
+}
+
+class InvalidApiRequestException extends ErrorException {
+  const InvalidApiRequestException() : super('InvalidApiRequest');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.invalidApiRequest;
+  }
+}
+
+class FailedToRefreshAuthTokensException extends ErrorException {
+  const FailedToRefreshAuthTokensException()
+      : super('FailedToRefreshAuthTokens');
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.failedToRefreshTokens;
   }
 }

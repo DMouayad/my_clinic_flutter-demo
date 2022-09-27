@@ -1,4 +1,4 @@
-mixin Routes {
+mixin AppRoutes {
   static const startupScreen = '/',
       homeScreen = '/home_screen',
       adminPanelScreen = '/admin_panel_screen',

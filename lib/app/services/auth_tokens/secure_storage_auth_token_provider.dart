@@ -1,10 +1,12 @@
-import 'package:clinic_v2/api/utils/auth_tokens.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import 'base_auth_token_provider.dart';
+//
+import 'package:clinic_v2/api/utils/auth_tokens.dart';
+import 'base_auth_tokens_service.dart';
 
 class SecureStorageAuthTokensService extends BaseAuthTokensService {
   final _storage = const FlutterSecureStorage();
+
+  SecureStorageAuthTokensService(super.refreshTokensService);
 
   @override
   Future<PersonalAccessToken?> getAccessToken() async {

@@ -13,11 +13,24 @@ class SuccessResult<R extends Object, E extends NoError> extends Result<R, E> {
   factory SuccessResult.voidResult() => SuccessResult(VoidResult() as R);
 
   @override
-  T when<T>({
-    required T Function(R result) onSuccess,
-    required T Function(E error) onError,
+  T fold<T>({
+    T Function(R result)? ifSuccess,
+    T Function(E error)? ifError,
   }) {
-    return onSuccess(result);
+    return T is VoidResult
+        ? SuccessResult.voidResult() as T
+        : (ifSuccess != null ? ifSuccess(result) : SuccessResult(result)) as T;
+  }
+
+  @override
+  Future<T> foldAsync<T>({
+    Future<T> Function(R result)? ifSuccess,
+    Future<T> Function(E error)? ifError,
+  }) async {
+    return T is VoidResult
+        ? SuccessResult.voidResult() as T
+        : (ifSuccess != null ? await ifSuccess(result) : SuccessResult(result))
+            as T;
   }
 
   @override
@@ -28,15 +41,15 @@ class SuccessResult<R extends Object, E extends NoError> extends Result<R, E> {
     return await onSuccess(result);
   }
 
-  @override
-  T fold<T>({
-    required T Function(R result) ifSuccess,
-    required T Function(E error) ifError,
-  }) {
-    return ifSuccess(result);
-  }
-
   factory SuccessResult.withJson(String json) {
     return SuccessResult(JsonObjectResult(jsonDecode(json)) as R);
+  }
+
+  @override
+  T when<T>({
+    required T Function(R result) onSuccess,
+    required T Function(E error) onError,
+  }) {
+    return onSuccess(result);
   }
 }

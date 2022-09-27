@@ -1,10 +1,10 @@
-import 'package:clinic_v2/app/services/auth_token/secure_storage_auth_token_provider.dart';
-
-import 'base_auth_token_provider.dart';
+import 'refresh_tokens_service.dart';
+import 'base_auth_tokens_service.dart';
+import 'secure_storage_auth_token_provider.dart';
 
 class AuthTokensServiceProvider {
   AuthTokensServiceProvider._() {
-    _service = SecureStorageAuthTokensService();
+    _service = SecureStorageAuthTokensService(RefreshTokensService());
   }
 
   late final BaseAuthTokensService _service;

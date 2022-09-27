@@ -1,23 +1,26 @@
 import 'package:clinic_v2/app/navigation/src/routes.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
+import 'package:clinic_v2/app/views/admin_panel/admin_panel_page.dart';
 import 'package:clinic_v2/app/views/home/view/home_page.dart';
 import 'package:clinic_v2/app/views/login/login_page.dart';
 import 'package:clinic_v2/app/views/sign_up/sign_up_page.dart';
 import 'package:clinic_v2/app/views/startup/startup_page.dart';
 import 'package:flutter/material.dart';
 
-class AppRouter with Routes {
+class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
     Log.i("to route: ${settings.name}");
     switch (settings.name) {
-      case Routes.startupScreen:
+      case AppRoutes.startupScreen:
         return StartupPage().route;
-      case Routes.loginScreen:
+      case AppRoutes.loginScreen:
         return LoginPage().route;
-      case Routes.signUpScreen:
+      case AppRoutes.signUpScreen:
         return SignUpPage().route;
-      case Routes.homeScreen:
+      case AppRoutes.homeScreen:
         return HomePage().route;
+      case AppRoutes.adminPanelScreen:
+        return AdminPanelPage().route;
       default:
         throw UnimplementedError(
             '${settings.name} route page is not implemented');

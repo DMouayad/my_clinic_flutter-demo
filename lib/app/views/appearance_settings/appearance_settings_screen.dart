@@ -2,7 +2,7 @@ import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 //
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/adaptive_locale_menu.dart';
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/utils.dart';
-import 'package:clinic_v2/app/shared_widgets/theme_switches/adaptive_theme_switch.dart';
+import 'package:clinic_v2/app/shared_widgets/adaptive_theme_switch.dart';
 
 class AppearanceSettingsScreen extends CustomStatelessWidget {
   const AppearanceSettingsScreen({
@@ -10,13 +10,13 @@ class AppearanceSettingsScreen extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
+  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
     return Material(
       color: context.colorScheme.backgroundColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
         child: ConstrainedBox(
-          constraints: BoxConstraints.loose(contextInfo.widgetSize!),
+          constraints: BoxConstraints.loose(widgetInfo.widgetSize),
           child: Column(
             children: [
               AdaptiveThemeSwitch(

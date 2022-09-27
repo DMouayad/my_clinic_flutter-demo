@@ -20,9 +20,11 @@ class AuthHasLoggedInUser extends AuthState {
   String toString() {
     return '''<$runtimeType>
                  ${currentUser.runtimeType}
-                    [id:    ${currentUser.id}
+                    [
                     email: ${currentUser.email}
-                    role:  ${currentUser.role}] ''';
+                    created at: ${currentUser.createdAt}
+                    email verified at: ${currentUser.emailVerifiedAt}
+                    ]''';
   }
 }
 

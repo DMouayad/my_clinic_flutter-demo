@@ -10,7 +10,8 @@ enum ApiExceptionClass {
   userDataDoesntMatchHisStaffEmail("UserDoesntMatchHisStaffEmailException"),
   emailUnauthorizedToRegister("EmailUnauthorizedToRegisterException"),
   invalidEmailCredential("InvalidEmailCredentialException"),
-  invalidPasswordCredential("InvalidPasswordCredentialException");
+  invalidPasswordCredential("InvalidPasswordCredentialException"),
+  validationError("CustomValidationException");
 
   final String name;
   const ApiExceptionClass(this.name);

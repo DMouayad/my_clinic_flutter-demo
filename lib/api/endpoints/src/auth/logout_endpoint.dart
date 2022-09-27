@@ -1,12 +1,11 @@
-part of '../../api_endpoint.dart';
+part of api_auth_endpoints;
 
-class LogoutApiEndpoint extends ApiEndpoint {
-  LogoutApiEndpoint._(String token)
-      : super._(
-          RequestMethod.POST,
-          urlWithoutBaseUrl: '/logout',
-          token: token,
+class LogoutApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+  LogoutApiEndpoint()
+      : super(
+          method: RequestMethod.POST,
+          url: '/logout',
+          includeAccessToken: true,
+          includeDeviceId: true,
         );
 }
-
-class LogoutEndpointResult implements ApiEndpointResult {}

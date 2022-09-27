@@ -5,6 +5,7 @@ import 'package:clinic_v2/api/errors/api_exception_class.dart';
 import 'package:clinic_v2/app/core/entities/result/basic_error.dart';
 import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
 import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
+import 'package:clinic_v2/app/services/logger_service.dart';
 
 class ApiResponseError extends BasicError {
   const ApiResponseError({
@@ -18,9 +19,9 @@ class ApiResponseError extends BasicError {
         );
 
   static ApiResponseError fromMap(Map<String, dynamic> map) {
-    final errorMap = map['error'] as Map<String, dynamic>;
-    final apiExceptionClass = map['error']['exception'] as String?;
-    late ErrorException? errorException;
+    final errorMap = map['error'] as Map<String, dynamic>?;
+    final apiExceptionClass = errorMap?['exception'] as String?;
+    ErrorException? errorException;
 
     if (apiExceptionClass != null) {
       errorException = ErrorException.fromApiException(
@@ -30,9 +31,9 @@ class ApiResponseError extends BasicError {
       errorException = const ErrorException.userUnauthorized();
     }
     return ApiResponseError(
-      message: errorMap.get('message'),
+      message: errorMap?.get('message') ?? map.get('message'),
       errorException: errorException,
-      description: errorMap.get('description'),
+      description: errorMap?.get('description'),
     );
   }
 

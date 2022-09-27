@@ -6,8 +6,8 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
-import 'theme_icon_switch.dart';
-import 'theme_switches.dart';
+import 'custom_buttons/custom_icon_button.dart';
+import 'theme_switches/adaptive_switch_tile.dart';
 
 class AdaptiveThemeSwitch extends StatefulWidget {
   const AdaptiveThemeSwitch({
@@ -39,13 +39,19 @@ class _ThemeSettingsSwitchState extends State<AdaptiveThemeSwitch>
   @override
   Widget build(BuildContext context) {
     return widget.switchType == ThemeModeSwitchType.tile
-        ? ThemeTileSwitch(
-            themeIcon: _animatedThemeIcon(context),
-            onThemeModeChanged: _onThemeModeChanged,
-          )
-        : ThemeIconSwitch(
+        ? AdaptiveSwitchTile(
+            value: context.isDarkMode,
+            label: context.localizations!.appearance,
+            description: context.localizations!.enableDarkTheme,
             icon: _animatedThemeIcon(context),
-            onThemeModeChanged: _onThemeModeChanged,
+            onChanged: (_) => _onThemeModeChanged,
+          )
+        : CustomIconButton(
+            icon: _animatedThemeIcon(context),
+            onPressed: _onThemeModeChanged,
+            tooltipMessage: context.isDarkMode
+                ? context.localizations!.enableLightTheme
+                : context.localizations!.enableDarkTheme,
           );
   }
 

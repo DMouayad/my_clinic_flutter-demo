@@ -4,15 +4,22 @@ import 'package:flutter/material.dart';
 import '../windows_components/windows_settings_tile.dart';
 import '../windows_components/windows_toggle_switch.dart';
 
-class ThemeTileSwitch extends StatelessWidget {
-  const ThemeTileSwitch({
-    required this.onThemeModeChanged,
-    required this.themeIcon,
+class AdaptiveSwitchTile extends StatelessWidget {
+  const AdaptiveSwitchTile({
+    required this.value,
+    required this.label,
+    required this.onChanged,
+    required this.icon,
+    required this.description,
     Key? key,
   }) : super(key: key);
 
-  final Widget themeIcon;
-  final void Function() onThemeModeChanged;
+  final bool value;
+  final Widget icon;
+  final void Function(bool value) onChanged;
+  final String label;
+  final String description;
+
   @override
   Widget build(BuildContext context) {
     return context.isWindowsPlatform
@@ -22,27 +29,35 @@ class ThemeTileSwitch extends StatelessWidget {
 
   Widget windowsBuilder(BuildContext context) {
     return WindowsSettingTile(
-      tileLabel: 'Theme',
-      leadingIcon: themeIcon,
-      titleText: context.localizations!.darkMode,
+      tileLabel: label,
+      leadingIcon: icon,
+      titleText: description,
+      subtitle: Text(
+        value
+            ? context.localizations!.enabled
+            : context.localizations!.disabled,
+        style: context.textTheme.bodyText2?.copyWith(
+          color: context.colorScheme.primary,
+        ),
+      ),
       trailing: WindowsToggleSwitch(
-        checked: context.isDarkMode,
-        onChanged: (_) => onThemeModeChanged(),
+        checked: value,
+        onChanged: onChanged,
       ),
     );
   }
 
   Widget defaultBuilder(BuildContext context) {
     return SwitchListTile.adaptive(
-      value: context.isDarkMode,
+      value: value,
       title: Text(
-        context.localizations!.darkMode,
+        description,
         style: context.textTheme.subtitle1,
       ),
       // contentPadding: const EdgeInsets.symmetric(horizontal: 0),
-      secondary: themeIcon,
+      secondary: icon,
       subtitle: Text(
-        context.isDarkMode
+        value
             ? context.localizations!.enabled
             : context.localizations!.disabled,
         style: context.textTheme.bodyText2?.copyWith(
@@ -50,7 +65,7 @@ class ThemeTileSwitch extends StatelessWidget {
         ),
       ),
       activeColor: context.colorScheme.primary,
-      onChanged: (_) => onThemeModeChanged(),
+      onChanged: onChanged,
     );
   }
 }

@@ -84,7 +84,6 @@ class _WindowsTextButton extends _BaseTextButton {
     super.labelColorOnHover,
     super.labelFontSize = 16,
     super.labelColor,
-    super.key,
   });
 
   @override
@@ -121,7 +120,6 @@ class _AndroidTextButton extends _BaseTextButton {
     super.labelColorOnHover,
     super.labelFontSize = 16,
     super.labelColor,
-    super.key,
   });
 
   @override

@@ -67,7 +67,6 @@ class InputTextField extends CustomStatelessWidget {
               ? context.isDarkMode
                   ? context.fluentTheme.accentColor.light.withOpacity(.2)
                   : context.fluentTheme.accentColor.darkest.withOpacity(.2)
-              // ? context.colorScheme.primaryContainer!
               : context.colorScheme.textFieldBorderColor),
     );
     return Theme(
@@ -95,7 +94,6 @@ class InputTextField extends CustomStatelessWidget {
             filled: filled,
             fillColor: Colors.transparent,
             // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
-            // hoverColor:
             // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
             suffixIcon: suffixIcon,
             suffixIconColor: suffixIconColor,
@@ -124,7 +122,6 @@ class InputTextField extends CustomStatelessWidget {
             focusedErrorBorder: kOutlinedBorder,
             errorStyle: context.textTheme.bodyText2?.copyWith(
               color: context.colorScheme.errorColor!,
-              // fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
           ),

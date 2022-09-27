@@ -37,8 +37,13 @@ abstract class Result<R extends Object, E extends BasicError> {
   bool get isError => this is ErrorResult;
 
   T fold<T>({
-    required T Function(R result) ifSuccess,
-    required T Function(E error) ifError,
+    T Function(R result)? ifSuccess,
+    T Function(E error)? ifError,
+  });
+
+  Future<T> foldAsync<T>({
+    Future<T> Function(R result)? ifSuccess,
+    Future<T> Function(E error)? ifError,
   });
 
   ///

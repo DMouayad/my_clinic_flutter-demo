@@ -7,6 +7,6 @@ abstract class BaseStaffEmailDataSource<T extends BaseStaffEmail> {
       String email, UserRole userRole);
   Future<Result<List<T>, BasicError>> getStaffEmails();
   Future<Result<VoidResult, BasicError>> updateStaffEmail(
-      {int id, String? email, UserRole? userRole});
+      {required int id, String? email, UserRole? userRole});
   Future<Result<VoidResult, BasicError>> deleteStaffEmail(int id);
 }

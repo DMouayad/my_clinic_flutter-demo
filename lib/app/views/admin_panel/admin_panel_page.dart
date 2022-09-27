@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
+import 'package:clinic_v2/app/features/staff_email/data/staff_email_data.dart';
+import 'package:clinic_v2/app/services/auth_tokens/auth_tokens_service_provider.dart';
 import 'package:clinic_v2/app/blocs/staff_emails_bloc/staff_emails_bloc.dart';
 import 'package:clinic_v2/app/views/admin_panel/admin_panel_windows_screen.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
@@ -8,16 +10,20 @@ import 'package:clinic_v2/app/navigation/navigation.dart';
 class AdminPanelPage extends AppPage {
   AdminPanelPage()
       : super(
-          routeSettings: const RouteSettings(name: Routes.startupScreen),
+          routeSettings: const RouteSettings(name: AppRoutes.startupScreen),
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
-              windowsLargeScreen: BlocProvider(
+              //TODO: create mobile admin panel screen
+              windowsScreen: BlocProvider(
                 lazy: false,
                 create: (_) {
-                  return StaffEmailsBloc(())
-                    ..add();
+                  return StaffEmailsBloc(
+                    MyClinicApiStaffEmailRepository(
+                      AuthTokensServiceProvider.instance.service,
+                    ),
+                  )..add(GetStaffEmails());
                 },
-                child: const AdminPanelWindowsScreen(),
+                child: WindowsAdminPanelScreen(),
               ),
             );
           },

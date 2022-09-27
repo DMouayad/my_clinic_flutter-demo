@@ -1,10 +1,10 @@
 import 'dart:async';
-
+import 'package:flutter/material.dart';
+//
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
-import 'package:clinic_v2/app/services/auth_token/base_auth_token_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
 
 class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   late final MyClinicApiAuthDataSource _dataSource;
@@ -99,14 +99,17 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<MyClinicApiUser, BasicError>> onInit() async {
+  Future<Result<VoidResult, BasicError>> onInit() async {
     return (await _dataSource.loadUser()).when(
       onSuccess: (result) {
         currentUser = result;
         hasLoggedInUserStreamController.add(true);
-        return SuccessResult(result);
+        return SuccessResult.voidResult();
       },
-      onError: (error) => ErrorResult(error),
+      onError: (error) {
+        hasLoggedInUserStreamController.add(false);
+        return ErrorResult(error);
+      },
     );
   }
 }

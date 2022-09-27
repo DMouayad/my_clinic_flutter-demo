@@ -1,3 +1,5 @@
+export 'package:logger/logger.dart' show Level;
+
 import 'package:clinic_v2/api/endpoints/api_endpoint.dart';
 import 'package:clinic_v2/app/core/extensions/dio_extension.dart';
 import 'package:dio/dio.dart';
@@ -41,23 +43,58 @@ class Log {
     to.wtf(message);
   }
 
-  static void logBlocTransition(Bloc bloc, Transition transition) {
-    to.i('''<${bloc.runtimeType} transition>
+  static void logCubitChange(
+    Cubit cubit,
+    Change change, {
+    Level logLevel = Level.info,
+  }) {
+    final message = '''<${cubit.runtimeType} State Change>
+        From:  ${change.currentState}
+        To:    ${change.nextState}
+      ''';
+    _logByLevel(logLevel, message);
+  }
+
+  static void logBlocTransition(
+    Bloc bloc,
+    Transition transition, {
+    Level logLevel = Level.info,
+  }) {
+    final message = '''<${bloc.runtimeType} transition>
         From:  ${transition.currentState}
         To:    ${transition.nextState}
         After: ${transition.event.runtimeType}
-      ''');
+      ''';
+    _logByLevel(logLevel, message);
   }
 
   static void logDioApiEndpointRequest(
     ApiEndpoint apiEndpoint,
     Response response,
   ) {
-    to.i('''<Dio request>
-        method:  ${apiEndpoint.method}              
-        uri:     ${response.realUri}
-        success: ${response.isSuccess}
-        status:  ${response.statusCode}
+    to.i('''<Dio Request>
+        endpoint: ${apiEndpoint.runtimeType} 
+        method:   ${apiEndpoint.method}              
+        uri:      ${response.realUri}
+        status:   ${response.statusCode}
+        success:  ${response.isSuccess}
       ''');
+  }
+
+  static void _logByLevel(Level logLevel, String message) {
+    switch (logLevel) {
+      case Level.info:
+        to.i(message);
+        break;
+      case Level.warning:
+        to.w(message);
+        break;
+
+      case Level.error:
+        to.e(message);
+        break;
+      default:
+        throw UnimplementedError();
+    }
   }
 }

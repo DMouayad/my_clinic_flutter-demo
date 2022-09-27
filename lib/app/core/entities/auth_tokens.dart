@@ -52,9 +52,14 @@ class PersonalAccessToken {
     };
   }
 
+  @override
+  String toString() {
+    return 'expires at: ${expiresAt.toString()}';
+  }
+
   bool get isExpired {
     if (expiresAt == null) return false;
-    return expiresAt!.isAfter(DateTime.now()) ||
-        expiresAt!.isAtSameMomentAs(DateTime.now());
+    return expiresAt!.isBefore(DateTime.now().toUtc()) ||
+        expiresAt!.isAtSameMomentAs(DateTime.now().toUtc());
   }
 }

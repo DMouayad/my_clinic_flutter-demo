@@ -27,10 +27,18 @@ class ErrorResult<ErrorType extends BasicError,
 
   @override
   T fold<T>({
-    required T Function(NoResult result) ifSuccess,
-    required T Function(ErrorType error) ifError,
+    T Function(NoResult result)? ifSuccess,
+    T Function(ErrorType error)? ifError,
   }) {
-    return ifError(error);
+    return (ifError != null ? ifError(error) : ErrorResult(error)) as T;
+  }
+
+  @override
+  Future<T> foldAsync<T>({
+    Future<T> Function(NoResult result)? ifSuccess,
+    Future<T> Function(ErrorType error)? ifError,
+  }) async {
+    return (ifError != null ? await ifError(error) : ErrorResult(error)) as T;
   }
 
   factory ErrorResult.fromException(Object e) {

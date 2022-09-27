@@ -8,7 +8,7 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
 
   Stream<bool> get hasLoggedInUser;
 
-  Future<Result<U, BasicError>> onInit();
+  Future<Result<VoidResult, BasicError>> onInit();
 
   Future<Result<VoidResult, BasicError>> register({
     required String email,

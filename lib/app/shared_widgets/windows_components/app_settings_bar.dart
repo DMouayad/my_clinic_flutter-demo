@@ -4,24 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../dropdown_menus/adaptive_locale_menu.dart';
 import '../dropdown_menus/utils.dart';
-import '../theme_switches/adaptive_theme_switch.dart';
+import '../adaptive_theme_switch.dart';
 
-class BlocAppearanceSettingsBar extends StatelessWidget {
-  const BlocAppearanceSettingsBar({super.key});
+class BlocAppSettingsBar extends StatelessWidget {
+  const BlocAppSettingsBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppearanceSettingsBar(
-      onLocaleChanged: (Locale locale) =>
-          context.read<PreferencesCubit>().provideLocale(locale),
-      onThemeModeChanged: (ThemeMode themeMode) =>
-          context.read<PreferencesCubit>().provideThemeMode(themeMode),
+    return AppSettingsBar(
+      onLocaleChanged: (Locale locale) {},
+      // context.read<PreferencesCubit>().provideLocale(locale),
+      onThemeModeChanged: (ThemeMode themeMode) {},
+      // context.read<PreferencesCubit>().provideThemeMode(themeMode),
     );
   }
 }
 
-class AppearanceSettingsBar extends StatelessWidget {
-  const AppearanceSettingsBar({
+class AppSettingsBar extends StatelessWidget {
+  const AppSettingsBar({
     required this.onLocaleChanged,
     required this.onThemeModeChanged,
     Key? key,

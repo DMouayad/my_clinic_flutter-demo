@@ -3,15 +3,18 @@ import 'package:clinic_v2/app/themes/material_themes.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/material.dart';
 
-class ThemeIconSwitch extends StatelessWidget {
-  const ThemeIconSwitch({
+class CustomIconButton extends StatelessWidget {
+  const CustomIconButton({
     required this.icon,
-    required this.onThemeModeChanged,
+    required this.onPressed,
+    this.tooltipMessage,
     Key? key,
   }) : super(key: key);
 
-  final void Function() onThemeModeChanged;
+  final void Function() onPressed;
   final Widget icon;
+  final String? tooltipMessage;
+
   @override
   Widget build(BuildContext context) {
     return context.isWindowsPlatform
@@ -21,12 +24,10 @@ class ThemeIconSwitch extends StatelessWidget {
 
   Widget windowsBuilder(BuildContext context) {
     return fluent_ui.Tooltip(
-      message: context.isDarkMode
-          ? context.localizations!.enableLightTheme
-          : context.localizations!.enableDarkTheme,
+      message: tooltipMessage,
       child: fluent_ui.IconButton(
         icon: icon,
-        onPressed: onThemeModeChanged,
+        onPressed: onPressed,
       ),
     );
   }
@@ -40,11 +41,9 @@ class ThemeIconSwitch extends StatelessWidget {
               MaterialAppThemes.getTooltipThemeDataForDesktop(context),
         ),
         child: IconButton(
-          tooltip: context.isDarkMode
-              ? context.localizations!.enableLightTheme
-              : context.localizations!.enableDarkTheme,
+          tooltip: tooltipMessage,
           icon: icon,
-          onPressed: onThemeModeChanged,
+          onPressed: onPressed,
         ),
       ),
     );

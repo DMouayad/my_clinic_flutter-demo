@@ -7,7 +7,7 @@ import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/shared_widgets/windows_components/appearance_settings_bar.dart';
+import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar.dart';
 
 import 'components/bloc_sign_up_form.dart';
 import 'components/sign_up_message.dart';
@@ -27,7 +27,7 @@ class WideSignUpScreen extends StatelessWidget {
         return WindowsTwoSidesScreen(
           showInProgressIndicator: state is SignUpInProgress,
           leftSideAnimation: animation,
-          topOptionsBar: const BlocAppearanceSettingsBar(),
+          topOptionsBar: const BlocAppSettingsBar(),
           leftSide: const _StepOneLeftSide(),
           errorText: () {
             if (state is SignUpErrorState) {
@@ -45,7 +45,7 @@ class _StepOneLeftSide extends StatelessWidget {
   const _StepOneLeftSide({Key? key}) : super(key: key);
 
   Widget windowsBuilder(BuildContext context) {
-    return WindowsNavView.onlyAppBar(
+    return WindowsNavView.withAppBar(
       appBarColor: context.colorScheme.backgroundColor,
       backgroundColor: context.colorScheme.backgroundColor,
       appBarTitle: const SignUpMessage(),

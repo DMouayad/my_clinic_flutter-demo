@@ -1,29 +1,6 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:clinic_v2/app/shared_widgets/app_name_text.dart';
 import 'package:fluent_ui/fluent_ui.dart';
-
-class _NavViewWithPane extends WindowsNavView {
-  const _NavViewWithPane({
-    required Widget content,
-    required this.navigationPane,
-    this.appBar,
-    Color? backgroundColor,
-  }) : super(
-          content: content,
-          backgroundColor: backgroundColor,
-        );
-  final NavigationPane navigationPane;
-  final NavigationAppBar? appBar;
-
-  @override
-  Widget build(BuildContext context) {
-    return _RawNavView(
-      content: content,
-      backgroundColor: backgroundColor,
-      navigationPane: navigationPane,
-      appBar: appBar,
-    );
-  }
-}
 
 class _NavViewWithAppBar extends WindowsNavView {
   const _NavViewWithAppBar({
@@ -49,13 +26,16 @@ class _NavViewWithAppBar extends WindowsNavView {
       backgroundColor: backgroundColor,
       appBar: NavigationAppBar(
         // height: 65,
-        title: appBarTitle ??
-            Text(
-              appBarTitleText!,
-              style: context.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: appBarTitle ??
+              Text(
+                appBarTitleText!,
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
+        ),
         automaticallyImplyLeading: false,
         leading: appBarLeading ??
             (Navigator.of(context).canPop()
@@ -87,8 +67,11 @@ abstract class WindowsNavView extends StatelessWidget {
   final Widget content;
   final Color? backgroundColor;
 
-  const WindowsNavView({Key? key, required this.content, this.backgroundColor})
-      : super(key: key);
+  const WindowsNavView({
+    Key? key,
+    required this.content,
+    this.backgroundColor,
+  }) : super(key: key);
 
   factory WindowsNavView.raw({
     NavigationPane? navigationPane,
@@ -103,38 +86,15 @@ abstract class WindowsNavView extends StatelessWidget {
       backgroundColor: backgroundColor,
     );
   }
-  factory WindowsNavView.onlyPane({
-    required NavigationPane navigationPane,
-    NavigationAppBar? appBar,
-    Widget content = const SizedBox.shrink(),
-    Color? backgroundColor,
-  }) {
-    return _NavViewWithPane(
-      content: content,
-      navigationPane: navigationPane,
-      appBar: appBar,
-      backgroundColor: backgroundColor,
-    );
-  }
-  factory WindowsNavView.onlyAppBar({
-    Widget content = const SizedBox.shrink(),
+  const factory WindowsNavView.withAppBar({
+    required Widget content,
     Color? backgroundColor,
     Color? appBarColor,
     Widget? appBarActions,
     Widget? appBarTitle,
     String? appBarTitleText,
     Widget? appBarLeading,
-  }) {
-    return _NavViewWithAppBar(
-      content: content,
-      backgroundColor: backgroundColor,
-      appBarTitle: appBarTitle,
-      appBarColor: appBarColor,
-      appBarActions: appBarActions,
-      appBarLeading: appBarLeading,
-      appBarTitleText: appBarTitleText,
-    );
-  }
+  }) = _NavViewWithAppBar;
 }
 
 class _RawNavView extends WindowsNavView {
@@ -153,10 +113,24 @@ class _RawNavView extends WindowsNavView {
   Widget build(BuildContext context) {
     return NavigationPaneTheme(
       data: NavigationPaneThemeData(
-        backgroundColor: backgroundColor ?? context.colorScheme.surface,
+        highlightColor: context.colorScheme.primary,
+        tileColor: ButtonState.resolveWith(
+          (states) {
+            if (states.isPressing) {
+              return context.fluentTheme.accentColor.lighter;
+            }
+            if (states.isHovering) {
+              return Colors.white;
+            }
+          },
+        ),
+        selectedIconColor:
+            ButtonState.all(context.colorScheme.onPrimaryContainer),
+        backgroundColor: backgroundColor ?? context.colorScheme.backgroundColor,
         unselectedTextStyle: ButtonState.all(
           context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w600,
+            color: context.colorScheme.onBackground,
           ),
         ),
         selectedTextStyle: ButtonState.all(
@@ -171,6 +145,61 @@ class _RawNavView extends WindowsNavView {
         appBar: appBar,
         content: content,
         pane: navigationPane,
+      ),
+    );
+  }
+}
+
+class WindowsNavViewWithPane extends StatefulWidget {
+  const WindowsNavViewWithPane({
+    required this.contentWidgets,
+    required this.footerItems,
+    required this.items,
+    Key? key,
+  }) : super(key: key);
+
+  final List<Widget> contentWidgets;
+  final List<NavigationPaneItem> footerItems;
+  final List<NavigationPaneItem> items;
+
+  @override
+  _WindowsNavViewWithPaneState createState() => _WindowsNavViewWithPaneState();
+}
+
+class _WindowsNavViewWithPaneState extends State<WindowsNavViewWithPane> {
+  int _currentIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return WindowsNavView.raw(
+      content: Container(
+        constraints: const BoxConstraints.expand(),
+        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: context.colorScheme.surface,
+        ),
+        child: widget.contentWidgets[_currentIndex],
+      ),
+      navigationPane: NavigationPane(
+        selected: _currentIndex,
+        onChanged: (value) {
+          setState(() => _currentIndex = value);
+        },
+        size: const NavigationPaneSize(
+          headerHeight: 67,
+        ),
+        header: Container(
+          alignment:
+              context.isLTR ? Alignment.centerLeft : Alignment.centerRight,
+          padding: const EdgeInsets.all(8.0),
+          child: AppNameText(
+            fontSize: 26,
+            fontColor: context.colorScheme.primary,
+          ),
+        ),
+        footerItems: widget.footerItems,
+        items: widget.items,
       ),
     );
   }

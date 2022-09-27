@@ -1,5 +1,7 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FormHelper {
   late final GlobalKey<FormState> _formKey;
@@ -25,7 +27,13 @@ class FormHelper {
     } else {
       _emailController = TextEditingController();
       _usernameController = TextEditingController();
-      _phoneNoController = TextEditingController();
+      final translator = {
+        '#': RegExp(r'[0-9]{0,3}'),
+      };
+
+      _phoneNoController = MaskedTextController(
+          mask: '+(###) - # ### ### ###', translator: translator)
+        ..text = '+(963) ';
     }
   }
 
@@ -56,8 +64,12 @@ class FormHelper {
   }
 
   String? phoneNoValidator(String? value, BuildContext context) {
-    if (!phoneNoIsValid) {
+    if (value?.isEmpty ?? true) {
       return context.localizations?.phoneNoIsRequired;
+    }
+
+    if (!phoneNoIsValid) {
+      return context.localizations?.invalidPhoneNo;
     }
     return null;
   }
@@ -79,7 +91,10 @@ class FormHelper {
   }
 
   bool get phoneNoIsValid {
-    return _phoneNoController?.text.isNotEmpty ?? true;
+    if (_phoneNoController?.text.isNotEmpty ?? false) {
+      return _phoneNoController?.text.length == 22;
+    }
+    return true;
   }
 
   bool get inputIsValid {

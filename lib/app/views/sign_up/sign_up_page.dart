@@ -1,15 +1,13 @@
-import 'package:clinic_v2/app/shared_widgets/custom_buttons/text_buttons.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_buttons/filled_buttons.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_dialogs/adaptive_dialog.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_buttons/text_buttons.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_buttons/filled_buttons.dart';
 
 import 'mobile_sign_up_screen.dart';
 import 'wide_sign_up_screen.dart';
@@ -17,7 +15,7 @@ import 'wide_sign_up_screen.dart';
 class SignUpPage extends AppPage {
   SignUpPage()
       : super(
-          routeSettings: const RouteSettings(name: Routes.signUpScreen),
+          routeSettings: const RouteSettings(name: AppRoutes.signUpScreen),
           pageTransitions: const RouteTransitionBuilder(
             tablet: RouteTransitionType.none,
             windows: RouteTransitionType.none,
@@ -37,15 +35,7 @@ class SignUpPage extends AppPage {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is SignUpSuccess) {
-          if (state.serverUser.role == UserRole.admin) {
-            Navigator.of(context).popAndPushNamed(Routes.adminPanelScreen);
-          }
-          if (state.serverUser.role == UserRole.dentist) {
-            //TODO:: Navigate to dentist preferences setup
-          }
-          if (state.serverUser.role == UserRole.secretary) {
-            //TODO:: Navigate to secretary preferences setup
-          }
+          context.read<AuthBloc>().add(const AuthStatusChangeRequested());
         }
       },
       child: WillPopScope(

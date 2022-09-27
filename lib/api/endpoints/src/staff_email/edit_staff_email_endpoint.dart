@@ -1,16 +1,16 @@
-part of api_endpoint;
+part of staff_email_api_endpoints;
 
-class EditStaffEmailApiEndpoint extends ApiEndpoint {
-  EditStaffEmailApiEndpoint._({
-    required int id,
-    required String token,
+class EditStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+  EditStaffEmailApiEndpoint({
+    required int staffEmailId,
     String? newEmail,
     UserRole? newRole,
   })  : assert(newEmail != null || newRole != null),
-        super._(
-          RequestMethod.PUT,
-          urlWithoutBaseUrl: '/staff-emails/$id',
-          token: token,
+        super(
+          method: RequestMethod.PUT,
+          url: '/staff-emails/$staffEmailId',
+          includeAccessToken: true,
+          includeDeviceId: true,
           data: () {
             Map<String, dynamic> data = {};
             if (newEmail != null) {

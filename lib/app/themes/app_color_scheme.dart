@@ -40,7 +40,8 @@ class AppColorScheme {
     // error: Color(0xFFca0025),
     onError: const Color(0xFFfff1f4),
     onBackground: const Color(0xFF2d3c3a),
-    background: const Color(0xFFffffff),
+    background: const Color(0xffFAFBFD),
+    // background: const Color(0xffffffff),
     surface: const Color(0xFFf3f9f8),
     onSurface: const Color(0xFF293634),
     // ============================== //

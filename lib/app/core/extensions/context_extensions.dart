@@ -89,6 +89,8 @@ extension ContextPlatformExtension on BuildContext {
 extension ContextLocaleExtension on BuildContext {
   bool get isArabicLocale => Localizations.localeOf(this).languageCode == 'ar';
   bool get isEnglishLocale => Localizations.localeOf(this).languageCode == 'en';
+  bool get isRTL => isArabicLocale;
+  bool get isLTR => isEnglishLocale;
   Locale get locale => Localizations.localeOf(this);
   AppLocalizations? get localizations => AppLocalizations.of(this);
 }

@@ -3,7 +3,7 @@ import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/features/staff_email/domain/src/base_staff_email.dart';
 
 class MyClinicApiStaffEmail extends BaseStaffEmail<MyClinicApiUser> {
-  MyClinicApiStaffEmail({
+  const MyClinicApiStaffEmail({
     required super.id,
     required super.email,
     required super.userRole,
@@ -19,12 +19,13 @@ class MyClinicApiStaffEmail extends BaseStaffEmail<MyClinicApiUser> {
     };
   }
 
-  factory MyClinicApiStaffEmail.fromMap(Map<String, dynamic> map) {
+  factory MyClinicApiStaffEmail.fromApiResponse(Map<String, dynamic> map) {
+    final roleSlug = (map['role']['slug']) as String;
     return MyClinicApiStaffEmail(
       id: map['id'],
       email: map['email'],
-      userRole: UserRole.values.byName(map['role']),
-      user: MyClinicApiUser.fromStaffEmailMap(map['user'], map['role']),
+      userRole: UserRole.values.byName(roleSlug),
+      user: MyClinicApiUser.fromStaffEmailMap(map['user'], roleSlug),
     );
   }
 }

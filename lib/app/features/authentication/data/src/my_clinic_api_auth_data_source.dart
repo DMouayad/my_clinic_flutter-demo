@@ -1,20 +1,13 @@
-import 'dart:io';
-
-import 'package:clinic_v2/api/endpoints/api_endpoint.dart';
-import 'package:clinic_v2/api/helpers/api_request_helper.dart';
-import 'package:clinic_v2/api/helpers/dio_helper.dart';
-import 'package:clinic_v2/api/utils/auth_tokens.dart';
+import 'package:flutter/material.dart';
+//
+import 'package:clinic_v2/api/endpoints/auth_endpoints.dart';
+import 'package:clinic_v2/api/endpoints/user_endpoints.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/features/authentication/data/src/my_clinic_api_user.dart';
 import 'package:clinic_v2/app/features/authentication/domain/src/base_auth_data_source.dart';
-import 'package:clinic_v2/app/services/auth_token/base_auth_token_provider.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
-import 'package:flutter/material.dart';
-import 'package:platform_device_id/platform_device_id.dart';
+import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
 
-class MyClinicApiAuthDataSource
-    with DioHelper, ApiRequestHelper
-    implements BaseAuthDataSource<MyClinicApiUser> {
+class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   final BaseAuthTokensService _authTokensService;
 
   MyClinicApiAuthDataSource(this._authTokensService);
@@ -24,23 +17,18 @@ class MyClinicApiAuthDataSource
     String email,
     String password,
   ) async {
-    final response = await requestApiEndpoint<LoginEndpointResult>(
-      ApiEndpoint.login(
-        email,
-        password,
-        await _getUserDeviceId(email),
-      ),
-    );
-    return response.when(
-      onSuccess: (result) {
-        // save returned auth tokens to storage
-        _saveAuthTokens(result.authTokens);
+    final response =
+        await LoginApiEndpoint(email: email, password: password).request();
 
+    return await response.whenAsync(
+      onSuccess: (result) async {
+        // save returned auth tokens to storage
+        await _authTokensService.saveAuthTokens(result.authTokens);
         return SuccessResult(
-          MyClinicApiUser.fromApiResponseMap(result.userWithRoleAndPrefs),
+          MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
         );
       },
-      onError: (BasicError error) => ErrorResult(error),
+      onError: (BasicError error) async => ErrorResult(error),
     );
   }
 
@@ -53,41 +41,27 @@ class MyClinicApiAuthDataSource
     required ThemeMode themeModePreference,
     required Locale localePreference,
   }) async {
-    final response = await requestApiEndpoint<RegisterEndpointResult>(
-      ApiEndpoint.register(
-        name: username,
-        email: email,
-        password: password,
-        deviceId: await _getUserDeviceId(email),
-        phoneNumber: phoneNumber,
-      ),
-    );
-    return response.when(
-      onSuccess: (endpointResult) {
-        _saveAuthTokens(endpointResult.authTokens);
+    final response = await RegisterApiEndpoint(
+      name: username,
+      email: email,
+      password: password,
+      phoneNumber: phoneNumber,
+    ).request();
+    return await response.foldAsync(
+      ifSuccess: (endpointResult) async {
+        await _authTokensService.saveAuthTokens(endpointResult.authTokens);
 
         return SuccessResult(
-          MyClinicApiUser.fromApiResponseMap(endpointResult.userWithRole),
+          MyClinicApiUser.fromApiResponse(endpointResult.userWithRole),
         );
       },
-      onError: (error) => ErrorResult(error),
     );
   }
 
   @override
   Future<Result<VoidResult, BasicError>> logout() async {
-    return await (await _getValidAccessToken()).whenAsync(
-      onSuccess: (accessToken) async {
-        final logoutResponse = await requestApiEndpoint<LogoutEndpointResult>(
-          ApiEndpoint.logout(accessToken),
-        );
-        return logoutResponse.when(
-          onSuccess: (_) => SuccessResult.voidResult(),
-          onError: (error) => ErrorResult(error),
-        );
-      },
-      onError: (error) async => ErrorResult(error),
-    );
+    final logoutResponse = await LogoutApiEndpoint().request();
+    return logoutResponse.fold();
   }
 
   @override
@@ -98,83 +72,17 @@ class MyClinicApiAuthDataSource
 
   @override
   Future<Result<VoidResult, BasicError>> sendVerificationEmail() async {
-    return (await _getValidAccessToken()).whenAsync(
-      onSuccess: (accessToken) async {
-        final response =
-            await requestApiEndpoint<RequestEmailVerificationEndpointResult>(
-          ApiEndpoint.requestEmailVerification(accessToken),
-        );
-        return response.when(
-          onSuccess: (_) => SuccessResult.voidResult(),
-          onError: (error) => ErrorResult(error),
-        );
-      },
-      onError: (error) async => ErrorResult(error),
-    );
+    return (await RequestEmailVerificationApiEndpoint().request()).fold();
   }
 
   @override
   Future<Result<MyClinicApiUser, BasicError>> loadUser() async {
-    return (await _getValidAccessToken()).whenAsync(
-      onSuccess: (accessToken) async {
-        final response = await requestApiEndpoint<GetUserInfoEndpointResult>(
-          ApiEndpoint.getUserInfo(accessToken),
-        );
-        return response.when(
-          onSuccess: (result) => SuccessResult(
-            MyClinicApiUser.fromApiResponseMap(result.userWithRoleAndPrefs),
-          ),
-          onError: (error) => ErrorResult(error),
-        );
-      },
-      onError: (error) async => ErrorResult(error),
+    final response = await FetchUserEndpoint().request();
+    return response.when(
+      onSuccess: (result) => SuccessResult(
+        MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
+      ),
+      onError: (error) => ErrorResult(error),
     );
-  }
-
-  Future<Result<String, BasicError>> _getValidAccessToken() async {
-    final accessToken = await _authTokensService.getAccessToken();
-    // return access token if found and isn't expired
-    if (accessToken != null && !accessToken.isExpired) {
-      return SuccessResult(accessToken.token);
-    } else {
-      final refreshToken = await _authTokensService.getRefreshToken();
-      // if a refresh token found => request to refresh auth tokens
-      if (refreshToken != null) {
-        return (await _refreshAuthTokens(refreshToken)).when(
-          onSuccess: (result) => SuccessResult(result.accessToken.token),
-          onError: (error) => ErrorResult(error),
-        );
-      } else {
-        return ErrorResult.fromErrorException(
-          const ErrorException.noRefreshTokenFound(),
-        );
-      }
-    }
-  }
-
-  Future<Result<AuthTokens, BasicError>> _refreshAuthTokens(
-    String refreshToken,
-  ) async {
-    final response = await requestApiEndpoint<RefreshAccessTokenEndpointResult>(
-      ApiEndpoint.refreshAccessToken(refreshToken),
-    );
-    return await response.whenAsync(
-      onSuccess: (result) async {
-        // save new auth tokens to storage
-        await _saveAuthTokens(result.authTokens);
-        return SuccessResult(result.authTokens);
-      },
-      onError: (error) async => ErrorResult(error),
-    );
-  }
-
-  Future<void> _saveAuthTokens(AuthTokens authTokens) async {
-    await _authTokensService.saveRefreshToken(authTokens.refreshToken);
-    await _authTokensService.saveAccessToken(authTokens.accessToken);
-  }
-
-  Future<String> _getUserDeviceId(String email) async {
-    return await PlatformDeviceId.getDeviceId ??
-        (Platform.localHostname + ' - ' + email);
   }
 }

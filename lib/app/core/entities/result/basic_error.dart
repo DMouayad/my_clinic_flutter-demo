@@ -23,6 +23,18 @@ class BasicError extends Equatable {
 
   @override
   List<Object?> get props => [message, description, exception];
+
+  BasicError copyWith({
+    String? message,
+    ErrorException? exception,
+    String? description,
+  }) {
+    return BasicError(
+      message: message ?? this.message,
+      exception: exception ?? this.exception,
+      description: description ?? this.description,
+    );
+  }
 }
 
 abstract class NoError extends BasicError {}

@@ -26,7 +26,7 @@
     "phoneNoIsRequired": "Phone number field cannot be empty!",
     "passwordIsTooShort": "Password must contain 8 characters at least!",
     "emailInvalid": "Please enter a valid email address, ex:(youremail@example.com)",
-
+    "invalidPhoneNo": "Please enter a valid phone No",
     "exitSignUpDialogTitle": "Exit sign up process",
     "exitSignUpDialogMessage": "all entered info will be lost Are you sure to exit?",
 
@@ -79,6 +79,10 @@
     "or": "Or",
     "delete": "Delete",
     "ok":"Ok",
+    "warning": "Warning",
+
+     "staffManagement":"Staff Management",
+     "myAccount":"My Account",
 
 
     "cannotConnectToServer":"Cannot connect to server, please try again.",
@@ -87,5 +91,7 @@
     "emailAlreadyExists": "This email address is already registered",
     "emailAddressNotFound": "Email isn't registered, please try again or create a new account",
     "passwordIsIncorrect": "Incorrect Password!",
-    "emailUnauthorizedToRegister": "Entered email address is not allowed to register, please try again."
+    "emailUnauthorizedToRegister": "Entered email address is not allowed to register, please try again.",
+    "invalidApiRequest": "An invalid api request was made! please contact technical support.",
+    "failedToRefreshTokens": "An error occurred while logging in to your account, please re-login"
 }

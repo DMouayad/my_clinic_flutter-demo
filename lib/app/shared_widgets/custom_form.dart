@@ -1,9 +1,7 @@
-import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../core/helpers/form_helper.dart';
+import 'custom_widget.dart';
 import 'input_text_field.dart';
 import 'submit_button.dart';
 
@@ -110,6 +108,7 @@ class _CustomFormState extends State<CustomForm> {
                 }
                 return errorText;
               },
+              maxLength: 22,
               keyboardType: TextInputType.phone,
               hintText: context.localizations?.phoneNo,
               textStyle: context.textTheme.bodyText1?.copyWith(
@@ -137,6 +136,7 @@ class _CustomFormState extends State<CustomForm> {
             textStyle: context.textTheme.bodyText1?.copyWith(
               fontSize: 18,
             ),
+            // autovalidateMode: AutovalidateMode.onUserInteraction,
             suffixIconColor: context.colorScheme.errorColor,
             suffixIcon: (_emailIsValid ?? true) ? null : _errorSuffixIcon,
           ),
@@ -199,7 +199,7 @@ class _CustomFormState extends State<CustomForm> {
             const SizedBox(height: 8),
             TextButton(
               onPressed: () => Navigator.of(context).pushNamed(
-                Routes.signUpScreen,
+                AppRoutes.signUpScreen,
               ),
               child: Text(
                 context.localizations!.createAccount,

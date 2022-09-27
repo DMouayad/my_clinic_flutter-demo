@@ -1,24 +1,14 @@
-part of '../../api_endpoint.dart';
+part of api_auth_endpoints;
 
-class RefreshAccessTokenEndpoint extends ApiEndpoint {
-  RefreshAccessTokenEndpoint._(String refreshToken)
-      : super._(
-          RequestMethod.POST,
-          urlWithoutBaseUrl: '/token',
-          token: refreshToken,
+class RefreshAccessTokenEndpoint
+    extends ApiEndpoint<RefreshAccessTokenEndpointResult> {
+  RefreshAccessTokenEndpoint({
+    required String refreshToken,
+  }) : super(
+          method: RequestMethod.POST,
+          url: '/token',
+          includeAccessToken: false,
+          includeDeviceId: true,
+          headers: {'Authorization': 'Bearer $refreshToken'},
         );
-}
-
-class RefreshAccessTokenEndpointResult extends ApiEndpointResult {
-  final AuthTokens authTokens;
-
-  const RefreshAccessTokenEndpointResult({required this.authTokens});
-
-  factory RefreshAccessTokenEndpointResult.fromMap(
-    Map<String, dynamic> map,
-  ) {
-    return RefreshAccessTokenEndpointResult(
-      authTokens: AuthTokens.fromMap(map['authTokens']),
-    );
-  }
 }

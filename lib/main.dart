@@ -11,7 +11,6 @@ import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/navigation/app_router.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
-import 'package:clinic_v2/app/services/auth_token/auth_token_service.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
 import 'package:clinic_v2/app/themes/fluent_themes.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
@@ -19,14 +18,19 @@ import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 //
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'app/core/enums.dart';
+import 'app/services/auth_tokens/auth_tokens_service_provider.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
   await windowManager.ensureInitialized();
   await windowManager.setMinimumSize(const Size(660, 700));
-  AuthTokensServiceProvider.instance.service.deleteRefreshToken();
-  AuthTokensServiceProvider.instance.service.deleteAccessToken();
-  // logger is working
+
+  // AuthTokensServiceProvider.instance.service.deleteRefreshToken();
+  // AuthTokensServiceProvider.instance.service.deleteAccessToken();
+
+  // states that Logger is working
   Log.i("Logger is working");
   runApp(
     ClinicApp(
@@ -47,6 +51,7 @@ void main() async {
   // });
 }
 
+/// Main App widget
 class ClinicApp extends StatelessWidget {
   const ClinicApp(
     this._preferencesCubit,
@@ -93,13 +98,13 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
         navigatorKey: navigatorKey,
         theme: FluentAppThemes.lightTheme,
         darkTheme: FluentAppThemes.defaultDarkTheme,
-        themeMode: (state is UserPreferencesState)
+        themeMode: (state is PreferencesStateWithData)
             ? state.themeMode
             : ThemeMode.system,
         home: home,
         builder: appBuilder,
-        initialRoute: Routes.startupScreen,
-        locale: (state is UserPreferencesState) ? state.locale : null,
+        initialRoute: AppRoutes.startupScreen,
+        locale: (state is PreferencesStateWithData) ? state.locale : null,
         onGenerateRoute: AppRouter.onGenerateRoute,
         localeListResolutionCallback: localeResolutionCallBack,
         localizationsDelegates: const [
@@ -128,13 +133,13 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
           debugShowCheckedModeBanner: false,
           theme: MaterialAppThemes.lightTheme,
           darkTheme: MaterialAppThemes.defaultDarkTheme,
-          themeMode: (state is UserPreferencesState)
+          themeMode: (state is PreferencesStateWithData)
               ? state.themeMode
               : ThemeMode.system,
           home: home,
-          initialRoute: Routes.startupScreen,
+          initialRoute: AppRoutes.startupScreen,
           builder: appBuilder,
-          locale: (state is UserPreferencesState) ? state.locale : null,
+          locale: (state is PreferencesStateWithData) ? state.locale : null,
           onGenerateRoute: AppRouter.onGenerateRoute,
           localeListResolutionCallback: localeResolutionCallBack,
           localizationsDelegates: const [
@@ -149,26 +154,13 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
 
 mixin _ClinicAppHelper {
   Widget appBuilder(BuildContext context, Widget? app) {
-    final preferencesCubit = context.read<PreferencesCubit>();
-    if (preferencesCubit.state is AppearancePreferencesInitial) {
-      preferencesCubit.provideLocale(
-        Locale(Platform.localeName.substring(0, 2)),
-      );
-      preferencesCubit.provideThemeMode(context.themeMode);
+    if (context.read<PreferencesCubit>().state is PreferencesInitial) {
+      context.read<PreferencesCubit>().provideDefaultPreferences(
+            context.themeMode,
+            Locale(Platform.localeName.substring(0, 2)),
+          );
     }
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) async {
-        if (state is AuthHasLoggedInUser) {
-          ClinicApp.navigatorKey.currentState
-              ?.popAndPushNamed(Routes.homeScreen);
-        }
-        if (state is AuthHasNoLoggedInUser) {
-          ClinicApp.navigatorKey.currentState
-              ?.popAndPushNamed(Routes.loginScreen);
-        }
-      },
-      child: app!,
-    );
+    return _AuthBlocListener(app!);
   }
 
   Locale localeResolutionCallBack(
@@ -182,5 +174,43 @@ mixin _ClinicAppHelper {
       }
     }
     return supportedLocales.first;
+  }
+}
+
+/// Listens to auth state changes and redirect user according to it
+///
+/// Uses a global key to access the app navigator.
+class _AuthBlocListener extends StatelessWidget {
+  const _AuthBlocListener(
+    this.child, {
+    Key? key,
+  }) : super(key: key);
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) async {
+        if (state is AuthHasLoggedInUser) {
+          context
+              .read<PreferencesCubit>()
+              .provideUserPreferences(state.currentUser.preferences);
+          if (state.currentUser.role == UserRole.admin) {
+            ClinicApp.navigatorKey.currentState
+                ?.popAndPushNamed(AppRoutes.adminPanelScreen);
+          }
+          if (state.currentUser.role == UserRole.dentist) {
+            //TODO:: Navigate to dentist preferences setup
+          }
+          if (state.currentUser.role == UserRole.secretary) {
+            //TODO:: Navigate to secretary preferences setup
+          }
+        } else if (state is AuthHasNoLoggedInUser) {
+          ClinicApp.navigatorKey.currentState
+              ?.popAndPushNamed(AppRoutes.loginScreen);
+        }
+      },
+      child: child,
+    );
   }
 }

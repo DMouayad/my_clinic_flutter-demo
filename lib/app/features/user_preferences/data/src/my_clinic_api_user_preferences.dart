@@ -41,4 +41,17 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
       localePreference: Locale(map.get('locale')),
     );
   }
+
+  @override
+  MyClinicApiUserPreferences copyWith({
+    ThemeMode? themePreference,
+    Locale? localePreference,
+  }) {
+    return MyClinicApiUserPreferences(
+      id: id,
+      userId: userId,
+      themePreference: themePreference ?? this.themePreference,
+      localePreference: localePreference ?? this.localePreference,
+    );
+  }
 }

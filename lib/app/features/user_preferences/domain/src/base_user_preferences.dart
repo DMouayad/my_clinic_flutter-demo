@@ -16,4 +16,9 @@ abstract class BaseUserPreferences extends Equatable {
 
   @override
   List<Object?> get props => [id, userId, themePreference, localePreference];
+
+  BaseUserPreferences copyWith({
+    ThemeMode? themePreference,
+    Locale? localePreference,
+  });
 }

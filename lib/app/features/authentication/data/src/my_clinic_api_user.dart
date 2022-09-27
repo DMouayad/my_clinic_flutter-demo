@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:clinic_v2/api/models/response_user_data.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
 import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
@@ -10,7 +11,9 @@ class MyClinicApiUser implements BaseServerUser {
     required this.id,
     required this.name,
     required this.email,
+    required this.phoneNumber,
     required this.role,
+    required this.createdAt,
     this.preferences,
     this.appUserId,
     this.emailVerifiedAt,
@@ -21,6 +24,8 @@ class MyClinicApiUser implements BaseServerUser {
   @override
   final int id;
   @override
+  final String phoneNumber;
+  @override
   final String name;
   @override
   final String email;
@@ -30,6 +35,8 @@ class MyClinicApiUser implements BaseServerUser {
   final MyClinicApiUserPreferences? preferences;
   @override
   final int? appUserId;
+  @override
+  final DateTime createdAt;
 
   String toJson() {
     return jsonEncode(toMap());
@@ -41,6 +48,7 @@ class MyClinicApiUser implements BaseServerUser {
       'name': name,
       'email': email,
       'role': role.name,
+      'created_at': createdAt.toIso8601String(),
       'email_verified_at': emailVerifiedAt?.toIso8601String(),
       'preferences': preferences?.toMap(),
       'app_user_id': appUserId,
@@ -56,6 +64,8 @@ class MyClinicApiUser implements BaseServerUser {
       id: map['id'],
       name: map['name'],
       email: map['email'],
+      phoneNumber: map['phoneNumber'],
+      createdAt: DateTime.parse(map['created_at']),
       role: UserRole.values.byName(map['role']),
       appUserId: map.get('app_user_id'),
       emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
@@ -68,27 +78,44 @@ class MyClinicApiUser implements BaseServerUser {
     return MyClinicApiUser(
       id: map['id'],
       name: map['name'],
+      phoneNumber: map['phoneNumber'],
       email: map['email'],
+      createdAt: DateTime.parse(map['created_at']),
       role: UserRole.values.byName(role),
       emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
     );
   }
-  factory MyClinicApiUser.fromApiResponseMap(Map<String, dynamic> map) {
-    final roleName = map.get('role').get('role') as String;
-    final prefsMap = map.get('preferences') as Map<String, dynamic>;
+
+  factory MyClinicApiUser.fromApiResponse(ApiResponseUserData data) {
     return MyClinicApiUser(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
-      appUserId: map.get('app_user_id'),
-      role: UserRole.values.byName(roleName),
-      preferences: MyClinicApiUserPreferences.fromMap(prefsMap),
+      id: data.id,
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      createdAt: DateTime.parse(data.createdAt),
+      emailVerifiedAt: data.emailVerifiedAt != null
+          ? DateTime.parse(data.emailVerifiedAt!)
+          : null,
+      appUserId: data.appUserId,
+      role: UserRole.values.byName(data.roleSlug),
+      preferences: data.preferencesMap != null
+          ? MyClinicApiUserPreferences.fromMap(data.preferencesMap!)
+          : null,
     );
   }
 
   @override
-  List<Object?> get props => [appUserId, name, email, role, preferences];
+  List<Object?> get props => [
+        appUserId,
+        name,
+        email,
+        role,
+        preferences,
+        id,
+        createdAt,
+        emailVerifiedAt,
+      ];
+
   @override
   bool? get stringify => true;
 }

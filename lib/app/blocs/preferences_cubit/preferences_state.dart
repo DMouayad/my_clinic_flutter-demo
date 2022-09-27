@@ -7,31 +7,38 @@ abstract class PreferencesState extends Equatable {
   List<Object> get props => [];
 }
 
-class AppearancePreferencesInitial extends PreferencesState {
-  const AppearancePreferencesInitial();
+class PreferencesInitial extends PreferencesState {
+  const PreferencesInitial();
 }
 
-class UserPreferencesState extends PreferencesState {
-  final Locale? locale;
-  final ThemeMode? themeMode;
-  const UserPreferencesState({this.locale, this.themeMode});
+abstract class PreferencesStateWithData extends PreferencesState {
+  const PreferencesStateWithData(this.themeMode, this.locale);
+
+  final ThemeMode themeMode;
+  final Locale locale;
 
   @override
-  List<Object> get props => [
-        [locale, themeMode]
-      ];
+  List<Object> get props => [themeMode, locale];
 
-  UserPreferencesState copyWith({
-    Locale? locale,
-    ThemeMode? themeMode,
-  }) {
-    return UserPreferencesState(
-      locale: locale ?? this.locale,
-      themeMode: themeMode ?? this.themeMode,
-    );
+  PreferencesStateWithData copyWith({ThemeMode? themeMode, Locale? locale});
+}
+
+class DefaultPreferencesState extends PreferencesStateWithData {
+  const DefaultPreferencesState(super.themeMode, super.locale);
+
+  @override
+  DefaultPreferencesState copyWith({ThemeMode? themeMode, Locale? locale}) {
+    return DefaultPreferencesState(
+        themeMode ?? this.themeMode, locale ?? this.locale);
   }
+}
+
+class UserPreferencesState extends PreferencesStateWithData {
+  const UserPreferencesState(super.themeMode, super.locale);
 
   @override
-  String toString() =>
-      'UserPreferencesState(locale: $locale, themeMode: $themeMode)';
+  UserPreferencesState copyWith({ThemeMode? themeMode, Locale? locale}) {
+    return UserPreferencesState(
+        themeMode ?? this.themeMode, locale ?? this.locale);
+  }
 }

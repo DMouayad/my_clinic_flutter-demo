@@ -6,7 +6,7 @@ import 'home_screen.dart';
 class HomePage extends AppPage {
   HomePage()
       : super(
-          routeSettings: const RouteSettings(name: Routes.homeScreen),
+          routeSettings: const RouteSettings(name: AppRoutes.homeScreen),
           pageScreensBuilder: (
             BuildContext context,
             Animation<double> animation,

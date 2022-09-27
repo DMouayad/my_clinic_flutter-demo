@@ -18,11 +18,12 @@ class FluentAppThemes {
       },
     ),
     menuColor: AppColorScheme.darkColorScheme.surface,
-    buttonTheme: ButtonThemeData(
-        iconButtonStyle: ButtonStyle(
-      foregroundColor:
-          ButtonState.all(AppColorScheme.darkColorScheme.onBackground),
-    )),
+    // buttonTheme: ButtonThemeData(
+    //     iconButtonStyle: ButtonStyle(
+    //   foregroundColor:
+    //       ButtonState.all(AppColorScheme.darkColorScheme.onBackground),
+    // ),
+    // ),
     navigationPaneTheme: NavigationPaneThemeData(
       backgroundColor: AppColorScheme.darkColorScheme.surface,
     ),

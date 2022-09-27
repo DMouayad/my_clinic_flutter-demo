@@ -52,7 +52,7 @@ class ErrorStartingAppScreen extends StatelessWidget {
               infinite: true,
               duration: const Duration(seconds: 4),
               child: Icon(
-                error.exception == ErrorException.noConnectionFound()
+                error.exception == const ErrorException.noConnectionFound()
                     ? Icons.signal_wifi_bad_sharp
                     : Icons.error_outline,
                 size: 50,
@@ -80,7 +80,7 @@ class ErrorStartingAppScreen extends StatelessWidget {
       return context.localizations?.noInternetConnection ??
           "No Internet connection";
     }
-    if (errorException == ErrorException.cannotConnectToServer()) {
+    if (errorException == const ErrorException.cannotConnectToServer()) {
       return context.localizations?.cannotConnectToServer ??
           "Cannot connect to the server, please try again";
     }

@@ -1,14 +1,14 @@
-part of api_endpoint;
+part of staff_email_api_endpoints;
 
-class AddStaffEmailApiEndpoint extends ApiEndpoint {
-  AddStaffEmailApiEndpoint._({
+class AddStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+  AddStaffEmailApiEndpoint({
     required String email,
     required UserRole role,
-    required String token,
-  }) : super._(
-          RequestMethod.POST,
-          urlWithoutBaseUrl: '/staff-emails',
-          token: token,
+  }) : super(
+          method: RequestMethod.POST,
+          url: '/staff-emails',
           data: {'email': email, 'role': role.name},
+          includeDeviceId: true,
+          includeAccessToken: true,
         );
 }

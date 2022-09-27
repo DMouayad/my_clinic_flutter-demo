@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/shared_widgets/windows_components/appearance_settings_bar.dart';
+import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar.dart';
 import '../components/bloc_login_form.dart';
 import '../components/login_message.dart';
 
@@ -21,7 +21,7 @@ class WindowsLoginScreen extends StatelessWidget {
         return WindowsTwoSidesScreen(
           leftSideAnimation: animation,
           showInProgressIndicator: state is LoginInProgress,
-          topOptionsBar: const BlocAppearanceSettingsBar(),
+          topOptionsBar: const BlocAppSettingsBar(),
           leftSide: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceAround,

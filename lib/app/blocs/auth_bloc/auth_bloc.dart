@@ -25,8 +25,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     on<AuthStatusChangeRequested>(
-        (event, emit) => emit(_getAuthHasUserState()));
-    on<AuthInitRequested>((event, emit) async => emit(await _initAuth()));
+      (event, emit) => emit(_getAuthHasUserState()),
+    );
+    on<AuthInitRequested>((event, emit) async {
+      (await authRepository.onInit()).when(
+        onSuccess: (_) {
+          // no need to add events or emit new states because we are listening to
+          // [authRepository.hasLoggedInUser] stream
+        },
+        onError: (error) => emit(AuthErrorState(error)),
+      );
+    });
 
     on<LoginRequested>(
       (event, emit) async {
@@ -57,13 +66,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         : const AuthHasNoLoggedInUser();
   }
 
-  Future<AuthState> _initAuth() async {
-    return (await authRepository.onInit()).when(
-      onSuccess: (BaseServerUser result) => AuthHasLoggedInUser(result),
-      onError: (BasicError error) => const AuthHasNoLoggedInUser(),
-    );
-  }
-
   Future<AuthState> _login(String email, String password) async {
     final loginResponse = await authRepository.login(
       email: email,
@@ -72,7 +74,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return loginResponse.when(
       onSuccess: (user) => AuthHasLoggedInUser(user),
       onError: (error) {
-        if (error.exception == ErrorException.invalidPasswordCredential()) {}
+        if (error.exception ==
+            const ErrorException.invalidPasswordCredential()) {}
         return LoginErrorState(error);
       },
     );
@@ -99,7 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       onSuccess: (result) => SignUpSuccess(authRepository.currentUser!),
       onError: (error) {
         if (error.exception is EmailUnauthorizedToRegisterException) {
-          return SignUpEmailIsNotAuthorizedToRegister();
+          return const SignUpEmailIsNotAuthorizedToRegister();
         }
         return SignUpErrorState(error);
       },
@@ -108,11 +111,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   void onTransition(Transition<AuthEvent, AuthState> transition) {
-    // Log.i(
-    //   "AuthBloc transition: From [${transition.currentState}] "
-    //   "To [${transition.nextState}] By event [${transition.event.runtimeType}]",
-    // );
-    Log.logBlocTransition(this, transition);
+    Log.logBlocTransition(this, transition,
+        logLevel: transition.nextState is AuthErrorState
+            ? Level.warning
+            : Level.info);
     super.onTransition(transition);
   }
 }

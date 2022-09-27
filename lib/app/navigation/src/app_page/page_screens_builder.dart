@@ -15,6 +15,7 @@ class PageScreensBuilder extends StatelessWidget
     this.windowsLargeScreen,
     this.windowsMediumScreen,
     this.windowsSmallScreen,
+    this.windowsScreen,
     this.macOSScreen,
     this.linuxScreen,
     this.defaultWideScreen,
@@ -31,6 +32,7 @@ class PageScreensBuilder extends StatelessWidget
   final Widget? windowsLargeScreen;
   final Widget? windowsSmallScreen;
   final Widget? windowsMediumScreen;
+  final Widget? windowsScreen;
   final Widget? macOSScreen;
   final Widget? linuxScreen;
 
@@ -81,13 +83,13 @@ class PageScreensBuilder extends StatelessWidget
   @override
   Widget? windowsBuilder(BuildContext context) {
     if (context.isMobile) {
-      return windowsSmallScreen;
+      return windowsSmallScreen ?? windowsScreen;
     }
     if (context.isTablet) {
-      return windowsMediumScreen;
+      return windowsMediumScreen ?? windowsScreen;
     }
     if (context.isDesktop) {
-      return windowsLargeScreen;
+      return windowsLargeScreen ?? windowsScreen;
     }
     return null;
   }

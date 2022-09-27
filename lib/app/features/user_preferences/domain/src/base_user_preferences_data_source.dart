@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'base_user_preferences.dart';
 
 abstract class BaseUserPreferencesDataSource<T extends BaseUserPreferences> {
-  Future<Result<VoidResult, BasicError>> loadUserPreferences();
+  Future<Result<T, BasicError>> fetchUserPreferences();
 
-  Future<Result<T, BasicError>> updateUserPreferences({
+  Future<Result<VoidResult, BasicError>> updateUserPreferences({
     ThemeMode? themeMode,
     Locale? locale,
   });

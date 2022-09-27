@@ -2,11 +2,12 @@ import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/features/staff_email/domain/src/base_staff_email.dart';
 
-abstract class BaseStaffEmailRepository<T extends BaseStaffEmail> {
+abstract class BaseStaffEmailRepository {
+  List<BaseStaffEmail>? get staffEmails;
   Future<Result<VoidResult, BasicError>> addStaffEmail(
       String email, UserRole userRole);
-  Future<Result<List<T>, BasicError>> getStaffEmails();
+  Future<Result<VoidResult, BasicError>> getStaffEmails();
   Future<Result<VoidResult, BasicError>> updateStaffEmail(
-      {int id, String? email, UserRole? userRole});
+      {required int id, String? email, UserRole? userRole});
   Future<Result<VoidResult, BasicError>> deleteStaffEmail(int id);
 }

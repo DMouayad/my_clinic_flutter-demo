@@ -1,12 +1,12 @@
-part of '../../api_endpoint.dart';
+part of api_auth_endpoints;
 
-class RequestEmailVerificationApiEndpoint extends ApiEndpoint {
-  RequestEmailVerificationApiEndpoint._(String token)
-      : super._(
-          RequestMethod.POST,
-          urlWithoutBaseUrl: '/email/verification-notification',
-          token: token,
+class RequestEmailVerificationApiEndpoint
+    extends ApiEndpoint<EmptyApiEndpointResult> {
+  RequestEmailVerificationApiEndpoint()
+      : super(
+          method: RequestMethod.POST,
+          url: '/email/verification-notification',
+          includeAccessToken: true,
+          includeDeviceId: true,
         );
 }
-
-class RequestEmailVerificationEndpointResult extends ApiEndpointResult {}

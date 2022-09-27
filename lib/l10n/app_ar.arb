@@ -25,7 +25,7 @@
     "phoneNoIsRequired": "حقل رقم الهاتف لا يمكن أن يكون فارغاً",
     "passwordIsTooShort": "كلمة السر يجب أن تتكون من 8 أحرف على الأقل!",
     "emailInvalid": "يرجى ادخال البريد الالكتروني بالصيغة الصحيحة، مثال(youremail@example.com)",
-
+    "invalidPhoneNo":"يرجى ادخال رقم هاتف صالح" ,
     "exitSignUpDialogTitle": "إلغاء عملية التسجيل",
     "exitSignUpDialogMessage": "جميع المعلومات المدخلة سيتم فقدانها، هل أنت متأكد؟",
 
@@ -81,6 +81,10 @@
     "or": "أو",
     "delete": "حذف",
     "ok":"حسناً",
+    "warning":"تحذير",
+
+    "staffManagement":"إدارة الموظفين",
+    "myAccount":"حسابي الشخصي",
 
     "noInternetConnection": "قم بالتحقق من اتصال الانترنت لديك ثم المحاولة مجدداً",
     "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",
@@ -88,8 +92,9 @@
     "emailAlreadyExists": "البريد الالكتروني مسجل مسبقاً",
     "emailAddressNotFound": "البريد الالكتروني غير مسجل، الرجاء المحاولة مجدداً أو قم بإنشاء حساب جديد",
     "passwordIsIncorrect": "كلمة السر خاطئة!",
-    "emailUnauthorizedToRegister": "البريد الالكتروني المعطى غير مسموح له بالتسجيل، الرجاء المحاولة مجدداً"
-
+    "emailUnauthorizedToRegister": "البريد الالكتروني المعطى غير مسموح له بالتسجيل، الرجاء المحاولة مجدداً",
+    "invalidApiRequest": "تم ارسال طلب غير صالح! الرجاء التواصل مع الدعم الفني",
+    "failedToRefreshTokens": "حدث خطأ أثناء تسجيل الدخول لحسابك الخاص، رجاءً قم بتسجيل الدخول من جديد"
 
 
 }
