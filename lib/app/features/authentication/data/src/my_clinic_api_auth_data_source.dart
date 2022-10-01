@@ -57,7 +57,11 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
 
   @override
   Future<Result<VoidValue, BasicError>> logout() async {
-    return (await LogoutApiEndpoint().request()).mapSuccessToVoid();
+    return await (await LogoutApiEndpoint().request())
+        .mapSuccessToVoidAsync((_) async {
+      await _authTokensService.deleteRefreshToken();
+      await _authTokensService.deleteAccessToken();
+    });
   }
 
   @override

@@ -96,6 +96,7 @@ class _CustomFormState extends State<CustomForm> {
             InputTextField(
               controller: _formHelper.phoneNoController,
               prefixIcon: Icons.phone,
+              textDirection: TextDirection.ltr,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
@@ -136,7 +137,6 @@ class _CustomFormState extends State<CustomForm> {
             textStyle: context.textTheme.bodyText1?.copyWith(
               fontSize: 18,
             ),
-            // autovalidateMode: AutovalidateMode.onUserInteraction,
             suffixIconColor: context.colorScheme.errorColor,
             suffixIcon: (_emailIsValid ?? true) ? null : _errorSuffixIcon,
           ),

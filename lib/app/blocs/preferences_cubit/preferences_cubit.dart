@@ -13,6 +13,30 @@ part 'preferences_state.dart';
 class PreferencesCubit extends Cubit<PreferencesState> {
   PreferencesCubit() : super(const PreferencesInitial());
 
+  void updateAppTheme(ThemeMode themeMode) {
+    assert(state is DefaultPreferencesState);
+    emit((state as DefaultPreferencesState).copyWith(themeMode: themeMode));
+  }
+
+  void updateAppLocale(Locale locale) {
+    if (state is DefaultPreferencesState) {
+      emit((state as DefaultPreferencesState).copyWith(locale: locale));
+    } else if (state is PreferencesStateWithData) {
+      emit(DefaultPreferencesState(
+          (state as PreferencesStateWithData).themeMode, locale));
+    }
+  }
+
+  void updateUserThemePreference(ThemeMode themeMode) {
+    assert(state is UserPreferencesState);
+    emit((state as UserPreferencesState).copyWith(themeMode: themeMode));
+  }
+
+  void updateUserLocalePreference(Locale locale) {
+    assert(state is UserPreferencesState);
+    emit((state as UserPreferencesState).copyWith(locale: locale));
+  }
+
   void provideUserPreferences(BaseUserPreferences? preferences) {
     if (preferences != null) {
       emit(UserPreferencesState(

@@ -1,8 +1,8 @@
 import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
-class WindowsSettingTile extends CustomStatelessWidget {
-  const WindowsSettingTile({
+class WindowsTile extends CustomStatelessWidget {
+  const WindowsTile({
     Key? key,
     required this.tileLabel,
     required this.titleText,
@@ -21,22 +21,21 @@ class WindowsSettingTile extends CustomStatelessWidget {
   Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
     return InfoLabel(
       labelStyle: context.textTheme.titleMedium?.copyWith(
-        color: context.colorScheme.onBackground,
+        color: context.colorScheme.primary,
         fontWeight: FontWeight.w600,
       ),
       label: tileLabel,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Flex(
-          direction: context.isPortraitTablet ? Axis.vertical : Axis.horizontal,
-          // mainAxisAlignment: context.isDesktop
+          direction: context.isMobile ? Axis.vertical : Axis.horizontal,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: context.isPortraitTablet
+          mainAxisAlignment: context.isMobile
               ? MainAxisAlignment.spaceAround
-              : MainAxisAlignment.start,
+              : MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 8.0, bottom: 12),
               child: Row(
                 children: [
                   leadingIcon,
@@ -51,38 +50,14 @@ class WindowsSettingTile extends CustomStatelessWidget {
                 ],
               ),
             ),
-            if (!context.isPortraitTablet) const Spacer(),
             if (trailing != null)
-              Expanded(
-                flex: context.isPortraitTablet
-                    ? 0
-                    : widgetInfo.widgetSize.width > 485
-                        ? 0
-                        : 1,
-                child: Padding(
-                  padding: context.isPortraitTablet
-                      ? const EdgeInsets.symmetric(
-                          vertical: 12.0,
-                          horizontal: 8.0,
-                        )
-                      : EdgeInsets.zero,
-                  child: trailing!,
-                ),
+              Container(
+                alignment: context.isLTR
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+                child: trailing!,
               ),
-
-            // Flex(
-            //   direction: Axis.horizontal,
-            //   children: [
-            //     Expanded(child: Text(titleText)),
-            //     if (trailing != null) Expanded(child: trailing!),
-            //   ],
-            // ),
           ],
-          // isThreeLine: true,
-          // leading: leadingIcon,
-          // title: Text(titleText),
-          // trailing: trailing,
-          // subtitle: subtitle,
         ),
       ),
     );

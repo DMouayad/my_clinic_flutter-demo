@@ -1,10 +1,10 @@
+import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view/windows_nav_view.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
-import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar.dart';

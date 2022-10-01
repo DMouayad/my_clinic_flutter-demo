@@ -12,34 +12,26 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   MyClinicApiAuthRepository({
     required BaseAuthTokensService authTokensService,
   }) {
-    hasLoggedInUserStreamController = StreamController();
+    _hasLoggedInUserStreamController = StreamController();
     _dataSource = MyClinicApiAuthDataSource(authTokensService);
   }
 
+  late final StreamController<MyClinicApiUser?>
+      _hasLoggedInUserStreamController;
   @override
-  MyClinicApiUser? currentUser;
+  Stream<MyClinicApiUser?> get hasLoggedInUser =>
+      _hasLoggedInUserStreamController.stream;
   @override
-  void setCurrentUser(MyClinicApiUser user) {
-    currentUser = user;
-  }
-
-  late final StreamController<bool> hasLoggedInUserStreamController;
-  @override
-  Stream<bool> get hasLoggedInUser => hasLoggedInUserStreamController.stream;
-  @override
-  Future<Result<MyClinicApiUser, BasicError>> login({
+  Future<Result<VoidValue, BasicError>> login({
     required String email,
     required String password,
   }) async {
     // login user with email and password
     final loginResult = await _dataSource.login(email, password);
 
-    return loginResult.mapSuccess(
-      (result) {
-        hasLoggedInUserStreamController.add(true);
-        // set returned user as the current user
-        setCurrentUser(result);
-        return currentUser!;
+    return loginResult.mapSuccessToVoid(
+      (user) {
+        _hasLoggedInUserStreamController.add(user);
       },
     );
   }
@@ -62,10 +54,8 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
       phoneNumber: phoneNumber,
     ))
         .mapSuccessToVoid(
-      (result) {
-        hasLoggedInUserStreamController.add(true);
-        // set current user to the retrieved user
-        setCurrentUser(result);
+      (user) {
+        _hasLoggedInUserStreamController.add(user);
       },
     );
   }
@@ -74,7 +64,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   Future<Result<VoidValue, BasicError>> logout() async {
     return (await _dataSource.logout()).fold(
       ifSuccess: (_) {
-        hasLoggedInUserStreamController.add(false);
+        _hasLoggedInUserStreamController.add(null);
       },
     );
   }
@@ -94,13 +84,12 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   @override
   Future<Result<VoidValue, BasicError>> onInit() async {
     return (await _dataSource.loadUser()).flatMap(
-      onSuccess: (result) {
-        currentUser = result;
-        hasLoggedInUserStreamController.add(true);
+      onSuccess: (user) {
+        _hasLoggedInUserStreamController.add(user);
         return SuccessResult.voidResult();
       },
       onFailure: (error) {
-        hasLoggedInUserStreamController.add(false);
+        _hasLoggedInUserStreamController.add(null);
         return FailureResult(error);
       },
     );

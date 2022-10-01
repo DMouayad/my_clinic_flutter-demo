@@ -6,13 +6,15 @@
 
     "login": "Login",
     "signUp": "SignUp",
+    "logout": "Logout",
+    "logoutConfirmation": "Logout Confirmation",
     "createAccount": "Create new account",
     "username": "Username",
     "email": "Email",
     "password": "Password",
     "phoneNo": "Phone number",
 
-
+    "confirmLogoutMessage": "You will be logged out from your account, are you sure?",
     "loginScreenMessage": "Welcome,\nGet started now by logging in to your account.",
     "signUpScreenMessage": "Creating new CLINIC's account",
 
@@ -80,6 +82,7 @@
     "delete": "Delete",
     "ok":"Ok",
     "warning": "Warning",
+    "close": "Close",
 
      "staffManagement":"Staff Management",
      "myAccount":"My Account",
@@ -93,5 +96,5 @@
     "passwordIsIncorrect": "Incorrect Password!",
     "emailUnauthorizedToRegister": "Entered email address is not allowed to register, please try again.",
     "invalidApiRequest": "An invalid api request was made! please contact technical support.",
-    "failedToRefreshTokens": "An error occurred while logging in to your account, please re-login"
+    "failedToAuthenticateUser": "An error occurred while logging in to your account, please re-login"
 }

@@ -2,27 +2,20 @@ import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
 
-class AndroidDropdownMenu extends BaseDropdownMenu {
+class AndroidDropdownMenu<T> extends BaseDropdownMenu<T> {
   const AndroidDropdownMenu({
     required this.type,
-    required Widget leading,
-    required String title,
-    required List<CustomDropdownMenuItem> items,
-    required void Function(CustomDropdownMenuItem item) onChanged,
-    String? tooltipMessage,
-    this.selectedItem,
-    Key? key,
+    required super.leading,
+    required super.title,
+    required super.items,
+    required super.onChanged,
+    required super.selectedValue,
+    super.tooltipMessage,
+    super.key,
   }) : super(
-          key: key,
-          title: title,
-          items: items,
-          onChanged: onChanged,
-          tooltipMessage: tooltipMessage,
-          leading: leading,
           leadingIconData: null,
         );
   final DropdownMenuType type;
-  final CustomDropdownMenuItem? selectedItem;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +30,7 @@ class AndroidDropdownMenu extends BaseDropdownMenu {
 
   Widget _dropDownLocaleMenu(BuildContext context, {bool showIcon = true}) {
     return DropdownButtonHideUnderline(
-      child: DropdownButton<CustomDropdownMenuItem>(
+      child: DropdownButton<CustomDropdownMenuItem<T>>(
         icon: showIcon ? null : const SizedBox.shrink(),
         elevation: 4,
         dropdownColor: context.colorScheme.backgroundColor,
@@ -45,9 +38,9 @@ class AndroidDropdownMenu extends BaseDropdownMenu {
         style: context.textTheme.subtitle1?.copyWith(
           color: context.colorScheme.onPrimary,
         ),
-        value: selectedItem,
+        value: items.firstWhere((e) => e.value == selectedValue),
         items: items
-            .map((item) => DropdownMenuItem<CustomDropdownMenuItem>(
+            .map((item) => DropdownMenuItem<CustomDropdownMenuItem<T>>(
                   value: item,
                   child: Text(
                     item.text,
@@ -58,7 +51,7 @@ class AndroidDropdownMenu extends BaseDropdownMenu {
                 ))
             .toList(),
         onChanged: (value) {
-          if (value != null && value != selectedItem) {
+          if (value != null && value != selectedValue) {
             onChanged(value);
           }
         },

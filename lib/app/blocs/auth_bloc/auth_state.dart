@@ -4,11 +4,15 @@ abstract class AuthState extends Equatable {
   const AuthState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class AuthInitial extends AuthState {
   const AuthInitial();
+}
+
+class AuthInitInProgress extends AuthState {
+  const AuthInitInProgress();
 }
 
 class AuthHasLoggedInUser extends AuthState {
@@ -29,7 +33,11 @@ class AuthHasLoggedInUser extends AuthState {
 }
 
 class AuthHasNoLoggedInUser extends AuthState {
-  const AuthHasNoLoggedInUser();
+  final BasicError? error;
+  const AuthHasNoLoggedInUser({this.error});
+
+  @override
+  List<Object?> get props => [error];
 }
 
 class AuthErrorState extends AuthState {
@@ -38,4 +46,12 @@ class AuthErrorState extends AuthState {
 
   @override
   List<Object> get props => [error];
+}
+
+class LogoutInProgress extends AuthState {
+  const LogoutInProgress();
+}
+
+class AuthInitFailed extends AuthErrorState {
+  const AuthInitFailed(super.error);
 }

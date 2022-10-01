@@ -9,7 +9,7 @@ class FailureResult<NoValue extends NoValueObtained,
   final ErrorType error;
   FailureResult(this.error) : super._();
 
-  factory FailureResult.fromException(Object e) {
+  factory FailureResult.fromException(Exception e) {
     return FailureResult(BasicError(
       message: e.toString(),
       exception: ErrorException(e.runtimeType.toString()),
@@ -38,50 +38,55 @@ class FailureResult<NoValue extends NoValueObtained,
   }
 
   @override
-  Future<Result<U, ErrorType>> mapSuccessAsync<U extends Object>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends BasicError>(
       Future<U> Function(NoValue value) transform) async {
-    return FailureResult(error);
+    return FailureResult(error as F);
   }
 
   @override
-  Result<U, ErrorType> mapSuccess<U extends Object>(
+  Result<U, F> mapSuccess<U extends Object, F extends BasicError>(
       U Function(NoValue value) transform) {
-    return FailureResult(error);
+    return FailureResult(error as F);
   }
 
   @override
-  Result<NoValue, T> mapFailure<T extends BasicError>(
-      T Function(ErrorType error) transform) {
+  Result<U, F> mapFailure<U extends Object, F extends BasicError>(
+      F Function(ErrorType error) transform) {
     return FailureResult(transform(error));
   }
 
   @override
-  Future<Result<NoValue, T>> mapFailureAsync<T extends BasicError>(
-      Future<T> Function(ErrorType error) transform) async {
+  Future<Result<U, F>> mapFailureAsync<U extends Object, F extends BasicError>(
+      Future<F> Function(ErrorType error) transform) async {
     return FailureResult(await transform(error));
   }
 
   @override
-  Result<U, ErrorType> flatMapSuccess<U extends Object>(
-      Result<U, ErrorType> Function(NoValue value) transform) {
-    return FailureResult(error);
+  Result<U, F> flatMapSuccess<U extends Object, F extends BasicError>(
+      Result<U, F> Function(NoValue value) transform) {
+    return FailureResult(error as F);
   }
 
   @override
-  Future<Result<U, ErrorType>> flatMapSuccessAsync<U extends Object>(
-      Future<Result<U, ErrorType>> Function(NoValue value) transform) async {
-    return FailureResult(error);
+  Future<Result<U, F>>
+      flatMapSuccessAsync<U extends Object, F extends BasicError>(
+    Future<Result<U, F>> Function(NoValue value) transform,
+  ) async {
+    return FailureResult(error as F);
   }
 
   @override
-  Result<NoValue, F> flatFailureSuccess<F extends BasicError>(
-      Result<NoValue, F> Function(ErrorType error) transform) {
+  Result<U, F> flatMapFailure<U extends Object, F extends BasicError>(
+    Result<U, F> Function(ErrorType error) transform,
+  ) {
     return transform(error);
   }
 
   @override
-  Future<Result<NoValue, F>> flatMapFailureAsync<F extends BasicError>(
-      Future<Result<NoValue, F>> Function(ErrorType error) transform) async {
+  Future<Result<U, F>>
+      flatMapFailureAsync<U extends Object, F extends BasicError>(
+    Future<Result<U, F>> Function(ErrorType error) transform,
+  ) async {
     return await transform(error);
   }
 
@@ -89,6 +94,13 @@ class FailureResult<NoValue extends NoValueObtained,
   Result<VoidValue, ErrorType> mapSuccessToVoid([
     void Function(NoValue value)? onSuccess,
   ]) {
+    return FailureResult(error);
+  }
+
+  @override
+  Future<Result<VoidValue, ErrorType>> mapSuccessToVoidAsync([
+    Future<void> Function(NoValue value)? onSuccess,
+  ]) async {
     return FailureResult(error);
   }
 

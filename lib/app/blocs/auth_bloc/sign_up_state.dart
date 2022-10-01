@@ -15,17 +15,14 @@ class SignUpInProgress extends SignUpState {
 }
 
 class SignUpSuccess extends SignUpState {
-  final BaseServerUser serverUser;
-
-  const SignUpSuccess(this.serverUser);
-  @override
-  List<Object> get props => [serverUser];
+  const SignUpSuccess();
 }
 
 class SignUpEmailIsNotAuthorizedToRegister extends SignUpErrorState {
-  const SignUpEmailIsNotAuthorizedToRegister()
+  SignUpEmailIsNotAuthorizedToRegister()
       : super(
-          const BasicError(
-              exception: ErrorException.emailUnauthorizedToRegister()),
+          BasicError(
+            exception: const ErrorException.emailUnauthorizedToRegister(),
+          ),
         );
 }

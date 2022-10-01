@@ -1,19 +1,41 @@
+import 'package:clinic_v2/api/models/response_user_data.dart';
+
 import '../api_endpoint_result.dart';
 
 class FetchStaffEmailsEndpointResult extends ApiEndpointResult {
-  final List<Map<String, dynamic>> staffEmailsData;
+  final List<ApiResponseStaffEmailData> staffEmailsData;
 
-  const FetchStaffEmailsEndpointResult(this.staffEmailsData);
   factory FetchStaffEmailsEndpointResult.fromApiResponse(dynamic data) {
-    final staffEmailsData = (data as List)
-        .map((e) => {
-              'id': e['id'] as int,
-              'email': e['email'] as String,
-              'user': e['user'] as Map<String, dynamic>,
-              'role': e['role'] as Map<String, dynamic>,
-            })
-        .toList();
+    final staffEmailsData = (data as List).map(
+      (map) {
+        final userDataMap = map['user'] as Map<String, dynamic>;
+        userDataMap['role'] = map['role'];
+
+        return ApiResponseStaffEmailData(
+          id: map['id'] as int,
+          roleSlug: map['role']['slug'],
+          email: map['email'],
+          userData: ApiResponseUserData.fromMap(userDataMap),
+        );
+      },
+    ).toList();
 
     return FetchStaffEmailsEndpointResult(staffEmailsData);
   }
+
+  const FetchStaffEmailsEndpointResult(this.staffEmailsData);
+}
+
+class ApiResponseStaffEmailData {
+  final int id;
+  final String roleSlug;
+  final String email;
+  final ApiResponseUserData userData;
+
+  const ApiResponseStaffEmailData({
+    required this.id,
+    required this.roleSlug,
+    required this.email,
+    required this.userData,
+  });
 }

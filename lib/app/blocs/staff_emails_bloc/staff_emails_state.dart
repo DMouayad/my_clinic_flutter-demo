@@ -10,12 +10,13 @@ abstract class StaffEmailsState extends Equatable {
 class StaffEmailsInitial extends StaffEmailsState {}
 
 class StaffEmailWasLoaded extends StaffEmailsState {
-  final List<BaseStaffEmail> staffEmails;
+  final List<BaseStaffEmail>? staffEmails;
 
   const StaffEmailWasLoaded(this.staffEmails);
+
   @override
   String toString() {
-    return '''$runtimeType: Total(${staffEmails.length})''';
+    return '''$runtimeType: Total(${staffEmails?.length})''';
   }
 
   @override

@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'base_server_user.dart';
 
 abstract class BaseAuthRepository<U extends BaseServerUser> {
-  U? currentUser;
-  void setCurrentUser(U user);
-
-  Stream<bool> get hasLoggedInUser;
+  Stream<U?> get hasLoggedInUser;
 
   Future<Result<VoidValue, BasicError>> onInit();
 
@@ -18,7 +15,7 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
     required ThemeMode themeModePreference,
     required Locale localePreference,
   });
-  Future<Result<U, BasicError>> login({
+  Future<Result<VoidValue, BasicError>> login({
     required String email,
     required String password,
   });

@@ -8,7 +8,6 @@ class RefreshAccessTokenEndpointResult extends ApiEndpointResult {
   factory RefreshAccessTokenEndpointResult.fromMap(
     Map<String, dynamic> map,
   ) {
-    print(map);
     return RefreshAccessTokenEndpointResult(
       authTokens: AuthTokens.fromMap(map),
     );

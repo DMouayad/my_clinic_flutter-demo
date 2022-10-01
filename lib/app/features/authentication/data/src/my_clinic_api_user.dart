@@ -73,19 +73,6 @@ class MyClinicApiUser implements BaseServerUser {
     );
   }
 
-  factory MyClinicApiUser.fromStaffEmailMap(
-      Map<String, dynamic> map, String role) {
-    return MyClinicApiUser(
-      id: map['id'],
-      name: map['name'],
-      phoneNumber: map['phoneNumber'],
-      email: map['email'],
-      createdAt: DateTime.parse(map['created_at']),
-      role: UserRole.values.byName(role),
-      emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
-    );
-  }
-
   factory MyClinicApiUser.fromApiResponse(ApiResponseUserData data) {
     return MyClinicApiUser(
       id: data.id,

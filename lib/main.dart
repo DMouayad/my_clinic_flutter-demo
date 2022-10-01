@@ -25,13 +25,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
   await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(660, 700));
+  await windowManager.setMinimumSize(const Size(500, 700));
 
   // AuthTokensServiceProvider.instance.service.deleteRefreshToken();
   // AuthTokensServiceProvider.instance.service.deleteAccessToken();
 
   // states that Logger is working
-  Log.i("Logger is working");
+  Log.v("Logger started | ${DateTime.now()}");
+  Log.v("App is running on ${Platform.operatingSystemVersion}");
+
   runApp(
     ClinicApp(
       PreferencesCubit(),
@@ -39,7 +41,7 @@ void main() async {
         MyClinicApiAuthRepository(
           authTokensService: AuthTokensServiceProvider.instance.service,
         ),
-      ),
+      )..add(const AuthInitRequested()),
     ),
   );
   // doWhenWindowReady(() {
@@ -91,29 +93,30 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PreferencesCubit, PreferencesState>(
-        builder: (context, state) {
-      return fluent_ui.FluentApp(
-        title: 'Clinic',
-        debugShowCheckedModeBanner: false,
-        navigatorKey: navigatorKey,
-        theme: FluentAppThemes.lightTheme,
-        darkTheme: FluentAppThemes.defaultDarkTheme,
-        themeMode: (state is PreferencesStateWithData)
-            ? state.themeMode
-            : ThemeMode.system,
-        home: home,
-        builder: appBuilder,
-        initialRoute: AppRoutes.startupScreen,
-        locale: (state is PreferencesStateWithData) ? state.locale : null,
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        localeListResolutionCallback: localeResolutionCallBack,
-        localizationsDelegates: const [
-          ...AppLocalizations.localizationsDelegates,
-          fluent_ui.DefaultFluentLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-      );
-    });
+      builder: (context, state) {
+        return fluent_ui.FluentApp(
+          title: 'Clinic',
+          debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey,
+          theme: FluentAppThemes.lightTheme,
+          darkTheme: FluentAppThemes.defaultDarkTheme,
+          themeMode: (state is PreferencesStateWithData)
+              ? state.themeMode
+              : ThemeMode.system,
+          home: home,
+          builder: appBuilder,
+          initialRoute: AppRoutes.startupScreen,
+          locale: (state is PreferencesStateWithData) ? state.locale : null,
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          localeListResolutionCallback: localeResolutionCallBack,
+          localizationsDelegates: const [
+            ...AppLocalizations.localizationsDelegates,
+            // fluent_ui.Deleg,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+        );
+      },
+    );
   }
 }
 
@@ -177,9 +180,11 @@ mixin _ClinicAppHelper {
   }
 }
 
-/// Listens to auth state changes and redirect user according to it
+/// Listens to auth state changes and redirect user according to it.
 ///
-/// Uses a global key to access the app navigator.
+/// Also provides [PreferencesCubit] with current user.
+///
+/// Uses [ClinicApp.navigatorKey] to access the app navigator.
 class _AuthBlocListener extends StatelessWidget {
   const _AuthBlocListener(
     this.child, {
@@ -195,6 +200,8 @@ class _AuthBlocListener extends StatelessWidget {
           context
               .read<PreferencesCubit>()
               .provideUserPreferences(state.currentUser.preferences);
+
+          await Future.delayed(const Duration(seconds: 1));
           if (state.currentUser.role == UserRole.admin) {
             ClinicApp.navigatorKey.currentState
                 ?.popAndPushNamed(AppRoutes.adminPanelScreen);
@@ -206,6 +213,10 @@ class _AuthBlocListener extends StatelessWidget {
             //TODO:: Navigate to secretary preferences setup
           }
         } else if (state is AuthHasNoLoggedInUser) {
+          context.read<PreferencesCubit>().provideDefaultPreferences(
+                context.themeMode,
+                context.locale,
+              );
           ClinicApp.navigatorKey.currentState
               ?.popAndPushNamed(AppRoutes.loginScreen);
         }

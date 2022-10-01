@@ -28,7 +28,7 @@ class AdaptiveSwitchTile extends StatelessWidget {
   }
 
   Widget windowsBuilder(BuildContext context) {
-    return WindowsSettingTile(
+    return WindowsTile(
       tileLabel: label,
       leadingIcon: icon,
       titleText: description,

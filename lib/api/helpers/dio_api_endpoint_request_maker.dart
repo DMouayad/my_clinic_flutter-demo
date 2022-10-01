@@ -22,7 +22,7 @@ class DioApiEndpointRequestMaker<T extends ApiEndpointResult>
   Future<Result<T, BasicError>> makeRequest(ApiEndpoint apiEndpoint) async {
     if (apiEndpoint.includeAccessToken) {
       final tokenResult = await _authTokensService.getValidAccessToken();
-      return await tokenResult.flatMapSuccessAsync<T>((token) async {
+      return await tokenResult.flatMapSuccessAsync((token) async {
         return await _performRequest(apiEndpoint, token);
       });
     } else {
@@ -35,25 +35,29 @@ class DioApiEndpointRequestMaker<T extends ApiEndpointResult>
     String? accessToken,
   ]) async {
     try {
+      Log.logApiEndpointRequest(apiEndpoint);
       final response = await performDioRequest(
         apiEndpoint: apiEndpoint,
         accessToken: accessToken,
       );
-
-      Log.logDioApiEndpointRequest(apiEndpoint, response);
-
+      Log.logDioResponse(response);
       if (response.isSuccess) {
+        if (T is EmptyApiEndpointResult) {
+          return SuccessResult.voidResult();
+        }
         return SuccessResult(ApiEndpointResult.fromJson<T>(response.data));
       }
 
-      return FailureResult(ApiResponseError.fromMap(response.data));
+      return FailureResult(ApiResponseError.fromResponse(response.data));
     } on SocketException {
       return FailureResult.fromErrorException(
         const ErrorException.noConnectionFound(),
       );
     } on DioError catch (e) {
+      Log.e(e);
       return FailureResult.fromDioError(e);
     } on Exception catch (e) {
+      Log.e(e);
       return FailureResult.fromException(e);
     }
   }

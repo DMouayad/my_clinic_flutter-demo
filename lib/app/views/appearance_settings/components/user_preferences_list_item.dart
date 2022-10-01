@@ -26,12 +26,12 @@ class UserPreferencesListItem extends StatelessWidget {
 
   Widget? windowsBuilder(BuildContext context) {
     if (!context.isMobile || !context.isPortraitTablet) {
-      return fluent_ui.TappableListTile(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 1.0,
-        ),
-        onTap: () {
+      return fluent_ui.ListTile(
+        // contentPadding: const EdgeInsets.symmetric(
+        //   horizontal: 12.0,
+        //   vertical: 1.0,
+        // ),
+        onPressed: () {
           if (itemData.onSelected != null) itemData.onSelected!(index);
         },
         tileColor: fluent_ui.ButtonState.resolveWith(

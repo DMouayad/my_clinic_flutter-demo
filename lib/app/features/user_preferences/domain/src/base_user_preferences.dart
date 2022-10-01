@@ -2,14 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 abstract class BaseUserPreferences extends Equatable {
-  final int id;
-  final int userId;
+  final int? id;
+  final int? userId;
   final ThemeMode themePreference;
   final Locale localePreference;
 
   const BaseUserPreferences({
-    required this.id,
-    required this.userId,
+    this.id,
+    this.userId,
     required this.localePreference,
     required this.themePreference,
   });

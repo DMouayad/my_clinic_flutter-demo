@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class AdaptiveListTile extends StatelessWidget {
   const AdaptiveListTile({
     this.tileColor,
-    this.shape,
+    this.shape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+    ),
     this.leading,
     this.title,
     this.subtitle,
@@ -18,7 +20,7 @@ class AdaptiveListTile extends StatelessWidget {
 
   final Color? tileColor;
 
-  final ShapeBorder? shape;
+  final ShapeBorder shape;
 
   final Widget? leading;
   final Widget? title;
@@ -39,9 +41,9 @@ class AdaptiveListTile extends StatelessWidget {
               title: title,
               trailing: trailing,
               subtitle: subtitle,
-              isThreeLine: isThreeLine,
-              tileColor: tileColor,
-              contentPadding: contentPadding,
+              // isThreeLine: isThreeLine,
+              // tileColor: tileColor,
+              // pad: contentPadding,
             ),
           )
         : Material(

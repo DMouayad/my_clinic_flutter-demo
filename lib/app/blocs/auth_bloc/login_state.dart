@@ -9,16 +9,21 @@ class LoginErrorState extends AuthErrorState {
 }
 
 class LoginEmailNotFound extends LoginErrorState {
-  const LoginEmailNotFound()
+  LoginEmailNotFound()
       : super(
-          const BasicError(exception: ErrorException.invalidEmailCredential()),
+          BasicError(exception: const ErrorException.invalidEmailCredential()),
         );
 }
 
 class LoginPasswordIsIncorrect extends LoginErrorState {
-  const LoginPasswordIsIncorrect()
+  LoginPasswordIsIncorrect()
       : super(
-          const BasicError(
-              exception: ErrorException.invalidPasswordCredential()),
+          BasicError(
+            exception: const ErrorException.invalidPasswordCredential(),
+          ),
         );
+}
+
+class LoginSuccess extends AuthState {
+  const LoginSuccess();
 }

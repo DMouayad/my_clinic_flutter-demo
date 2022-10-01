@@ -1,61 +1,102 @@
-import 'package:flutter/material.dart';
-//
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
-import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+//
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 
-class WindowsCustomDialog extends StatelessWidget {
+class WindowsCustomDialog extends CustomStatelessWidget {
   const WindowsCustomDialog({
-    required this.titleText,
+    this.titleText,
+    this.title,
     this.contentText,
-    this.actions = const [],
+    this.actions,
     this.withOkOptionButton = false,
     this.content,
+    this.titleTextColor,
+    this.constraintsBuilder,
     Key? key,
   }) : super(key: key);
-  final String titleText;
+
+  final String? titleText;
+  final Widget? title;
   final String? contentText;
   final Widget? content;
-  final List<Widget> actions;
+  final List<Widget>? actions;
   final bool withOkOptionButton;
+  final Color? titleTextColor;
+  final BoxConstraints? Function(WidgetInfo widgetInfo)? constraintsBuilder;
 
   @override
-  Widget build(BuildContext context) {
+  Widget customBuild(BuildContext context, widgetInfo) {
     return fluent_ui.ContentDialog(
-      title: Text(
-        titleText,
-        style: context.fluentTextTheme.title?.copyWith(
-          color: context.colorScheme.errorColor,
-        ),
-      ),
-      content: () {
-        return content ??
-            ((contentText != null)
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      contentText!,
-                      style: context.textTheme.subtitle1?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: context.colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                  )
-                : null);
+      constraints: () {
+        const defaultConstraints = BoxConstraints(maxWidth: 368);
+        if (constraintsBuilder != null) {
+          return constraintsBuilder!(widgetInfo) ?? defaultConstraints;
+        }
+        return defaultConstraints;
       }(),
-      actions: [
-        if (withOkOptionButton)
-          fluent_ui.FilledButton(
-              child: Text(
-                context.localizations!.ok,
-                style: context.fluentTextTheme.bodyLarge?.copyWith(
-                  color: context.colorScheme.onPrimary,
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        ...actions,
-      ],
+      title: _getTitle(context),
+      content: _getContent(context),
+      actions: _getActions(context),
     );
   }
+
+  Widget? _getTitle(BuildContext context) {
+    return title ??
+        (titleText != null
+            ? Text(
+                titleText!,
+                style: context.fluentTextTheme.title?.copyWith(
+                  color:
+                      titleTextColor ?? context.colorScheme.onPrimaryContainer,
+                ),
+              )
+            : null);
+  }
+
+  Widget? _getContent(BuildContext context) {
+    return fluent_ui.Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: content ??
+          ((contentText != null)
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    contentText!,
+                    style: context.textTheme.subtitle1?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: context.colorScheme.onPrimaryContainer,
+                    ),
+                  ),
+                )
+              : null),
+    );
+  }
+
+  List<Widget>? _getActions(BuildContext context) {
+    List<Widget>? actionsButtons;
+    if (withOkOptionButton) {
+      actionsButtons = [];
+      actionsButtons.add(
+        fluent_ui.FilledButton(
+          child: Text(
+            context.localizations!.ok,
+            style: context.fluentTextTheme.bodyLarge?.copyWith(
+              color: context.colorScheme.onPrimary,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      );
+    }
+
+    if (actions != null) {
+      actionsButtons ??= [];
+      actionsButtons.addAll(actions!);
+    }
+    return actionsButtons;
+  }
 }
+/*
+*
+*
+*/

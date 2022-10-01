@@ -14,11 +14,13 @@ class ErrorException extends Equatable {
   String? getMessage(BuildContext context) => null;
 
   const factory ErrorException.noConnectionFound() = NoConnectionFoundException;
+  const factory ErrorException.noAccessTokenFound() =
+      NoAccessTokenFoundException;
   const factory ErrorException.cannotConnectToServer() =
       CannotConnectToServerException;
   const factory ErrorException.userUnauthorized() = _UserUnauthorizedException;
   const factory ErrorException.noRefreshTokenFound() =
-      _NoRefreshTokenFoundException;
+      NoRefreshTokenFoundException;
   const factory ErrorException.emailAlreadyRegistered() =
       EmailAlreadyRegisteredException;
   const factory ErrorException.invalidEmailCredential() =
@@ -91,6 +93,10 @@ class ErrorException extends Equatable {
   List<Object?> get props => [name];
 }
 
+class NoAccessTokenFoundException extends ErrorException {
+  const NoAccessTokenFoundException() : super('NoAccessTokenFound');
+}
+
 class NoConnectionFoundException extends ErrorException {
   const NoConnectionFoundException() : super('NoInternetConnectionFound');
   @override
@@ -115,8 +121,8 @@ class _UserUnauthorizedException extends ErrorException {
   }
 }
 
-class _NoRefreshTokenFoundException extends ErrorException {
-  const _NoRefreshTokenFoundException() : super('NoRefreshTokenFound');
+class NoRefreshTokenFoundException extends ErrorException {
+  const NoRefreshTokenFoundException() : super('NoRefreshTokenFound');
 }
 
 class EmailAlreadyRegisteredException extends ErrorException {
@@ -166,6 +172,6 @@ class FailedToRefreshAuthTokensException extends ErrorException {
       : super('FailedToRefreshAuthTokens');
   @override
   String getMessage(BuildContext context) {
-    return context.localizations!.failedToRefreshTokens;
+    return context.localizations!.failedToAuthenticateUser;
   }
 }

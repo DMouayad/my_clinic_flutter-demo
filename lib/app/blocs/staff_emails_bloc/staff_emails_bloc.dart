@@ -14,21 +14,20 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
   final BaseStaffEmailRepository _repository;
 
   StaffEmailsBloc(this._repository) : super(StaffEmailsInitial()) {
+    _repository.staffEmails.listen((list) => add(StaffEmailsWereUpdated(list)));
+
+    on<StaffEmailsWereUpdated>((event, emit) {
+      emit(StaffEmailWasLoaded(event.staffEmails));
+    });
+
     on<FetchStaffEmails>((event, emit) async {
       if (state is! LoadingStaffEmails) {
         emit(LoadingStaffEmails());
       }
-      emit(await _loadStaffEmails());
+      (await _repository.getStaffEmails()).fold(
+        ifFailure: (error) => emit(StaffEmailErrorState(error)),
+      );
     });
-  }
-
-  Future<StaffEmailsState> _loadStaffEmails() async {
-    return (await _repository.getStaffEmails()).mapTo(
-      onSuccess: (result) {
-        return StaffEmailWasLoaded(_repository.staffEmails!);
-      },
-      onFailure: (error) => StaffEmailErrorState(error),
-    );
   }
 
   @override

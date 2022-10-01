@@ -11,8 +11,7 @@ class FetchUserEndpointResult extends ApiEndpointResult {
 
   factory FetchUserEndpointResult.fromMap(Map<String, dynamic> map) {
     return FetchUserEndpointResult(
-      userWithRoleAndPrefs:
-          ApiResponseUserData.fromMap(map['user'] as Map<String, dynamic>),
+      userWithRoleAndPrefs: ApiResponseUserData.fromMap(map),
     );
   }
 }

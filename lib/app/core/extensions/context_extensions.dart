@@ -92,6 +92,17 @@ extension ContextLocaleExtension on BuildContext {
   bool get isRTL => isArabicLocale;
   bool get isLTR => isEnglishLocale;
   Locale get locale => Localizations.localeOf(this);
+  String getLocaleFullName(Locale locale) {
+    switch (locale.languageCode) {
+      case 'ar':
+        return localizations!.arabic;
+      case 'en':
+        return localizations!.english;
+      default:
+        throw UnimplementedError();
+    }
+  }
+
   AppLocalizations? get localizations => AppLocalizations.of(this);
 }
 

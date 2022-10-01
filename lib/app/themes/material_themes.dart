@@ -70,6 +70,7 @@ class MaterialAppThemes {
       ),
       labelColor: Color(0xFFd4d5d6),
     ),
+
     // default Text Theme //
     textTheme: const TextTheme(
       headline4: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),

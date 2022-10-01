@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/features/staff_email/data/staff_email_data.dart';
@@ -10,6 +11,9 @@ class AdminPanelPage extends AppPage {
   AdminPanelPage()
       : super(
           routeSettings: const RouteSettings(name: AppRoutes.startupScreen),
+          pageTransitions: const RouteTransitionBuilder(
+            windows: RouteTransitionType.desktopEntrance,
+          ),
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
               //TODO: create mobile admin panel screen

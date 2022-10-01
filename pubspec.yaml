@@ -19,7 +19,7 @@ dependencies:
   dot_navigation_bar: null
   equatable: null
   expansion_tile_card: ^2.0.0
-  fluent_ui: ^3.11.0
+  fluent_ui: ^4.0.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
@@ -35,7 +35,6 @@ dependencies:
   syncfusion_flutter_calendar: ^20.1.50
   url_launcher: ^6.0.9
   window_manager: ^0.2.1 
-  connectivity_plus: ^2.3.7
   dio: ^4.0.6
   flutter_secure_storage: ^6.0.0
   drift: ^2.1.0

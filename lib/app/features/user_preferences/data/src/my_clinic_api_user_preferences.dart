@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 class MyClinicApiUserPreferences extends BaseUserPreferences {
   const MyClinicApiUserPreferences({
-    required int id,
-    required int userId,
+    int? id,
+    int? userId,
     required ThemeMode themePreference,
     required Locale localePreference,
   }) : super(
@@ -35,8 +35,8 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
 
   factory MyClinicApiUserPreferences.fromMap(Map<String, dynamic> map) {
     return MyClinicApiUserPreferences(
-      id: map['id'],
-      userId: map['user_id'],
+      id: map.get('id'),
+      userId: map.get('user_id'),
       themePreference: ThemeMode.values.byName(map.get('theme')),
       localePreference: Locale(map.get('locale')),
     );

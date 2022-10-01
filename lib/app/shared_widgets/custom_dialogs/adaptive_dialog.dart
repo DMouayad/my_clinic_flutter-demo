@@ -6,24 +6,29 @@ import 'windows_custom_dialog.dart';
 
 class AdaptiveDialog extends StatelessWidget {
   const AdaptiveDialog({
-    required this.titleText,
+    this.title,
+    this.titleText,
     this.contentText,
-    this.actions = const [],
+    this.actions,
     this.withOkOptionButton = false,
     this.content,
+    this.titleTextColor,
     Key? key,
   }) : super(key: key);
 
-  final String titleText;
+  final String? titleText;
+  final Widget? title;
   final String? contentText;
   final Widget? content;
-  final List<Widget> actions;
+  final List<Widget>? actions;
   final bool withOkOptionButton;
-
+  final Color? titleTextColor;
   @override
   Widget build(BuildContext context) {
     if (context.isWindowsPlatform) {
       return WindowsCustomDialog(
+        title: title,
+        titleTextColor: titleTextColor,
         titleText: titleText,
         contentText: contentText,
         content: content,

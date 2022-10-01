@@ -1,6 +1,7 @@
 import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
 import 'package:flutter/services.dart';
+// import 'package:intl/intl.dart';
 
 class InputTextField extends CustomStatelessWidget {
   final String? initialValue;
@@ -28,7 +29,7 @@ class InputTextField extends CustomStatelessWidget {
   final int? maxLength;
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
-
+  final TextDirection? textDirection;
   const InputTextField({
     Key? key,
     this.hintText,
@@ -45,6 +46,7 @@ class InputTextField extends CustomStatelessWidget {
     this.onEditingComplete,
     this.filled = true,
     this.fillColor,
+    this.textDirection,
     this.hoverColor,
     this.textStyle,
     this.hintTextStyle,
@@ -74,6 +76,7 @@ class InputTextField extends CustomStatelessWidget {
       child: SizedBox(
         width: widgetInfo.widgetSize.width * .8,
         child: TextFormField(
+          textDirection: textDirection,
           maxLength: maxLength,
           controller: controller,
           key: formKey,

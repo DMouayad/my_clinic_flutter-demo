@@ -8,7 +8,7 @@ import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
 
 class ApiResponseError extends BasicError {
-  const ApiResponseError({
+  ApiResponseError({
     String? message,
     String? description,
     ErrorException? errorException,
@@ -18,26 +18,26 @@ class ApiResponseError extends BasicError {
           exception: errorException,
         );
 
-  static ApiResponseError fromMap(Map<String, dynamic> map) {
-    final errorMap = map['error'] as Map<String, dynamic>?;
-    final apiExceptionClass = errorMap?['exception'] as String?;
-    ErrorException? errorException;
+  static ApiResponseError fromResponse(dynamic response) {
+    if (response is Map<String, dynamic>) {
+      final errorMap = response.get('error') as Map<String, dynamic>?;
+      final apiExceptionClass = errorMap?['exception'] as String?;
+      ErrorException? errorException;
 
-    if (apiExceptionClass != null) {
-      errorException = ErrorException.fromApiException(
-        ApiExceptionClass.values.firstWhere((c) => c.name == apiExceptionClass),
+      if (apiExceptionClass != null) {
+        errorException = ErrorException.fromApiException(
+          ApiExceptionClass.values
+              .firstWhere((c) => c.name == apiExceptionClass),
+        );
+      } else if (response.get('status') == HttpStatus.unauthorized) {
+        errorException = const ErrorException.userUnauthorized();
+      }
+      return ApiResponseError(
+        message: errorMap?.get('message') ?? response.get('message'),
+        errorException: errorException,
+        description: errorMap?.get('description'),
       );
-    } else if (map['status'] == HttpStatus.unauthorized) {
-      errorException = const ErrorException.userUnauthorized();
     }
-    return ApiResponseError(
-      message: errorMap?.get('message') ?? map.get('message'),
-      errorException: errorException,
-      description: errorMap?.get('description'),
-    );
-  }
-
-  factory ApiResponseError.fromJson(String json) {
-    return fromMap(jsonDecode(json));
+    return ApiResponseError(message: 'Unexpected error');
   }
 }

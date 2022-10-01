@@ -1,6 +1,7 @@
 import 'package:clinic_v2/api/endpoints_results/api_endpoint_result.dart';
 import 'package:clinic_v2/api/helpers/base_api_endpoint_request_maker.dart';
 import 'package:clinic_v2/api/helpers/dio_api_endpoint_request_maker.dart';
+import 'package:clinic_v2/api/utils/api_keys.dart';
 import 'package:clinic_v2/api/utils/enums.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/services/auth_tokens/auth_tokens_service_provider.dart';
@@ -23,6 +24,8 @@ abstract class ApiEndpoint<T extends ApiEndpointResult> {
     this.data,
     this.headers,
   });
+
+  String get fullUrl => ApiKeys.baseUrl + url;
 
   BaseApiEndpointRequestMaker<T> get _requestMaker =>
       DioApiEndpointRequestMaker(AuthTokensServiceProvider.instance.service);

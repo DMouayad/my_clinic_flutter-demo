@@ -20,7 +20,9 @@ class WindowsToggleSwitch extends StatelessWidget {
         checked
             ? context.localizations!.enabled
             : context.localizations!.disabled,
-        style: context.textTheme.bodyText2,
+        style: context.textTheme.bodyText2?.copyWith(
+          color: context.colorScheme.onBackground,
+        ),
       ),
       style: _getSwitchStyle(context),
       checked: checked,
@@ -45,7 +47,6 @@ class WindowsToggleSwitch extends StatelessWidget {
               ? states.isHovering
                   ? context.colorScheme.secondary
                   : context.colorScheme.primary
-              //  ButtonThemeData.checkedInputColor(style, states)
               : style.brightness.isLight
                   ? const Color.fromRGBO(0, 0, 0, 0.2169)
                   : const Color.fromRGBO(255, 255, 255, 0.1581),
@@ -63,7 +64,6 @@ class WindowsToggleSwitch extends StatelessWidget {
                       ? context.colorScheme.secondaryContainer
                       : context.darkColorScheme.primary
                   : Colors.transparent
-              // ? ButtonThemeData.uncheckedInputColor(style, states)
               : Colors.transparent,
           border: Border.all(
             width: 1,

@@ -12,10 +12,12 @@ class BlocAppSettingsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppSettingsBar(
-      onLocaleChanged: (Locale locale) {},
-      // context.read<PreferencesCubit>().provideLocale(locale),
-      onThemeModeChanged: (ThemeMode themeMode) {},
-      // context.read<PreferencesCubit>().provideThemeMode(themeMode),
+      onLocaleChanged: (Locale locale) {
+        context.read<PreferencesCubit>().updateAppLocale(locale);
+      },
+      onThemeModeChanged: (ThemeMode themeMode) {
+        context.read<PreferencesCubit>().updateAppTheme(themeMode);
+      },
     );
   }
 }

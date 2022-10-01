@@ -44,7 +44,7 @@ class _ThemeSettingsSwitchState extends State<AdaptiveThemeSwitch>
             label: context.localizations!.appearance,
             description: context.localizations!.enableDarkTheme,
             icon: _animatedThemeIcon(context),
-            onChanged: (_) => _onThemeModeChanged,
+            onChanged: (_) => _onThemeModeChanged(),
           )
         : CustomIconButton(
             icon: _animatedThemeIcon(context),

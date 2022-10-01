@@ -4,33 +4,24 @@ import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import '../windows_components/windows_settings_tile.dart';
 import 'utils.dart';
 
-class WindowsTileWithDropdownMenu extends BaseDropdownMenu {
+class WindowsTileWithDropdownMenu<T> extends BaseDropdownMenu<T> {
   const WindowsTileWithDropdownMenu({
     required this.labelText,
-    required String title,
-    required List<CustomDropdownMenuItem> items,
-    required void Function(CustomDropdownMenuItem item) onChanged,
-    String? tooltipMessage,
-    this.selectedItem,
-    Widget? leading,
-    IconData? leadingIconData,
-    Key? key,
-  }) : super(
-          key: key,
-          title: title,
-          items: items,
-          onChanged: onChanged,
-          tooltipMessage: tooltipMessage,
-          leading: leading,
-          leadingIconData: leadingIconData,
-        );
+    required super.selectedValue,
+    required super.items,
+    super.leading,
+    super.leadingIconData,
+    required super.onChanged,
+    required super.title,
+    super.tooltipMessage,
+    super.key,
+  });
 
   final String labelText;
-  final CustomDropdownMenuItem? selectedItem;
 
   @override
   Widget build(BuildContext context) {
-    return WindowsSettingTile(
+    return WindowsTile(
       tileLabel: labelText,
       leadingIcon: Icon(
         leadingIconData,
@@ -41,32 +32,29 @@ class WindowsTileWithDropdownMenu extends BaseDropdownMenu {
         width: 300,
         child: FluentTheme(
           data: context.fluentTheme.copyWith(
-            buttonTheme: ButtonThemeData.all(
-              ButtonStyle(backgroundColor: ButtonState.resolveWith((states) {
-                if (states.isHovering) {
-                  return context.colorScheme.secondary;
-                }
-              })),
+            checkboxTheme: CheckboxThemeData(
+              uncheckedDecoration: ButtonState.all(
+                BoxDecoration(color: Colors.red),
+              ),
             ),
           ),
-          child: Combobox<CustomDropdownMenuItem>(
-            itemHeight: 52,
-            comboboxColor: context.colorScheme.secondary,
-            // icon: Icon( FluentIcons.),
-            // focusColor: context.colorScheme.secondary,
-            onChanged: (selectedValue) {
-              if (selectedValue != selectedItem && selectedValue != null) {
-                onChanged(selectedValue);
+          child: ComboBox<CustomDropdownMenuItem<T>>(
+            popupColor: context.colorScheme.primary,
+            value: items.firstWhere((e) => e.value == selectedValue),
+            onChanged: (selected) {
+              if (selected?.value != null && selected?.value != selectedValue) {
+                onChanged(selected!);
               }
             },
-            value: selectedItem,
             isExpanded: true,
             items: items
-                .map((item) => ComboboxItem(
+                .map((item) => ComboBoxItem(
                       value: item,
                       child: Text(
                         item.text,
-                        style: context.textTheme.labelLarge,
+                        style: context.textTheme.labelLarge?.copyWith(
+                          color: context.colorScheme.onBackground,
+                        ),
                       ),
                     ))
                 .toList(),

@@ -5,19 +5,15 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'utils.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
-class WindowsDropdownMenu extends BaseDropdownMenu {
+class WindowsDropdownMenu<T> extends BaseDropdownMenu<T> {
   const WindowsDropdownMenu({
-    required String title,
-    required List<CustomDropdownMenuItem> items,
-    required void Function(CustomDropdownMenuItem item) onChanged,
-    String? tooltipMessage,
-    Key? key,
+    required super.title,
+    required super.items,
+    required super.onChanged,
+    super.tooltipMessage,
+    required super.selectedValue,
+    super.key,
   }) : super(
-          key: key,
-          title: title,
-          items: items,
-          onChanged: onChanged,
-          tooltipMessage: tooltipMessage,
           leadingIconData: null,
           leading: null,
         );

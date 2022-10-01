@@ -1,6 +1,5 @@
 import 'package:clinic_v2/app/core/entities/auth_tokens.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/core/helpers/device_id_helper.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
 
 import 'refresh_tokens_service.dart';
@@ -51,24 +50,31 @@ abstract class BaseAuthTokensService {
 
   Future<Result<String, BasicError>> getValidAccessToken() async {
     final accessToken = await getAccessToken();
-
-    // return the access token if was found and isn't expired
-    if (accessToken != null && !accessToken.isExpired) {
-      Log.i('The user has a valid access token');
-      return SuccessResult(accessToken.token);
-    } else {
-      Log.i("User's access token has expired, refreshing...");
-      final refreshToken = await getRefreshToken();
-      // if a refresh token found => request to refresh auth tokens
-      if (refreshToken != null) {
-        return (await refreshAuthTokens(refreshToken)).mapSuccess(
-          (result) => result.accessToken.token,
-        );
+    if (accessToken != null) {
+      // return the access token if was not expired
+      if (!accessToken.isExpired) {
+        Log.i(
+            'A valid access token was found\nExpires at ${accessToken.expiresAt}');
+        return SuccessResult(accessToken.token);
       } else {
-        return FailureResult.fromErrorException(
-          const ErrorException.noRefreshTokenFound(),
-        );
+        Log.i("An expired access token was found, trying to refresh it...");
+        final refreshToken = await getRefreshToken();
+
+        // if a refresh token found => request to refresh auth tokens
+        if (refreshToken != null) {
+          return (await refreshAuthTokens(refreshToken)).mapSuccess(
+            (result) => result.accessToken.token,
+          );
+        } else {
+          return FailureResult.fromErrorException(
+            const ErrorException.noRefreshTokenFound(),
+          );
+        }
       }
+    } else {
+      return FailureResult.fromErrorException(
+        ErrorException.noAccessTokenFound(),
+      );
     }
   }
 
@@ -87,7 +93,7 @@ abstract class BaseAuthTokensService {
 class TokenNotFoundError extends BasicError {
   final String tokenKey;
 
-  const TokenNotFoundError(this.tokenKey);
+  TokenNotFoundError(this.tokenKey);
 
   @override
   String toString() {

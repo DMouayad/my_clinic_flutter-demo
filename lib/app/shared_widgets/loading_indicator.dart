@@ -37,11 +37,12 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
     animController = AnimationController(
         duration: Duration(seconds: widget.secondsPerRotation), vsync: this)
       ..repeat();
-    animation =
-        StepTween(begin: 0, end: widget.numDots + 1).animate(animController)
-          ..addListener(() {
-            setState(() {});
-          });
+    animation = StepTween(begin: 0, end: widget.numDots + 1)
+        .chain(CurveTween(curve: Curves.easeOutCubic))
+        .animate(animController)
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
   @override
@@ -52,21 +53,27 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size,
-      height: widget.size,
-      // decoration: BoxDecoration(color: Colors.red), //for debugging purposes
-      child: CustomPaint(
-        child: Container(),
-        painter: DottedCircularProgressIndicatorPainterFb(
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: ConstrainedBox(
+        constraints: BoxConstraints.tightFor(
+          width: widget.size,
+          height: widget.size,
+        ),
+        child: CustomPaint(
+          painter: DottedCircularProgressIndicatorPainterFb(
             dotColor: widget.defaultDotColor ??
-                context.colorScheme.onPrimaryContainer!,
+                (context.isDarkMode
+                    ? Colors.white10
+                    : context.colorScheme.secondaryContainer)!,
             currentDotColor:
                 widget.currentDotColor ?? context.colorScheme.secondary!,
             percentage: 0,
             numDots: widget.numDots,
             currentDotNum: animation.value,
-            dotWidth: widget.dotSize),
+            dotWidth: widget.dotSize,
+          ),
+        ),
       ),
     );
   }
@@ -102,13 +109,17 @@ class DottedCircularProgressIndicatorPainterFb extends CustomPainter {
     for (var i = 0; i < numDots; i++) {
       if (i == currentDotNum) {
         dotPaint.color = currentDotColor;
+        canvas.drawCircle(
+            centerPoint - myCircle.calcDotOffsetFromCenter(i, radius),
+            dotWidth * 1.5,
+            dotPaint);
       } else {
         dotPaint.color = dotColor;
+        canvas.drawCircle(
+            centerPoint - myCircle.calcDotOffsetFromCenter(i, radius),
+            dotWidth * .9,
+            dotPaint);
       }
-      canvas.drawCircle(
-          centerPoint - myCircle.calcDotOffsetFromCenter(i, radius),
-          dotWidth,
-          dotPaint);
     }
   }
 

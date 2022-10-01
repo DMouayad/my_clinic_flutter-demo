@@ -1,23 +1,25 @@
 import 'package:equatable/equatable.dart';
-
+import 'dart:core';
 import 'error_exception.dart';
 
-class BasicError extends Equatable {
+class BasicError extends Error with EquatableMixin {
   final String? message;
   final ErrorException? exception;
   final String? description;
-
-  const BasicError({
+  late final StackTrace st;
+  BasicError({
     this.message,
     this.exception,
     this.description,
-  }) : assert(message != null || exception != null || description != null);
+  }) : assert(message != null || exception != null || description != null) {
+    st = StackTrace.current;
+  }
 
   @override
   String toString() {
     return ''' <$runtimeType>
-                 message: $message 
-                 exception: ${exception?.name} 
+                 message:     $message 
+                 exception:   ${exception?.name} 
                  description: $description ''';
   }
 

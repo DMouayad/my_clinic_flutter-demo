@@ -60,8 +60,8 @@ class _WindowsFilledButton extends StatelessWidget {
   const _WindowsFilledButton({
     required this.label,
     required this.onPressed,
-    this.height,
-    this.width,
+    this.height = 37,
+    this.width = 100,
     this.backgroundColor,
     this.labelColor,
     Key? key,
@@ -80,10 +80,18 @@ class _WindowsFilledButton extends StatelessWidget {
       height: height,
       width: width,
       child: fluent_ui.FilledButton(
-        child: Text(label),
+        child: Center(child: Text(label)),
         onPressed: onPressed,
         style: fluent_ui.ButtonStyle(
-          backgroundColor: fluent_ui.ButtonState.all(backgroundColor),
+          foregroundColor: fluent_ui.ButtonState.resolveWith((states) {
+            return labelColor;
+          }),
+          backgroundColor: fluent_ui.ButtonState.resolveWith((states) {
+            if (states.isHovering) {
+              return backgroundColor?.lerpWith(Colors.black45, .1);
+            }
+            return backgroundColor;
+          }),
           textStyle: fluent_ui.ButtonState.all(
             context.textTheme.titleMedium?.copyWith(
               color: labelColor,
