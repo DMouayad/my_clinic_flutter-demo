@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'dart:io';
 //
-import 'package:clinic_v2/api/endpoints_results/api_endpoint_result.dart';
+import 'package:clinic_v2/api/models/api_endpoint_result.dart';
 import 'package:clinic_v2/api/errors/api_response_error.dart';
 import 'package:clinic_v2/api/helpers/dio_helper.dart';
 import 'package:clinic_v2/api/models/api_endpoint.dart';

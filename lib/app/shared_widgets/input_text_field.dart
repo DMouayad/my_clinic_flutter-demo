@@ -1,9 +1,8 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/app/themes/material_themes.dart';
 import 'package:flutter/services.dart';
-// import 'package:intl/intl.dart';
 
-class InputTextField extends CustomStatelessWidget {
+class InputTextField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final TextEditingController? controller;
@@ -61,7 +60,7 @@ class InputTextField extends CustomStatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
+  Widget build(BuildContext context) {
     final kOutlinedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(context.isDesktopPlatform ? 6 : 14),
       borderSide: BorderSide(
@@ -73,60 +72,55 @@ class InputTextField extends CustomStatelessWidget {
     );
     return Theme(
       data: MaterialAppThemes.of(context),
-      child: SizedBox(
-        width: widgetInfo.widgetSize.width * .8,
-        child: TextFormField(
-          textDirection: textDirection,
-          maxLength: maxLength,
-          controller: controller,
-          key: formKey,
-          initialValue: initialValue,
-          validator: validator,
-          onChanged: onChanged,
-          onSaved: onSaved,
-          obscureText: obscure,
-          cursorColor: cursorColor,
-          keyboardType: keyboardType,
-          onEditingComplete: onEditingComplete,
-          inputFormatters: inputFormatters,
-          textInputAction: textInputAction,
-          style: textStyle ?? context.textTheme.bodyText1,
-          autovalidateMode: autovalidateMode,
-          decoration: InputDecoration(
-            isDense: isDense,
-            filled: filled,
-            fillColor: Colors.transparent,
-            // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
-            // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
-            suffixIcon: suffixIcon,
-            suffixIconColor: suffixIconColor,
-            prefixIcon: Icon(
-              prefixIcon,
-              // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
+      child: TextFormField(
+        textDirection: textDirection,
+        maxLength: maxLength,
+        controller: controller,
+        key: formKey,
+        initialValue: initialValue,
+        validator: validator,
+        onChanged: onChanged,
+        onSaved: onSaved,
+        obscureText: obscure,
+        cursorColor: cursorColor,
+        keyboardType: keyboardType,
+        onEditingComplete: onEditingComplete,
+        inputFormatters: inputFormatters,
+        textInputAction: textInputAction,
+        style: textStyle ?? context.textTheme.bodyText1,
+        autovalidateMode: autovalidateMode,
+        decoration: InputDecoration(
+          isDense: isDense,
+          filled: filled,
+          fillColor: Colors.transparent,
+          // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
+          // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
+          suffixIcon: suffixIcon,
+          suffixIconColor: suffixIconColor,
+          prefixIcon: Icon(
+            prefixIcon,
+            // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
+          ),
+          hintText: hintText,
+          hintStyle: context.textTheme.bodyText1?.copyWith(
+            color: context.colorScheme.onPrimaryContainer?.withOpacity(.7),
+          ),
+          enabledBorder: kOutlinedBorder,
+          focusedBorder: kOutlinedBorder.copyWith(
+            borderSide: BorderSide(
+              width: 1.5,
+              color: context.isDesktopPlatform
+                  ? context.fluentTheme.accentColor.dark
+                  : context.colorScheme.primary!,
             ),
-            hintText: hintText,
-            hintStyle: context.textTheme.bodyText1?.copyWith(
-              color: AppColorScheme.of(context)
-                  .onPrimaryContainer
-                  ?.withOpacity(.7),
-            ),
-            enabledBorder: kOutlinedBorder,
-            focusedBorder: kOutlinedBorder.copyWith(
-              borderSide: BorderSide(
-                width: 1.5,
-                color: context.isDesktopPlatform
-                    ? context.fluentTheme.accentColor.dark
-                    : context.colorScheme.primary!,
-              ),
-            ),
-            errorBorder: kOutlinedBorder.copyWith(
-              borderSide: BorderSide(color: context.colorScheme.errorColor!),
-            ),
-            focusedErrorBorder: kOutlinedBorder,
-            errorStyle: context.textTheme.bodyText2?.copyWith(
-              color: context.colorScheme.errorColor!,
-              fontWeight: FontWeight.w500,
-            ),
+          ),
+          errorBorder: kOutlinedBorder.copyWith(
+            borderSide: BorderSide(color: context.colorScheme.errorColor!),
+          ),
+          focusedErrorBorder: kOutlinedBorder,
+          errorStyle: context.textTheme.bodyText2?.copyWith(
+            color: context.colorScheme.errorColor!,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

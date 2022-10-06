@@ -33,6 +33,8 @@
     "exitSignUpDialogMessage": "جميع المعلومات المدخلة سيتم فقدانها، هل أنت متأكد؟",
 
 
+    "themeModeSettings": "الثيم",
+    "selectThemeMode": "اختر ثيم التطبيق",
     "enableDarkTheme": "تفعيل الوضع الداكن",
     "enableLightTheme": "تفعيل الوضع الفاتح",
     "selectAppLang": "اختر لغة التطبيق",
@@ -87,8 +89,13 @@
     "warning":"تحذير",
     "close": "إغلاق",
 
-    "staffManagement":"إدارة الموظفين",
-    "myAccount":"حسابي الشخصي",
+    "name":"الاسم",
+    "accountsManagement":"إدارة الحسابات",
+    "registeredWithAt":"تم التسجيل به في",
+    "assignedRole":"الدور المعطى",
+    "options":"خيارات",
+    "none": "لا يوجد",
+    "notUsed": "غير مستخدم",
 
     "noInternetConnection": "قم بالتحقق من اتصال الانترنت لديك ثم المحاولة مجدداً",
     "cannotConnectToServer":"لا يمكن الاتصال بالمخدم، الرجاء المحاولة مجدداً",

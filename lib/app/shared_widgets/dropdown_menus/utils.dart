@@ -20,11 +20,13 @@ class CustomDropdownMenuItem<T> {
 abstract class BaseDropdownMenu<T> extends StatelessWidget {
   final List<CustomDropdownMenuItem<T>> items;
   final String title;
-  final String? tooltipMessage;
+  final String tooltipMessage;
+  final String? tileLabel;
   final void Function(CustomDropdownMenuItem<T> item) onChanged;
-  final Widget? leading;
-  final IconData? leadingIconData;
+  // final Widget? leading;
+  final IconData? tileLeadingIconData;
   final T selectedValue;
+  final Size? dropdownSize;
 
   const BaseDropdownMenu({
     required this.title,
@@ -32,8 +34,9 @@ abstract class BaseDropdownMenu<T> extends StatelessWidget {
     required this.items,
     required this.onChanged,
     required this.tooltipMessage,
-    required this.leading,
-    required this.leadingIconData,
+    required this.tileLeadingIconData,
+    this.dropdownSize,
+    this.tileLabel,
     Key? key,
   }) : super(key: key);
 }

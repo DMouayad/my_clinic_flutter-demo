@@ -1,14 +1,14 @@
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-import 'android_dropdown_menu.dart';
-import 'windows_dropdown_menu.dart';
-import 'windows_tile_with_dropdown_menu.dart';
+import 'dropdown_menus/android_dropdown_menu.dart';
+import 'dropdown_menus/windows_dropdown_menu.dart';
+import 'dropdown_menus/windows_tile_with_dropdown_menu.dart';
 
-import '../custom_widget.dart';
-import 'utils.dart';
+import 'dropdown_menus/utils.dart';
 
-class AdaptiveLocaleMenu extends StatelessWidget {
-  const AdaptiveLocaleMenu({
+class AdaptiveLocaleDropdown extends StatelessWidget {
+  const AdaptiveLocaleDropdown({
     required this.onChanged,
     required this.type,
     Key? key,
@@ -23,7 +23,7 @@ class AdaptiveLocaleMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentLocale = context.locale;
-    final title = AppLocalizations.of(context)?.selectAppLang ?? 'App Language';
+    final title = context.localizations?.selectAppLang ?? 'App Language';
     final items = AppLocalizations.supportedLocales
         .map((e) => CustomDropdownMenuItem<Locale>(
               value: e,
@@ -32,13 +32,12 @@ class AdaptiveLocaleMenu extends StatelessWidget {
               leading: const Icon(Icons.language_outlined),
             ))
         .toList();
-    // final selectedItem = CustomDropdownMenuItem(
-    //   text: currentLocale.languageCode,
-    //   selected: true,
-    // );
+    const dropdownSize = Size.fromWidth(150);
+
     return context.isDesktopPlatform
         ? type == DropdownMenuType.menuOnly
             ? WindowsDropdownMenu<Locale>(
+                dropdownSize: dropdownSize,
                 title: context.localizations!.language,
                 items: items,
                 selectedValue: currentLocale,
@@ -48,17 +47,19 @@ class AdaptiveLocaleMenu extends StatelessWidget {
             : WindowsTileWithDropdownMenu<Locale>(
                 title: title,
                 selectedValue: currentLocale,
-                labelText: context.localizations!.language,
+                dropdownSize: dropdownSize,
+                tileLabel: context.localizations!.language,
                 tooltipMessage: context.localizations!.selectAppLang,
                 onChanged: _onLocaleChanged,
-                // selectedItem: items.firstWhere((element) => element.selected),
                 items: items,
-                leadingIconData: FontAwesome5Solid.globe,
+                tileLeadingIconData: FontAwesome5Solid.globe,
               )
-        : AndroidDropdownMenu(
+        : AndroidDropdownMenu<Locale>(
+            dropdownSize: dropdownSize,
             type: type,
+            tooltipMessage: context.localizations!.selectAppLang,
             selectedValue: currentLocale,
-            leading: const Icon(Icons.language_outlined),
+            tileLeadingIconData: Icons.language_outlined,
             title: title,
             items: items,
             onChanged: _onLocaleChanged,

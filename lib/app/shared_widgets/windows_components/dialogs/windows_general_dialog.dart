@@ -32,7 +32,7 @@ Future<T?> showWindowsGeneralDialog<T>({
           children: [
             Text(
               titleText,
-              style: context.fluentTextTheme.title?.copyWith(
+              style: context.fluentTextTheme.subtitle?.copyWith(
                 color: titleTextColor ?? context.colorScheme.onPrimaryContainer,
               ),
             ),
@@ -41,7 +41,7 @@ Future<T?> showWindowsGeneralDialog<T>({
               onPressed: () => Navigator.of(context).pop(),
               icon: Icon(
                 Icons.close,
-                size: 24,
+                size: 22,
                 color: Colors.red.shade400,
               ),
             ),

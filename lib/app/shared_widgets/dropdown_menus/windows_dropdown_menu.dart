@@ -10,12 +10,12 @@ class WindowsDropdownMenu<T> extends BaseDropdownMenu<T> {
     required super.title,
     required super.items,
     required super.onChanged,
-    super.tooltipMessage,
+    required super.tooltipMessage,
     required super.selectedValue,
+    super.dropdownSize,
     super.key,
   }) : super(
-          leadingIconData: null,
-          leading: null,
+          tileLeadingIconData: null,
         );
 
   @override
@@ -35,38 +35,43 @@ class WindowsDropdownMenu<T> extends BaseDropdownMenu<T> {
         ),
       ),
       child: fluent_ui.Tooltip(
-        message: tooltipMessage ?? "options",
-        child: fluent_ui.DropDownButton(
-          menuColor: context.colorScheme.backgroundColor,
-          title: Text(
-            title,
-            style: context.textTheme.titleMedium?.copyWith(
-              color: context.colorScheme.onBackground,
-            ),
+        message: tooltipMessage,
+        child: fluent_ui.ConstrainedBox(
+          constraints: BoxConstraints.loose(
+            dropdownSize ?? Size(context.screenWidth * .3, 66),
           ),
-          items: items
-              .map((item) => fluent_ui.MenuFlyoutItem(
-                    onPressed: () => onChanged(item),
-                    leading: const fluent_ui.Icon(
-                      fluent_ui.FluentIcons.locale_language,
-                    ),
-                    text: Text(
-                      item.text,
-                      style: context.textTheme.labelLarge,
-                    ),
-                    trailing: fluent_ui.Checkbox(
-                      checked: item.selected,
-                      // onChanged:
-                      onChanged: (checked) {
-                        if (checked != item.selected) {
-                          onChanged(item);
-                        }
-                        // close dropdown menu
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ))
-              .toList(),
+          child: fluent_ui.DropDownButton(
+            menuColor: context.colorScheme.backgroundColor,
+            title: Text(
+              title,
+              style: context.textTheme.titleMedium?.copyWith(
+                color: context.colorScheme.onBackground,
+              ),
+            ),
+            items: items
+                .map((item) => fluent_ui.MenuFlyoutItem(
+                      onPressed: () => onChanged(item),
+                      leading: const fluent_ui.Icon(
+                        fluent_ui.FluentIcons.locale_language,
+                      ),
+                      text: Text(
+                        item.text,
+                        style: context.textTheme.labelLarge,
+                      ),
+                      trailing: fluent_ui.Checkbox(
+                        checked: item.selected,
+                        // onChanged:
+                        onChanged: (checked) {
+                          if (checked != item.selected) {
+                            onChanged(item);
+                          }
+                          // close dropdown menuw
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ))
+                .toList(),
+          ),
         ),
       ),
     );

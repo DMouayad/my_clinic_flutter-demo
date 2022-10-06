@@ -12,8 +12,10 @@ class CustomTableRow extends TableRow {
           children: childrenContent
               .map(
                 (e) => e.runtimeType == String
-                    ? Padding(
-                        padding: padding ?? const EdgeInsets.all(10.0),
+                    ? Container(
+                        // alignment: Alignment.c,
+                        padding: padding ??
+                            const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Text(
                           e,
                           style: textStyle,

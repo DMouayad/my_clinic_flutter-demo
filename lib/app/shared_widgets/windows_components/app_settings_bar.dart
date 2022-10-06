@@ -2,7 +2,7 @@ import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../dropdown_menus/adaptive_locale_menu.dart';
+import '../adaptive_locale_menu.dart';
 import '../dropdown_menus/utils.dart';
 import '../adaptive_theme_switch.dart';
 
@@ -47,7 +47,7 @@ class AppSettingsBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AdaptiveLocaleMenu(
+            AdaptiveLocaleDropdown(
               type: DropdownMenuType.menuOnly,
               onChanged: (Locale locale) {
                 onLocaleChanged(locale);

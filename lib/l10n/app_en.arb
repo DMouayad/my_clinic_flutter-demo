@@ -32,6 +32,8 @@
     "exitSignUpDialogTitle": "Exit sign up process",
     "exitSignUpDialogMessage": "all entered info will be lost Are you sure to exit?",
 
+    "themeModeSettings": "Theme mode",
+    "selectThemeMode": "Select app's theme mode",
     "enableDarkTheme": "Enable dark mode",
     "enableLightTheme": "Enable light mode",
     "selectAppLang": "Select app language",
@@ -84,8 +86,13 @@
     "warning": "Warning",
     "close": "Close",
 
-     "staffManagement":"Staff Management",
-     "myAccount":"My Account",
+    "name":"Name",
+    "accountsManagement":"Accounts Management",
+     "registeredWithAt":"Registered with at",
+     "assignedRole":"Assigned role",
+     "options": "Options",
+     "none": "None",
+     "notUsed": "Not used",
 
 
     "cannotConnectToServer":"Cannot connect to server, please try again.",

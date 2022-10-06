@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clinic_v2/app/core/entities/result/basic_error.dart';
+import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/features/staff_email/domain/staff_email_domain.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
@@ -14,10 +15,26 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
   final BaseStaffEmailRepository _repository;
 
   StaffEmailsBloc(this._repository) : super(StaffEmailsInitial()) {
-    _repository.staffEmails.listen((list) => add(StaffEmailsWereUpdated(list)));
+    _repository.staffEmailsStream
+        .listen((list) => add(UpdateStaffEmailsRequested(list)));
 
-    on<StaffEmailsWereUpdated>((event, emit) {
-      emit(StaffEmailWasLoaded(event.staffEmails));
+    on<UpdateStaffEmailsRequested>((event, emit) {
+      if (state is StaffEmailsEventProcessing) {
+        emit(_getRequestedEventSuccessState());
+      }
+      emit(StaffEmailsWereLoaded(event.staffEmails));
+    });
+
+    on<AddStaffEmail>((event, emit) async {
+      if (state is! StaffEmailsEventProcessing) {
+        emit(const AddStaffEmailProcessing());
+      }
+
+      final result = await _repository.addStaffEmail(event.email, event.role);
+
+      if (result.isFailure) {
+        emit(StaffEmailErrorState((result as FailureResult).error));
+      }
     });
 
     on<FetchStaffEmails>((event, emit) async {
@@ -28,6 +45,18 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
         ifFailure: (error) => emit(StaffEmailErrorState(error)),
       );
     });
+  }
+  StaffEmailsState _getRequestedEventSuccessState() {
+    switch (state.runtimeType) {
+      case AddStaffEmailProcessing:
+        return StaffEmailWasAdded();
+      case UpdateStaffEmailProcessing:
+        return StaffEmailWasUpdated();
+      case DeleteStaffEmailProcessing:
+        return StaffEmailWasDeleted();
+      default:
+        throw UnimplementedError();
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 part of staff_email_api_endpoints;
 
-class AddStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+class AddStaffEmailApiEndpoint
+    extends ApiEndpoint<AddStaffEmailEndpointResult> {
   AddStaffEmailApiEndpoint({
     required String email,
     required UserRole role,

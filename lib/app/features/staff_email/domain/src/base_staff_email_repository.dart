@@ -10,7 +10,7 @@ abstract class BaseStaffEmailRepository {
   final StreamController<List<BaseStaffEmail>?> _staffEmailsStreamController =
       StreamController();
 
-  Stream<List<BaseStaffEmail>?> get staffEmails =>
+  Stream<List<BaseStaffEmail>?> get staffEmailsStream =>
       _staffEmailsStreamController.stream;
 
   Future<Result<VoidValue, BasicError>> addStaffEmail(

@@ -7,7 +7,7 @@ import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 
 import 'custom_buttons/custom_icon_button.dart';
-import 'theme_switches/adaptive_switch_tile.dart';
+import 'custom_switches/adaptive_switch_tile.dart';
 
 class AdaptiveThemeSwitch extends StatefulWidget {
   const AdaptiveThemeSwitch({

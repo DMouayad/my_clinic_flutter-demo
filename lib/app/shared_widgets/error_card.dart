@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
 
-class ErrorCard extends CustomStatelessWidget {
+import 'material_with_utils.dart';
+
+class ErrorCard extends StatelessWidget {
   const ErrorCard({
     required this.errorText,
     this.errorIcon,
@@ -20,7 +21,7 @@ class ErrorCard extends CustomStatelessWidget {
       textAlign: TextAlign.center,
       minFontSize: 10,
       style: context.textTheme.titleMedium?.copyWith(
-        color: AppColorScheme.of(context).onError,
+        color: context.colorScheme.onError,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -35,32 +36,34 @@ class ErrorCard extends CustomStatelessWidget {
   }
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
-    return SizedBox(
-      width: _getCardWidth(widgetInfo.widgetSize.width),
-      height: context.isMobile
-          ? 55
-          : context.isTablet
-              ? 65
-              : 75,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-        decoration: BoxDecoration(
-          color: color ?? AppColorScheme.of(context).errorColor,
-          borderRadius: BorderRadius.circular(8),
+  Widget build(BuildContext context) {
+    return BuilderWithWidgetInfo(builder: (context, widgetInfo) {
+      return SizedBox(
+        width: _getCardWidth(widgetInfo.widgetSize.width),
+        height: context.isMobile
+            ? 55
+            : context.isTablet
+                ? 65
+                : 75,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+          decoration: BoxDecoration(
+            color: color ?? context.colorScheme.errorColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(flex: 2, child: _title(context)),
+              if (actionButton != null)
+                Expanded(
+                  child: actionButton!,
+                ),
+            ],
+          ),
         ),
-        child: Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(flex: 2, child: _title(context)),
-            if (actionButton != null)
-              Expanded(
-                child: actionButton!,
-              ),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 }

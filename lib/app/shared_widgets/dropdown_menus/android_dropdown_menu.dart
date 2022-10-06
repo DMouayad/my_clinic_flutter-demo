@@ -5,16 +5,15 @@ import 'utils.dart';
 class AndroidDropdownMenu<T> extends BaseDropdownMenu<T> {
   const AndroidDropdownMenu({
     required this.type,
-    required super.leading,
     required super.title,
     required super.items,
     required super.onChanged,
     required super.selectedValue,
-    super.tooltipMessage,
+    required super.tooltipMessage,
     super.key,
-  }) : super(
-          leadingIconData: null,
-        );
+    super.dropdownSize,
+    super.tileLeadingIconData,
+  });
   final DropdownMenuType type;
 
   @override
@@ -22,7 +21,7 @@ class AndroidDropdownMenu<T> extends BaseDropdownMenu<T> {
     return type == DropdownMenuType.menuOnly
         ? _dropDownLocaleMenu(context)
         : ListTile(
-            leading: leading,
+            leading: Icon(tileLeadingIconData),
             title: Text(title),
             subtitle: _dropDownLocaleMenu(context, showIcon: false),
           );

@@ -1,8 +1,8 @@
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 //
-import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 
-class WindowsCustomDialog extends CustomStatelessWidget {
+class WindowsCustomDialog extends StatelessWidget {
   const WindowsCustomDialog({
     this.titleText,
     this.title,
@@ -25,19 +25,21 @@ class WindowsCustomDialog extends CustomStatelessWidget {
   final BoxConstraints? Function(WidgetInfo widgetInfo)? constraintsBuilder;
 
   @override
-  Widget customBuild(BuildContext context, widgetInfo) {
-    return fluent_ui.ContentDialog(
-      constraints: () {
-        const defaultConstraints = BoxConstraints(maxWidth: 368);
-        if (constraintsBuilder != null) {
-          return constraintsBuilder!(widgetInfo) ?? defaultConstraints;
-        }
-        return defaultConstraints;
-      }(),
-      title: _getTitle(context),
-      content: _getContent(context),
-      actions: _getActions(context),
-    );
+  Widget build(BuildContext context) {
+    return BuilderWithWidgetInfo(builder: (context, widgetInfo) {
+      return fluent_ui.ContentDialog(
+        constraints: () {
+          const defaultConstraints = BoxConstraints(maxWidth: 368);
+          if (constraintsBuilder != null) {
+            return constraintsBuilder!(widgetInfo) ?? defaultConstraints;
+          }
+          return defaultConstraints;
+        }(),
+        title: _getTitle(context),
+        content: _getContent(context),
+        actions: _getActions(context),
+      );
+    });
   }
 
   Widget? _getTitle(BuildContext context) {

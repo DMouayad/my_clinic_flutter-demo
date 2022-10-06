@@ -1,5 +1,4 @@
 import 'package:clinic_v2/api/endpoints/auth_endpoints.dart';
-import 'package:clinic_v2/api/helpers/dio_helper.dart';
 import 'package:clinic_v2/app/core/entities/auth_tokens.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 

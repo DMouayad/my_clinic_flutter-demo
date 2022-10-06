@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 //
-import '../windows_components/windows_settings_tile.dart';
+import '../windows_components/windows_tile.dart';
 import '../windows_components/windows_toggle_switch.dart';
 
 class AdaptiveSwitchTile extends StatelessWidget {
@@ -30,8 +30,8 @@ class AdaptiveSwitchTile extends StatelessWidget {
   Widget windowsBuilder(BuildContext context) {
     return WindowsTile(
       tileLabel: label,
-      leadingIcon: icon,
-      titleText: description,
+      leading: icon,
+      subtitleText: description,
       subtitle: Text(
         value
             ? context.localizations!.enabled
@@ -40,7 +40,7 @@ class AdaptiveSwitchTile extends StatelessWidget {
           color: context.colorScheme.primary,
         ),
       ),
-      trailing: WindowsToggleSwitch(
+      child: WindowsToggleSwitch(
         checked: value,
         onChanged: onChanged,
       ),

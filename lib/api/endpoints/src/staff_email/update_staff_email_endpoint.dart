@@ -1,7 +1,7 @@
 part of staff_email_api_endpoints;
 
-class EditStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
-  EditStaffEmailApiEndpoint({
+class UpdateStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+  UpdateStaffEmailApiEndpoint({
     required int staffEmailId,
     String? newEmail,
     UserRole? newRole,

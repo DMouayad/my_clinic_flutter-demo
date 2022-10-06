@@ -1,6 +1,6 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 
-class DoneButton extends CustomStatelessWidget {
+class DoneButton extends StatelessWidget {
   const DoneButton({
     this.label,
     this.onPressed,
@@ -11,7 +11,7 @@ class DoneButton extends CustomStatelessWidget {
   final void Function()? onPressed;
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo contextInfo) {
+  Widget build(BuildContext context) {
     return Container(
       color: context.theme.scaffoldBackgroundColor.withOpacity(.9),
       padding: const EdgeInsets.all(10.0),

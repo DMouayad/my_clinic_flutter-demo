@@ -1,7 +1,7 @@
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
+import 'package:clinic_v2/app/core/extensions/string_extensions.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class FormHelper {
   late final GlobalKey<FormState> _formKey;
@@ -112,13 +112,5 @@ class FormHelper {
     _usernameController?.dispose();
     _emailController?.dispose();
     _phoneNoController?.dispose();
-  }
-}
-
-extension EmailValidator on String {
-  bool get isValidEmail {
-    return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(this);
   }
 }

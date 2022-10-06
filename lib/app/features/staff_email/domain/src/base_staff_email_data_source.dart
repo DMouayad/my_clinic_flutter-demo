@@ -4,7 +4,7 @@ import 'package:clinic_v2/app/features/staff_email/domain/src/base_staff_email.d
 
 abstract class BaseStaffEmailDataSource<T extends BaseStaffEmail> {
   const BaseStaffEmailDataSource();
-  Future<Result<VoidValue, BasicError>> addStaffEmail(
+  Future<Result<T, BasicError>> addStaffEmail(
     String email,
     UserRole userRole,
   );

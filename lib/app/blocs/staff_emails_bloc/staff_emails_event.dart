@@ -47,9 +47,9 @@ class DeleteStaffEmail extends StaffEmailsEvent {
   List<Object?> get props => [id];
 }
 
-class StaffEmailsWereUpdated extends StaffEmailsEvent {
+class UpdateStaffEmailsRequested extends StaffEmailsEvent {
   final List<BaseStaffEmail>? staffEmails;
-  const StaffEmailsWereUpdated(this.staffEmails);
+  const UpdateStaffEmailsRequested(this.staffEmails);
 
   @override
   List<Object?> get props => [staffEmails];

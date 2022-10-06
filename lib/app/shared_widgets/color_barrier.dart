@@ -10,7 +10,7 @@ class BlurredColorBarrier extends StatelessWidget {
     return FadeIn(
       duration: const Duration(milliseconds: 400),
       child: Container(
-        color: context.colorScheme.backgroundColor?.withOpacity(.6),
+        color: context.colorScheme.backgroundColor?.withOpacity(.5),
         // color: const Color(0xFF354c49).withOpacity(.5),
         child: GestureDetector(),
       ),

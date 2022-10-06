@@ -1,4 +1,4 @@
-import 'package:clinic_v2/api/endpoints_results/api_endpoint_result.dart';
+import 'package:clinic_v2/api/models/api_endpoint_result.dart';
 import 'package:clinic_v2/api/helpers/base_api_endpoint_request_maker.dart';
 import 'package:clinic_v2/api/helpers/dio_api_endpoint_request_maker.dart';
 import 'package:clinic_v2/api/utils/api_keys.dart';

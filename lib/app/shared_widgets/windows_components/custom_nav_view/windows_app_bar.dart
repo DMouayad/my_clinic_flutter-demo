@@ -50,6 +50,7 @@ NavigationAppBar buildCustomAppBar(
             ),
           ),
     ),
+    height: 55,
     automaticallyImplyLeading: false,
     leading: getLeading(context),
     actions: appBarActions,

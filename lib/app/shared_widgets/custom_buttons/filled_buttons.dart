@@ -1,9 +1,9 @@
-import 'package:clinic_v2/app/shared_widgets/custom_widget.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 
 const windowsButtonHeight = 32;
 
-class AdaptiveFilledButton extends CustomStatelessWidget {
+class AdaptiveFilledButton extends StatelessWidget {
   const AdaptiveFilledButton({
     Key? key,
     required this.label,
@@ -30,29 +30,33 @@ class AdaptiveFilledButton extends CustomStatelessWidget {
   final IconData? iconData;
 
   @override
-  Widget customBuild(BuildContext context, WidgetInfo widgetInfo) {
-    if (context.isWindowsPlatform) {
-      return _WindowsFilledButton(
-        label: label,
-        onPressed: onPressed,
-        backgroundColor: backgroundColor,
-        labelColor: labelColor,
-        height: fillHeight ? widgetInfo.widgetSize.height : height,
-        width: fillWidth ? widgetInfo.widgetSize.width : width,
-      );
-    } else if (context.isAndroidPlatform) {
-      return _AndroidFilledButton(
-        label: label,
-        onPressed: onPressed,
-        backgroundColor: backgroundColor,
-        labelColor: labelColor,
-        withIcon: withIcon,
-        iconData: iconData,
-        height: fillHeight ? widgetInfo.widgetSize.height : height,
-        width: fillWidth ? widgetInfo.widgetSize.width : width,
-      );
-    }
-    throw UnimplementedError();
+  Widget build(BuildContext context) {
+    return BuilderWithWidgetInfo(
+      builder: (context, widgetInfo) {
+        if (context.isWindowsPlatform) {
+          return _WindowsFilledButton(
+            label: label,
+            onPressed: onPressed,
+            backgroundColor: backgroundColor,
+            labelColor: labelColor,
+            height: fillHeight ? widgetInfo.widgetSize.height : height,
+            width: fillWidth ? widgetInfo.widgetSize.width : width,
+          );
+        } else if (context.isAndroidPlatform) {
+          return _AndroidFilledButton(
+            label: label,
+            onPressed: onPressed,
+            backgroundColor: backgroundColor,
+            labelColor: labelColor,
+            withIcon: withIcon,
+            iconData: iconData,
+            height: fillHeight ? widgetInfo.widgetSize.height : height,
+            width: fillWidth ? widgetInfo.widgetSize.width : width,
+          );
+        }
+        throw UnimplementedError();
+      },
+    );
   }
 }
 
@@ -60,7 +64,7 @@ class _WindowsFilledButton extends StatelessWidget {
   const _WindowsFilledButton({
     required this.label,
     required this.onPressed,
-    this.height = 37,
+    this.height = 40,
     this.width = 100,
     this.backgroundColor,
     this.labelColor,

@@ -11,16 +11,21 @@ class MyClinicApiStaffEmailDataSource
   const MyClinicApiStaffEmailDataSource();
 
   @override
-  Future<Result<VoidValue, BasicError>> addStaffEmail(
-      String email, UserRole userRole) {
-    // TODO: implement addStaffEmail
-    throw UnimplementedError();
+  Future<Result<MyClinicApiStaffEmail, BasicError>> addStaffEmail(
+      String email, UserRole userRole) async {
+    return (await AddStaffEmailApiEndpoint(
+      email: email,
+      role: userRole,
+    ).request())
+        .mapSuccess(
+      (result) => MyClinicApiStaffEmail.fromApiResponse(result.staffEmailData),
+    );
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> deleteStaffEmail(int id) {
-    // TODO: implement deleteStaffEmail
-    throw UnimplementedError();
+  Future<Result<VoidValue, BasicError>> deleteStaffEmail(int id) async {
+    return (await DeleteStaffEmailApiEndpoint(staffEmailId: id).request())
+        .mapSuccessToVoid();
   }
 
   @override
@@ -35,9 +40,16 @@ class MyClinicApiStaffEmailDataSource
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateStaffEmail(
-      {required int id, String? email, UserRole? userRole}) {
-    // TODO: implement updateStaffEmail
-    throw UnimplementedError();
+  Future<Result<VoidValue, BasicError>> updateStaffEmail({
+    required int id,
+    String? email,
+    UserRole? userRole,
+  }) async {
+    return (await UpdateStaffEmailApiEndpoint(
+      staffEmailId: id,
+      newEmail: email,
+      newRole: userRole,
+    ).request())
+        .mapSuccessToVoid();
   }
 }
