@@ -49,12 +49,10 @@ class _StepOneLeftSide extends StatelessWidget {
       appBarColor: context.colorScheme.backgroundColor,
       backgroundColor: context.colorScheme.backgroundColor,
       appBarTitle: const SignUpMessage(),
-      content: Center(
+      content: const Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.isDesktop ? context.horizontalMargins : 0,
-          ),
-          child: const BlocSignUpForm(),
+          padding: EdgeInsets.zero,
+          child: BlocSignUpForm(),
         ),
       ),
     );
@@ -64,12 +62,10 @@ class _StepOneLeftSide extends StatelessWidget {
     return ScaffoldWithAppBar(
       showBottomTitle: context.isTablet,
       title: const SignUpMessage(),
-      body: Center(
+      body: const Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.isDesktop ? context.horizontalMargins : 0,
-          ),
-          child: const BlocSignUpForm(),
+          padding: EdgeInsets.zero,
+          child: BlocSignUpForm(),
         ),
       ),
     );

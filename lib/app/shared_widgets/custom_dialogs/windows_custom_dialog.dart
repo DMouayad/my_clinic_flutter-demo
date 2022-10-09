@@ -57,17 +57,17 @@ class WindowsCustomDialog extends StatelessWidget {
 
   Widget? _getContent(BuildContext context) {
     return fluent_ui.Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 16,
+      ),
       child: content ??
           ((contentText != null)
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    contentText!,
-                    style: context.textTheme.subtitle1?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: context.colorScheme.onPrimaryContainer,
-                    ),
+              ? Text(
+                  contentText!,
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.colorScheme.onBackground,
                   ),
                 )
               : null),

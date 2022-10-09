@@ -7,6 +7,7 @@
     "login": "Login",
     "signUp": "SignUp",
     "logout": "Logout",
+    "loggingOut": "Logging out...",
     "logoutConfirmation": "Logout Confirmation",
     "createAccount": "Create new account",
     "username": "Username",
@@ -77,14 +78,19 @@
     "english": "English",
     "arabic": "العربية",
     "darkMode": "Dark mode",
+    "lightMode": "Light mode",
     "enabled": "enabled",
     "disabled": "disabled",
     "appLanguage": "Language",
+
     "or": "Or",
     "delete": "Delete",
     "ok":"Ok",
     "warning": "Warning",
     "close": "Close",
+    "add": "Add",
+    "edit": "Edit",
+    "done": "Done",
 
     "name":"Name",
     "accountsManagement":"Accounts Management",
@@ -103,5 +109,17 @@
     "passwordIsIncorrect": "Incorrect Password!",
     "emailUnauthorizedToRegister": "Entered email address is not allowed to register, please try again.",
     "invalidApiRequest": "An invalid api request was made! please contact technical support.",
-    "failedToAuthenticateUser": "An error occurred while logging in to your account, please re-login"
+    "failedToAuthenticateUser": "An error occurred while logging in to your account, please re-login",
+
+    "addStaffEmailDialogTitle": "Add new email address",
+    "editStaffEmailDialogTitle": "Edit email info",
+    "staffEmailsTableDescription": "List of email address that are allowed to register a Clinic's account",
+    "roleOrPrivileges": "Role/Privileges",
+    "selectStaffRole": "Select the role/privileges of the user registered with the email address below",
+    "enterStaffEmail" : "Enter the email which will be used to register a new account",
+
+    "deleteStaffEmailDialogTitle": "Delete confirmation",
+    "deleteStaffEmailDialogContent": "Are you sure to delete (toDelete)?\nwarning: if deleted, It wont be possible to login to the account associated with it."
+
+
 }

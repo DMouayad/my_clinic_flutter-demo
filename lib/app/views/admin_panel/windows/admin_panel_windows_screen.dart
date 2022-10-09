@@ -31,13 +31,10 @@ class WindowsAdminPanelScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is StaffEmailsEventProcessing) {
             context.read<ProgressIndicatorBloc>().add(
-                  ShowIndicatorRequested(
-                    Duration(seconds: 15),
-                  ),
+                  const ShowIndicatorRequested(Duration(seconds: 15)),
                 );
           }
-          if (state is StaffEmailsSuccess) {
-            print('hi');
+          if (state is StaffEmailsSuccess || state is StaffEmailErrorState) {
             context.read<ProgressIndicatorBloc>().add(
                   const ResetIndicatorDurationRequested(Duration(seconds: 5)),
                 );
@@ -96,10 +93,11 @@ class WindowsAdminPanelScreen extends StatelessWidget {
           items: [
             CustomNavPaneItem(
               title: context.localizations!.accountsManagement,
+              bodyContent: _contentWidgets[0],
               iconData: fluent_ui.FluentIcons.functional_manager_dashboard,
               context: context,
               contentPadding: EdgeInsets.zero,
-              bodyContent: _contentWidgets[0],
+              backgroundColor: Colors.transparent,
             ),
           ],
         ),
@@ -134,11 +132,23 @@ class _StaffEmailsBlocEventsProcessingIndicator extends StatelessWidget {
 
   IndicatorStatesText _getProcessingStatesText(BuildContext context) {
     switch (context.read<StaffEmailsBloc>().state.runtimeType) {
-      case AddStaffEmailProcessing:
+      case AddingStaffEmail:
         return const IndicatorStatesText(
           onProcessing: 'adding new staff email...',
           onSuccess: 'staff email was added successfully',
           onFailure: 'Failed to add staff email',
+        );
+      case DeletingStaffEmail:
+        return const IndicatorStatesText(
+          onProcessing: 'Deleting staff email...',
+          onSuccess: 'staff email was deleted successfully',
+          onFailure: 'Failed to delete staff email',
+        );
+      case UpdatingStaffEmail:
+        return const IndicatorStatesText(
+          onProcessing: 'Updating staff email...',
+          onSuccess: 'staff email was updated successfully',
+          onFailure: 'Failed to update staff email',
         );
       default:
         return const IndicatorStatesText(

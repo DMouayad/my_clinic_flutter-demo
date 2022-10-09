@@ -27,7 +27,7 @@ Future<T?> showAdaptiveAlertDialog<T>({
                 size: context.isMobile ? 26 : 40,
                 color: Colors.red.shade400,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Text(
                 titleText,
                 style: TextStyle(color: titleTextColor),

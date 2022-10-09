@@ -6,8 +6,8 @@ import '../core/helpers/form_helper.dart';
 import 'input_text_field.dart';
 import 'submit_button.dart';
 
-class CustomForm extends StatefulWidget {
-  const CustomForm({
+class CustomAuthForm extends StatefulWidget {
+  const CustomAuthForm({
     required this.onSubmit,
     required this.isLoginForm,
     this.errorText,
@@ -24,10 +24,10 @@ class CustomForm extends StatefulWidget {
   final bool isLoginForm;
 
   @override
-  _CustomFormState createState() => _CustomFormState();
+  _CustomAuthFormState createState() => _CustomAuthFormState();
 }
 
-class _CustomFormState extends State<CustomForm> {
+class _CustomAuthFormState extends State<CustomAuthForm> {
   late final FormHelper _formHelper;
   @override
   void initState() {
@@ -51,167 +51,174 @@ class _CustomFormState extends State<CustomForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formHelper.formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          if (widget.errorText != null) ...[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline_rounded,
-                  color: context.colorScheme.errorColor,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  widget.errorText!,
-                  style: context.textTheme.bodyLarge?.copyWith(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: context.horizontalMargins),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (widget.errorText != null) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline_rounded,
                     color: context.colorScheme.errorColor,
                   ),
+                  const SizedBox(width: 10),
+                  Text(
+                    widget.errorText!,
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: context.colorScheme.errorColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+            if (!widget.isLoginForm) ...[
+              InputTextField(
+                controller: _formHelper.usernameController,
+                prefixIcon: Icons.person,
+                validator: (value) {
+                  final errorText =
+                      _formHelper.usernameValidator(value, context);
+                  if (errorText != null) {
+                    setState(() => _usernameIsValid = false);
+                  } else {
+                    setState(() => _usernameIsValid = true);
+                  }
+                  return errorText;
+                },
+                hintText: context.localizations?.username,
+                textStyle: context.textTheme.bodyText1?.copyWith(
+                  fontSize: 18,
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
-          if (!widget.isLoginForm) ...[
+                suffixIconColor: context.colorScheme.errorColor,
+                suffixIcon:
+                    (_usernameIsValid ?? true) ? null : _errorSuffixIcon,
+              ),
+              const SizedBox(height: 12),
+              InputTextField(
+                controller: _formHelper.phoneNoController,
+                prefixIcon: Icons.phone,
+                textDirection: TextDirection.ltr,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                validator: (value) {
+                  final errorText =
+                      _formHelper.phoneNoValidator(value, context);
+                  if (errorText != null) {
+                    setState(() => _phoneNoIsValid = false);
+                  } else {
+                    setState(() => _phoneNoIsValid = true);
+                  }
+                  return errorText;
+                },
+                maxLength: 22,
+                keyboardType: TextInputType.phone,
+                hintText: context.localizations?.phoneNo,
+                textStyle: context.textTheme.bodyText1?.copyWith(
+                  fontSize: 18,
+                ),
+                suffixIconColor: context.colorScheme.errorColor,
+                suffixIcon: (_phoneNoIsValid ?? true) ? null : _errorSuffixIcon,
+              ),
+              const SizedBox(height: 12),
+            ],
             InputTextField(
-              controller: _formHelper.usernameController,
-              prefixIcon: Icons.person,
+              controller: _formHelper.emailController,
+              prefixIcon: Icons.email_outlined,
+              textInputAction: TextInputAction.next,
               validator: (value) {
-                final errorText = _formHelper.usernameValidator(value, context);
+                final errorText = _formHelper.emailValidator(value, context);
                 if (errorText != null) {
-                  setState(() => _usernameIsValid = false);
+                  setState(() => _emailIsValid = false);
                 } else {
-                  setState(() => _usernameIsValid = true);
+                  setState(() => _emailIsValid = true);
                 }
                 return errorText;
               },
-              hintText: context.localizations?.username,
+              hintText: context.localizations?.email,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
               suffixIconColor: context.colorScheme.errorColor,
-              suffixIcon: (_usernameIsValid ?? true) ? null : _errorSuffixIcon,
+              suffixIcon: (_emailIsValid ?? true) ? null : _errorSuffixIcon,
             ),
             const SizedBox(height: 12),
             InputTextField(
-              controller: _formHelper.phoneNoController,
-              prefixIcon: Icons.phone,
-              textDirection: TextDirection.ltr,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
+              controller: _formHelper.passwordController,
+              prefixIcon: Icons.remove_red_eye,
+              textInputAction: TextInputAction.done,
               validator: (value) {
-                final errorText = _formHelper.phoneNoValidator(value, context);
+                final errorText = _formHelper.passwordValidator(value, context);
                 if (errorText != null) {
-                  setState(() => _phoneNoIsValid = false);
+                  setState(() => _passwordIsValid = false);
                 } else {
-                  setState(() => _phoneNoIsValid = true);
+                  setState(() => _passwordIsValid = true);
                 }
                 return errorText;
               },
-              maxLength: 22,
-              keyboardType: TextInputType.phone,
-              hintText: context.localizations?.phoneNo,
+              hintText: context.localizations?.password,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
-              suffixIconColor: context.colorScheme.errorColor,
-              suffixIcon: (_phoneNoIsValid ?? true) ? null : _errorSuffixIcon,
+              onEditingComplete: () {
+                setState(() => _formHelper.validateInput());
+                FocusScope.of(context).unfocus();
+              },
+              obscure: true,
+              suffixIcon: (_passwordIsValid ?? true) ? null : _errorSuffixIcon,
             ),
-            const SizedBox(height: 12),
-          ],
-          InputTextField(
-            controller: _formHelper.emailController,
-            prefixIcon: Icons.email_outlined,
-            textInputAction: TextInputAction.next,
-            validator: (value) {
-              final errorText = _formHelper.emailValidator(value, context);
-              if (errorText != null) {
-                setState(() => _emailIsValid = false);
-              } else {
-                setState(() => _emailIsValid = true);
-              }
-              return errorText;
-            },
-            hintText: context.localizations?.email,
-            textStyle: context.textTheme.bodyText1?.copyWith(
-              fontSize: 18,
+            SizedBox(height: context.screenHeight * .14),
+            SubmitButton(
+              text: widget.isLoginForm
+                  ? context.localizations!.login
+                  : context.localizations!.signUp,
+              iconData:
+                  widget.isLoginForm ? Icons.login : Icons.app_registration,
+              onPressed: () {
+                setState(() => _formHelper.validateInput());
+                if (_formHelper.inputIsValid) {
+                  widget.onSubmit(
+                    _formHelper.emailController!.text,
+                    _formHelper.passwordController.text,
+                    widget.isLoginForm
+                        ? null
+                        : _formHelper.phoneNoController!.text,
+                    widget.isLoginForm
+                        ? null
+                        : _formHelper.usernameController!.text,
+                  );
+                }
+              },
             ),
-            suffixIconColor: context.colorScheme.errorColor,
-            suffixIcon: (_emailIsValid ?? true) ? null : _errorSuffixIcon,
-          ),
-          const SizedBox(height: 12),
-          InputTextField(
-            controller: _formHelper.passwordController,
-            prefixIcon: Icons.remove_red_eye,
-            textInputAction: TextInputAction.done,
-            validator: (value) {
-              final errorText = _formHelper.passwordValidator(value, context);
-              if (errorText != null) {
-                setState(() => _passwordIsValid = false);
-              } else {
-                setState(() => _passwordIsValid = true);
-              }
-              return errorText;
-            },
-            hintText: context.localizations?.password,
-            textStyle: context.textTheme.bodyText1?.copyWith(
-              fontSize: 18,
-            ),
-            onEditingComplete: () {
-              setState(() => _formHelper.validateInput());
-              FocusScope.of(context).unfocus();
-            },
-            obscure: true,
-            suffixIcon: (_passwordIsValid ?? true) ? null : _errorSuffixIcon,
-          ),
-          SizedBox(height: context.screenHeight * .14),
-          SubmitButton(
-            text: widget.isLoginForm
-                ? context.localizations!.login
-                : context.localizations!.signUp,
-            iconData: widget.isLoginForm ? Icons.login : Icons.app_registration,
-            onPressed: () {
-              setState(() => _formHelper.validateInput());
-              if (_formHelper.inputIsValid) {
-                widget.onSubmit(
-                  _formHelper.emailController!.text,
-                  _formHelper.passwordController.text,
-                  widget.isLoginForm
-                      ? null
-                      : _formHelper.phoneNoController!.text,
-                  widget.isLoginForm
-                      ? null
-                      : _formHelper.usernameController!.text,
-                );
-              }
-            },
-          ),
-          if (widget.isLoginForm) ...[
-            const SizedBox(height: 20),
-            Text(
-              context.localizations!.or,
-              style: context.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: context.colorScheme.onBackground,
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                AppRoutes.signUpScreen,
-              ),
-              child: Text(
-                context.localizations!.createAccount,
-                style: context.textTheme.subtitle2?.copyWith(
+            if (widget.isLoginForm) ...[
+              const SizedBox(height: 20),
+              Text(
+                context.localizations!.or,
+                style: context.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: context.colorScheme.onBackground,
                 ),
               ),
-            ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                  AppRoutes.signUpScreen,
+                ),
+                child: Text(
+                  context.localizations!.createAccount,
+                  style: context.textTheme.subtitle2?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.colorScheme.onBackground,
+                  ),
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

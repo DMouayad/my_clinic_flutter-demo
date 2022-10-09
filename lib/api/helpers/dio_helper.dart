@@ -26,13 +26,14 @@ mixin DioHelper {
     }
   }
 
-  Future<FormData?> _getEndpointData(ApiEndpoint apiEndpoint) async {
+  Future<Map<String, dynamic>?> _getEndpointData(
+      ApiEndpoint apiEndpoint) async {
     Map<String, dynamic>? data = apiEndpoint.data;
     if (apiEndpoint.includeDeviceId) {
       data ??= {};
       data['device_id'] = await DeviceIdHelper.get;
     }
-    return data != null ? FormData.fromMap(data) : null;
+    return data;
   }
 
   Future<Response> performDioRequest({
@@ -42,14 +43,14 @@ mixin DioHelper {
     final Dio dio = _getDioInstance;
     if (accessToken != null) _addBarerToken(dio, accessToken);
 
-    final formData = await _getEndpointData(apiEndpoint);
+    final data = await _getEndpointData(apiEndpoint);
     _addAdditionalHeaders(dio, apiEndpoint.headers);
 
     dio.options.method = apiEndpoint.method.name;
     Log.logDioRequest(dio, apiEndpoint);
     return dio.request(
       apiEndpoint.url,
-      data: formData,
+      data: data,
     );
     // switch (apiEndpoint.method) {
     //   case RequestMethod.POST:

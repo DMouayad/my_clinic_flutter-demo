@@ -7,6 +7,7 @@
     "login": "تسجيل الدخول",
     "signUp": "تسجيل",
     "logout": "تسجيل الخروج",
+    "loggingOut": "جار تسجيل الخروج...",
     "logoutConfirmation": "تأكيد تسجيل الخروج",
     "createAccount": "إنشاء حساب جديد",
     "email": "البريد الالكتروني",
@@ -78,7 +79,8 @@
     "language": "اللغة",
     "english": "الإنجليزية",
     "arabic": "العربية",
-    "darkMode": "الوضع الليلي",
+    "darkMode": "الثيم الداكن",
+    "lightMode": "الثيم الفاتح",
     "enabled": "مفعّل",
     "disabled": "غير مفعّل",
     "appLanguage:": "لغة التطبيق",
@@ -88,6 +90,9 @@
     "ok":"حسناً",
     "warning":"تحذير",
     "close": "إغلاق",
+    "add": "إضافة",
+    "edit": "تعديل",
+    "done": "تم",
 
     "name":"الاسم",
     "accountsManagement":"إدارة الحسابات",
@@ -105,7 +110,18 @@
     "passwordIsIncorrect": "كلمة السر خاطئة!",
     "emailUnauthorizedToRegister": "البريد الالكتروني المعطى غير مسموح له بالتسجيل، الرجاء المحاولة مجدداً",
     "invalidApiRequest": "تم ارسال طلب غير صالح! الرجاء التواصل مع الدعم الفني",
-    "failedToAuthenticateUser": "حدث خطأ أثناء تسجيل الدخول لحسابك الخاص، رجاءً قم بتسجيل الدخول من جديد"
+    "failedToAuthenticateUser": "حدث خطأ أثناء تسجيل الدخول لحسابك الخاص، رجاءً قم بتسجيل الدخول من جديد",
+
+    "addStaffEmailDialogTitle": "إضافة بريد الكتروني جديد",
+    "editStaffEmailDialogTitle": "تعديل بيانات البريد الالكتروني",
+    "staffEmailsTableDescription": "قائمة بعناوين البريد الالكتروني المسموح لها بتسجيل حساب جديد",
+    "roleOrPrivileges": "الدور/الصلاحيات",
+    "selectStaffRole": "اختر الدور/الصلاحيات المعطاة للمستخدم المسجل بالبريد الالكتروني أدناه",
+    "enterStaffEmail" : "ادخل البريد الالكتروني الذي سيستخدم لتسجيل حساب جديد",
+
+    "deleteStaffEmailDialogTitle": "تأكيد عملية الحذف",
+    "deleteStaffEmailDialogContent": "هل أنت متأكد من حذف(toDelete)؟\nتنبيه: بعد الحذف، لن يكون بالإمكان تسجيل الدخول للحساب الخاص بهذا الايميل."
+
 
 
 }

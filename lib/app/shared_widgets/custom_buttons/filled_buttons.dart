@@ -14,8 +14,8 @@ class AdaptiveFilledButton extends StatelessWidget {
     this.fillHeight = false,
     this.fillWidth = false,
     this.withIcon = false,
-    this.width,
-    this.height,
+    this.width = 70,
+    this.height = 34,
   }) : super(key: key);
 
   final String label;

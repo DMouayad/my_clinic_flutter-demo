@@ -1,4 +1,3 @@
-import 'package:clinic_v2/app/blocs/staff_emails_bloc/staff_emails_bloc.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/core/extensions/string_extensions.dart';
 import 'package:clinic_v2/app/shared_widgets/custom_buttons/filled_buttons.dart';
@@ -6,43 +5,38 @@ import 'package:clinic_v2/app/shared_widgets/dropdown_menus/utils.dart';
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/windows_tile_with_dropdown_menu.dart';
 import 'package:clinic_v2/app/shared_widgets/input_text_field.dart';
 import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
-import 'package:clinic_v2/app/shared_widgets/windows_components/dialogs/windows_general_dialog.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/windows_tile.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<void> showWindowsAddStaffDialog(BuildContext context) async {
-  await showWindowsGeneralDialog(
-    context: context,
-    titleText: 'Add new staff email',
-    content: _NewStaffEmailForm(
-      onSubmit: (email, role) {
-        context.read<StaffEmailsBloc>().add(AddStaffEmail(email, role));
-        Navigator.of(context).pop();
-      },
-    ),
-  );
-}
-
-class _NewStaffEmailForm extends StatefulWidget {
-  const _NewStaffEmailForm({
+class StaffEmailForm extends StatefulWidget {
+  const StaffEmailForm({
     required this.onSubmit,
+    required this.existingEmails,
+    this.role,
+    this.email,
+    this.isEditingForm = false,
     Key? key,
   }) : super(key: key);
-
+  final UserRole? role;
+  final String? email;
   final void Function(String email, UserRole role) onSubmit;
+  final bool isEditingForm;
+  final List<String> existingEmails;
 
   @override
-  __NewStaffEmailFormState createState() => __NewStaffEmailFormState();
+  _StaffEmailFormState createState() => _StaffEmailFormState();
 }
 
-class __NewStaffEmailFormState extends State<_NewStaffEmailForm> {
-  var userRole = UserRole.admin;
+class _StaffEmailFormState extends State<StaffEmailForm> {
+  late UserRole userRole;
   late final TextEditingController emailController;
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   void initState() {
-    emailController = TextEditingController();
+    userRole = widget.role ?? UserRole.admin;
+    emailController = TextEditingController(
+      text: widget.email,
+    );
     super.initState();
   }
 
@@ -59,8 +53,8 @@ class __NewStaffEmailFormState extends State<_NewStaffEmailForm> {
         ListView(
           children: [
             WindowsTileWithDropdownMenu<UserRole>(
-              tileLabel: 'Role',
-              title: "Select the role of the new CLINIC's staff member",
+              tileLabel: context.localizations!.roleOrPrivileges,
+              title: context.localizations!.selectStaffRole,
               selectedValue: userRole,
               dropdownSize: const Size(150, 66),
               tooltipMessage: 'select a role',
@@ -78,9 +72,8 @@ class __NewStaffEmailFormState extends State<_NewStaffEmailForm> {
             const Divider(height: 50),
             WindowsTile(
               childSize: const Size.fromWidth(350),
-              tileLabel: 'Email address',
-              subtitleText:
-                  'Enter the email which will be used to register a new account',
+              tileLabel: context.localizations!.email,
+              subtitleText: context.localizations!.enterStaffEmail,
               child: Material(
                 type: MaterialType.transparency,
                 child: Form(
@@ -91,6 +84,9 @@ class __NewStaffEmailFormState extends State<_NewStaffEmailForm> {
                         return context.localizations!.emailIsRequired;
                       } else if (!value!.isValidEmail) {
                         return context.localizations!.emailInvalid;
+                      } else if (widget.existingEmails
+                          .contains(value.toLowerCase())) {
+                        return context.localizations!.emailAlreadyExists;
                       }
                     },
                     keyboardType: TextInputType.emailAddress,
@@ -106,10 +102,11 @@ class __NewStaffEmailFormState extends State<_NewStaffEmailForm> {
         ),
         Positioned(
           bottom: 0,
-          left: 20,
-          right: 20,
+          left: 10,
+          // right: 20,
           child: AdaptiveFilledButton(
-            label: 'Add',
+            width: 70,
+            label: context.localizations!.done.toUpperCase(),
             onPressed: () {
               final isValid = _formKey.currentState?.validate() ?? false;
               if (isValid) {

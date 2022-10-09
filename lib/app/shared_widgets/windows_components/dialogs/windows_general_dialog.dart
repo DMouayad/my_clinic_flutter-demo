@@ -42,7 +42,7 @@ Future<T?> showWindowsGeneralDialog<T>({
               icon: Icon(
                 Icons.close,
                 size: 22,
-                color: Colors.red.shade400,
+                color: Colors.red.shade500,
               ),
             ),
           ],

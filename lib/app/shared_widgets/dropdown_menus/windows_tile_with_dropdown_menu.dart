@@ -15,7 +15,9 @@ class WindowsTileWithDropdownMenu<T> extends BaseDropdownMenu<T> {
     required super.title,
     required super.tooltipMessage,
     super.key,
+    this.dropdownPadding,
   });
+  final EdgeInsets? dropdownPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,12 @@ class WindowsTileWithDropdownMenu<T> extends BaseDropdownMenu<T> {
       childSize: dropdownSize ?? Size(context.screenWidth * .3, 66),
       child: FluentTheme(
         data: context.fluentTheme.copyWith(),
-        child: ConstrainedBox(
+        child: Container(
           constraints: BoxConstraints.loose(
             dropdownSize ?? Size(context.screenWidth * .3, 66),
           ),
+          padding:
+              dropdownPadding ?? const EdgeInsets.symmetric(horizontal: 12),
           child: ComboBox<CustomDropdownMenuItem<T>>(
             popupColor: Colors.transparent,
             value: items.firstWhere((e) => e.value == selectedValue),

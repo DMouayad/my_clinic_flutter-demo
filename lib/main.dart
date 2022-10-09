@@ -201,10 +201,12 @@ class _AuthBlocListener extends StatelessWidget {
               .read<PreferencesCubit>()
               .provideUserPreferences(state.currentUser.preferences);
 
-          await Future.delayed(const Duration(seconds: 1));
+          // await Future.delayed(const Duration(milliseconds: 400));
           if (state.currentUser.role == UserRole.admin) {
-            ClinicApp.navigatorKey.currentState
-                ?.popAndPushNamed(AppRoutes.adminPanelScreen);
+            ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              AppRoutes.adminPanelScreen,
+              (route) => route.isFirst,
+            );
           }
           if (state.currentUser.role == UserRole.dentist) {
             //TODO:: Navigate to dentist preferences setup
@@ -217,8 +219,10 @@ class _AuthBlocListener extends StatelessWidget {
                 context.themeMode,
                 context.locale,
               );
-          ClinicApp.navigatorKey.currentState
-              ?.popAndPushNamed(AppRoutes.loginScreen);
+          ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            AppRoutes.loginScreen,
+            (route) => route.isFirst,
+          );
         }
       },
       child: child,

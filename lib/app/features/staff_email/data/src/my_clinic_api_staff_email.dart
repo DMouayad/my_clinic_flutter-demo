@@ -1,4 +1,3 @@
-import 'package:clinic_v2/api/endpoints_results/endpoints_results.dart';
 import 'package:clinic_v2/api/models/staff_email_response_data.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
@@ -22,6 +21,17 @@ class MyClinicApiStaffEmail extends BaseStaffEmail<MyClinicApiUser> {
       user: staffEmailData.userData != null
           ? MyClinicApiUser.fromApiResponse(staffEmailData.userData!)
           : null,
+    );
+  }
+
+  @override
+  MyClinicApiStaffEmail copyWith(
+      {int? id, String? email, UserRole? userRole, MyClinicApiUser? user}) {
+    return MyClinicApiStaffEmail(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      userRole: userRole ?? this.userRole,
+      user: user ?? this.user,
     );
   }
 }

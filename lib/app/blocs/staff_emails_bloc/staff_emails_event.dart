@@ -48,7 +48,7 @@ class DeleteStaffEmail extends StaffEmailsEvent {
 }
 
 class UpdateStaffEmailsRequested extends StaffEmailsEvent {
-  final List<BaseStaffEmail>? staffEmails;
+  final PaginatedResource<BaseStaffEmail>? staffEmails;
   const UpdateStaffEmailsRequested(this.staffEmails);
 
   @override

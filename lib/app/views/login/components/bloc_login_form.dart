@@ -10,7 +10,7 @@ class BlocLoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomForm(
+    return CustomAuthForm(
       isLoginForm: true,
       errorText: () {
         final state = context.read<AuthBloc>().state;

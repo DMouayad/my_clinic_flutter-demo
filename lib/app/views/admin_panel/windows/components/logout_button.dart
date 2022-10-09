@@ -18,7 +18,7 @@ class LogoutIconButton extends StatelessWidget {
         if (state is LogoutInProgress) {
           showAdaptiveProgressDialog(
             context: context,
-            contentText: 'Logging out...',
+            contentText: context.localizations!.loggingOut,
           );
         }
       },

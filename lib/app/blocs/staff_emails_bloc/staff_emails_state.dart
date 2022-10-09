@@ -31,24 +31,25 @@ abstract class StaffEmailsEventProcessing extends StaffEmailsState {
   const StaffEmailsEventProcessing();
 }
 
-class AddStaffEmailProcessing extends StaffEmailsEventProcessing {
-  const AddStaffEmailProcessing();
+class AddingStaffEmail extends StaffEmailsEventProcessing {
+  const AddingStaffEmail();
 }
 
-class UpdateStaffEmailProcessing extends StaffEmailsEventProcessing {
-  const UpdateStaffEmailProcessing();
+class UpdatingStaffEmail extends StaffEmailsEventProcessing {
+  const UpdatingStaffEmail();
 }
 
-class DeleteStaffEmailProcessing extends StaffEmailsEventProcessing {
-  const DeleteStaffEmailProcessing();
+class DeletingStaffEmail extends StaffEmailsEventProcessing {
+  const DeletingStaffEmail();
 }
 
 class StaffEmailsWereLoaded extends StaffEmailsState {
-  final List<BaseStaffEmail>? staffEmails;
+  final PaginatedResource<BaseStaffEmail>? staffEmails;
   const StaffEmailsWereLoaded(this.staffEmails);
+
   @override
   String toString() {
-    return '''$runtimeType: Total(${staffEmails?.length})''';
+    return '''$runtimeType: Total(${staffEmails?.data.length})''';
   }
 
   @override

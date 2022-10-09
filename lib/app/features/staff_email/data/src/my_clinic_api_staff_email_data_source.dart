@@ -1,4 +1,5 @@
 import 'package:clinic_v2/api/endpoints/staff_email_endpoints.dart';
+import 'package:clinic_v2/app/core/entities/paginated_data/src/paginated_resource.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 
 import 'package:clinic_v2/app/core/enums.dart';
@@ -29,22 +30,25 @@ class MyClinicApiStaffEmailDataSource
   }
 
   @override
-  Future<Result<List<MyClinicApiStaffEmail>, BasicError>>
+  Future<Result<PaginatedResource<MyClinicApiStaffEmail>, BasicError>>
       fetchStaffEmails() async {
     final response = await FetchStaffEmailsApiEndpoint().request();
     return response.mapSuccess((result) {
-      return result.staffEmailsData
-          .map((e) => MyClinicApiStaffEmail.fromApiResponse(e))
-          .toList();
+      return PaginatedResource(
+          data: result.staffEmailsData
+              .map((e) => MyClinicApiStaffEmail.fromApiResponse(e))
+              .toList(),
+          paginationInfo: result.paginationInfo,
+          paginationLinks: result.paginationLinks);
     });
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateStaffEmail({
-    required int id,
+  Future<Result<VoidValue, BasicError>> updateStaffEmail(
+    int id, [
     String? email,
     UserRole? userRole,
-  }) async {
+  ]) async {
     return (await UpdateStaffEmailApiEndpoint(
       staffEmailId: id,
       newEmail: email,

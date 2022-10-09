@@ -17,4 +17,11 @@ abstract class BaseStaffEmail<T extends BaseServerUser> extends Equatable {
 
   @override
   List<Object?> get props => [id, email, userRole, user];
+
+  BaseStaffEmail copyWith({
+    int? id,
+    String? email,
+    UserRole? userRole,
+    T? user,
+  });
 }

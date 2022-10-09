@@ -29,7 +29,7 @@ class ApiEndpointResult extends Object {
       case RegisterEndpointResult:
         return RegisterEndpointResult.fromMap(data) as R;
       case FetchStaffEmailsEndpointResult:
-        return FetchStaffEmailsEndpointResult.fromApiResponse(data) as R;
+        return FetchStaffEmailsEndpointResult.fromApiResponse(json) as R;
       case RefreshAccessTokenEndpointResult:
         return RefreshAccessTokenEndpointResult.fromMap(data) as R;
       case FetchUserEndpointResult:

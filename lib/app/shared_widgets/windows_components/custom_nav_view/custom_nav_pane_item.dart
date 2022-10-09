@@ -8,18 +8,21 @@ class CustomNavPaneItem extends PaneItem {
     required BuildContext context,
     required Widget bodyContent,
     EdgeInsets? contentPadding,
+    Color? backgroundColor,
   }) : super(
           icon: Icon(iconData, size: 22),
           body: Container(
             constraints: const BoxConstraints.expand(),
             margin: EdgeInsets.fromLTRB(
                 context.isLTR ? 30 : 0, 10, context.isLTR ? 0 : 30, 0),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            padding: contentPadding ??
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: context.isDarkMode
-                  ? context.colorScheme.primaryContainer
-                  : Colors.white,
+              color: backgroundColor ??
+                  (context.isDarkMode
+                      ? context.colorScheme.primaryContainer
+                      : Colors.white),
             ),
             child: bodyContent,
           ),

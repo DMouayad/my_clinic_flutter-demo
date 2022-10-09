@@ -27,7 +27,7 @@ class AdaptiveThemeModeDropdown extends StatelessWidget {
       items: ThemeMode.values
           .map((e) => CustomDropdownMenuItem<ThemeMode>(
                 value: e,
-                text: e.name,
+                text: context.themeModeName(e),
                 selected: e == context.themeMode,
               ))
           .toList(),

@@ -31,7 +31,9 @@ class ApiResponseError extends BasicError {
         errorException = const ErrorException.userUnauthorized();
       }
       return ApiResponseError(
-        message: errorMap?.get('message') ?? response.get('message'),
+        message: errorMap?.get('message') ??
+            response.get('message') ??
+            "Unknown error",
         errorException: errorException,
         description: errorMap?.get('description'),
       );

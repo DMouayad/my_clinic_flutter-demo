@@ -20,6 +20,7 @@ extension DeviceInfoExtension on BuildContext {
 extension ResponsiveContextExtension on BuildContext {
   double get horizontalMargins {
     final screenWidth = MediaQuery.of(this).size.width;
+    print(screenWidth);
     if (screenWidth <= 600) {
       return 16.0;
     } else if (screenWidth > 600 && screenWidth < 900) {
@@ -53,6 +54,16 @@ extension ContextScreenSizeExtension on BuildContext {
 
 extension ContextThemeExtension on BuildContext {
   MediaQueryData get mediaQueryData => MediaQuery.of(this);
+  String themeModeName(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.system:
+        return 'System';
+      case ThemeMode.light:
+        return localizations!.lightMode;
+      case ThemeMode.dark:
+        return localizations!.darkMode;
+    }
+  }
 
   /// similar to [MediaQuery.of(context).theme]
   ThemeData get theme => Theme.of(this);
@@ -92,6 +103,7 @@ extension ContextLocaleExtension on BuildContext {
   bool get isRTL => isArabicLocale;
   bool get isLTR => isEnglishLocale;
   Locale get locale => Localizations.localeOf(this);
+
   String getLocaleFullName(Locale locale) {
     switch (locale.languageCode) {
       case 'ar':

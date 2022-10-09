@@ -1,6 +1,4 @@
-import 'dart:async';
-
-import 'package:clinic_v2/app/core/entities/result/basic_error.dart';
+import 'package:clinic_v2/app/core/entities/paginated_data/src/paginated_resource.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/features/staff_email/domain/staff_email_domain.dart';
@@ -15,7 +13,7 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
   final BaseStaffEmailRepository _repository;
 
   StaffEmailsBloc(this._repository) : super(StaffEmailsInitial()) {
-    _repository.staffEmailsStream
+    _repository.staffEmailsResource
         .listen((list) => add(UpdateStaffEmailsRequested(list)));
 
     on<UpdateStaffEmailsRequested>((event, emit) {
@@ -27,7 +25,7 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
 
     on<AddStaffEmail>((event, emit) async {
       if (state is! StaffEmailsEventProcessing) {
-        emit(const AddStaffEmailProcessing());
+        emit(const AddingStaffEmail());
       }
 
       final result = await _repository.addStaffEmail(event.email, event.role);
@@ -45,14 +43,32 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
         ifFailure: (error) => emit(StaffEmailErrorState(error)),
       );
     });
+
+    on<DeleteStaffEmail>((event, emit) async {
+      emit(const DeletingStaffEmail());
+      (await _repository.deleteStaffEmail(event.id)).fold(ifFailure: (error) {
+        emit(StaffEmailErrorState(error));
+      });
+    });
+    on<UpdateStaffEmail>((event, emit) async {
+      emit(const UpdatingStaffEmail());
+      (await _repository.updateStaffEmail(
+        event.id,
+        event.email,
+        event.role,
+      ))
+          .fold(ifFailure: (error) {
+        emit(StaffEmailErrorState(error));
+      });
+    });
   }
   StaffEmailsState _getRequestedEventSuccessState() {
     switch (state.runtimeType) {
-      case AddStaffEmailProcessing:
+      case AddingStaffEmail:
         return StaffEmailWasAdded();
-      case UpdateStaffEmailProcessing:
+      case UpdatingStaffEmail:
         return StaffEmailWasUpdated();
-      case DeleteStaffEmailProcessing:
+      case DeletingStaffEmail:
         return StaffEmailWasDeleted();
       default:
         throw UnimplementedError();

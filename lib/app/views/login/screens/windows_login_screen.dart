@@ -36,16 +36,10 @@ class WindowsLoginScreen extends StatelessWidget {
                   child: const LoginMessage(),
                 ),
               ),
-              Expanded(
+              const Expanded(
                 flex: 2,
                 child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal:
-                          context.isTablet ? 0 : context.horizontalMargins,
-                    ),
-                    child: const BlocLoginForm(),
-                  ),
+                  child: BlocLoginForm(),
                 ),
               ),
             ],

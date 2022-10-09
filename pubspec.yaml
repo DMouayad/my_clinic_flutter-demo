@@ -45,6 +45,8 @@ dependencies:
   logger: ^1.1.0
   extended_masked_text: ^2.3.1
   bloc_concurrency: ^0.2.0
+  data_table_2: ^2.3.7
+
 #  drift: ^2.1.0
 #  sqlite3_flutter_libs: ^0.5.0
 #  path_provider: ^2.0.0
