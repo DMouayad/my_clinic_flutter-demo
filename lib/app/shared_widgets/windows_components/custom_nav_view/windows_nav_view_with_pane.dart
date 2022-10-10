@@ -10,11 +10,15 @@ class WindowsNavViewWithPane extends StatefulWidget {
     Key? key,
     this.appBar,
     this.header,
+    this.autoSuggestBox,
+    this.autoSuggestBoxReplacement,
   }) : super(key: key);
 
   final List<NavigationPaneItem> footerItems;
   final List<NavigationPaneItem> items;
   final Widget? header;
+  final Widget? autoSuggestBoxReplacement;
+  final Widget? autoSuggestBox;
   final NavigationAppBar? appBar;
 
   @override
@@ -29,6 +33,8 @@ class _WindowsNavViewWithPaneState extends State<WindowsNavViewWithPane> {
     return WindowsNavView.raw(
       appBar: widget.appBar,
       navigationPane: NavigationPane(
+        autoSuggestBox: widget.autoSuggestBox,
+        autoSuggestBoxReplacement: widget.autoSuggestBoxReplacement,
         selected: _currentIndex,
         onChanged: (value) {
           setState(() => _currentIndex = value);

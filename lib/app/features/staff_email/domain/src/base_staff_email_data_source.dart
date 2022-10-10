@@ -9,7 +9,8 @@ abstract class BaseStaffEmailDataSource<T extends BaseStaffEmail> {
     String email,
     UserRole userRole,
   );
-  Future<Result<PaginatedResource<T>, BasicError>> fetchStaffEmails();
+  Future<Result<PaginatedResource<T>, BasicError>> fetchStaffEmails(
+      [int? page]);
   Future<Result<VoidValue, BasicError>> updateStaffEmail(
     int id, [
     String? email,

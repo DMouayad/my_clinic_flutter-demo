@@ -16,7 +16,7 @@ abstract class BaseStaffEmailRepository {
 
   Future<Result<VoidValue, BasicError>> addStaffEmail(
       String email, UserRole userRole);
-  Future<Result<VoidValue, BasicError>> getStaffEmails();
+  Future<Result<VoidValue, BasicError>> fetchStaffEmails([int? page]);
   Future<Result<VoidValue, BasicError>> updateStaffEmail(
     int id, [
     String? email,

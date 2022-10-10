@@ -39,7 +39,7 @@ class StaffEmailsBloc extends Bloc<StaffEmailsEvent, StaffEmailsState> {
       if (state is! LoadingStaffEmails) {
         emit(LoadingStaffEmails());
       }
-      (await _repository.getStaffEmails()).fold(
+      (await _repository.fetchStaffEmails(event.page)).fold(
         ifFailure: (error) => emit(StaffEmailErrorState(error)),
       );
     });

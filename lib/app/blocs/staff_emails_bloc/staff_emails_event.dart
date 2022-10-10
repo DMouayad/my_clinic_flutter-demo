@@ -7,7 +7,14 @@ abstract class StaffEmailsEvent extends Equatable {
 }
 
 /// An event to load staff emails from server
-class FetchStaffEmails extends StaffEmailsEvent {}
+class FetchStaffEmails extends StaffEmailsEvent {
+  final int? page;
+
+  const FetchStaffEmails([this.page]);
+
+  @override
+  List<Object?> get props => [page];
+}
 
 /// An event to add a new staff email
 class AddStaffEmail extends StaffEmailsEvent {

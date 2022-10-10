@@ -29,6 +29,11 @@ class PaginationInfo {
       total: map['total'] as int,
     );
   }
+
+  @override
+  String toString() {
+    return 'PaginationInfo{currentPage: $currentPage, from: $from, lastPage: $lastPage, links: $links, path: $path, perPage: $perPage, to: $to, total: $total}';
+  }
 }
 
 class CurrentPageLinks {

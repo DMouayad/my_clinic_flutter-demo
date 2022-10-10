@@ -31,8 +31,8 @@ class MyClinicApiStaffEmailDataSource
 
   @override
   Future<Result<PaginatedResource<MyClinicApiStaffEmail>, BasicError>>
-      fetchStaffEmails() async {
-    final response = await FetchStaffEmailsApiEndpoint().request();
+      fetchStaffEmails([int? page]) async {
+    final response = await FetchStaffEmailsApiEndpoint(page).request();
     return response.mapSuccess((result) {
       return PaginatedResource(
           data: result.staffEmailsData

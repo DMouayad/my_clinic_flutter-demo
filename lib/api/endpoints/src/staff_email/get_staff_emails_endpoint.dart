@@ -5,10 +5,10 @@ part of staff_email_api_endpoints;
 /// Requires an access token
 class FetchStaffEmailsApiEndpoint
     extends ApiEndpoint<FetchStaffEmailsEndpointResult> {
-  FetchStaffEmailsApiEndpoint()
+  FetchStaffEmailsApiEndpoint([int? page])
       : super(
           method: RequestMethod.GET,
-          url: '/staff-emails',
+          url: '/staff-emails${page != null ? '?page=$page' : ''}',
           includeDeviceId: true,
           includeAccessToken: true,
         );

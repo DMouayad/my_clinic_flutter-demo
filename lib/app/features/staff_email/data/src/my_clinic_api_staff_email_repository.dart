@@ -28,7 +28,7 @@ class MyClinicApiStaffEmailRepository extends BaseStaffEmailRepository {
           staffEmailsStreamController
               .add(_staffEmailResource!.copyWith(data: staffEmailList));
         } else {
-          getStaffEmails();
+          fetchStaffEmails(1);
         }
       },
     );
@@ -48,8 +48,8 @@ class MyClinicApiStaffEmailRepository extends BaseStaffEmailRepository {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> getStaffEmails() async {
-    return (await _dataSource.fetchStaffEmails()).mapSuccessToVoid(
+  Future<Result<VoidValue, BasicError>> fetchStaffEmails([int? page]) async {
+    return (await _dataSource.fetchStaffEmails(page)).mapSuccessToVoid(
       (result) {
         _staffEmailResource = result;
         staffEmailsStreamController.add(_staffEmailResource);

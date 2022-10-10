@@ -182,7 +182,7 @@ mixin _ClinicAppHelper {
 
 /// Listens to auth state changes and redirect user according to it.
 ///
-/// Also provides [PreferencesCubit] with current user.
+/// Also provides [PreferencesCubit] with current user's preferences.
 ///
 /// Uses [ClinicApp.navigatorKey] to access the app navigator.
 class _AuthBlocListener extends StatelessWidget {
@@ -197,22 +197,28 @@ class _AuthBlocListener extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthHasLoggedInUser) {
-          context
-              .read<PreferencesCubit>()
-              .provideUserPreferences(state.currentUser.preferences);
+          if (state.currentUser.emailVerifiedAt != null) {
+            context
+                .read<PreferencesCubit>()
+                .provideUserPreferences(state.currentUser.preferences);
 
-          // await Future.delayed(const Duration(milliseconds: 400));
-          if (state.currentUser.role == UserRole.admin) {
-            ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-              AppRoutes.adminPanelScreen,
-              (route) => route.isFirst,
-            );
-          }
-          if (state.currentUser.role == UserRole.dentist) {
-            //TODO:: Navigate to dentist preferences setup
-          }
-          if (state.currentUser.role == UserRole.secretary) {
-            //TODO:: Navigate to secretary preferences setup
+            if (state.currentUser.role == UserRole.admin) {
+              ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                AppRoutes.adminPanelScreen,
+                (route) => false,
+              );
+            }
+            if (state.currentUser.role == UserRole.dentist) {
+              //TODO:: Navigate to dentist preferences setup
+            }
+            if (state.currentUser.role == UserRole.secretary) {
+              //TODO:: Navigate to secretary preferences setup
+            }
+          } else {
+            // ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+            //   AppRoutes.verifyNoticeScreen,
+            //   (route) => false,
+            // );
           }
         } else if (state is AuthHasNoLoggedInUser) {
           context.read<PreferencesCubit>().provideDefaultPreferences(
@@ -221,7 +227,7 @@ class _AuthBlocListener extends StatelessWidget {
               );
           ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
             AppRoutes.loginScreen,
-            (route) => route.isFirst,
+            (route) => false,
           );
         }
       },

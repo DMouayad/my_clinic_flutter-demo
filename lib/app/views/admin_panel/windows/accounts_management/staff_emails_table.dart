@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/core/entities/paginated_data/src/paginated_resource.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -14,17 +15,17 @@ import 'staff_email_dialogs.dart';
 
 class StaffDataTable extends StatelessWidget {
   const StaffDataTable({
-    required this.paginatedStaffEmails,
+    required this.dataResource,
     required this.onItemsPerPageChanged,
     required this.onPageChanged,
-    required this.itemsPerPage,
+    required this.existingEmailsList,
     Key? key,
   }) : super(key: key);
 
-  final List<BaseStaffEmail> paginatedStaffEmails;
-  final void Function(int page) onPageChanged;
+  final Future<PaginatedResource<BaseStaffEmail>> dataResource;
+  final void Function(int nextPageFirstIndex) onPageChanged;
   final void Function(int? rowsCount) onItemsPerPageChanged;
-  final int itemsPerPage;
+  final List<String> existingEmailsList;
 
   @override
   Widget build(BuildContext context) {
@@ -41,48 +42,70 @@ class StaffDataTable extends StatelessWidget {
             color: context.isDarkMode
                 ? context.colorScheme.secondaryContainer
                 : context.colorScheme.surface,
-            child: PaginatedDataTable2(
+            child: AsyncPaginatedDataTable2(
               wrapInCard: false,
               minWidth: 900,
-              // smRatio: .5,
               lmRatio: 1.4,
               headingRowColor: MaterialStateProperty.all(
                 context.colorScheme.primaryContainer,
               ),
-              header: Text(
-                context.localizations!.staffEmailsTableDescription,
-                style: context.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: context.colorScheme.onBackground,
-                ),
+              availableRowsPerPage: [],
+              header: Row(
+                children: [
+                  Tooltip(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.backgroundColor,
+                    ),
+                    message: context.localizations!.staffEmailsTableDescription,
+                    textStyle: context.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: context.colorScheme.onBackground,
+                    ),
+                    child: const Icon(Icons.info_outline),
+                  ),
+                  Expanded(
+                    child: Container(
+                      // constraints: ,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              // errorBuilder: ,
               actions: [
                 AddStaffEmailButton(
                   parentWidgetSize: widgetInfo.widgetSize,
-                  existingStaffEmails:
-                      paginatedStaffEmails.map((e) => e.email).toList(),
+                  existingStaffEmails: existingEmailsList,
                 ),
               ],
-              rowsPerPage: itemsPerPage,
               onPageChanged: onPageChanged,
               onRowsPerPageChanged: onItemsPerPageChanged,
               source: StaffEmailsDataSource(
-                paginatedStaffEmails,
                 context,
+                dataResource,
               ),
               border: TableBorder.symmetric(
                 inside: BorderSide(
                   color: context.isDarkMode
                       ? Colors.white12
-                      : Colors.grey.shade100,
+                      : Colors.blueGrey.shade50,
                 ),
               ),
+              sortColumnIndex: 0,
+              sortAscending: true,
               columns: [
                 DataColumn2(
-                  size: ColumnSize.L,
-                  label: Text(context.localizations!.email),
-                ),
+                    size: ColumnSize.L,
+                    label: Text(context.localizations!.email),
+                    onSort: (value, isd) {
+                      print(value);
+                      print(isd);
+                    }),
                 DataColumn2(
+                  numeric: true,
                   // size: ColumnSize.S,
                   label: Text(context.localizations!.assignedRole),
                 ),
@@ -105,9 +128,12 @@ class StaffDataTable extends StatelessWidget {
   }
 }
 
-class StaffEmailsDataSource extends DataTableSource {
-  StaffEmailsDataSource(this.staffEmails, this.context);
-  List<BaseStaffEmail> staffEmails;
+class StaffEmailsDataSource extends AsyncDataTableSource {
+  StaffEmailsDataSource(
+    this.context,
+    this.dataResource,
+  );
+  Future<PaginatedResource<BaseStaffEmail>> dataResource;
   final BuildContext context;
 
   String getRegisteredWithAt(
@@ -128,41 +154,58 @@ class StaffEmailsDataSource extends DataTableSource {
   DataCell _customCell(String text) {
     return DataCell(Text(
       text,
-      style: context.textTheme.titleMedium?.copyWith(
+      style: context.textTheme.titleSmall?.copyWith(
         color: context.colorScheme.onBackground,
         fontWeight: FontWeight.w500,
       ),
     ));
   }
 
-  @override
-  DataRow? getRow(int index) {
-    return DataRow(
-      color: MaterialStateProperty.resolveWith((states) {
-        if (states.contains(MaterialState.hovered)) {
-          return context.colorScheme.surface;
-        }
-        return context.colorScheme.backgroundColor;
-      }),
-      cells: [
-        _customCell(staffEmails[index].email),
-        _customCell(staffEmails[index].userRole.name),
-        _customCell(
-          getRegisteredWithAt(staffEmails[index].user?.createdAt, context),
-        ),
-        _customCell(
-          staffEmails[index].user?.name ?? '-',
-        ),
-        DataCell(_StaffEmailOptions(
-          staffEmails[index],
-          staffEmails.map((e) => e.email).toList(),
-        )),
-      ],
-    );
-  }
+  // List<BaseStaffEmail> get staffEmails => dataResource.data;
+  // @override
+  // DataRow? getRow(int index) {
+  //   print(index);
+  //   index = index - dataResource.paginationInfo.from + 1;
+  //
+  //
+  // }
+
+  // int _rowCount = 10;
+  // @override
+  // int get rowCount => _rowCount;
 
   @override
-  int get rowCount => staffEmails.length;
+  Future<AsyncRowsResponse> getRows(int start, int end) async {
+    final resource = await dataResource;
+    // _rowCount = resource.paginationInfo.to - (resource.paginationInfo.from + 1);
+    return AsyncRowsResponse(
+      resource.paginationInfo.total,
+      resource.data.map((e) {
+        return DataRow(
+          color: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.hovered)) {
+              return context.colorScheme.surface;
+            }
+            return context.colorScheme.backgroundColor;
+          }),
+          cells: [
+            _customCell(e.email),
+            _customCell(e.userRole.name),
+            _customCell(
+              getRegisteredWithAt(e.user?.createdAt, context),
+            ),
+            _customCell(
+              e.user?.name ?? '-',
+            ),
+            DataCell(_StaffEmailOptions(
+              e,
+              resource.data.map((e) => e.email).toList(),
+            )),
+          ],
+        );
+      }).toList(),
+    );
+  }
 }
 
 class _StaffEmailOptions extends StatelessWidget {

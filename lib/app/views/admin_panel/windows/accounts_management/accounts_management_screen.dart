@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
@@ -21,6 +24,21 @@ class _AccountsManagementWindowsScreenState
     extends fluent_ui.State<AccountsManagementWindowsScreen> {
   PaginatedResource<BaseStaffEmail>? staffEmailsResource;
 
+  void _onPageChanged(int nextPageFirstIndex) {
+    if (staffEmailsResource != null &&
+        (nextPageFirstIndex + 1) != staffEmailsResource!.paginationInfo.to) {
+      final dataFillsOnlyOnePage = staffEmailsResource!.paginationInfo.total ==
+          staffEmailsResource!.data.length;
+      if (!dataFillsOnlyOnePage) {
+        final newPage = staffEmailsResource!.paginationInfo.currentPage +
+            ((nextPageFirstIndex + 1) > staffEmailsResource!.paginationInfo.from
+                ? 1
+                : -1);
+        context.read<StaffEmailsBloc>().add(FetchStaffEmails(newPage));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return fluent_ui.ScaffoldPage(
@@ -34,25 +52,23 @@ class _AccountsManagementWindowsScreenState
             fit: StackFit.expand,
             children: [
               if (staffEmailsResource != null)
-                StaffDataTable(
-                  itemsPerPage: 10,
-                  paginatedStaffEmails: staffEmailsResource!.data,
-                  onPageChanged: (int page) {
-                    if (staffEmailsResource != null &&
-                        page !=
-                            staffEmailsResource!.paginationInfo.currentPage) {
-                      final dataFillsOnlyOnePage =
-                          staffEmailsResource!.paginationInfo.total ==
-                              staffEmailsResource!.data.length;
-                      if (!dataFillsOnlyOnePage) {
-                        print('fetch page items');
-                      }
-                    }
-                  },
-                  onItemsPerPageChanged: (int? rowsCount) {},
+                FadeInUp(
+                  from: 50,
+                  child: StaffDataTable(
+                    dataResource: Future.sync(() => staffEmailsResource!),
+                    onPageChanged: _onPageChanged,
+                    existingEmailsList:
+                        staffEmailsResource!.data.map((e) => e.email).toList(),
+                    onItemsPerPageChanged: (int? rowsCount) {},
+                  ),
                 ),
-              if (state is! StaffEmailsWereLoaded) ...[
-                ModalBarrier(dismissible: false),
+              if (state is StaffEmailErrorState)
+                Card(
+                  child: Text(state.error.toString()),
+                )
+              else if (state is! StaffEmailsWereLoaded &&
+                  state is! StaffEmailsSuccess) ...[
+                const BlurredColorBarrier(),
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   child: fluent_ui.SizedBox(
@@ -64,7 +80,7 @@ class _AccountsManagementWindowsScreenState
                     ),
                   ),
                 ),
-              ]
+              ],
             ],
           );
         },
