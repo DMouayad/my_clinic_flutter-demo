@@ -7,8 +7,8 @@ import 'package:clinic_v2/app/shared_widgets/input_text_field.dart';
 import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/windows_tile.dart';
 
-class StaffEmailForm extends StatefulWidget {
-  const StaffEmailForm({
+class StaffMemberForm extends StatefulWidget {
+  const StaffMemberForm({
     required this.onSubmit,
     required this.existingEmails,
     this.role,
@@ -23,16 +23,17 @@ class StaffEmailForm extends StatefulWidget {
   final List<String> existingEmails;
 
   @override
-  _StaffEmailFormState createState() => _StaffEmailFormState();
+  _StaffMemberFormState createState() => _StaffMemberFormState();
 }
 
-class _StaffEmailFormState extends State<StaffEmailForm> {
+class _StaffMemberFormState extends State<StaffMemberForm> {
   late UserRole userRole;
   late final TextEditingController emailController;
   final GlobalKey<FormState> _formKey = GlobalKey();
-
+  late final String? initialEmailAddress;
   @override
   void initState() {
+    initialEmailAddress = widget.email;
     userRole = widget.role ?? UserRole.admin;
     emailController = TextEditingController(
       text: widget.email,
@@ -73,7 +74,7 @@ class _StaffEmailFormState extends State<StaffEmailForm> {
             WindowsTile(
               childSize: const Size.fromWidth(350),
               tileLabel: context.localizations!.email,
-              subtitleText: context.localizations!.enterStaffEmail,
+              subtitleText: context.localizations!.enterStaffMember,
               child: Material(
                 type: MaterialType.transparency,
                 child: Form(
@@ -84,8 +85,8 @@ class _StaffEmailFormState extends State<StaffEmailForm> {
                         return context.localizations!.emailIsRequired;
                       } else if (!value!.isValidEmail) {
                         return context.localizations!.emailInvalid;
-                      } else if (widget.existingEmails
-                          .contains(value.toLowerCase())) {
+                      } else if (value.toLowerCase() != initialEmailAddress &&
+                          widget.existingEmails.contains(value.toLowerCase())) {
                         return context.localizations!.emailAlreadyExists;
                       }
                     },
@@ -94,16 +95,16 @@ class _StaffEmailFormState extends State<StaffEmailForm> {
                     textInputAction: TextInputAction.done,
                     hintText: context.localizations!.email,
                     controller: emailController,
+                    textStyle: context.textTheme.titleMedium,
                   ),
                 ),
               ),
             ),
           ],
         ),
-        Positioned(
-          bottom: 0,
-          left: 10,
-          // right: 20,
+        Align(
+          alignment:
+              context.isLTR ? Alignment.bottomRight : Alignment.bottomLeft,
           child: AdaptiveFilledButton(
             width: 70,
             label: context.localizations!.done.toUpperCase(),

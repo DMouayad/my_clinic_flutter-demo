@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:clinic_v2/api/endpoints_results/src/staff_email/add_staff_email_endpoint_result.dart';
-
 import '../endpoints_results/endpoints_results.dart';
 
 class EmptyApiEndpointResult extends ApiEndpointResult {}
@@ -28,16 +26,16 @@ class ApiEndpointResult extends Object {
         return LoginEndpointResult.fromMap(data) as R;
       case RegisterEndpointResult:
         return RegisterEndpointResult.fromMap(data) as R;
-      case FetchStaffEmailsEndpointResult:
-        return FetchStaffEmailsEndpointResult.fromApiResponse(json) as R;
+      case FetchStaffMembersEndpointResult:
+        return FetchStaffMembersEndpointResult.fromApiResponse(json) as R;
       case RefreshAccessTokenEndpointResult:
         return RefreshAccessTokenEndpointResult.fromMap(data) as R;
       case FetchUserEndpointResult:
         return FetchUserEndpointResult.fromMap(data) as R;
       case FetchUserPreferencesEndpointResult:
         return FetchUserPreferencesEndpointResult.fromMap(data) as R;
-      case AddStaffEmailEndpointResult:
-        return AddStaffEmailEndpointResult.fromMap(data) as R;
+      case AddStaffMemberEndpointResult:
+        return AddStaffMemberEndpointResult.fromMap(data) as R;
       default:
         return const ApiEndpointResult() as R;
     }

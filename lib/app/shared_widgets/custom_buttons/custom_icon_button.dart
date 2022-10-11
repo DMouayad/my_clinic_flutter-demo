@@ -23,7 +23,8 @@ class CustomIconButton extends StatelessWidget {
   }
 
   Widget windowsBuilder(BuildContext context) {
-    return fluent_ui.Tooltip(
+    return Tooltip(
+      waitDuration: const Duration(milliseconds: 200),
       message: tooltipMessage,
       child: fluent_ui.IconButton(
         icon: icon,

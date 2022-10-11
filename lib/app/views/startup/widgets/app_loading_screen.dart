@@ -25,7 +25,6 @@ class LoadingAppScreen extends StatelessWidget {
             LoadingIndicator(
               currentDotColor: context.colorScheme.primary!,
               defaultDotColor: context.colorScheme.primaryContainer!,
-              size: 60,
             ),
             AppNameText(
               fontSize: 32,
@@ -45,12 +44,7 @@ class LoadingAppScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            LoadingIndicator(
-              currentDotColor: context.colorScheme.primary!,
-              defaultDotColor: context.colorScheme.primaryContainer!,
-              numDots: 5,
-              size: 60,
-            ),
+            const LoadingIndicator(),
             const SizedBox(height: 24),
             Text(
               context.localizations!.loading,

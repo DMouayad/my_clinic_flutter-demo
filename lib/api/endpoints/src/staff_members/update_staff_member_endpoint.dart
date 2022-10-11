@@ -1,14 +1,14 @@
-part of staff_email_api_endpoints;
+part of staff_member_api_endpoints;
 
-class UpdateStaffEmailApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
-  UpdateStaffEmailApiEndpoint({
-    required int staffEmailId,
+class UpdateStaffMemberApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+  UpdateStaffMemberApiEndpoint({
+    required int id,
     String? newEmail,
     UserRole? newRole,
   })  : assert(newEmail != null || newRole != null),
         super(
           method: RequestMethod.PUT,
-          url: '/staff-emails/$staffEmailId',
+          url: '/staff-members/$id',
           includeAccessToken: true,
           includeDeviceId: true,
           data: () {

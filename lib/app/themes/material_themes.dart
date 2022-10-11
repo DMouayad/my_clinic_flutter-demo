@@ -1,5 +1,4 @@
-import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:flutter/services.dart';
 
 import 'app_color_scheme.dart';
@@ -28,8 +27,8 @@ class MaterialAppThemes {
   static final ThemeData defaultDarkTheme = ThemeData.dark().copyWith(
     // Colors //
     brightness: Brightness.dark,
-    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
     colorScheme: AppColorScheme.darkColorScheme,
+    useMaterial3: true,
 
     // ----------------- //
     dialogTheme: const DialogTheme(
@@ -70,38 +69,40 @@ class MaterialAppThemes {
       ),
       labelColor: Color(0xFFd4d5d6),
     ),
-
+// typography: Typography.material2021(
+//   black: TextTheme()
+// ),
     // default Text Theme //
     textTheme: const TextTheme(
-      headline4: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
-      headline5: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
-      headline6: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
-      subtitle1: TextStyle(
+      headlineLarge: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
+      headlineMedium: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
+      headlineSmall: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
+      titleLarge: TextStyle(
         fontFamily: 'inter',
-        fontSize: 16,
         color: Color(0xFFe4e9eb),
-      ),
-      subtitle2: TextStyle(
-        fontFamily: 'inter',
-        fontSize: 14,
-        fontWeight: FontWeight.w500,
-        color: Color(0xFFe4e9eb),
-      ),
-      bodyText1: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: Color(0xFFe0eeec),
-        fontFamily: 'inter',
-      ),
-      bodyText2: TextStyle(
-        fontSize: 14,
         fontWeight: FontWeight.w600,
+      ),
+      titleMedium: TextStyle(
+        fontFamily: 'inter',
+        color: Color(0xFFe4e9eb),
+        fontWeight: FontWeight.w600,
+      ),
+      titleSmall: TextStyle(
+        fontFamily: 'inter',
+        color: Color(0xFFe4e9eb),
+        fontWeight: FontWeight.w500,
+      ),
+      bodyLarge: TextStyle(
+        fontWeight: FontWeight.w500,
         color: Color(0xFFe0eeec),
         fontFamily: 'inter',
       ),
-      button: TextStyle(fontWeight: FontWeight.w500),
-      caption: TextStyle(
-        // fontSize: 12,
+      bodyMedium: TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Color(0xFFe0eeec),
+        fontFamily: 'inter',
+      ),
+      bodySmall: TextStyle(
         fontWeight: FontWeight.w600,
         color: Color(0xFFe0eeec),
         fontFamily: 'inter',
@@ -129,8 +130,7 @@ class MaterialAppThemes {
 
   static ThemeData lightTheme = ThemeData.light().copyWith(
     brightness: Brightness.light,
-    androidOverscrollIndicator: AndroidOverscrollIndicator.stretch,
-
+    useMaterial3: true,
     //
     scaffoldBackgroundColor: _lightModeBackgroundColor,
     appBarTheme: AppBarTheme(
@@ -189,38 +189,47 @@ class MaterialAppThemes {
         backgroundColor: AppColorScheme.darkColorScheme.primaryContainer),
     //
     textTheme: const TextTheme(
-      headline4: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
-      headline5: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
-      headline6: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
-      subtitle1: TextStyle(
+      headlineLarge: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
+      headlineMedium: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
+      headlineSmall: TextStyle(fontFamily: 'inter', color: Color(0xFF0f1413)),
+      titleLarge: TextStyle(
         fontFamily: 'inter',
-        fontSize: 16,
         color: Color(0xFF0f1413),
+        fontWeight: FontWeight.w600,
       ),
-      subtitle2: TextStyle(
+      titleMedium: TextStyle(
         fontFamily: 'inter',
-        fontSize: 14,
+        color: Color(0xFF0f1413),
         fontWeight: FontWeight.w500,
-        color: Color(0xFF0f1413),
       ),
-      bodyText1: TextStyle(
+      titleSmall: TextStyle(
+        fontFamily: 'inter',
+        color: Color(0xFFe4e9eb),
+        fontWeight: FontWeight.w500,
+      ),
+      // subtitle1: const TextStyle(
+      //   fontFamily: 'inter',
+      //   fontSize: 16,
+      //   color: Color(0xFF0f1413),
+      // ),
+      // subtitle2: const TextStyle(
+      //   fontFamily: 'inter',
+      //   fontSize: 14,
+      //   fontWeight: FontWeight.w500,
+      //   color: Color(0xFF0f1413),
+      // ),
+      bodyLarge: TextStyle(
         color: Color(0xFF1e2827),
-        fontSize: 16,
         fontWeight: FontWeight.w500,
         fontFamily: 'inter',
       ),
-      bodyText2: TextStyle(
+      bodyMedium: TextStyle(
         fontWeight: FontWeight.w600,
         color: Color(0xFF1e2827),
         fontFamily: 'inter',
       ),
-      button: TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Color(0xFF1e2827),
-        fontFamily: 'inter',
-      ),
-      caption: TextStyle(
-        fontWeight: FontWeight.w500,
+      bodySmall: TextStyle(
+        fontWeight: FontWeight.w600,
         color: Color(0xFF1e2827),
         fontFamily: 'inter',
       ),

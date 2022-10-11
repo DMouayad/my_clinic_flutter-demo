@@ -33,22 +33,22 @@ class ErrorException extends Equatable {
   const factory ErrorException.failedToRefreshTokens() =
       FailedToRefreshAuthTokensException;
 
-  factory ErrorException.deletingOnlyAdminStaffEmail() {
-    return const ErrorException('DeletingOnlyAdminStaffEmail');
+  factory ErrorException.deletingOnlyAdminStaffMember() {
+    return const ErrorException('DeletingOnlyAdminStaffMember');
   }
 
   factory ErrorException.roleNotFound() {
     return const ErrorException('RoleNotFound');
   }
-  factory ErrorException.staffEmailAlreadyExists() {
-    return const ErrorException('StaffEmailAlreadyExists');
+  factory ErrorException.StaffMemberAlreadyExists() {
+    return const ErrorException('StaffMemberAlreadyExists');
   }
 
   factory ErrorException.userPreferencesAlreadyExists() {
     return const ErrorException('UserPreferencesAlreadyExists');
   }
-  factory ErrorException.userDoesntMatchHisStaffEmail() {
-    return const ErrorException('UserDoesntMatchHisStaffEmail');
+  factory ErrorException.userDoesntMatchHisStaffMember() {
+    return const ErrorException('UserDoesntMatchHisStaffMember');
   }
 
   factory ErrorException.fromApiException(ApiExceptionClass apiExceptionClass) {
@@ -56,18 +56,18 @@ class ErrorException extends Equatable {
       case ApiExceptionClass.emailAlreadyRegistered:
         return const ErrorException.emailAlreadyRegistered();
 
-      case ApiExceptionClass.cannotDeleteOnlyAdminStaffEmail:
-        return ErrorException.deletingOnlyAdminStaffEmail();
+      case ApiExceptionClass.cannotDeleteOnlyAdminStaffMember:
+        return ErrorException.deletingOnlyAdminStaffMember();
 
       case ApiExceptionClass.roleNotFound:
         return ErrorException.roleNotFound();
-      case ApiExceptionClass.staffEmailAlreadyExists:
-        return ErrorException.staffEmailAlreadyExists();
+      case ApiExceptionClass.StaffMemberAlreadyExists:
+        return ErrorException.StaffMemberAlreadyExists();
       case ApiExceptionClass.userPreferencesAlreadySaved:
         return ErrorException.userPreferencesAlreadyExists();
 
-      case ApiExceptionClass.userDataDoesntMatchHisStaffEmail:
-        return ErrorException.userDoesntMatchHisStaffEmail();
+      case ApiExceptionClass.userDataDoesntMatchHisStaffMember:
+        return ErrorException.userDoesntMatchHisStaffMember();
 
       case ApiExceptionClass.emailUnauthorizedToRegister:
         return const ErrorException.emailUnauthorizedToRegister();

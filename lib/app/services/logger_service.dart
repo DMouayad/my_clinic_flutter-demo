@@ -94,7 +94,7 @@ class Log {
   }
 
   static void logDioResponse(dio.Response response) {
-    to.i('''<Dio Request>
+    to.i('''<Dio Response>
         <requested uri: ${response.realUri}>
         <status: ${response.statusCode}>   <success: ${response.isSuccess}>
       ''');

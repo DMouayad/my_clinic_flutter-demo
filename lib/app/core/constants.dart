@@ -117,7 +117,7 @@
 import 'package:clinic_v2/app/core/entities/work_shift.dart';
 import 'package:flutter/material.dart';
 
-const kDaysOfWeek = {
+const daysOfWeek = {
   'sunday': DateTime.sunday,
   'monday': DateTime.monday,
   'tuesday': DateTime.tuesday,
@@ -127,11 +127,11 @@ const kDaysOfWeek = {
   'saturday': DateTime.saturday,
 };
 
-final kDefaultWorkShifts = [
+final defaultWorkShifts = [
   WorkShift(
     start: const TimeOfDay(hour: 10, minute: 0),
     end: const TimeOfDay(hour: 20, minute: 0),
-    days: kDaysOfWeek.values.toList(),
+    days: daysOfWeek.values.toList(),
   ),
 ];
 

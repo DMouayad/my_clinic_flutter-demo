@@ -20,7 +20,6 @@ extension DeviceInfoExtension on BuildContext {
 extension ResponsiveContextExtension on BuildContext {
   double get horizontalMargins {
     final screenWidth = MediaQuery.of(this).size.width;
-    print(screenWidth);
     if (screenWidth <= 600) {
       return 16.0;
     } else if (screenWidth > 600 && screenWidth < 900) {

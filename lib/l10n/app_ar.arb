@@ -94,8 +94,8 @@
     "edit": "تعديل",
     "done": "تم",
 
-    "name":"الاسم",
-    "accountsManagement":"إدارة الحسابات",
+    "registrationName":"الاسم المسجل به",
+    "staffManagement":"إدارة الموظفين",
     "registeredWithAt":"تم التسجيل به في",
     "assignedRole":"الدور المعطى",
     "options":"خيارات",
@@ -112,15 +112,15 @@
     "invalidApiRequest": "تم ارسال طلب غير صالح! الرجاء التواصل مع الدعم الفني",
     "failedToAuthenticateUser": "حدث خطأ أثناء تسجيل الدخول لحسابك الخاص، رجاءً قم بتسجيل الدخول من جديد",
 
-    "addStaffEmailDialogTitle": "إضافة بريد الكتروني جديد",
-    "editStaffEmailDialogTitle": "تعديل بيانات البريد الالكتروني",
-    "staffEmailsTableDescription": "قائمة بعناوين البريد الالكتروني المسموح لها بتسجيل حساب جديد",
+    "addStaffMemberDialogTitle": "إضافة عضو جديد إلى فريق العمل",
+    "editStaffMemberDialogTitle": "تعديل بيانات عضو فريق العمل",
+    "staffMembersTableDescription": "قائمة بعناوين البريد الالكتروني المسموح لها بتسجيل حساب جديد",
     "roleOrPrivileges": "الدور/الصلاحيات",
-    "selectStaffRole": "اختر الدور/الصلاحيات المعطاة للمستخدم المسجل بالبريد الالكتروني أدناه",
-    "enterStaffEmail" : "ادخل البريد الالكتروني الذي سيستخدم لتسجيل حساب جديد",
+    "selectStaffRole": "اختر دور العضو الجديد",
+    "enterStaffMember" : "ادخل البريد الالكتروني الذي سيستخدمه العضو الجديد لتسجيل حساب",
 
-    "deleteStaffEmailDialogTitle": "تأكيد عملية الحذف",
-    "deleteStaffEmailDialogContent": "هل أنت متأكد من حذف(toDelete)؟\nتنبيه: بعد الحذف، لن يكون بالإمكان تسجيل الدخول للحساب الخاص بهذا الايميل."
+    "deleteStaffMemberDialogTitle": "تأكيد عملية الحذف",
+    "deleteStaffMemberDialogContent": "هل أنت متأكد من حذف(toDelete)؟\nتنبيه: بعد الحذف، لن يكون بالإمكان تسجيل الدخول للحساب الخاص بهذا الايميل."
 
 
 

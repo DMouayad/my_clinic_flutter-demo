@@ -92,8 +92,8 @@
     "edit": "Edit",
     "done": "Done",
 
-    "name":"Name",
-    "accountsManagement":"Accounts Management",
+    "registrationName":"Registration Name",
+    "staffManagement":"Staff Management",
      "registeredWithAt":"Registered with at",
      "assignedRole":"Assigned role",
      "options": "Options",
@@ -111,15 +111,15 @@
     "invalidApiRequest": "An invalid api request was made! please contact technical support.",
     "failedToAuthenticateUser": "An error occurred while logging in to your account, please re-login",
 
-    "addStaffEmailDialogTitle": "Add new email address",
-    "editStaffEmailDialogTitle": "Edit email info",
-    "staffEmailsTableDescription": "List of email address that are allowed to register a Clinic's account",
+    "addStaffMemberDialogTitle": "Add new staff member",
+    "editStaffMemberDialogTitle": "Edit staff member info",
+    "staffMembersTableDescription": "Table of staff members that are allowed to register a Clinic's account",
     "roleOrPrivileges": "Role/Privileges",
-    "selectStaffRole": "Select the role/privileges of the user registered with the email address below",
-    "enterStaffEmail" : "Enter the email which will be used to register a new account",
+    "selectStaffRole": "Select staff member role:",
+    "enterStaffMember" : "Enter the email address which will be used by the new member to register an account:",
 
-    "deleteStaffEmailDialogTitle": "Delete confirmation",
-    "deleteStaffEmailDialogContent": "Are you sure to delete (toDelete)?\nwarning: if deleted, It wont be possible to login to the account associated with it."
+    "deleteStaffMemberDialogTitle": "Delete confirmation",
+    "deleteStaffMemberDialogContent": "Are you sure to delete (toDelete)?\nwarning: if deleted, It wont be possible to login to the account associated with it."
 
 
 }

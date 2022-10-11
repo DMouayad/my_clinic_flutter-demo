@@ -2,12 +2,12 @@
 /// with an error response
 enum ApiExceptionClass {
   userNotFound("UserNotFoundException"),
-  cannotDeleteOnlyAdminStaffEmail("DeletingOnlyAdminStaffEmailException"),
+  cannotDeleteOnlyAdminStaffMember("DeletingOnlyAdminStaffMemberException"),
   emailAlreadyRegistered("EmailAlreadyRegisteredException"),
   roleNotFound("RoleNotFoundException"),
-  staffEmailAlreadyExists("StaffEmailAlreadyExistsException"),
-  userPreferencesAlreadySaved("StaffEmailAlreadyExistsException"),
-  userDataDoesntMatchHisStaffEmail("UserDoesntMatchHisStaffEmailException"),
+  staffMemberAlreadyExists("StaffMemberAlreadyExistsException"),
+  userPreferencesAlreadySaved("StaffMemberAlreadyExistsException"),
+  userDataDoesntMatchHisStaffMember("UserDoesntMatchHisStaffMemberException"),
   emailUnauthorizedToRegister("EmailUnauthorizedToRegisterException"),
   invalidEmailCredential("InvalidEmailCredentialException"),
   invalidPasswordCredential("InvalidPasswordCredentialException"),

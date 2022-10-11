@@ -1,4 +1,6 @@
-class PaginationInfo {
+import 'package:equatable/equatable.dart';
+
+class PaginationInfo extends Equatable {
   final int currentPage, from, lastPage;
   final List<CurrentPageLinks> links;
   final String path;
@@ -29,14 +31,40 @@ class PaginationInfo {
       total: map['total'] as int,
     );
   }
-
+  bool get isAtLastPage => currentPage == lastPage;
   @override
   String toString() {
     return 'PaginationInfo{currentPage: $currentPage, from: $from, lastPage: $lastPage, links: $links, path: $path, perPage: $perPage, to: $to, total: $total}';
   }
+
+  @override
+  List<Object?> get props =>
+      [currentPage, from, to, lastPage, links, path, perPage, total];
+
+  PaginationInfo copyWith({
+    int? currentPage,
+    int? from,
+    int? lastPage,
+    List<CurrentPageLinks>? links,
+    String? path,
+    int? perPage,
+    int? to,
+    int? total,
+  }) {
+    return PaginationInfo(
+      currentPage: currentPage ?? this.currentPage,
+      from: from ?? this.from,
+      lastPage: lastPage ?? this.lastPage,
+      links: links ?? this.links,
+      path: path ?? this.path,
+      perPage: perPage ?? this.perPage,
+      to: to ?? this.to,
+      total: total ?? this.total,
+    );
+  }
 }
 
-class CurrentPageLinks {
+class CurrentPageLinks extends Equatable {
   final String? url;
   final String label;
   final bool active;
@@ -54,4 +82,7 @@ class CurrentPageLinks {
       active: map['active'] as bool,
     );
   }
+
+  @override
+  List<Object?> get props => [url, label, active];
 }

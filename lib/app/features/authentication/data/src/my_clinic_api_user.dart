@@ -98,6 +98,7 @@ class MyClinicApiUser implements BaseServerUser {
         email,
         role,
         preferences,
+        phoneNumber,
         id,
         createdAt,
         emailVerifiedAt,
