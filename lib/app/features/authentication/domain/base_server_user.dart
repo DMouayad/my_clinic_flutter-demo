@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/core/enums.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/src/base_user_preferences.dart';
+import 'package:clinic_v2/app/features/user_preferences/domain/base_user_preferences.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class BaseServerUser extends Equatable {
@@ -16,7 +16,7 @@ abstract class BaseServerUser extends Equatable {
   /// Represents when the user email was verified - timezone is UTC
   final DateTime? emailVerifiedAt;
   final DateTime createdAt;
-
+  bool get isVerified => emailVerifiedAt != null;
   const BaseServerUser({
     required this.id,
     required this.name,

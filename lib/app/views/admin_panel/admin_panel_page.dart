@@ -21,7 +21,10 @@ class AdminPanelPage extends AppPage {
                 create: (_) {
                   return StaffBloc(
                     MyClinicApiStaffMemberRepository(),
-                  )..add(const FetchStaffMembers(page: 1));
+                  )..add(const FetchStaffMembers(
+                      page: 1,
+                      sortedBy: ["+registered_with_at"],
+                    ));
                 },
                 child: WindowsAdminPanelScreen(),
               ),

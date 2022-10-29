@@ -1,6 +1,6 @@
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
-import 'package:flutter/material.dart';
+
+import 'base_server_user.dart';
 
 abstract class BaseAuthDataSource<T extends BaseServerUser> {
   Future<Result> register({
@@ -8,8 +8,6 @@ abstract class BaseAuthDataSource<T extends BaseServerUser> {
     required String email,
     required String phoneNumber,
     required String password,
-    required ThemeMode themeModePreference,
-    required Locale localePreference,
   });
   Future<Result> login(
     String email,

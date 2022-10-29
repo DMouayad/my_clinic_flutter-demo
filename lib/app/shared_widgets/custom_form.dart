@@ -173,6 +173,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
             ),
             SizedBox(height: context.screenHeight * .14),
             SubmitButton(
+              expandInWidth: true,
               text: widget.isLoginForm
                   ? context.localizations!.login
                   : context.localizations!.signUp,

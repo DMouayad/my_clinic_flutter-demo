@@ -10,10 +10,11 @@ abstract class BaseStaffMemberDataSource<T extends BaseStaffMember> {
     String email,
     UserRole userRole,
   );
-  Future<Result<PaginatedResource<T>, BasicError>> fetchStaffMembers([
+  Future<Result<PaginatedResource<T>, BasicError>> fetchStaffMembers({
     int? page,
+    int? perPage,
     List<String>? sortedBy,
-  ]);
+  });
   Future<Result<VoidValue, BasicError>> updateStaffMember(
     int id, [
     String? email,

@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-//
 import 'package:clinic_v2/api/endpoints/auth_endpoints.dart';
 import 'package:clinic_v2/api/endpoints/user_endpoints.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/authentication/data/src/my_clinic_api_user.dart';
-import 'package:clinic_v2/app/features/authentication/domain/src/base_auth_data_source.dart';
+import 'package:clinic_v2/app/features/authentication/data/my_clinic_api_user.dart';
+import 'package:clinic_v2/app/features/authentication/domain/base_auth_data_source.dart';
 import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
 
 class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
@@ -37,8 +35,6 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
     required String email,
     required String phoneNumber,
     required String password,
-    required ThemeMode themeModePreference,
-    required Locale localePreference,
   }) async {
     final response = await RegisterApiEndpoint(
       name: username,

@@ -29,6 +29,7 @@ class StaffDataTable extends StatefulWidget {
   final void Function(int? rowsCount) onItemsPerPageChanged;
   final List<String> existingEmailsList;
   final void Function(List<String> sortedBy) onSort;
+
   @override
   State<StaffDataTable> createState() => _StaffDataTableState();
 }
@@ -36,7 +37,9 @@ class StaffDataTable extends StatefulWidget {
 class _StaffDataTableState extends State<StaffDataTable> {
   bool _sortAscending = true;
 
-  int _sortColumnIndex = 0;
+  // default to registered_with_at
+  int _sortColumnIndex = 2;
+
   void sort(int index, bool ascending) {
     _sortColumnIndex = index;
     _sortAscending = !_sortAscending;
@@ -52,7 +55,7 @@ class _StaffDataTableState extends State<StaffDataTable> {
         columnName = 'registered_with_at';
         break;
       case 3:
-        columnName = 'registration_name';
+        columnName = 'username';
         break;
     }
     columnName = (_sortAscending ? '+' : '-') + columnName;
@@ -82,6 +85,7 @@ class _StaffDataTableState extends State<StaffDataTable> {
                     ? context.colorScheme.secondaryContainer
                     : context.colorScheme.surface,
                 child: AsyncPaginatedDataTable2(
+                  showFirstLastButtons: true,
                   pageSyncApproach: PageSyncApproach.goToFirst,
                   wrapInCard: false,
                   minWidth: 900,
@@ -137,7 +141,6 @@ class _StaffDataTableState extends State<StaffDataTable> {
                     DataColumn2(
                       size: ColumnSize.S,
                       label: Text(context.localizations!.options),
-                      onSort: (index, ascending) => sort(index, ascending),
                     ),
                   ],
                 ),
@@ -223,19 +226,20 @@ class StaffMembersDataSource extends AsyncDataTableSource {
   @override
   int get selectedRowCount => 0;
   DataCell _customCell(String text) {
-    return DataCell(Text(
-      text,
-      style: context.textTheme.titleSmall?.copyWith(
-        color: context.colorScheme.onBackground,
-        fontWeight: FontWeight.w500,
+    return DataCell(
+      Text(
+        text,
+        style: context.textTheme.titleSmall?.copyWith(
+          color: context.colorScheme.onBackground,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-    ));
+    );
   }
 
   @override
   Future<AsyncRowsResponse> getRows(int start, int end) async {
     final resource = await dataResource;
-    // await Future.delayed(Duration(milliseconds: 200));
     return AsyncRowsResponse(
       resource.paginationInfo.total,
       resource.data.map((e) {
@@ -249,12 +253,8 @@ class StaffMembersDataSource extends AsyncDataTableSource {
           cells: [
             _customCell(e.email),
             _customCell(e.userRole.name),
-            _customCell(
-              getRegisteredWithAt(e.user?.createdAt, context),
-            ),
-            _customCell(
-              e.user?.name ?? '-',
-            ),
+            _customCell(getRegisteredWithAt(e.user?.createdAt, context)),
+            _customCell(e.user?.name ?? '-'),
             DataCell(_StaffMemberOptions(
               e,
               resource.data.map((e) => e.email).toList(),

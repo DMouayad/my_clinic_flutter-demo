@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:clinic_v2/api/errors/api_exception_class.dart';
-import 'package:clinic_v2/app/core/entities/result/basic_error.dart';
-import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
+import 'package:clinic_v2/app/core/entities/error/basic_error.dart';
 import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
 
 class ApiResponseError extends BasicError {
@@ -25,7 +24,10 @@ class ApiResponseError extends BasicError {
       if (apiExceptionClass != null) {
         errorException = ErrorException.fromApiException(
           ApiExceptionClass.values
-              .firstWhere((c) => c.name == apiExceptionClass),
+              .firstWhere((c) => c.name == apiExceptionClass, orElse: () {
+            throw UnimplementedError(
+                'no ApiExceptionClass was found for $errorException');
+          }),
         );
       } else if (response.get('status') == HttpStatus.unauthorized) {
         errorException = const ErrorException.userUnauthorized();

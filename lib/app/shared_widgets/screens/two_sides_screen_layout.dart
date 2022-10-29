@@ -30,7 +30,8 @@ class TwoSidesScreenLayout extends StatelessWidget {
   Widget build(context) {
     return Material(
       color: backgroundColor ?? context.colorScheme.backgroundColor,
-      child: Row(
+      child: Flex(
+        direction: Axis.horizontal,
         children: [
           Expanded(
             flex: leftSideFlex,

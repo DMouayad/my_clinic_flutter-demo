@@ -40,7 +40,7 @@ class ErrorException extends Equatable {
   factory ErrorException.roleNotFound() {
     return const ErrorException('RoleNotFound');
   }
-  factory ErrorException.StaffMemberAlreadyExists() {
+  factory ErrorException.staffMemberAlreadyExists() {
     return const ErrorException('StaffMemberAlreadyExists');
   }
 
@@ -61,8 +61,8 @@ class ErrorException extends Equatable {
 
       case ApiExceptionClass.roleNotFound:
         return ErrorException.roleNotFound();
-      case ApiExceptionClass.StaffMemberAlreadyExists:
-        return ErrorException.StaffMemberAlreadyExists();
+      case ApiExceptionClass.staffMemberAlreadyExists:
+        return ErrorException.staffMemberAlreadyExists();
       case ApiExceptionClass.userPreferencesAlreadySaved:
         return ErrorException.userPreferencesAlreadyExists();
 

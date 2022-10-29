@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/core/enums.dart';
-import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
+import 'package:clinic_v2/app/features/authentication/domain/base_server_user.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class BaseStaffMember<T extends BaseServerUser> extends Equatable {
@@ -7,6 +7,7 @@ abstract class BaseStaffMember<T extends BaseServerUser> extends Equatable {
     required this.id,
     required this.email,
     required this.userRole,
+    required this.createdAt,
     this.user,
   });
 
@@ -14,14 +15,16 @@ abstract class BaseStaffMember<T extends BaseServerUser> extends Equatable {
   final String email;
   final UserRole userRole;
   final T? user;
+  final DateTime createdAt;
 
   @override
-  List<Object?> get props => [id, email, userRole, user];
+  List<Object?> get props => [id, email, userRole, createdAt, user];
 
   BaseStaffMember copyWith({
     int? id,
     String? email,
     UserRole? userRole,
+    DateTime? createdAt,
     T? user,
   });
 }

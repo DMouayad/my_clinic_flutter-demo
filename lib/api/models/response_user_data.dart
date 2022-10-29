@@ -7,7 +7,7 @@ class ApiResponseUserData {
   final String email;
   final String phoneNumber;
   final String roleSlug;
-  final String roleName;
+  final String? roleName;
   final String? emailVerifiedAt;
   final String createdAt;
   final String updatedAt;
@@ -22,7 +22,7 @@ class ApiResponseUserData {
     required this.createdAt,
     required this.updatedAt,
     required this.roleSlug,
-    required this.roleName,
+    this.roleName,
     this.appUserId,
     this.emailVerifiedAt,
     this.themePreference,
@@ -57,8 +57,8 @@ class ApiResponseUserData {
       createdAt: map['created_at'] as String,
       updatedAt: map['updated_at'] as String,
       roleSlug: roleMap?.get('slug') as String,
-      roleName: roleMap?.get('name') as String,
       // optional fields //
+      roleName: roleMap?.get('name') as String?,
       appUserId: map.get('app_user_id') as int?,
       emailVerifiedAt: map.get('email_verified_at') as String?,
       themePreference: prefsMap?.get('theme') as String?,

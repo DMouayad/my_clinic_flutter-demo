@@ -1,15 +1,14 @@
-import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/user_preferences/data/src/my_clinic_api_user_preferences_data_source.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/user_preferences_domain.dart';
-import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
 import 'package:flutter/material.dart';
+//
+import 'package:clinic_v2/app/core/entities/result/result.dart';
 
+import '../domain/base_user_preferences_repository.dart';
 import 'my_clinic_api_user_preferences.dart';
+import 'my_clinic_api_user_preferences_data_source.dart';
 
 class MyClinicApiUserPreferencesRepository
     implements BaseUserPreferencesRepository<MyClinicApiUserPreferences> {
-  MyClinicApiUserPreferencesRepository(
-      BaseAuthTokensService authTokenProvider) {
+  MyClinicApiUserPreferencesRepository() {
     _dataSource = const MyClinicApiUserPreferencesDataSource();
   }
   late final MyClinicApiUserPreferencesDataSource _dataSource;
@@ -22,14 +21,20 @@ class MyClinicApiUserPreferencesRepository
   Future<Result<VoidValue, BasicError>> updateUserLocalePreference(
     Locale locale,
   ) async {
-    throw UnimplementedError();
+    return (await _dataSource.updateUserPreferences(locale: locale))
+        .mapSuccessToVoid(
+      (result) => _userPreferences = preferences,
+    );
   }
 
   @override
   Future<Result<VoidValue, BasicError>> updateUserThemePreference(
-      ThemeMode themeMode) {
-    // TODO: implement updateUserThemePreference
-    throw UnimplementedError();
+    ThemeMode themeMode,
+  ) async {
+    return (await _dataSource.updateUserPreferences(themeMode: themeMode))
+        .mapSuccessToVoid(
+      (result) => _userPreferences = preferences,
+    );
   }
 
   @override
@@ -41,4 +46,18 @@ class MyClinicApiUserPreferencesRepository
 
   @override
   MyClinicApiUserPreferences? get preferences => _userPreferences;
+
+  @override
+  Future<Result<VoidValue, BasicError>> setUserPreferences(
+      ThemeMode themeMode, Locale locale) async {
+    return (await _dataSource.setUserPreferences(
+      themeMode: themeMode,
+      locale: locale,
+    ))
+        .mapSuccessToVoid(
+      (_) {
+        _userPreferences = preferences;
+      },
+    );
+  }
 }

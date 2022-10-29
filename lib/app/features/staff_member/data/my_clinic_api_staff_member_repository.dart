@@ -35,7 +35,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
             ),
           );
         } else {
-          fetchStaffMembers(1);
+          fetchStaffMembers(page: 1);
         }
       },
     );
@@ -60,11 +60,16 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> fetchStaffMembers([
+  Future<Result<VoidValue, BasicError>> fetchStaffMembers({
     int? page,
+    int? perPage,
     List<String>? sortedBy,
-  ]) async {
-    return (await _dataSource.fetchStaffMembers(page, sortedBy))
+  }) async {
+    return (await _dataSource.fetchStaffMembers(
+      page: page,
+      sortedBy: sortedBy,
+      perPage: perPage,
+    ))
         .mapSuccessToVoid(
       (result) {
         _staffMemberResource = result;

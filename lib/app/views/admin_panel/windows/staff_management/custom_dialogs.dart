@@ -36,13 +36,15 @@ Future<void> showWindowsEditStaffMemberDialog(
       role: staffMember.userRole,
       existingEmails: existingStaffMembers,
       onSubmit: (email, role) {
-        context.read<StaffBloc>().add(
-              UpdateStaffMember(
-                id: staffMember.id,
-                email: email,
-                role: role,
-              ),
-            );
+        if (email != staffMember.email && role != staffMember.userRole) {
+          context.read<StaffBloc>().add(
+                UpdateStaffMember(
+                  id: staffMember.id,
+                  email: email,
+                  role: role,
+                ),
+              );
+        }
         Navigator.of(context).pop();
       },
     ),

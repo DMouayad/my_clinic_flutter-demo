@@ -5,7 +5,7 @@ import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
 
 import 'mobile_sign_up_screen.dart';
-import 'wide_sign_up_screen.dart';
+import 'windows_sign_up_screen.dart';
 
 class SignUpPage extends AppPage {
   SignUpPage()
@@ -18,8 +18,8 @@ class SignUpPage extends AppPage {
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
               mobileScreen: _buildScreen(const MobileSignUpScreen(), context),
-              defaultWideScreen:
-                  _buildScreen(WideSignUpScreen(animation: animation), context),
+              windowsScreen: _buildScreen(
+                  WindowsSignUpScreen(animation: animation), context),
             );
           },
         );

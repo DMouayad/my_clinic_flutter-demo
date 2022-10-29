@@ -7,13 +7,8 @@ abstract class StaffBlocEvent extends Equatable {
 }
 
 /// An event to load staff emails from server
-class FetchStaffMembers extends StaffBlocEvent {
-  final int? page;
-  final List<String>? sortedBy;
-  const FetchStaffMembers({this.page, this.sortedBy});
-
-  @override
-  List<Object?> get props => [page, sortedBy];
+class FetchStaffMembers extends RequestsApiEndpoint implements StaffBlocEvent {
+  const FetchStaffMembers({super.sortedBy, super.perPage, super.page});
 }
 
 /// An event to add a new staff email

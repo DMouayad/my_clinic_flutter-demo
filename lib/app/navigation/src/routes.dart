@@ -6,6 +6,7 @@ mixin AppRoutes {
       upcomingScreen = '/upcoming_screen',
       loginScreen = '/login_screen',
       signUpScreen = '/sign_up_screen',
+      verificationNoticeScreen = '/verification_notice_screen',
       stepTwoSignUpScreen = '/step_two_sign_up_screen',
       settingsScreen = '/settings_screen',
       addPatientScreen = '/add_patient_screen',

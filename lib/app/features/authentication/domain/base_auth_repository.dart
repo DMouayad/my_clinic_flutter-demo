@@ -1,9 +1,8 @@
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:flutter/material.dart';
 import 'base_server_user.dart';
 
 abstract class BaseAuthRepository<U extends BaseServerUser> {
-  Stream<U?> get hasLoggedInUser;
+  Stream<U?> get usersStream;
 
   Future<Result<VoidValue, BasicError>> onInit();
 
@@ -12,8 +11,6 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
     required String name,
     required String phoneNumber,
     required String password,
-    required ThemeMode themeModePreference,
-    required Locale localePreference,
   });
   Future<Result<VoidValue, BasicError>> login({
     required String email,

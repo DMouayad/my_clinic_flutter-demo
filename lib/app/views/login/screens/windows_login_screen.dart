@@ -1,11 +1,10 @@
-import 'package:clinic_v2/app/core/entities/result/error_exception.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/core/entities/error/error_exception.dart';
+import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar.dart';
 import '../components/bloc_login_form.dart';
 import '../components/login_message.dart';
@@ -25,22 +24,31 @@ class WindowsLoginScreen extends StatelessWidget {
           topOptionsBar: const BlocAppSettingsBar(),
           leftSide: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(
+                // flex: 0,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: context.horizontalMargins,
+                    horizontal:
+                        context.isDesktop ? context.horizontalMargins : 16,
                     vertical: context.screenHeight * .1,
                   ),
                   child: const LoginMessage(),
                 ),
               ),
-              const Expanded(
+              Expanded(
                 flex: 2,
-                child: Center(
-                  child: BlocLoginForm(),
-                ),
+                child: BuilderWithWidgetInfo(builder: (context, widgetInfo) {
+                  return Center(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal:
+                            context.isDesktop ? context.horizontalMargins : 0,
+                      ),
+                      child: const BlocLoginForm(),
+                    ),
+                  );
+                }),
               ),
             ],
           ),

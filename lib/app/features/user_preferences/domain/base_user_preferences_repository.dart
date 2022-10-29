@@ -7,6 +7,8 @@ abstract class BaseUserPreferencesRepository<T extends BaseUserPreferences> {
   Future onInit() async => null;
   T? get preferences;
 
+  Future<Result<VoidValue, BasicError>> setUserPreferences(
+      ThemeMode themeMode, Locale locale);
   Future<Result<VoidValue, BasicError>> loadUserPreferences();
   Future<Result<VoidValue, BasicError>> updateUserThemePreference(
     ThemeMode themeMode,

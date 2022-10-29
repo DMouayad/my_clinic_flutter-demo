@@ -2,13 +2,10 @@ library result;
 
 import 'dart:convert';
 
+import 'package:clinic_v2/app/core/entities/error/basic_error.dart';
 import 'package:dio/dio.dart';
 
-import 'basic_error.dart';
-import 'error_exception.dart';
-
-export 'basic_error.dart';
-export 'error_exception.dart';
+export 'package:clinic_v2/app/core/entities/error/basic_error.dart';
 
 part 'failure_result.dart';
 part 'success_result.dart';

@@ -5,6 +5,7 @@ import 'package:clinic_v2/app/views/home/view/home_page.dart';
 import 'package:clinic_v2/app/views/login/login_page.dart';
 import 'package:clinic_v2/app/views/sign_up/sign_up_page.dart';
 import 'package:clinic_v2/app/views/startup/startup_page.dart';
+import 'package:clinic_v2/app/views/verification_notice/verification_notice_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -21,6 +22,8 @@ class AppRouter {
         return HomePage().route;
       case AppRoutes.adminPanelScreen:
         return AdminPanelPage().route;
+      case AppRoutes.verificationNoticeScreen:
+        return VerificationNoticePage().route;
       default:
         throw UnimplementedError(
             '${settings.name} route page is not implemented');

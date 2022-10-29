@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/core/contracts/requests_api_endpoint.dart';
 import 'package:clinic_v2/app/core/entities/paginated_data/src/paginated_resource.dart';
 import 'package:clinic_v2/app/core/entities/result/result.dart';
 import 'package:clinic_v2/app/core/enums.dart';
@@ -15,7 +16,7 @@ class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
 
   StaffBloc(this._repository) : super(StaffBlocInitialState()) {
     _repository.staffMembersResource
-        .listen((list) => add(UpdateStaffMembersRequested(list)));
+        .listen((resource) => add(UpdateStaffMembersRequested(resource)));
 
     on<UpdateStaffMembersRequested>((event, emit) {
       if (state is StaffBlocEventProcessing) {
@@ -28,9 +29,7 @@ class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
       if (state is! StaffBlocEventProcessing) {
         emit(const AddingStaffMember());
       }
-
       final result = await _repository.addStaffMember(event.email, event.role);
-
       if (result.isFailure) {
         emit(StaffBlocErrorState((result as FailureResult).error));
       }
@@ -40,7 +39,11 @@ class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
       if (state is! LoadingStaffMembers) {
         emit(LoadingStaffMembers());
       }
-      (await _repository.fetchStaffMembers(event.page, event.sortedBy)).fold(
+      (await _repository.fetchStaffMembers(
+              page: event.page,
+              sortedBy: event.sortedBy,
+              perPage: event.perPage))
+          .fold(
         ifFailure: (error) => emit(StaffBlocErrorState(error)),
       );
     });
@@ -51,6 +54,7 @@ class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
         emit(StaffBlocErrorState(error));
       });
     });
+
     on<UpdateStaffMember>((event, emit) async {
       emit(const UpdatingStaffMember());
       (await _repository.updateStaffMember(

@@ -23,11 +23,11 @@ extension ResponsiveContextExtension on BuildContext {
     if (screenWidth <= 600) {
       return 16.0;
     } else if (screenWidth > 600 && screenWidth < 900) {
-      return 32.0;
+      return 26.0;
     } else if (screenWidth > 900 && screenWidth < 1200) {
-      return 42.0;
+      return 34.0;
     } else if (screenWidth >= 1200) {
-      return screenWidth * 0.05;
+      return screenWidth * 0.04;
     }
     return 12.0;
   }

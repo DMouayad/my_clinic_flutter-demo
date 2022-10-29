@@ -32,48 +32,44 @@ class WindowsTwoSidesScreen extends StatelessWidget {
       leftSide: leftSide,
       rightSide: Hero(
         tag: 'appName',
-        child: SizedBox(
-          width: context.screenWidth / 2,
-          height: context.screenHeight,
-          child: Acrylic(
-            child: Stack(
-              children: [
-                Align(
+        child: Acrylic(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  constraints: const BoxConstraints.expand(),
+                  color: context.colorScheme.primaryContainer,
                   alignment: Alignment.center,
-                  child: Container(
-                    constraints: const BoxConstraints.expand(),
-                    color: context.colorScheme.primaryContainer,
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        AppNameText(
-                          fontSize: 44,
-                          fontColor: context.isDarkMode
-                              ? context.colorScheme.primary
-                              : context.colorScheme.primary,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AppNameText(
+                        fontSize: 44,
+                        fontColor: context.isDarkMode
+                            ? context.colorScheme.primary
+                            : context.colorScheme.primary,
+                      ),
+                      if (errorText != null)
+                        ErrorCard(
+                          errorText: errorText!,
                         ),
-                        if (errorText != null)
-                          ErrorCard(
-                            errorText: errorText!,
-                          ),
-                        if (showInProgressIndicator) ...[
-                          const SizedBox(height: 20),
-                          const LoadingIndicator(),
-                        ],
+                      if (showInProgressIndicator) ...[
+                        const SizedBox(height: 20),
+                        const LoadingIndicator(),
                       ],
-                    ),
+                    ],
                   ),
                 ),
-                if (topOptionsBar != null)
-                  Align(
-                    alignment: context.isArabicLocale
-                        ? Alignment.topLeft
-                        : Alignment.topRight,
-                    child: topOptionsBar,
-                  ),
-              ],
-            ),
+              ),
+              if (topOptionsBar != null)
+                Align(
+                  alignment: context.isArabicLocale
+                      ? Alignment.topLeft
+                      : Alignment.topRight,
+                  child: topOptionsBar,
+                ),
+            ],
           ),
         ),
       ),

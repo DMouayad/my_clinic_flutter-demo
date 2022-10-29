@@ -16,10 +16,11 @@ abstract class BaseStaffMemberRepository {
 
   Future<Result<VoidValue, BasicError>> addStaffMember(
       String email, UserRole userRole);
-  Future<Result<VoidValue, BasicError>> fetchStaffMembers([
+  Future<Result<VoidValue, BasicError>> fetchStaffMembers({
     int? page,
+    int? perPage,
     List<String>? sortedBy,
-  ]);
+  });
   Future<Result<VoidValue, BasicError>> updateStaffMember(
     int id, [
     String? email,

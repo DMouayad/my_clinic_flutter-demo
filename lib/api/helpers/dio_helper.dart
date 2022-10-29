@@ -16,7 +16,7 @@ mixin DioHelper {
       contentType: ContentType.json.toString(),
     );
 
-  void _addBarerToken(Dio dio, String token) {
+  void _addBearerToken(Dio dio, String token) {
     dio.options.headers["Authorization"] = "Bearer $token";
   }
 
@@ -41,7 +41,7 @@ mixin DioHelper {
     String? accessToken,
   }) async {
     final Dio dio = _getDioInstance;
-    if (accessToken != null) _addBarerToken(dio, accessToken);
+    if (accessToken != null) _addBearerToken(dio, accessToken);
 
     final data = await _getEndpointData(apiEndpoint);
     _addAdditionalHeaders(dio, apiEndpoint.headers);
@@ -52,24 +52,5 @@ mixin DioHelper {
       apiEndpoint.url,
       data: data,
     );
-    // switch (apiEndpoint.method) {
-    //   case RequestMethod.POST:
-    //     return dio.post(
-    //       apiEndpoint.url,
-    //       data: formData,
-    //     );
-    //   case RequestMethod.GET:
-    //     return dio.get(apiEndpoint.url);
-    //   case RequestMethod.DELETE:
-    //     return dio.delete(
-    //       apiEndpoint.url,
-    //       data: formData,
-    //     );
-    //   case RequestMethod.PUT:
-    //     return dio.put(
-    //       apiEndpoint.url,
-    //       data: formData,
-    //     );
-    // }
   }
 }

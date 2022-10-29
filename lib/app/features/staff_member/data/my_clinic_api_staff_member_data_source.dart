@@ -32,12 +32,16 @@ class MyClinicApiStaffMemberDataSource
 
   @override
   Future<Result<PaginatedResource<MyClinicApiStaffMember>, BasicError>>
-      fetchStaffMembers([
+      fetchStaffMembers({
     int? page,
+    int? perPage,
     List<String>? sortedBy,
-  ]) async {
-    final response =
-        await FetchStaffMembersApiEndpoint(page, sortedBy).request();
+  }) async {
+    final response = await FetchStaffMembersApiEndpoint(
+      page: page,
+      perPage: perPage,
+      sortedBy: sortedBy,
+    ).request();
     return response.mapSuccess((result) {
       return PaginatedResource(
           data: result.staffMembersData

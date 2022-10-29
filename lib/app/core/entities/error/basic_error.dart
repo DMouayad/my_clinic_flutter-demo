@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'dart:core';
 import 'error_exception.dart';
+export 'error_exception.dart';
 
 class BasicError extends Error with EquatableMixin {
   final String? message;

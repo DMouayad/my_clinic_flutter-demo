@@ -25,6 +25,7 @@ class _StaffManagementWindowsScreenState
   PaginatedResource<BaseStaffMember>? staffMembersResource;
   int currentPage = 1;
   int perPage = PaginatedDataTable.defaultRowsPerPage;
+  List<String>? sortedBy;
 
   void _onPageChanged(int nextPageFirstIndex) {
     currentPage = (nextPageFirstIndex ~/ perPage) + 1;
@@ -32,17 +33,29 @@ class _StaffManagementWindowsScreenState
       final dataCanBeFilledInOnePage =
           staffMembersResource!.paginationInfo.total <= perPage;
       if (!dataCanBeFilledInOnePage) {
-        context.read<StaffBloc>().add(FetchStaffMembers(page: currentPage));
+        context.read<StaffBloc>().add(FetchStaffMembers(
+              page: currentPage,
+              sortedBy: sortedBy,
+              perPage: perPage,
+            ));
       }
     }
   }
 
   Future<void> _fetchAfterDeletingItem() async {
-    // only fetch staff members after deleting an item if it's not the last item
-    // in the page that was deleted
+    // After staffMembersResource been updated,
+    if (staffMembersResource!.data.isEmpty) {
+      // No actions needed - first page will be fetched by [AsyncPaginatedDataTable2]
+    }
+    // else if currentPage is not the last, if it is then there's no need to
+    // fetch any new data
     if (staffMembersResource!.data.isNotEmpty &&
         !staffMembersResource!.paginationInfo.isAtLastPage) {
-      context.read<StaffBloc>().add(FetchStaffMembers(page: currentPage));
+      context.read<StaffBloc>().add(FetchStaffMembers(
+            page: currentPage,
+            sortedBy: sortedBy,
+            perPage: perPage,
+          ));
     }
   }
 
@@ -57,6 +70,7 @@ class _StaffManagementWindowsScreenState
           }
           if (state is StaffMembersWereLoaded) {
             staffMembersResource = state.staffMembers;
+            perPage = staffMembersResource!.paginationInfo.perPage;
           }
         }),
         builder: (context, state) {
@@ -81,12 +95,23 @@ class _StaffManagementWindowsScreenState
                     onPageChanged: _onPageChanged,
                     existingEmailsList:
                         staffMembersResource!.data.map((e) => e.email).toList(),
-                    onItemsPerPageChanged: (int? rowsCount) {},
-                    onSort: (sortedBy) {
-                      context.read<StaffBloc>().add(FetchStaffMembers(
-                            page: currentPage,
-                            sortedBy: sortedBy,
-                          ));
+                    onItemsPerPageChanged: (int? rowsCount) {
+                      if (rowsCount != null) {
+                        perPage = rowsCount;
+                        context.read<StaffBloc>().add(FetchStaffMembers(
+                              sortedBy: sortedBy,
+                              perPage: perPage,
+                            ));
+                      }
+                    },
+                    onSort: (sort) {
+                      sortedBy = sort;
+                      context.read<StaffBloc>().add(
+                            FetchStaffMembers(
+                              page: currentPage,
+                              sortedBy: sortedBy,
+                            ),
+                          );
                     },
                   ),
                 ),

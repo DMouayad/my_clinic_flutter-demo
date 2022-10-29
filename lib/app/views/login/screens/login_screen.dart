@@ -18,31 +18,25 @@ class LoginScreen extends StatelessWidget {
       ),
       appBarBackgroundColor: context.colorScheme.backgroundColor,
       centerTitle: true,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.horizontalMargins,
-            vertical: 25,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: context.horizontalMargins),
-                child: const LoginMessage(),
-              ),
-              BuilderWithWidgetInfo(builder: (context, widgetInfo) {
-                return SizedBox(
-                  height: widgetInfo.widgetSize.height * .1,
-                );
-              }),
-              const Center(
-                child: BlocLoginForm(),
-              ),
-            ],
-          ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.symmetric(
+          horizontal: context.horizontalMargins,
+          vertical: 25,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: context.horizontalMargins),
+              child: const LoginMessage(),
+            ),
+            SizedBox(
+              height: context.screenHeight * .1,
+            ),
+            const BlocLoginForm(),
+          ],
         ),
       ),
     );

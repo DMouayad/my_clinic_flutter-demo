@@ -88,8 +88,8 @@ class Log {
     }
     final acceptsJson = dio.options.headers.containsValue('application/json');
     to.i('''<Dio Request>
-        <baseUrl: ${dio.options.baseUrl}>   <endpoint: ${endpoint.url}>              
-        <method: ${dio.options.method}>   <includes token: $headersIncludeToken>   <accepts json: $acceptsJson>
+        <url: ${dio.options.baseUrl + endpoint.url}>   <method: ${dio.options.method}>
+        <includes token: $headersIncludeToken>   <accepts json: $acceptsJson>
       ''');
   }
 

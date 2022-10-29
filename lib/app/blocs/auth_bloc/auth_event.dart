@@ -16,16 +16,12 @@ class SignUpRequested extends AuthEvent {
   final String username;
   final String password;
   final String phoneNumber;
-  final ThemeMode themeMode;
-  final Locale locale;
 
   const SignUpRequested({
     required this.email,
     required this.username,
     required this.phoneNumber,
     required this.password,
-    required this.themeMode,
-    required this.locale,
   });
 }
 

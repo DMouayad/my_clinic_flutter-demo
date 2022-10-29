@@ -5,11 +5,13 @@ class ApiResponseStaffMemberData {
   final String roleSlug;
   final String email;
   final ApiResponseUserData? userData;
+  final DateTime createdAt;
 
   const ApiResponseStaffMemberData({
     required this.id,
     required this.roleSlug,
     required this.email,
+    required this.createdAt,
     this.userData,
   });
 }

@@ -10,4 +10,8 @@ abstract class BaseUserPreferencesDataSource<T extends BaseUserPreferences> {
     ThemeMode? themeMode,
     Locale? locale,
   });
+  Future<Result<VoidValue, BasicError>> setUserPreferences({
+    required ThemeMode themeMode,
+    required Locale locale,
+  });
 }

@@ -23,6 +23,7 @@ class FetchStaffMembersEndpointResult extends ApiEndpointResult {
           id: map['id'] as int,
           roleSlug: map['role']['slug'],
           email: map['email'],
+          createdAt: DateTime.parse(map["created_at"]),
           userData: userDataMap != null
               ? ApiResponseUserData.fromMap(userDataMap)
               : null,

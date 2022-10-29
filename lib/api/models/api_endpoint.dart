@@ -27,8 +27,11 @@ abstract class ApiEndpoint<T extends ApiEndpointResult> {
 
   String get fullUrl => ApiKeys.baseUrl + url;
 
+  // the http client that performs http requests to the server
+  // all [ApiEndpoint] classes will use this by default
   BaseApiEndpointRequestMaker<T> get _requestMaker =>
       DioApiEndpointRequestMaker(AuthTokensServiceProvider.instance.service);
+
   Future<Result<T, BasicError>> request() async =>
       await _requestMaker.makeRequest(this);
 }

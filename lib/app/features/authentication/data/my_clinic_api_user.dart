@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:clinic_v2/api/models/response_user_data.dart';
 import 'package:clinic_v2/app/core/enums.dart';
 import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
-import 'package:clinic_v2/app/features/authentication/domain/auth_domain.dart';
-import 'package:clinic_v2/app/features/user_preferences/data/src/my_clinic_api_user_preferences.dart';
+import 'package:clinic_v2/app/features/user_preferences/data/my_clinic_api_user_preferences.dart';
+
+import '../domain/base_server_user.dart';
 
 class MyClinicApiUser implements BaseServerUser {
   MyClinicApiUser({
@@ -106,4 +107,31 @@ class MyClinicApiUser implements BaseServerUser {
 
   @override
   bool? get stringify => true;
+
+  @override
+  bool get isVerified => emailVerifiedAt != null;
+
+  MyClinicApiUser copyWith({
+    DateTime? emailVerifiedAt,
+    int? id,
+    String? phoneNumber,
+    String? name,
+    String? email,
+    UserRole? role,
+    MyClinicApiUserPreferences? preferences,
+    int? appUserId,
+    DateTime? createdAt,
+  }) {
+    return MyClinicApiUser(
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      id: id ?? this.id,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      role: role ?? this.role,
+      preferences: preferences ?? this.preferences,
+      appUserId: appUserId ?? this.appUserId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

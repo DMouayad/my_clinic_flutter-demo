@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:clinic_v2/app/features/user_preferences/data/my_clinic_api_user_preferences_repository.dart';
+import 'package:clinic_v2/app/services/socket_io_service.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
@@ -8,7 +10,6 @@ import 'package:window_manager/window_manager.dart';
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/features/authentication/data/auth_data.dart';
 import 'package:clinic_v2/app/navigation/app_router.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
 import 'package:clinic_v2/app/services/logger_service.dart';
@@ -19,13 +20,14 @@ import 'package:clinic_v2/app/blocs/preferences_cubit/preferences_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'app/core/enums.dart';
+import 'app/features/authentication/data/my_clinic_api_auth_repository.dart';
 import 'app/services/auth_tokens/auth_tokens_service_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
   await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(500, 700));
+  await windowManager.setMinimumSize(const Size(700, 700));
 
   // AuthTokensServiceProvider.instance.service.deleteRefreshToken();
   // AuthTokensServiceProvider.instance.service.deleteAccessToken();
@@ -34,11 +36,16 @@ void main() async {
   Log.v("Logger started | ${DateTime.now()}");
   Log.v("App is running on ${Platform.operatingSystemVersion}");
 
+  final SocketIoService socketIoService = SocketIoService();
+
   runApp(
     ClinicApp(
-      PreferencesCubit(),
-      AuthBloc(
+      socketIoService: socketIoService,
+      preferencesCubit:
+          PreferencesCubit(MyClinicApiUserPreferencesRepository()),
+      authBloc: AuthBloc(
         MyClinicApiAuthRepository(
+          socketIoService: socketIoService,
           authTokensService: AuthTokensServiceProvider.instance.service,
         ),
       )..add(const AuthInitRequested()),
@@ -55,15 +62,17 @@ void main() async {
 
 /// Main App widget
 class ClinicApp extends StatelessWidget {
-  const ClinicApp(
-    this._preferencesCubit,
-    this._authCubit, {
+  const ClinicApp({
+    required this.socketIoService,
+    required this.preferencesCubit,
+    required this.authBloc,
     Key? key,
     this.home,
   }) : super(key: key);
 
-  final PreferencesCubit _preferencesCubit;
-  final AuthBloc _authCubit;
+  final PreferencesCubit preferencesCubit;
+  final AuthBloc authBloc;
+  final SocketIoService socketIoService;
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -71,14 +80,17 @@ class ClinicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => _preferencesCubit),
-        BlocProvider(create: (_) => _authCubit),
-      ],
-      child: context.isWindowsPlatform
-          ? _WindowsApp(navigatorKey, home: home)
-          : _AndroidApp(navigatorKey, home: home),
+    return RepositoryProvider(
+      create: (context) => socketIoService,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => preferencesCubit),
+          BlocProvider(create: (_) => authBloc),
+        ],
+        child: context.isWindowsPlatform
+            ? _WindowsApp(navigatorKey, home: home)
+            : _AndroidApp(navigatorKey, home: home),
+      ),
     );
   }
 }
@@ -196,29 +208,32 @@ class _AuthBlocListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
+        if (state is SignUpSuccess) {
+          context
+              .read<PreferencesCubit>()
+              .setUserPreferences(context.themeMode, context.locale);
+        }
         if (state is AuthHasLoggedInUser) {
-          if (state.currentUser.emailVerifiedAt != null) {
-            context
-                .read<PreferencesCubit>()
-                .provideUserPreferences(state.currentUser.preferences);
-
+          context
+              .read<PreferencesCubit>()
+              .provideUserPreferences(state.currentUser.preferences);
+          if (state.currentUser.isVerified) {
             if (state.currentUser.role == UserRole.admin) {
               ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
                 AppRoutes.adminPanelScreen,
                 (route) => false,
               );
-            }
-            if (state.currentUser.role == UserRole.dentist) {
-              //TODO:: Navigate to dentist preferences setup
-            }
-            if (state.currentUser.role == UserRole.secretary) {
-              //TODO:: Navigate to secretary preferences setup
+            } else {
+              ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+                AppRoutes.homeScreen,
+                (route) => false,
+              );
             }
           } else {
-            // ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            //   AppRoutes.verifyNoticeScreen,
-            //   (route) => false,
-            // );
+            ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              AppRoutes.verificationNoticeScreen,
+              (route) => false,
+            );
           }
         } else if (state is AuthHasNoLoggedInUser) {
           context.read<PreferencesCubit>().provideDefaultPreferences(

@@ -1,4 +1,3 @@
-import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view/windows_nav_view.dart';
 import 'package:flutter/material.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +11,8 @@ import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar
 import 'components/bloc_sign_up_form.dart';
 import 'components/sign_up_message.dart';
 
-class WideSignUpScreen extends StatelessWidget {
-  const WideSignUpScreen({
+class WindowsSignUpScreen extends StatelessWidget {
+  const WindowsSignUpScreen({
     Key? key,
     required this.animation,
   }) : super(key: key);
@@ -32,7 +31,7 @@ class WideSignUpScreen extends StatelessWidget {
           errorText: () {
             if (state is SignUpErrorState) {
               return state.error.exception?.getMessage(context) ??
-                  state.error.message;
+                  "Signing up failed, please try again";
             }
           }(),
         );
@@ -44,37 +43,32 @@ class WideSignUpScreen extends StatelessWidget {
 class _StepOneLeftSide extends StatelessWidget {
   const _StepOneLeftSide({Key? key}) : super(key: key);
 
-  Widget windowsBuilder(BuildContext context) {
-    return WindowsNavView.withAppBar(
-      appBarColor: context.colorScheme.backgroundColor,
-      backgroundColor: context.colorScheme.backgroundColor,
-      appBarTitle: const SignUpMessage(),
-      content: const Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.zero,
-          child: BlocSignUpForm(),
-        ),
-      ),
-    );
-  }
-
-  Widget wideScreenBuilder(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return ScaffoldWithAppBar(
       showBottomTitle: context.isTablet,
       title: const SignUpMessage(),
-      body: const Center(
+      body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.zero,
-          child: BlocSignUpForm(),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.isDesktop ? context.horizontalMargins : 0,
+          ),
+          child: const BlocSignUpForm(),
         ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return context.isWindowsPlatform
-        ? windowsBuilder(context)
-        : wideScreenBuilder(context);
+    // WindowsNavView.withAppBar(
+    //   appBarColor: context.colorScheme.backgroundColor,
+    //   backgroundColor: context.colorScheme.backgroundColor,
+    //   appBarTitle: const SignUpMessage(),
+    //   content: Center(
+    //     child: SingleChildScrollView(
+    //       padding: EdgeInsets.symmetric(
+    //         horizontal: context.isDesktop ? context.horizontalMargins : 0,
+    //       ),
+    //       child: const BlocSignUpForm(),
+    //     ),
+    //   ),
+    // );
   }
 }

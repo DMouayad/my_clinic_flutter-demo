@@ -73,7 +73,7 @@ abstract class BaseAuthTokensService {
       }
     } else {
       return FailureResult.fromErrorException(
-        ErrorException.noAccessTokenFound(),
+        const ErrorException.noAccessTokenFound(),
       );
     }
   }

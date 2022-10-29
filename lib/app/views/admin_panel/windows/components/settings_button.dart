@@ -31,9 +31,7 @@ class SettingsIconButton extends StatelessWidget {
               AdaptiveThemeModeDropdown(
                 type: DropdownMenuType.tileWithMenu,
                 onChanged: (themeMode) {
-                  context
-                      .read<PreferencesCubit>()
-                      .updateUserThemePreference(themeMode);
+                  context.read<PreferencesCubit>().updateAppTheme(themeMode);
                 },
               ),
               const Padding(
@@ -43,9 +41,7 @@ class SettingsIconButton extends StatelessWidget {
               AdaptiveLocaleDropdown(
                 type: DropdownMenuType.tileWithMenu,
                 onChanged: (locale) {
-                  context
-                      .read<PreferencesCubit>()
-                      .updateUserLocalePreference(locale);
+                  context.read<PreferencesCubit>().updateAppLocale(locale);
                 },
               ),
             ],

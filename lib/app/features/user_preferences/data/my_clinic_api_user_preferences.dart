@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/user_preferences_domain.dart';
 import 'package:flutter/material.dart';
+
+import '../domain/base_user_preferences.dart';
 
 class MyClinicApiUserPreferences extends BaseUserPreferences {
   const MyClinicApiUserPreferences({
