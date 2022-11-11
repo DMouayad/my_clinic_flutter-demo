@@ -1,4 +1,5 @@
 import 'package:clinic_v2/app/core/entities/error/error_exception.dart';
+import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,19 +53,22 @@ class WindowsLoginScreen extends StatelessWidget {
               ),
             ],
           ),
-          errorText: () {
+          rightSideChild: () {
             //TODO: SHOW ERROR
+            String? errorText;
             if (state is AuthHasNoLoggedInUser) {
               if (state.error != null &&
                   state.error?.exception
                       is FailedToRefreshAuthTokensException) {
-                return context.localizations!.failedToAuthenticateUser;
+                errorText = context.localizations!.failedToAuthenticateUser;
               }
             }
-
             if (state is LoginErrorState) {
-              return state.error.exception?.getMessage(context) ??
+              errorText = state.error.exception?.getMessage(context) ??
                   state.error.message;
+            }
+            if (errorText != null) {
+              return ErrorCard(errorText: errorText);
             }
           }(),
         );

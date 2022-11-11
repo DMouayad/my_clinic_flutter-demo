@@ -1,6 +1,6 @@
-import 'package:clinic_v2/app/core/entities/base_notification.dart';
+import 'package:clinic_v2/app/features/notifications/domain/base_notification.dart';
 
-import 'base_notification_listener.dart';
+import '../../features/notifications/domain/base_notification_listener.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 abstract class SocketIoListener<T extends BaseNotification>
@@ -21,11 +21,15 @@ abstract class SocketIoListener<T extends BaseNotification>
     if (onConnectError != null) {
       _socket.onConnectError(onConnectError);
     }
-
+    // emit an event to the server to listen on the provided channel
+    _emitEvent(
+      event: "start-listening",
+      data: {'channel': channel},
+    );
     registerEventsHandlers(_socket, channel);
   }
 
-  void emitEvent({required String event, required Map<String, dynamic> data}) {
+  void _emitEvent({required String event, required Map<String, dynamic> data}) {
     if (_socket.disconnected) {
       _socket.connect();
     }
@@ -49,6 +53,7 @@ abstract class SocketIoListener<T extends BaseNotification>
 
   @override
   Future<void> dispose() async {
+    _socket.emit('disconnect');
     _socket.dispose();
   }
 }

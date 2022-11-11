@@ -3,7 +3,7 @@ import 'base_server_user.dart';
 
 abstract class BaseAuthRepository<U extends BaseServerUser> {
   Stream<U?> get usersStream;
-
+  U? get currentUser;
   Future<Result<VoidValue, BasicError>> onInit();
 
   Future<Result<VoidValue, BasicError>> register({

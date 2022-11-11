@@ -7,7 +7,6 @@ import 'package:mockito/mockito.dart';
 import 'startup_cubit_test.mocks.dart';
 import 'startup_cubit_test_helpers.dart';
 
-@GenerateMocks([StartupBloc])
 void main() {
   final connectionError = FailureResult(
     message: 'No internet connection found!',

@@ -24,7 +24,7 @@ class FailureResult<NoValue extends NoValueObtained,
     return FailureResult(
       BasicError(
         message: e.message,
-        // exception: ErrorException(e.type.name),
+        exception: ErrorException(e.type.name),
         // description: {'request options': e.requestOptions}.toString(),
       ) as ErrorType,
     );
@@ -160,17 +160,27 @@ class FailureResult<NoValue extends NoValueObtained,
 
   @override
   T mapTo<T>({
-    required T Function(NoValue value) onSuccess,
-    required T Function(ErrorType error) onFailure,
+    T Function(NoValue value)? onSuccess,
+    T Function(ErrorType error)? onFailure,
   }) {
-    return onFailure(error);
+    return onFailure != null ? onFailure(error) : null as T;
   }
 
   @override
   Future<T> mapToAsync<T>({
-    required Future<T> Function(NoValue value) onSuccess,
-    required Future<T> Function(ErrorType error) onFailure,
+    Future<T> Function(NoValue value)? onSuccess,
+    Future<T> Function(ErrorType error)? onFailure,
   }) async {
-    return await onFailure(error);
+    return onFailure != null ? await onFailure(error) : null as T;
+  }
+
+  @override
+  U mapFailureTo<U>(U Function(ErrorType error) transform) {
+    return transform(error);
+  }
+
+  @override
+  U mapSuccessTo<U>(U Function(NoValue value) transform) {
+    return FailureResult(error) as U;
   }
 }

@@ -98,13 +98,23 @@ abstract class Result<V extends Object, E extends BasicError> {
   });
 
   U mapTo<U>({
-    required U Function(V value) onSuccess,
-    required U Function(E error) onFailure,
+    U Function(V value)? onSuccess,
+    U Function(E error)? onFailure,
   });
+  U mapSuccessTo<U>(U Function(V value) transform);
+  U mapFailureTo<U>(U Function(E error) transform);
   Future<U> mapToAsync<U>({
-    required Future<U> Function(V value) onSuccess,
-    required Future<U> Function(E error) onFailure,
+    Future<U> Function(V value)? onSuccess,
+    Future<U> Function(E error)? onFailure,
   });
+}
+
+class TwoResults<R1 extends Object, R2 extends Object, E extends BasicError> {
+  final R1? firstValue;
+  final R2? secondValue;
+  final E? error;
+
+  const TwoResults(this.firstValue, this.secondValue, this.error);
 }
 
 class VoidValue extends Object {

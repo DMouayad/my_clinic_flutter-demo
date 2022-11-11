@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
+import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/shared_widgets//scaffold_with_appbar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
@@ -28,10 +29,11 @@ class WindowsSignUpScreen extends StatelessWidget {
           leftSideAnimation: animation,
           topOptionsBar: const BlocAppSettingsBar(),
           leftSide: const _StepOneLeftSide(),
-          errorText: () {
+          rightSideChild: () {
             if (state is SignUpErrorState) {
-              return state.error.exception?.getMessage(context) ??
-                  "Signing up failed, please try again";
+              return ErrorCard(
+                  errorText: state.error.exception?.getMessage(context) ??
+                      "Signing up failed, please try again");
             }
           }(),
         );

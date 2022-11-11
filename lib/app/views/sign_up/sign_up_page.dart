@@ -18,6 +18,8 @@ class SignUpPage extends AppPage {
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
               mobileScreen: _buildScreen(const MobileSignUpScreen(), context),
+              windowsSmallScreen:
+                  _buildScreen(const MobileSignUpScreen(), context),
               windowsScreen: _buildScreen(
                   WindowsSignUpScreen(animation: animation), context),
             );

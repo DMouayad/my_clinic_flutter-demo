@@ -1,14 +1,14 @@
 part of "auth_bloc.dart";
 
 mixin AuthEventsHelper {
-  Future<AuthState> logoutUser(BaseAuthRepository authRepository) async {
+  Future<AuthState> getLogoutState(BaseAuthRepository authRepository) async {
     return (await authRepository.logout()).mapTo(
       onSuccess: (_) => const AuthHasNoLoggedInUser(),
       onFailure: (error) => AuthErrorState(error),
     );
   }
 
-  Future<AuthState> signUp(
+  Future<AuthState> getSignUpState(
     BaseAuthRepository authRepository, {
     required String email,
     required String username,
@@ -33,8 +33,11 @@ mixin AuthEventsHelper {
     );
   }
 
-  Future<AuthState> login(BaseAuthRepository authRepository,
-      {required String email, required String password}) async {
+  Future<AuthState> getLoginState(
+    BaseAuthRepository authRepository, {
+    required String email,
+    required String password,
+  }) async {
     final loginResponse = await authRepository.login(
       email: email,
       password: password,
@@ -43,7 +46,12 @@ mixin AuthEventsHelper {
       onSuccess: (_) => const LoginSuccess(),
       onFailure: (error) {
         if (error.exception ==
-            const ErrorException.invalidPasswordCredential()) {}
+            const ErrorException.invalidPasswordCredential()) {
+          return LoginPasswordIsIncorrect();
+        }
+        if (error.exception == const ErrorException.invalidEmailCredential()) {
+          return LoginEmailNotFound();
+        }
         return LoginErrorState(error);
       },
     );
@@ -57,24 +65,19 @@ mixin AuthEventsHelper {
     }
   }
 
-  Future<void> authInit(
-    Emitter<AuthState> emit,
-    BaseAuthRepository authRepository,
-  ) async {
-    emit(const AuthInitInProgress());
-    (await authRepository.onInit()).fold(ifFailure: (error) {
-      switch (error.exception.runtimeType) {
-        case NoAccessTokenFoundException:
-          emit(const AuthHasNoLoggedInUser());
-          break;
-        case NoRefreshTokenFoundException:
-        case FailedToRefreshAuthTokensException:
-          emit(AuthHasNoLoggedInUser(error: error));
-          break;
-        default:
-          emit(AuthInitFailed(error));
-          break;
-      }
-    });
+  Future<AuthState?> getAuthInitState(BaseAuthRepository authRepository) async {
+    return (await authRepository.onInit()).mapTo(
+        onSuccess: (_) => null,
+        onFailure: (error) {
+          switch (error.exception.runtimeType) {
+            case NoAccessTokenFoundException:
+              return const AuthHasNoLoggedInUser();
+            case NoRefreshTokenFoundException:
+            case FailedToRefreshAuthTokensException:
+              return AuthHasNoLoggedInUser(error: error);
+            default:
+              return AuthInitFailed(error);
+          }
+        });
   }
 }

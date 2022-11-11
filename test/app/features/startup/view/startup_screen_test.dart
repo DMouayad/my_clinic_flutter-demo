@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helpers/hydrated_bloc_helper.dart';
 import '../../auth/auth_cubit_test.mocks.dart';
-import '../../auth/auth_cubit_test_helpers.dart';
+import '../../../../unit/blocs/auth_bloc/mock_auth_repository_factory.dart';
 import '../cubit/startup_cubit_test.mocks.dart';
 import '../cubit/startup_cubit_test_helpers.dart';
 

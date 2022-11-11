@@ -1,7 +1,6 @@
 import 'package:fluent_ui/fluent_ui.dart';
 //
 import 'package:clinic_v2/app/core/extensions/context_extensions.dart';
-import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/loading_indicator.dart';
 import '../app_name_text.dart';
 import '../screens/two_sides_screen_layout.dart';
@@ -11,7 +10,7 @@ class WindowsTwoSidesScreen extends StatelessWidget {
     required this.showInProgressIndicator,
     required this.leftSide,
     this.leftSideAnimation,
-    this.errorText,
+    this.rightSideChild,
     this.leftSideBlurred,
     this.topOptionsBar,
     Key? key,
@@ -20,7 +19,7 @@ class WindowsTwoSidesScreen extends StatelessWidget {
   final Animation<double>? leftSideAnimation;
   final bool showInProgressIndicator;
   final bool? leftSideBlurred;
-  final String? errorText;
+  final Widget? rightSideChild;
   final Widget leftSide;
   final Widget? topOptionsBar;
 
@@ -50,10 +49,7 @@ class WindowsTwoSidesScreen extends StatelessWidget {
                             ? context.colorScheme.primary
                             : context.colorScheme.primary,
                       ),
-                      if (errorText != null)
-                        ErrorCard(
-                          errorText: errorText!,
-                        ),
+                      if (rightSideChild != null) rightSideChild!,
                       if (showInProgressIndicator) ...[
                         const SizedBox(height: 20),
                         const LoadingIndicator(),

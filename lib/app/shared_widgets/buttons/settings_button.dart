@@ -9,8 +9,8 @@ import 'package:clinic_v2/app/shared_widgets/adaptive_locale_menu.dart';
 import 'package:clinic_v2/app/shared_widgets/dropdown_menus/utils.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/dialogs/windows_general_dialog.dart';
 
-class SettingsIconButton extends StatelessWidget {
-  const SettingsIconButton({Key? key}) : super(key: key);
+class ShowSettingsDialogButton extends StatelessWidget {
+  const ShowSettingsDialogButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

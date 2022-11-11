@@ -12,13 +12,9 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
 
   @override
   Future<Result<MyClinicApiUser, BasicError>> login(
-    String email,
-    String password,
-  ) async {
-    final response = await LoginApiEndpoint(
-      email: email,
-      password: password,
-    ).request();
+      String email, String password) async {
+    final response =
+        await LoginApiEndpoint(email: email, password: password).request();
 
     return await response.mapSuccessAsync(
       (result) async {

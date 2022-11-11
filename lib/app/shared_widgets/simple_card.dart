@@ -5,18 +5,21 @@ class SimpleCard extends StatelessWidget {
   const SimpleCard({
     required this.child,
     this.padding,
+    this.margin,
     Key? key,
   }) : super(key: key);
 
   final Widget child;
   final EdgeInsets? padding;
+  final EdgeInsets? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 8,
-      ),
+      margin: margin ??
+          const EdgeInsets.symmetric(
+            vertical: 8,
+          ),
       padding: padding ?? const EdgeInsets.fromLTRB(16, 10, 16, 10),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,

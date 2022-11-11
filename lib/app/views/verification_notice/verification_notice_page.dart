@@ -1,4 +1,7 @@
+import 'package:clinic_v2/app/blocs/email_verification_cubit/email_verification_cubit.dart';
+import 'package:clinic_v2/app/features/authentication/domain/base_auth_repository.dart';
 import 'package:clinic_v2/app/navigation/navigation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'windows_verification_notice_screen.dart';
 
 class VerificationNoticePage extends AppPage {
@@ -11,7 +14,11 @@ class VerificationNoticePage extends AppPage {
           ),
           pageScreensBuilder: (context, animation, secondaryAnimation) {
             return PageScreensBuilder(
-              windowsScreen: WindowsVerificationNoticeScreen(),
+              windowsScreen: BlocProvider(
+                create: (context) =>
+                    EmailVerificationCubit(context.read<BaseAuthRepository>()),
+                child: const WindowsVerificationNoticeScreen(),
+              ),
             );
           },
         );

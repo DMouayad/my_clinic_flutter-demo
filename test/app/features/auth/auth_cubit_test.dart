@@ -1,14 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clinic_v2/app/features/auth/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/common/features/authentication/domain/auth_domain.dart';
-import 'package:clinic_v2/common/features/users/domain/src/entities/base_server_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 
 import 'auth_cubit_test.mocks.dart';
-import 'auth_cubit_test_helpers.dart';
+import '../../../unit/blocs/auth_bloc/mock_auth_repository_factory.dart';
 
-@GenerateMocks([BaseAuthRepository, BaseServerUser])
 void main() {
   group(
     'AuthBloc test',

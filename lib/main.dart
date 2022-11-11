@@ -21,13 +21,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'app/core/enums.dart';
 import 'app/features/authentication/data/my_clinic_api_auth_repository.dart';
+import 'app/features/authentication/domain/base_auth_repository.dart';
+import 'app/features/user_preferences/domain/base_user_preferences_repository.dart';
 import 'app/services/auth_tokens/auth_tokens_service_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
   await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(700, 700));
+  await windowManager.setMinimumSize(const Size(400, 700));
 
   // AuthTokensServiceProvider.instance.service.deleteRefreshToken();
   // AuthTokensServiceProvider.instance.service.deleteAccessToken();
@@ -41,14 +43,11 @@ void main() async {
   runApp(
     ClinicApp(
       socketIoService: socketIoService,
-      preferencesCubit:
-          PreferencesCubit(MyClinicApiUserPreferencesRepository()),
-      authBloc: AuthBloc(
-        MyClinicApiAuthRepository(
-          socketIoService: socketIoService,
-          authTokensService: AuthTokensServiceProvider.instance.service,
-        ),
-      )..add(const AuthInitRequested()),
+      userPreferencesRepository: MyClinicApiUserPreferencesRepository(),
+      authRepository: MyClinicApiAuthRepository(
+        socketIoService: socketIoService,
+        authTokensService: AuthTokensServiceProvider.instance.service,
+      ),
     ),
   );
   // doWhenWindowReady(() {
@@ -64,14 +63,14 @@ void main() async {
 class ClinicApp extends StatelessWidget {
   const ClinicApp({
     required this.socketIoService,
-    required this.preferencesCubit,
-    required this.authBloc,
+    required this.authRepository,
+    required this.userPreferencesRepository,
     Key? key,
     this.home,
   }) : super(key: key);
 
-  final PreferencesCubit preferencesCubit;
-  final AuthBloc authBloc;
+  final BaseUserPreferencesRepository userPreferencesRepository;
+  final BaseAuthRepository authRepository;
   final SocketIoService socketIoService;
 
   /// ### used only for testing purposes
@@ -80,12 +79,19 @@ class ClinicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => socketIoService,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (_) => socketIoService),
+        RepositoryProvider(create: (_) => authRepository),
+      ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => preferencesCubit),
-          BlocProvider(create: (_) => authBloc),
+          BlocProvider(
+              create: (_) => PreferencesCubit(userPreferencesRepository)),
+          BlocProvider(
+            create: (context) => AuthBloc(context.read<BaseAuthRepository>())
+              ..add(const AuthInitRequested()),
+          ),
         ],
         child: context.isWindowsPlatform
             ? _WindowsApp(navigatorKey, home: home)
@@ -192,7 +198,7 @@ mixin _ClinicAppHelper {
   }
 }
 
-/// Listens to auth state changes and redirect user according to it.
+/// Listens to [AuthBloc] state changes and redirect user according to it.
 ///
 /// Also provides [PreferencesCubit] with current user's preferences.
 ///
@@ -208,45 +214,52 @@ class _AuthBlocListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
-        if (state is SignUpSuccess) {
-          context
-              .read<PreferencesCubit>()
-              .setUserPreferences(context.themeMode, context.locale);
-        }
         if (state is AuthHasLoggedInUser) {
+          _processUserPreferences(state, context);
+          _redirectUser(state);
+        } else if (state is AuthHasNoLoggedInUser) {
           context
               .read<PreferencesCubit>()
-              .provideUserPreferences(state.currentUser.preferences);
-          if (state.currentUser.isVerified) {
-            if (state.currentUser.role == UserRole.admin) {
-              ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                AppRoutes.adminPanelScreen,
-                (route) => false,
-              );
-            } else {
-              ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-                AppRoutes.homeScreen,
-                (route) => false,
-              );
-            }
-          } else {
-            ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-              AppRoutes.verificationNoticeScreen,
-              (route) => false,
-            );
-          }
-        } else if (state is AuthHasNoLoggedInUser) {
-          context.read<PreferencesCubit>().provideDefaultPreferences(
-                context.themeMode,
-                context.locale,
-              );
+              .provideDefaultPreferences(context.themeMode, context.locale);
           ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
-            AppRoutes.loginScreen,
-            (route) => false,
-          );
+              AppRoutes.loginScreen, (route) => false);
         }
       },
       child: child,
     );
+  }
+
+  void _redirectUser(AuthHasLoggedInUser state) {
+    if (state.currentUser.isVerified) {
+      if (state.currentUser.role == UserRole.admin) {
+        ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          AppRoutes.adminPanelScreen,
+          (route) => false,
+        );
+      } else {
+        ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          AppRoutes.homeScreen,
+          (route) => false,
+        );
+      }
+    } else {
+      ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        AppRoutes.verificationNoticeScreen,
+        (route) => false,
+      );
+    }
+  }
+
+  void _processUserPreferences(
+      AuthHasLoggedInUser state, BuildContext context) {
+    if (state.currentUser.preferences != null) {
+      context
+          .read<PreferencesCubit>()
+          .provideUserPreferences(state.currentUser.preferences);
+    } else {
+      context
+          .read<PreferencesCubit>()
+          .setUserPreferences(context.themeMode, context.locale);
+    }
   }
 }

@@ -1,10 +1,12 @@
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/shared_widgets/custom_buttons/custom_elevated_button.dart';
+import 'package:clinic_v2/app/blocs/email_verification_cubit/email_verification_cubit.dart';
+import 'package:clinic_v2/app/shared_widgets/buttons/logout_button.dart';
+import 'package:clinic_v2/app/shared_widgets/custom_buttons/adaptive_text_icon_button.dart';
+import 'package:clinic_v2/app/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/app/shared_widgets/simple_card.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/app_settings_bar.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/two_sides_screen.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WindowsVerificationNoticeScreen extends StatelessWidget {
@@ -12,45 +14,101 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WindowsTwoSidesScreen(
-      showInProgressIndicator: false,
-      topOptionsBar: const BlocAppSettingsBar(),
-      leftSide: BuilderWithWidgetInfo(builder: (context, widgetInfo) {
-        return Center(
-          child: Column(
-            children: [
-              const Spacer(),
-              Icon(
-                Icons.verified_user_outlined,
-                color: context.colorScheme.errorColor,
-                size: 46,
-              ),
-              const SizedBox(height: 24),
-              Text(
-                "Email verification required!",
-                style: context.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const Spacer(flex: 2),
-              SimpleCard(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  'Please check if an email with verification link was sent to "${(context.read<AuthBloc>().state as AuthHasLoggedInUser).currentUser.email}"\n'
-                  'Click on "Send new link" to request a new verification link',
-                  style: context.textTheme.titleSmall,
-                ),
-              ),
-              CustomElevatedButton(
-                label: 'Send new verification link',
-                onPressed: () {},
-                iconData: Icons.email_outlined,
-              ),
-              const Spacer(flex: 2),
-            ],
+    return BlocBuilder<EmailVerificationCubit, EmailVerificationState>(
+      builder: (context, state) {
+        return WindowsTwoSidesScreen(
+          showInProgressIndicator: state is RequestingVerificationEmail,
+          topOptionsBar: Row(
+            children: const [BlocAppSettingsBar(), LogoutIconButton()],
           ),
+          rightSideChild: () {
+            if (state is VerificationEmailRequestFailed) {
+              return ErrorCard(
+                errorText: state.error.exception?.getMessage(context),
+              );
+            }
+            if (state is VerificationEmailWasSent) {
+              return ConstrainedBox(
+                constraints: BoxConstraints.loose(
+                  Size.fromWidth(context.screenWidth * .4),
+                ),
+                child: SimpleCard(
+                  child: ListTile(
+                    leading: Icon(Icons.check_circle_outline),
+                    title: Text(
+                      "Verification email was sent",
+                      style: context.textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
+              );
+            }
+          }(),
+          leftSide: BuilderWithWidgetInfo(builder: (context, widgetInfo) {
+            return Center(
+              child: Column(
+                children: [
+                  const Spacer(),
+                  Icon(
+                    Icons.verified_user_outlined,
+                    color: context.colorScheme.errorColor,
+                    size: 46,
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    "Please Verify your email address",
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                  SimpleCard(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: context.horizontalMargins,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'verify your email with the verification link sent by email to "${(context.read<AuthBloc>().state as AuthHasLoggedInUser).currentUser.email}"\n'
+                          '\n\nif you did not receive an email click the button below to request a new verification link',
+                          textAlign: TextAlign.center,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: context.colorScheme.onPrimaryContainer,
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        AdaptiveTextIconButton(
+                          label: 'Resend verification email',
+                          onPressed: () {
+                            context
+                                .read<EmailVerificationCubit>()
+                                .requestForCurrentUser();
+                          },
+                          iconWidget: const Icon(Icons.email_outlined),
+                          tooltipMessage: 'Resend verification email',
+                          foregroundColor: context.colorScheme.secondary,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    '"you will be directed once you have verified your email address"',
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: Colors.black45,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            );
+          }),
         );
-      }),
+      },
     );
   }
 }

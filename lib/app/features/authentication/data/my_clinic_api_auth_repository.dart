@@ -1,14 +1,16 @@
 import 'dart:async';
 //
 import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/features/authentication/data/my_clinic_user_notifications_listener.dart';
-import 'package:clinic_v2/app/features/authentication/data/notifications/user_was_verified_notification.dart';
+import 'package:clinic_v2/app/features/authentication/domain/base_user_notification.dart';
 import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
 import 'package:clinic_v2/app/services/socket_io_service.dart';
-
+import 'package:clinic_v2/app/features/notifications/data/socket_io_user_notifications_listener.dart';
 import '../domain/base_auth_repository.dart';
+import 'auth_notifications/user_was_deleted.dart';
+import 'auth_notifications/user_was_verified_notification.dart';
 import 'my_clinic_api_auth_data_source.dart';
 import 'my_clinic_api_user.dart';
+import 'package:clinic_v2/app/core/config/socket_io_channels.dart';
 
 class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   late final MyClinicApiAuthDataSource _dataSource;
@@ -25,7 +27,9 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
 
     _userNotificationsListener =
         SocketIoUserNotificationsListener(socketIoService.socket)..init();
+
     usersStream.listen((user) {
+      _currentUser = user;
       if (user != null) {
         _userNotificationsListener.connectToSocket(
           channel: _getUsersSocketIoChannel(user.id),
@@ -34,16 +38,20 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
         _userNotificationsListener.dispose();
       }
     });
-    _userNotificationsListener.notifications.listen((event) {
-      if (event is UserWasVerifiedNotification) {
-        if (_currentUser != null && _currentUser?.id == event.userId) {
-          _currentUser =
-              _currentUser!.copyWith(emailVerifiedAt: event.verifiedAt);
+    _userNotificationsListener.notifications.listen(_handleNotifications);
+  }
 
-          _usersStreamController.add(_currentUser);
-        }
+  void _handleNotifications(BaseUserNotification notification) {
+    if (notification is UserWasVerifiedNotification) {
+      if (_currentUser != null && _currentUser?.id == notification.userId) {
+        _currentUser =
+            _currentUser!.copyWith(emailVerifiedAt: notification.verifiedAt);
+
+        _usersStreamController.add(_currentUser);
       }
-    });
+    } else if (notification is CurrentUserWasDeleted) {
+      _usersStreamController.add(null);
+    }
   }
 
   late final StreamController<MyClinicApiUser?> _usersStreamController;
@@ -51,22 +59,16 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   Stream<MyClinicApiUser?> get usersStream => _usersStreamController.stream;
 
   String _getUsersSocketIoChannel(int userId) {
-    return "myclinic_database_private-users.$userId";
+    return SocketIoChannels.usersChannel + userId.toString();
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<Result<VoidValue, BasicError>> login(
+      {required String email, required String password}) async {
     // login user with email and password
     final loginResult = await _dataSource.login(email, password);
-
     return loginResult.mapSuccessToVoid(
-      (user) {
-        _currentUser = user;
-        _usersStreamController.add(_currentUser);
-      },
+      (user) => _usersStreamController.add(user),
     );
   }
 
@@ -83,26 +85,15 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
       password: password,
       phoneNumber: phoneNumber,
     ))
-        .mapSuccessToVoid(
-      (user) {
-        _userNotificationsListener.emitEvent(
-          event: "verification-email-sent",
-          data: {'listen-to': _getUsersSocketIoChannel(user.id)},
-        );
-        _currentUser = user;
-
-        _usersStreamController.add(_currentUser);
-      },
-    );
+        .mapSuccessToVoid((user) {
+      _usersStreamController.add(user);
+    });
   }
 
   @override
   Future<Result<VoidValue, BasicError>> logout() async {
     return (await _dataSource.logout()).fold(
-      ifSuccess: (_) {
-        _currentUser = null;
-        _usersStreamController.add(_currentUser);
-      },
+      ifSuccess: (_) => _usersStreamController.add(null),
     );
   }
 
@@ -122,8 +113,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   Future<Result<VoidValue, BasicError>> onInit() async {
     return (await _dataSource.loadUser()).flatMap(
       onSuccess: (user) {
-        _currentUser = user;
-        _usersStreamController.add(_currentUser);
+        _usersStreamController.add(user);
         return SuccessResult.voidResult();
       },
       onFailure: (error) {
@@ -132,4 +122,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
       },
     );
   }
+
+  @override
+  MyClinicApiUser? get currentUser => _currentUser;
 }

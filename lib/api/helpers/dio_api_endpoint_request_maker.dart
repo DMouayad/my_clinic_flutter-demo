@@ -36,13 +36,11 @@ class DioApiEndpointRequestMaker<T extends ApiEndpointResult>
   ]) async {
     try {
       Log.logApiEndpointRequest(apiEndpoint);
-      print(apiEndpoint.data);
       final response = await performDioRequest(
         apiEndpoint: apiEndpoint,
         accessToken: accessToken,
       );
       Log.logDioResponse(response);
-      print(response.data);
       if (response.isSuccess) {
         if (T is EmptyApiEndpointResult) {
           return SuccessResult.voidResult();

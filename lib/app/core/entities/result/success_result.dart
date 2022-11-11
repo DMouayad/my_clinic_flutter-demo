@@ -1,13 +1,8 @@
 part of result;
 
-///
-/// or in case of `void` return type:
-///  ```
-///  SuccessResult.voidResult()
-///  ```
 class SuccessResult<V extends Object, E extends NoError> extends Result<V, E> {
   final V value;
-  SuccessResult(this.value) : super._();
+  const SuccessResult(this.value) : super._();
 
   /// Indicates a successful execution of a function which has return type of `void`.
   factory SuccessResult.voidResult() => SuccessResult(const VoidValue() as V);
@@ -130,18 +125,18 @@ class SuccessResult<V extends Object, E extends NoError> extends Result<V, E> {
 
   @override
   U mapTo<U>({
-    required U Function(V value) onSuccess,
-    required U Function(E error) onFailure,
+    U Function(V value)? onSuccess,
+    U Function(E error)? onFailure,
   }) {
-    return onSuccess(value);
+    return onSuccess != null ? onSuccess(value) : value as U;
   }
 
   @override
   Future<U> mapToAsync<U>({
-    required Future<U> Function(V value) onSuccess,
-    required Future<U> Function(E error) onFailure,
+    Future<U> Function(V value)? onSuccess,
+    Future<U> Function(E error)? onFailure,
   }) async {
-    return await onSuccess(value);
+    return onSuccess != null ? await onSuccess(value) : null as U;
   }
 
   @override
@@ -153,5 +148,15 @@ class SuccessResult<V extends Object, E extends NoError> extends Result<V, E> {
       ifSuccess(value);
     }
     return SuccessResult(value);
+  }
+
+  @override
+  U mapFailureTo<U>(U Function(E error) transform) {
+    return SuccessResult(value) as U;
+  }
+
+  @override
+  U mapSuccessTo<U>(U Function(V value) transform) {
+    return transform(value);
   }
 }

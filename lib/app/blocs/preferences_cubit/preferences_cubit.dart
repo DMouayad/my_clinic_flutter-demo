@@ -39,8 +39,10 @@ class PreferencesCubit extends Cubit<PreferencesState> {
 
   void provideUserPreferences(BaseUserPreferences? preferences) {
     if (preferences != null) {
-      emit(UserPreferencesState(
-          preferences.themePreference, preferences.localePreference));
+      emit(
+        UserPreferencesState(
+            preferences.themePreference, preferences.localePreference),
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/shared_widgets/buttons/logout_button.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
@@ -12,8 +13,7 @@ import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view/
 import 'package:clinic_v2/app/shared_widgets/windows_components/custom_nav_view/windows_nav_view_with_pane.dart';
 import 'package:clinic_v2/app/shared_widgets/windows_components/processing_indicator.dart';
 
-import 'components/logout_button.dart';
-import 'components/settings_button.dart';
+import '../../../shared_widgets/buttons/settings_button.dart';
 import 'staff_management/staff_management_screen.dart';
 
 class WindowsAdminPanelScreen extends StatelessWidget {
@@ -78,7 +78,7 @@ class WindowsAdminPanelScreen extends StatelessWidget {
                       ),
                       const ButtonBar(
                         children: [
-                          SettingsIconButton(),
+                          ShowSettingsDialogButton(),
                           LogoutIconButton(),
                         ],
                       ),
