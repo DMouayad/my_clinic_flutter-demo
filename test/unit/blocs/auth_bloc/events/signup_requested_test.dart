@@ -1,17 +1,17 @@
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/core/entities/result/result.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../helpers/dio_error_factory.dart';
-import '../event_test_case.dart';
+import '../auth_bloc_event_test_case.dart';
 import '../utils/base_auth_repository.mocks.dart';
 import '../utils/mock_auth_repository_factory.dart';
 
 void main() {
   group("SignUpRequested event tests", () {
-    const signUpCreds = {
+    const signupData = {
       'email': 'email@test.com',
       'password': 'password',
       'name': 'testuser',
@@ -20,10 +20,10 @@ void main() {
     void verifyRepositoryRegisterWasCalled(MockBaseAuthRepository repository) {
       return verify(
         repository.register(
-          email: signUpCreds['email']!,
-          password: signUpCreds['password']!,
-          name: signUpCreds['name']!,
-          phoneNumber: signUpCreds['phoneNumber']!,
+          email: signupData['email']!,
+          password: signupData['password']!,
+          name: signupData['name']!,
+          phoneNumber: signupData['phoneNumber']!,
         ),
       ).called(1);
     }
@@ -37,10 +37,10 @@ void main() {
 
     void act(AuthBloc bloc) {
       bloc.add(SignUpRequested(
-        email: signUpCreds['email']!,
-        password: signUpCreds['password']!,
-        username: signUpCreds['name']!,
-        phoneNumber: signUpCreds['phoneNumber']!,
+        email: signupData['email']!,
+        password: signupData['password']!,
+        username: signupData['name']!,
+        phoneNumber: signupData['phoneNumber']!,
       ));
     }
 
@@ -80,8 +80,9 @@ void main() {
     );
     authBlocEventTestCase(
       desc:
-          '''should emit [SignUpInProgress, SignUpEmailIsNotAuthorizedToRegister, AuthHasNoLoggedInUser]
-          after [SignUpRequested] and [FailureResult] with [ErrorException.emailUnauthorizedToRegister] returned by the repository''',
+          '''should emit [SignUpInProgress, EmailNotAuthorizedToRegister, AuthHasNoLoggedInUser]
+          after [SignUpRequested] and received [FailureResult] with [ErrorException.emailUnauthorizedToRegister]
+           ''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           registerResult: MockAuthRepoMethodResult(
@@ -94,7 +95,7 @@ void main() {
       expectedStates: (repository, bloc, _) {
         return [
           const SignUpInProgress(),
-          SignUpEmailIsNotAuthorizedToRegister(),
+          EmailNotAuthorizedToRegister(),
           const AuthHasNoLoggedInUser(),
         ];
       },
@@ -103,8 +104,31 @@ void main() {
 
     authBlocEventTestCase(
       desc:
+          '''should emit [SignUpInProgress, EmailAlreadySignedUp, AuthHasNoLoggedInUser]
+          after [SignUpRequested] and received [FailureResult] with [ErrorException.emailAlreadyRegistered]
+           ''',
+      setup: (repoFactory, userFactory) {
+        return repoFactory.setupWith(
+          registerResult: MockAuthRepoMethodResult(
+            result: FailureResult.fromErrorException(
+                const ErrorException.emailAlreadyRegistered()),
+          ),
+        );
+      },
+      act: act,
+      expectedStates: (repository, bloc, _) {
+        return [
+          const SignUpInProgress(),
+          EmailAlreadySignedUp(),
+          const AuthHasNoLoggedInUser(),
+        ];
+      },
+      verify: verifyAfterExecution,
+    );
+    authBlocEventTestCase(
+      desc:
           '''should emit [SignUpInProgress, LoginErrorState, AuthHasNoLoggedInUser]
-          after [LoginRequested] with [FailureResult.fromDioError] and [ErrorException] returned by the repository''',
+          after [LoginRequested] and received [FailureResult.fromDioError]''',
       setup: (repoFactory, _) {
         return repoFactory.setupWith(
             registerResult: MockAuthRepoMethodResult(

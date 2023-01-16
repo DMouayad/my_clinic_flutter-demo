@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
+import 'package:clinic_v2/utils/extensions/map_extensions.dart';
 
 class ApiResponseUserData {
   final int id;

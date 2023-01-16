@@ -1,4 +1,4 @@
-part of 'startup_bloc.dart';
+part of '../../../app/blocs/startup_bloc/startup_bloc.dart';
 
 abstract class StartupEvent {
   const StartupEvent();

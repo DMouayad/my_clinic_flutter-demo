@@ -1,13 +1,16 @@
 import 'dart:async';
+
 //
+import 'package:clinic_v2/app/services/base_startup_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //
-import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/services/startup/base_startup_service.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
 
 part 'startup_state.dart';
+
 part 'startup_event.dart';
 
 class StartupBloc extends Bloc<StartupEvent, StartupState> {

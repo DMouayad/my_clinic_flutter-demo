@@ -1,3 +1,4 @@
+import 'package:clinic_v2/domain/authentication/base/base_auth_tokens_service.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 //
@@ -5,12 +6,11 @@ import 'package:clinic_v2/api/models/api_endpoint_result.dart';
 import 'package:clinic_v2/api/errors/api_response_error.dart';
 import 'package:clinic_v2/api/helpers/dio_helper.dart';
 import 'package:clinic_v2/api/models/api_endpoint.dart';
-import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/core/extensions/dio_extension.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
-import 'package:clinic_v2/app/services/auth_tokens/base_auth_tokens_service.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
+import 'package:clinic_v2/utils/extensions/dio_extension.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
 
-import '../helpers/base_api_endpoint_request_maker.dart';
+import 'base_api_endpoint_request_maker.dart';
 
 class DioApiEndpointRequestMaker<T extends ApiEndpointResult>
     with DioHelper

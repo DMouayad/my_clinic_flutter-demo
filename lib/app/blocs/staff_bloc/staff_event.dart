@@ -7,7 +7,7 @@ abstract class StaffBlocEvent extends Equatable {
 }
 
 /// An event to load staff emails from server
-class FetchStaffMembers extends RequestsApiEndpoint implements StaffBlocEvent {
+class FetchStaffMembers extends ApiRequestMetadata implements StaffBlocEvent {
   const FetchStaffMembers({super.sortedBy, super.perPage, super.page});
 }
 

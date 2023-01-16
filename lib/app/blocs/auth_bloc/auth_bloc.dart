@@ -1,20 +1,30 @@
 import 'dart:async';
 
-import 'package:clinic_v2/app/core/entities/error/basic_error.dart';
-import 'package:clinic_v2/app/features/authentication/domain/base_auth_repository.dart';
-import 'package:clinic_v2/app/features/authentication/domain/base_server_user.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
+import 'package:clinic_v2/domain/authentication/base/base_auth_repository.dart';
+import 'package:clinic_v2/shared/models/error/basic_error.dart';
+import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
+
 //
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-//
-import 'package:clinic_v2/app/core/entities/result/result.dart';
 
-part 'auth_state.dart';
-part 'sign_up_state.dart';
+//
+import 'package:clinic_v2/shared/models/result/result.dart';
+
+part 'states/auth_state.dart';
+
+part 'states/sign_up_state.dart';
+
 part 'auth_event.dart';
-part 'login_state.dart';
+
+part 'states/login_state.dart';
+
 part 'auth_events_helper.dart';
+
+part 'states/auth_init_state.dart';
+
+part 'states/logout_state.dart';
 
 /// Manages
 class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
@@ -29,8 +39,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
         add(AuthStatusCheckRequested(user));
       }
     });
+
     on<AuthStatusCheckRequested>(
-      (event, emit) => emit(getAuthHasUserState(event.user, state)),
+      (event, emit) {
+        if (event.user != null) {
+          emit(AuthHasLoggedInUser(event.user!));
+        } else if (state is! AuthHasNoLoggedInUser) {
+          const AuthHasNoLoggedInUser();
+        }
+      },
     );
     on<AuthInitRequested>((event, emit) async {
       if (state != const AuthInitInProgress()) emit(const AuthInitInProgress());

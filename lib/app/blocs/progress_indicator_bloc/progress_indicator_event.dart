@@ -1,4 +1,4 @@
-part of 'progress_indicator_bloc.dart';
+part of '../../../app/blocs/progress_indicator_bloc/progress_indicator_bloc.dart';
 
 abstract class ProgressIndicatorEvent extends Equatable {
   const ProgressIndicatorEvent();

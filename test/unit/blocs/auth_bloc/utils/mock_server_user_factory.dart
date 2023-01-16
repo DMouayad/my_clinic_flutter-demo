@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:clinic_v2/app/core/enums.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/base_user_preferences.dart';
+import 'package:clinic_v2/utils/enums.dart';
+import 'package:clinic_v2/domain/user_preferences/base/base_user_preferences.dart';
 import 'package:faker_dart/faker_dart.dart';
 
 import 'mock_base_server_user.dart';

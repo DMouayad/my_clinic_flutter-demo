@@ -1,15 +1,15 @@
-import 'package:clinic_v2/app/core/contracts/requests_api_endpoint.dart';
-import 'package:clinic_v2/app/core/entities/paginated_data/src/paginated_resource.dart';
-import 'package:clinic_v2/app/core/entities/result/result.dart';
-import 'package:clinic_v2/app/core/enums.dart';
-import 'package:clinic_v2/app/features/staff_member/domain/base_staff_member.dart';
-import 'package:clinic_v2/app/features/staff_member/domain/base_staff_member_repository.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
+import 'package:clinic_v2/domain/staff_member/base/base_staff_member.dart';
+import 'package:clinic_v2/domain/staff_member/base/base_staff_member_repository.dart';
+import 'package:clinic_v2/shared/models/api_request_metadata.dart';
+import 'package:clinic_v2/shared/models/paginated_api_resource/src/paginated_resource.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
+import 'package:clinic_v2/utils/enums.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'staff_event.dart';
-part 'staff_state.dart';
+part '../../../app/blocs/staff_bloc/staff_state.dart';
 
 class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
   final BaseStaffMemberRepository _repository;
@@ -67,7 +67,7 @@ class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
       });
     });
   }
-  StaffBlocState _getRequestedEventSuccessState() {
+  StaffBlocSuccess _getRequestedEventSuccessState() {
     switch (state.runtimeType) {
       case AddingStaffMember:
         return StaffMemberWasAdded();

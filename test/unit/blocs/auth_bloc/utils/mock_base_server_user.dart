@@ -1,6 +1,6 @@
-import 'package:clinic_v2/app/core/enums.dart';
-import 'package:clinic_v2/app/features/authentication/domain/base_server_user.dart';
-import 'package:clinic_v2/app/features/user_preferences/domain/base_user_preferences.dart';
+import 'package:clinic_v2/utils/enums.dart';
+import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
+import 'package:clinic_v2/domain/user_preferences/base/base_user_preferences.dart';
 
 class MockBaseServerUser implements BaseServerUser {
   @override

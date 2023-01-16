@@ -1,58 +1,58 @@
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/app_preferences_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
-  late PreferencesCubit appearancePreferencesCubit;
+  late AppPreferencesCubit appearanceAppPreferencesCubit;
   setUp(() async {
     await mockHydratedStorage(() {
-      appearancePreferencesCubit = PreferencesCubit();
+      appearanceAppPreferencesCubit = AppPreferencesCubit();
     });
   });
-  group('PreferencesCubit tests', () {
-    blocTest<PreferencesCubit, PreferencesState>(
-      'emits [UserPreferencesState] when calling [provideLocale].',
-      build: () => appearancePreferencesCubit,
+  group('AppPreferencesCubit tests', () {
+    blocTest<AppPreferencesCubit, AppPreferencesState>(
+      'emits [AppPreferencesState] when calling [provideLocale].',
+      build: () => appearanceAppPreferencesCubit,
       act: (cubit) {
         cubit.provideLocale(const Locale('ar'));
       },
-      expect: () => const <PreferencesState>[
-        UserPreferencesState(locale: Locale('ar')),
+      expect: () => const <AppPreferencesState>[
+        AppPreferencesState(locale: Locale('ar')),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
-      'emits [UserPreferencesState] when calling [provideThemeMode].',
-      build: () => appearancePreferencesCubit,
+    blocTest<AppPreferencesCubit, AppPreferencesState>(
+      'emits [AppPreferencesState] when calling [provideThemeMode].',
+      build: () => appearanceAppPreferencesCubit,
       act: (cubit) {
         cubit.provideThemeMode(ThemeMode.dark);
       },
-      expect: () => const <PreferencesState>[
-        UserPreferencesState(themeMode: ThemeMode.dark),
+      expect: () => const <AppPreferencesState>[
+        AppPreferencesState(themeMode: ThemeMode.dark),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
-      'emits tow states of type [UserPreferencesState] with the provided preferences'
+    blocTest<AppPreferencesCubit, AppPreferencesState>(
+      'emits tow states of type [AppPreferencesState] with the provided preferences'
       'when calling [provideLocale,provideThemeMode]',
-      build: () => appearancePreferencesCubit,
+      build: () => appearanceAppPreferencesCubit,
       act: (cubit) {
         cubit.provideLocale(const Locale('ar'));
 
         cubit.provideThemeMode(ThemeMode.dark);
       },
-      expect: () => const <PreferencesState>[
-        UserPreferencesState(locale: Locale('ar')),
-        UserPreferencesState(locale: Locale('ar'), themeMode: ThemeMode.dark),
+      expect: () => const <AppPreferencesState>[
+        AppPreferencesState(locale: Locale('ar')),
+        AppPreferencesState(locale: Locale('ar'), themeMode: ThemeMode.dark),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
-      'emits two states of type [UserPreferencesState] '
+    blocTest<AppPreferencesCubit, AppPreferencesState>(
+      'emits two states of type [AppPreferencesState] '
       'when calling [provideLocale] two times with different values.',
-      build: () => appearancePreferencesCubit,
+      build: () => appearanceAppPreferencesCubit,
       act: (cubit) async {
         cubit.provideLocale(const Locale('ar'));
         Timer(const Duration(seconds: 1), () {
@@ -60,15 +60,15 @@ void main() {
         });
       },
       wait: const Duration(seconds: 1),
-      expect: () => const <PreferencesState>[
-        UserPreferencesState(locale: Locale('ar')),
-        UserPreferencesState(locale: Locale('en')),
+      expect: () => const <AppPreferencesState>[
+        AppPreferencesState(locale: Locale('ar')),
+        AppPreferencesState(locale: Locale('en')),
       ],
     );
-    blocTest<PreferencesCubit, PreferencesState>(
+    blocTest<AppPreferencesCubit, AppPreferencesState>(
       'emits two states of type [ThemeModePreferenceProvided] '
       'when calling [provideThemeMode] two times with different values.',
-      build: () => appearancePreferencesCubit,
+      build: () => appearanceAppPreferencesCubit,
       act: (cubit) async {
         cubit.provideThemeMode(ThemeMode.dark);
         Timer(const Duration(seconds: 3), () {
@@ -76,9 +76,9 @@ void main() {
         });
       },
       wait: const Duration(seconds: 3),
-      expect: () => const <PreferencesState>[
-        UserPreferencesState(themeMode: ThemeMode.dark),
-        UserPreferencesState(themeMode: ThemeMode.system),
+      expect: () => const <AppPreferencesState>[
+        AppPreferencesState(themeMode: ThemeMode.dark),
+        AppPreferencesState(themeMode: ThemeMode.system),
       ],
     );
   });

@@ -17,15 +17,9 @@ class ProgressIndicatorBloc
       _startTimer(event.duration);
     }, transformer: restartable());
     on<HideIndicatorRequested>(
-        (event, emit) => emit(const ProgressIndicatorIsHidden()));
-    // on<TimerTick>((event, emit) {
-    //   if (event.remainingTicks > 0) {
-    //     emit(ProgressIndicatorIsVisible(
-    //         Duration(seconds: event.remainingTicks)));
-    //   } else {
-    //     emit(const ProgressIndicatorIsHidden());
-    //   }
-    // });
+      (event, emit) => emit(const ProgressIndicatorIsHidden()),
+    );
+
     on<ResetIndicatorDurationRequested>((event, emit) async {
       await _tickerSubscription?.cancel();
       _ticker = const Stream.empty();

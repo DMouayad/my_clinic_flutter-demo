@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:clinic_v2/api/models/api_endpoint.dart';
 import 'package:clinic_v2/api/utils/api_keys.dart';
-import 'package:clinic_v2/app/core/helpers/device_id_helper.dart';
-import 'package:clinic_v2/app/services/logger_service.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
+import 'package:clinic_v2/utils/helpers/device_id_helper.dart';
 import 'package:dio/dio.dart';
 
 mixin DioHelper {

@@ -1,10 +1,10 @@
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/core/entities/result/result.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helpers/dio_error_factory.dart';
-import '../event_test_case.dart';
+import '../auth_bloc_event_test_case.dart';
 import '../utils/mock_auth_repository_factory.dart';
 
 void main() {

@@ -1,4 +1,4 @@
-import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/app_preferences_cubit.dart';
 import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,24 +8,24 @@ import '../../../helpers/clinic_app_helper.dart';
 import '../../../helpers/hydrated_bloc_helper.dart';
 
 void main() {
-  group('App locale tests using PreferencesCubit', () {
-    PreferencesCubit? preferencesCubit;
+  group('App locale tests using AppPreferencesCubit', () {
+    AppPreferencesCubit? AppPreferencesCubit;
     late ClinicApp myApp;
 
     setUp(() async {
-      if (preferencesCubit != null) {
-        await preferencesCubit!.close();
+      if (AppPreferencesCubit != null) {
+        await AppPreferencesCubit!.close();
       }
       await mockHydratedStorage(() async {
-        preferencesCubit = PreferencesCubit();
+        AppPreferencesCubit = AppPreferencesCubit();
         myApp = getClinicAppForTest(
-          preferencesCubit: preferencesCubit!,
+          AppPreferencesCubit: AppPreferencesCubit!,
           home: Scaffold(appBar: AppBar()),
         );
       });
     });
 
-    tearDown(() => preferencesCubit!.close());
+    tearDown(() => AppPreferencesCubit!.close());
     //
     group('Verify initial locale based on the device locale', () {
       testWidgets(
@@ -95,7 +95,7 @@ void main() {
     });
 
     group(
-      'PreferencesCubit updating app-locale tests',
+      'AppPreferencesCubit updating app-locale tests',
       () {
         testWidgets(
           'Verify app locale is updated after calling [provideLocale]',
@@ -106,12 +106,12 @@ void main() {
             // ACT
             await tester.pumpWidget(myApp);
 
-            preferencesCubit!.provideLocale(newLocale);
+            AppPreferencesCubit!.provideLocale(newLocale);
             await tester.pumpWidget(myApp);
 
             // EXPECT
-            expect(preferencesCubit!.state,
-                const UserPreferencesState(locale: newLocale));
+            expect(AppPreferencesCubit!.state,
+                const AppPreferencesState(locale: newLocale));
             expect(
               tester.widget<MaterialApp>(find.byType(MaterialApp)).locale,
               newLocale,

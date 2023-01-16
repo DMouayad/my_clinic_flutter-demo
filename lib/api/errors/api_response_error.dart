@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:clinic_v2/api/errors/api_exception_class.dart';
-import 'package:clinic_v2/app/core/entities/error/basic_error.dart';
-import 'package:clinic_v2/app/core/extensions/map_extensions.dart';
+import 'package:clinic_v2/shared/models/error/basic_error.dart';
+import 'package:clinic_v2/utils/extensions/map_extensions.dart';
 
 class ApiResponseError extends BasicError {
   ApiResponseError({

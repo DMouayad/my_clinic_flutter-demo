@@ -1,7 +1,7 @@
 import 'package:clinic_v2/api/models/api_response_staff_member_data.dart';
 import 'package:clinic_v2/api/models/response_user_data.dart';
-import 'package:clinic_v2/app/core/entities/paginated_data/src/pagination_info.dart';
-import 'package:clinic_v2/app/core/entities/paginated_data/src/resource_pagination_links.dart';
+import 'package:clinic_v2/shared/models/paginated_api_resource/src/pagination_info.dart';
+import 'package:clinic_v2/shared/models/paginated_api_resource/src/resource_pagination_links.dart';
 
 import '../../../models/api_endpoint_result.dart';
 

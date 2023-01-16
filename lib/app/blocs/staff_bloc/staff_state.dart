@@ -1,4 +1,4 @@
-part of 'staff_bloc.dart';
+part of '../../../app/blocs/staff_bloc/staff_bloc.dart';
 
 abstract class StaffBlocState extends Equatable {
   const StaffBlocState();

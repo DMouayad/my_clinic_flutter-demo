@@ -3,8 +3,8 @@ import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';
-import 'package:clinic_v2/app/features/startup/view/widgets/startup_error_screen.dart';
-import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/preferences_cubit.dart';
+import 'package:clinic_v2/app/features/startup/view/widgets/startup_failure_wide_screen.dart';
+import 'package:clinic_v2/app/features/user_preferences/appearance/cubit/app_preferences_cubit.dart';
 import 'package:clinic_v2/common/common/entities/custom_error.dart';
 import 'package:clinic_v2/main.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +103,7 @@ void main() {
         setupStartupCubitForStartupSuccess(startupCubit!);
         await mockHydratedStorage(() {
           clinicApp = ClinicApp(
-            PreferencesCubit(),
+            AppPreferencesCubit(),
             authCubit!,
             authRepository,
             home: BlocProvider<StartupBloc>.value(

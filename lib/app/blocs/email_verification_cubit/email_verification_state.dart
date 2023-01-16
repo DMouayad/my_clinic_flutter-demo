@@ -1,4 +1,4 @@
-part of 'email_verification_cubit.dart';
+part of '../../../app/blocs/email_verification_cubit/email_verification_cubit.dart';
 
 abstract class EmailVerificationState extends Equatable {
   const EmailVerificationState();
