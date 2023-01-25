@@ -31,7 +31,7 @@ class WindowsSignUpScreen extends StatelessWidget {
           rightSideAnimation: animation,
           optionsBar: const BlocAppSettingsBar(),
           rightSide: const _StepOneLeftSide(),
-          rightSideChild: () {
+          leftSideChild: () {
             if (state is SignUpErrorState) {
               return ErrorCard(
                   errorText: state.error.exception?.getMessage(context) ??

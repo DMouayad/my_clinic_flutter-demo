@@ -26,6 +26,7 @@ class AuthStatesHandler extends StatelessWidget {
           _onAuthHasUser(state, context);
         }
         if (state is AuthHasNoLoggedInUser) {
+          context.read<AppPreferencesCubit>().resetUserPreferences();
           ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
               AppRoutes.loginScreen, (route) => false);
         }

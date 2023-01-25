@@ -23,7 +23,7 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
           optionsBar: Row(
             children: const [BlocAppSettingsBar(), LogoutIconButton()],
           ),
-          rightSideChild: () {
+          leftSideChild: () {
             if (state is VerificationEmailRequestFailed) {
               return ErrorCard(
                 errorText: state.error.exception?.getMessage(context),
@@ -72,11 +72,8 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'verify your email with the verification link sent by email to "${(context
-                              .read<AuthBloc>()
-                              .state as AuthHasLoggedInUser).currentUser
-                              .email}"\n'
-                              '\n\nif you did not receive an email click the button below to request a new verification link',
+                          'verify your email with the verification link sent by email to "${(context.read<AuthBloc>().state as AuthHasLoggedInUser).currentUser.email}"\n'
+                          '\n\nif you did not receive an email click the button below to request a new verification link',
                           textAlign: TextAlign.center,
                           style: context.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w500,

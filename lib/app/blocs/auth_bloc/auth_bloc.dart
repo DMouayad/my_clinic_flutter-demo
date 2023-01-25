@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clinic_v2/domain/authentication/base/base_auth_repository.dart';
+import 'package:clinic_v2/shared/models/base_event.dart';
 import 'package:clinic_v2/shared/models/error/basic_error.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
 import 'package:clinic_v2/shared/services/logger_service.dart';
@@ -20,16 +21,26 @@ part 'auth_event.dart';
 
 part 'states/login_state.dart';
 
-part 'auth_events_helper.dart';
-
 part 'states/auth_init_state.dart';
 
 part 'states/auth_reset_state.dart';
 
 part 'states/logout_state.dart';
 
+part 'events/login_requested.dart';
+
+part 'events/signup_requested.dart';
+
+part 'events/auth_init_requested.dart';
+
+part 'events/logout_requested.dart';
+
+part 'events/auth_status_check_requested.dart';
+
+part 'events/reset_auth_state.dart';
+
 /// Manages
-class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final BaseAuthRepository authRepository;
   late final StreamSubscription<BaseServerUser?> _usersStreamSub;
   final bool shouldLogTransitions;
@@ -41,54 +52,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
         add(AuthStatusCheckRequested(user));
       }
     });
-
-    on<AuthStatusCheckRequested>(
-      (event, emit) {
-        if (event.user != null) {
-          emit(AuthHasLoggedInUser(event.user!));
-        } else if (state is! AuthHasNoLoggedInUser) {
-          emit(const AuthHasNoLoggedInUser());
-        }
-      },
-    );
-    on<AuthInitRequested>((event, emit) async {
-      if (state != const AuthInitInProgress()) emit(const AuthInitInProgress());
-
-      await getAuthInitState(authRepository).then((state) {
-        if (state != null) {
-          emit(state);
-        }
-      });
-    });
-    on<LoginRequested>((event, emit) async {
-      if (state != const LoginInProgress()) emit(const LoginInProgress());
-      await getLoginState(
-        authRepository,
-        email: event.email,
-        password: event.password,
-      ).then((state) => emit(state));
-    });
-
-    on<SignUpRequested>((event, emit) async {
-      if (state != const SignUpInProgress()) emit(const SignUpInProgress());
-
-      await getSignUpState(
-        authRepository,
-        email: event.email,
-        username: event.username,
-        phoneNumber: event.phoneNumber,
-        password: event.password,
-      ).then((state) => emit(state));
-    });
-    on<LogoutRequested>((event, emit) async {
-      if (state is! LogoutInProgress) emit(const LogoutInProgress());
-      await getLogoutState(authRepository).then((state) => emit(state));
-    });
-    on<ResetAuthState>((event, emit) async {
-      (await authRepository.resetAuth()).fold(
-        ifFailure: (error) => emit(AuthStateResetFailed(error)),
-      );
-    });
+    on<AuthEvent>(
+        (event, emit) async => await event.handle(authRepository, state, emit));
   }
 
   @override

@@ -11,7 +11,7 @@ class WindowsTwoSidesScreen extends StatelessWidget {
     required this.showInProgressIndicator,
     required this.rightSide,
     this.rightSideAnimation,
-    this.rightSideChild,
+    this.leftSideChild,
     this.rightSideBlurred,
     this.optionsBar,
     Key? key,
@@ -20,7 +20,7 @@ class WindowsTwoSidesScreen extends StatelessWidget {
   final Animation<double>? rightSideAnimation;
   final bool showInProgressIndicator;
   final bool? rightSideBlurred;
-  final Widget? rightSideChild;
+  final Widget? leftSideChild;
   final Widget rightSide;
   final Widget? optionsBar;
 
@@ -33,45 +33,43 @@ class WindowsTwoSidesScreen extends StatelessWidget {
       rightSideFlex: context.isTablet ? 2 : 1,
       leftSide: Hero(
         tag: 'appName',
-        child: Acrylic(
-          child: Stack(
-            children: [
-              Align(
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                constraints: const BoxConstraints.expand(),
+                color: context.colorScheme.primaryContainer,
                 alignment: Alignment.center,
-                child: Container(
-                  constraints: const BoxConstraints.expand(),
-                  color: context.colorScheme.primaryContainer,
-                  alignment: Alignment.center,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Spacer(),
+                    AppNameText(
+                      fontSize: context.isDesktop ? 50 : 36,
+                      fontColor: context.colorScheme.primary,
+                    ),
+                    if (leftSideChild != null) ...[
                       const Spacer(),
-                      AppNameText(
-                        fontSize: context.isDesktop ? 50 : 36,
-                        fontColor: context.colorScheme.primary,
-                      ),
-                      if (rightSideChild != null) ...[
-                        const Spacer(),
-                        rightSideChild!
-                      ],
-                      if (showInProgressIndicator) ...[
-                        const Spacer(),
-                        const LoadingIndicator(),
-                      ],
-                      const Spacer(),
+                      leftSideChild!
                     ],
-                  ),
+                    if (showInProgressIndicator) ...[
+                      const Spacer(),
+                      const LoadingIndicator(),
+                    ],
+                    const Spacer(),
+                  ],
                 ),
               ),
-              if (optionsBar != null)
-                Align(
-                  alignment: context.isArabicLocale
-                      ? Alignment.topRight
-                      : Alignment.bottomLeft,
-                  child: optionsBar,
-                ),
-            ],
-          ),
+            ),
+            if (optionsBar != null)
+              Align(
+                alignment: context.isArabicLocale
+                    ? Alignment.topRight
+                    : Alignment.bottomLeft,
+                child: optionsBar,
+              ),
+          ],
         ),
       ),
     );

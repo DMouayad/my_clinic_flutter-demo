@@ -80,6 +80,10 @@ class AppPreferencesCubit extends Cubit<AppPreferencesState> {
     );
   }
 
+  void resetUserPreferences() {
+    _repository.userPreferences = null;
+  }
+
   void setUserPreferences(ThemeMode themeMode, Locale locale) {
     _repository.setUserPreferences(themeMode, locale);
   }

@@ -21,8 +21,6 @@ part 'events/update_staff_member.dart';
 
 part 'events/staff_member_updated.dart';
 
-part 'events/sort_staff_members.dart';
-
 part 'staff_event.dart';
 
 part 'staff_state.dart';

@@ -82,16 +82,15 @@ class _StaffManagementWindowsScreenState
           _fetchAfterDeletingItem();
         }
       }),
-      // buildWhen: (prev, next) =>
-      //     next is StaffMembersWereLoaded ||
-      //     next is LoadingStaffMembers ||
-      //     (next is StaffBlocErrorState && prev is LoadingStaffMembers),
+      buildWhen: (prev, next) =>
+          next is StaffMembersWereLoaded ||
+          next is LoadingStaffMembers ||
+          (next is StaffBlocErrorState && prev is LoadingStaffMembers),
       builder: (context, state) {
         if (state is StaffMembersWereLoaded) {
           staffMembersResource = state.staffMembers;
           perPage = staffMembersResource!.paginationInfo.perPage;
         }
-        print("staffMembersResource: $staffMembersResource");
         if (state is StaffBlocErrorState && staffMembersResource == null) {
           return _ErrorFetchingStaffMembersWidget(state.error);
         } else if (staffMembersResource != null) {
@@ -102,7 +101,10 @@ class _StaffManagementWindowsScreenState
               FadeInUp(
                 from: 50,
                 child: StaffDataTable(
-                  dataResource: Future.value(staffMembersResource!),
+                  dataResource: state is StaffMembersWereLoaded
+                      ? Future.value(staffMembersResource!)
+                      : Future.delayed(const Duration(milliseconds: 200),
+                          () => staffMembersResource!),
                   onPageChanged: _onPageChanged,
                   onItemsPerPageChanged: (int? rowsCount) {
                     if (rowsCount != null &&

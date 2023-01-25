@@ -32,7 +32,7 @@ class WindowsLoginScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal:
-                    context.isDesktop ? context.horizontalMargins : 16,
+                        context.isDesktop ? context.horizontalMargins : 16,
                     vertical: context.screenHeight * .1,
                   ),
                   child: const LoginMessage(),
@@ -45,7 +45,7 @@ class WindowsLoginScreen extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.symmetric(
                         horizontal:
-                        context.isDesktop ? context.horizontalMargins : 0,
+                            context.isDesktop ? context.horizontalMargins : 0,
                       ),
                       child: const BlocLoginForm(),
                     ),
@@ -54,7 +54,7 @@ class WindowsLoginScreen extends StatelessWidget {
               ),
             ],
           ),
-          rightSideChild: () {
+          leftSideChild: () {
             //TODO: SHOW ERROR
             String? errorText;
 

@@ -35,9 +35,6 @@ void main() async {
   await windowManager.ensureInitialized();
   await windowManager.setMinimumSize(const Size(400, 700));
 
-  // AuthTokensServiceProvider.instance.service.deleteRefreshToken();
-  // AuthTokensServiceProvider.instance.service.deleteAccessToken();
-
   // states that Logger is working
   Log.v("Logger started | ${DateTime.now()}");
   Log.v("App is running on ${Platform.operatingSystemVersion}");
@@ -48,7 +45,8 @@ void main() async {
   GetIt.I.registerSingleton<BaseAuthTokensService>(
     SecureStorageAuthTokensService(MyClinicApiRefreshTokensService()),
   );
-
+  // GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
+  // GetIt.I.get<BaseAuthTokensService>().deleteRefreshToken();
   runApp(
     ClinicApp(
       userPreferencesRepository: MyClinicApiUserPreferencesRepository(),

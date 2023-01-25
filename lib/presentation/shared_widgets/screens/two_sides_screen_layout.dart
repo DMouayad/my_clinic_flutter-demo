@@ -68,6 +68,7 @@ class TwoSidesScreenLayout extends StatelessWidget {
 
   Widget _buildSide({required Widget sideContent, bool sideIsBlurred = false}) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         sideContent,
         if (sideIsBlurred) const BlurredColorBarrier(),
