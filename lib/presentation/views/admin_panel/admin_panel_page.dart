@@ -1,3 +1,4 @@
+import 'package:clinic_v2/shared/models/api_request_metadata.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
 import 'package:clinic_v2/domain/staff_member/data/my_clinic_api_staff_member_repository.dart';
@@ -19,12 +20,14 @@ class AdminPanelPage extends AppPage {
               windowsScreen: BlocProvider(
                 lazy: false,
                 create: (_) {
+                  const event = FetchStaffMembers(
+                      metadata: ApiRequestMetadata(
+                    page: 1,
+                    sortedBy: ["+registered_with_at"],
+                  ));
                   return StaffBloc(
                     MyClinicApiStaffMemberRepository(),
-                  )..add(const FetchStaffMembers(
-                      page: 1,
-                      sortedBy: ["+registered_with_at"],
-                    ));
+                  )..add(event);
                 },
                 child: WindowsAdminPanelScreen(),
               ),

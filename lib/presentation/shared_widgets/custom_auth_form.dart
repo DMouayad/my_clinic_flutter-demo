@@ -1,5 +1,6 @@
 import 'package:clinic_v2/utils/helpers/form_helper.dart';
 import 'package:flutter/services.dart';
+
 //
 import 'package:clinic_v2/presentation/navigation/navigation.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
@@ -10,17 +11,15 @@ class CustomAuthForm extends StatefulWidget {
   const CustomAuthForm({
     required this.onSubmit,
     required this.isLoginForm,
-    this.errorText,
     Key? key,
   }) : super(key: key);
 
   final void Function(
-    String email,
-    String password,
-    String? phoneNumber,
-    String? username,
-  ) onSubmit;
-  final String? errorText;
+      String email,
+      String password,
+      String? phoneNumber,
+      String? username,
+      ) onSubmit;
   final bool isLoginForm;
 
   @override
@@ -29,6 +28,7 @@ class CustomAuthForm extends StatefulWidget {
 
 class _CustomAuthFormState extends State<CustomAuthForm> {
   late final FormHelper _formHelper;
+
   @override
   void initState() {
     _formHelper = FormHelper(isLoginForm: widget.isLoginForm);
@@ -41,12 +41,6 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
     super.dispose();
   }
 
-  bool? _emailIsValid;
-  bool? _passwordIsValid;
-  bool? _usernameIsValid;
-  bool? _phoneNoIsValid;
-  final _errorSuffixIcon = const Icon(Icons.error_outline, color: Colors.red);
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -56,46 +50,19 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            if (widget.errorText != null) ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline_rounded,
-                    color: context.colorScheme.errorColor,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    widget.errorText!,
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      color: context.colorScheme.errorColor,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-            ],
+
             if (!widget.isLoginForm) ...[
               InputTextField(
                 controller: _formHelper.usernameController,
                 prefixIcon: Icons.person,
                 validator: (value) {
-                  final errorText =
-                      _formHelper.usernameValidator(value, context);
-                  if (errorText != null) {
-                    setState(() => _usernameIsValid = false);
-                  } else {
-                    setState(() => _usernameIsValid = true);
-                  }
-                  return errorText;
+                  return _formHelper.usernameValidator(value, context);
                 },
                 hintText: context.localizations?.username,
                 textStyle: context.textTheme.bodyText1?.copyWith(
                   fontSize: 18,
                 ),
                 suffixIconColor: context.colorScheme.errorColor,
-                suffixIcon:
-                    (_usernameIsValid ?? true) ? null : _errorSuffixIcon,
               ),
               const SizedBox(height: 12),
               InputTextField(
@@ -106,14 +73,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                   FilteringTextInputFormatter.digitsOnly,
                 ],
                 validator: (value) {
-                  final errorText =
-                      _formHelper.phoneNoValidator(value, context);
-                  if (errorText != null) {
-                    setState(() => _phoneNoIsValid = false);
-                  } else {
-                    setState(() => _phoneNoIsValid = true);
-                  }
-                  return errorText;
+                  return _formHelper.phoneNoValidator(value, context);
                 },
                 maxLength: 22,
                 keyboardType: TextInputType.phone,
@@ -122,7 +82,6 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                   fontSize: 18,
                 ),
                 suffixIconColor: context.colorScheme.errorColor,
-                suffixIcon: (_phoneNoIsValid ?? true) ? null : _errorSuffixIcon,
               ),
               const SizedBox(height: 12),
             ],
@@ -131,20 +90,13 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               prefixIcon: Icons.email_outlined,
               textInputAction: TextInputAction.next,
               validator: (value) {
-                final errorText = _formHelper.emailValidator(value, context);
-                if (errorText != null) {
-                  setState(() => _emailIsValid = false);
-                } else {
-                  setState(() => _emailIsValid = true);
-                }
-                return errorText;
+                return _formHelper.emailValidator(value, context);
               },
               hintText: context.localizations?.email,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
               ),
               suffixIconColor: context.colorScheme.errorColor,
-              suffixIcon: (_emailIsValid ?? true) ? null : _errorSuffixIcon,
             ),
             const SizedBox(height: 12),
             InputTextField(
@@ -152,13 +104,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               prefixIcon: Icons.remove_red_eye,
               textInputAction: TextInputAction.done,
               validator: (value) {
-                final errorText = _formHelper.passwordValidator(value, context);
-                if (errorText != null) {
-                  setState(() => _passwordIsValid = false);
-                } else {
-                  setState(() => _passwordIsValid = true);
-                }
-                return errorText;
+                return _formHelper.passwordValidator(value, context);
               },
               hintText: context.localizations?.password,
               textStyle: context.textTheme.bodyText1?.copyWith(
@@ -169,7 +115,6 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 FocusScope.of(context).unfocus();
               },
               obscure: true,
-              suffixIcon: (_passwordIsValid ?? true) ? null : _errorSuffixIcon,
             ),
             SizedBox(height: context.screenHeight * .14),
             SubmitButton(
@@ -178,7 +123,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                   ? context.localizations!.login
                   : context.localizations!.signUp,
               iconData:
-                  widget.isLoginForm ? Icons.login : Icons.app_registration,
+              widget.isLoginForm ? Icons.login : Icons.app_registration,
               onPressed: () {
                 setState(() => _formHelper.validateInput());
                 if (_formHelper.inputIsValid) {
@@ -206,9 +151,10 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () => Navigator.of(context).pushNamed(
-                  AppRoutes.signUpScreen,
-                ),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(
+                      AppRoutes.signUpScreen,
+                    ),
                 child: Text(
                   context.localizations!.createAccount,
                   style: context.textTheme.subtitle2?.copyWith(

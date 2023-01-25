@@ -2,7 +2,7 @@ import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/themes/material_themes.dart';
 import 'package:flutter/services.dart';
 
-class InputTextField extends StatelessWidget {
+class InputTextField extends StatefulWidget {
   final String? initialValue;
   final String? hintText;
   final TextEditingController? controller;
@@ -29,6 +29,7 @@ class InputTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final List<TextInputFormatter>? inputFormatters;
   final TextDirection? textDirection;
+
   const InputTextField({
     Key? key,
     this.hintText,
@@ -60,6 +61,14 @@ class InputTextField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<InputTextField> createState() => _InputTextFieldState();
+}
+
+class _InputTextFieldState extends State<InputTextField> {
+  bool? inputIsValid;
+  final _errorSuffixIcon = const Icon(Icons.error_outline, color: Colors.red);
+
+  @override
   Widget build(BuildContext context) {
     final kOutlinedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(context.isDesktopPlatform ? 6 : 14),
@@ -73,35 +82,43 @@ class InputTextField extends StatelessWidget {
     return Theme(
       data: MaterialAppThemes.of(context),
       child: TextFormField(
-        textDirection: textDirection,
-        maxLength: maxLength,
-        controller: controller,
-        key: formKey,
-        initialValue: initialValue,
-        validator: validator,
-        onChanged: onChanged,
-        onSaved: onSaved,
-        obscureText: obscure,
-        cursorColor: cursorColor,
-        keyboardType: keyboardType,
-        onEditingComplete: onEditingComplete,
-        inputFormatters: inputFormatters,
-        textInputAction: textInputAction,
-        style: textStyle ?? context.textTheme.bodyText1,
-        autovalidateMode: autovalidateMode,
+        textDirection: widget.textDirection,
+        maxLength: widget.maxLength,
+        controller: widget.controller,
+        key: widget.formKey,
+        initialValue: widget.initialValue,
+        validator: widget.validator,
+        onChanged: (value) {
+          if (widget.validator != null) {
+            setState(() {
+              inputIsValid = widget.validator!(value) == null;
+            });
+          }
+        },
+        onSaved: widget.onSaved,
+        obscureText: widget.obscure,
+        cursorColor: widget.cursorColor,
+        keyboardType: widget.keyboardType,
+        onEditingComplete: widget.onEditingComplete,
+        inputFormatters: widget.inputFormatters,
+        textInputAction: widget.textInputAction,
+        style: widget.textStyle ?? context.textTheme.bodyText1,
+        autovalidateMode:
+            widget.autovalidateMode ?? AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
-          isDense: isDense,
-          filled: filled,
+          isDense: widget.isDense,
+          filled: widget.filled,
           fillColor: Colors.transparent,
           // fillColor: fillColor ?? AppColorScheme.of(context).primaryContainer,
           // hoverColor ?? AppColorScheme.of(context).secondaryContainer,
-          suffixIcon: suffixIcon,
-          suffixIconColor: suffixIconColor,
+          suffixIcon: widget.suffixIcon ??
+              ((inputIsValid ?? true) ? null : _errorSuffixIcon),
+          suffixIconColor: widget.suffixIconColor,
           prefixIcon: Icon(
-            prefixIcon,
+            widget.prefixIcon,
             // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
           ),
-          hintText: hintText,
+          hintText: widget.hintText,
           hintStyle: context.textTheme.bodyText1?.copyWith(
             color: context.colorScheme.onPrimaryContainer?.withOpacity(.7),
           ),

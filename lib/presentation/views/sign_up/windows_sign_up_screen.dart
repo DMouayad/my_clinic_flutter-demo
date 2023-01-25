@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 //
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //
 import 'package:clinic_v2/presentation/shared_widgets/error_card.dart';
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
@@ -26,9 +28,9 @@ class WindowsSignUpScreen extends StatelessWidget {
       builder: (context, state) {
         return WindowsTwoSidesScreen(
           showInProgressIndicator: state is SignUpInProgress,
-          leftSideAnimation: animation,
-          topOptionsBar: const BlocAppSettingsBar(),
-          leftSide: const _StepOneLeftSide(),
+          rightSideAnimation: animation,
+          optionsBar: const BlocAppSettingsBar(),
+          rightSide: const _StepOneLeftSide(),
           rightSideChild: () {
             if (state is SignUpErrorState) {
               return ErrorCard(

@@ -31,6 +31,8 @@ mixin ApiExceptionClassProxy {
         return const ErrorException.invalidPasswordCredential();
       case ApiExceptionClass.validationError:
         return const ErrorException.invalidApiRequest();
+      case ApiExceptionClass.invalidRefreshToken:
+        return const InvalidRefreshTokenException();
 
       default:
         return ErrorException(apiExceptionClass.name);

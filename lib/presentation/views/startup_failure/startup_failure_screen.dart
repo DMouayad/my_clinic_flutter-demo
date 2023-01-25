@@ -1,13 +1,17 @@
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
+import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/filled_buttons.dart';
+import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/text_buttons.dart';
+import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/custom_icon_button.dart';
+//
+import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/adaptive_text_icon_button.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/error_card.dart';
 import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/two_sides_screen.dart';
-import 'package:clinic_v2/utils/extensions/context_extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppStartupFailureScreen extends StatelessWidget {
   final BasicError error;
@@ -19,43 +23,56 @@ class AppStartupFailureScreen extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Widget desktopScreenBuilder(BuildContext context) {
-    return _largeErrorScreen(context);
-  }
-
   Widget defaultBuilder(BuildContext context) {
     return ScaffoldWithAppBar(
       appBarBackgroundColor: Colors.transparent,
       bodyWithSafeArea: false,
       centerTitle: true,
       title: AppNameText(
-        fontColor: context.colorScheme.secondary,
+        fontColor: context.colorScheme.primary,
         fontSize: 36,
       ),
-      body: _screenContent(error, context),
+      body: _ScreenContent(error, onRetry),
     );
   }
 
-  Widget _largeErrorScreen(BuildContext context) {
-    return WindowsTwoSidesScreen(
-      showInProgressIndicator: false,
-      leftSide: _screenContent(error, context),
-    );
+  @override
+  Widget build(BuildContext context) {
+    if (context.isLandScapeTablet || context.isDesktop) {
+      return BlocBuilder<AuthBloc, AuthState>(
+        buildWhen: (prev, next) =>
+            prev is! AuthInitInProgress && next is! AuthHasLoggedInUser,
+        builder: (context, state) {
+          return WindowsTwoSidesScreen(
+            rightSideBlurred: state is AuthInitInProgress,
+            showInProgressIndicator: state is AuthInitInProgress,
+            rightSide: state is! AuthInitInProgress
+                ? _ScreenContent(error, onRetry)
+                : const SizedBox(),
+          );
+        },
+      );
+    }
+    return defaultBuilder(context);
   }
+}
 
-  Widget _screenContent(
-    BasicError error,
-    BuildContext context,
-  ) {
+class _ScreenContent extends StatelessWidget {
+  const _ScreenContent(this.error, this.onRetry, {Key? key}) : super(key: key);
+  final void Function()? onRetry;
+  final BasicError error;
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Spacer(),
+          const Spacer(flex: 1),
           Expanded(
             child: Flash(
-              infinite: true,
+              // infinite: true,
               duration: const Duration(seconds: 4),
               child: Icon(
                 error.exception == const ErrorException.noConnectionFound()
@@ -66,56 +83,73 @@ class AppStartupFailureScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 0,
-            child: Row(
-              children: [
-                ErrorCard(
-                  color: context.colorScheme.errorColor,
-                  errorText: _getErrorTextFromException(
-                        error.exception,
-                        context,
-                      ) ??
-                      "Unknown error",
-                ),
-                CustomIconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: onRetry ?? () {},
-                  tooltipMessage: context.localizations!.retry,
-                ),
-              ],
-            ),
+          const Spacer(flex: 1),
+          ErrorCard(
+            color: context.colorScheme.errorColor,
+            errorText: error.exception?.getMessage(context) ??
+                context.localizations!.failedToAuthenticateUser,
           ),
-          const Spacer(),
+          if (error.exception is InvalidRefreshTokenException) ...[
+            const SizedBox(height: 30),
+            AdaptiveFilledButton(
+              label: context.localizations!.reLogin,
+              iconData: Icons.login,
+              width: 180,
+              onPressed: () => _resetAuth(context),
+            ),
+            const Spacer(flex: 2),
+          ] else ...[
+            AdaptiveTextIconButton(
+              margins: const EdgeInsets.symmetric(vertical: 20),
+              label: context.localizations!.retry,
+              iconWidget: const Icon(Icons.refresh),
+              tooltipMessage: context.localizations!.retry,
+              onPressed: () {
+                if (onRetry != null) onRetry!();
+              },
+            ),
+            const Spacer(),
+            const Divider(),
+            BuilderWithWidgetInfo(
+              builder: (context, widgetInfo) {
+                return ConstrainedBox(
+                  constraints: BoxConstraints.loose(
+                      Size.fromWidth(widgetInfo.widgetSize.width * 0.6)),
+                  child: Flex(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction:
+                        context.isDesktop ? Axis.horizontal : Axis.vertical,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          context.localizations!.gettingSameError,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.colorScheme.onPrimaryContainer,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: AdaptiveTextButton(
+                          labelColor: context.colorScheme.secondary,
+                          label: context.localizations!.reLogin,
+                          onPressed: () => _resetAuth(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+          const SizedBox(height: 20),
+          // const Spacer(flex: 2),
         ],
       ),
     );
   }
 
-  String? _getErrorTextFromException(
-      ErrorException? errorException, BuildContext context) {
-    if (errorException is FailedToRefreshAuthTokensException) {
-      return context.localizations?.failedToAuthenticateUser;
-    }
-    if (errorException is NoConnectionFoundException) {
-      return context.localizations?.noInternetConnection ??
-          "No Internet connection";
-    }
-    if (errorException == const ErrorException.cannotConnectToServer()) {
-      return context.localizations?.cannotConnectToServer ??
-          "Cannot connect to the server, please try again";
-    }
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (context.isLandScapeTablet) {
-      return _largeErrorScreen(context);
-    }
-    if (context.isDesktop) {
-      return _largeErrorScreen(context);
-    }
-    return defaultBuilder(context);
+  void _resetAuth(BuildContext context) {
+    context.read<AuthBloc>().add(const ResetAuthState());
   }
 }

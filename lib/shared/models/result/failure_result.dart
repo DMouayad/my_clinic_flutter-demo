@@ -21,10 +21,17 @@ class FailureResult<NoValue extends NoValueObtained,
     );
   }
   factory FailureResult.fromDioError(DioError e) {
+    ErrorException getErrorException() {
+      if (e.error is SocketException) {
+        return const ErrorException.noConnectionFound();
+      }
+      return ErrorException(e.type.name);
+    }
+
     return FailureResult(
       BasicError(
         message: e.message,
-        exception: ErrorException(e.type.name),
+        exception: getErrorException(),
         // description: {'request options': e.requestOptions}.toString(),
       ) as ErrorType,
     );

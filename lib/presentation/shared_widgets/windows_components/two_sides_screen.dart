@@ -1,4 +1,5 @@
 import 'package:fluent_ui/fluent_ui.dart';
+
 //
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:clinic_v2/presentation/shared_widgets/loading_indicator.dart';
@@ -8,28 +9,29 @@ import '../../../presentation/shared_widgets/screens/two_sides_screen_layout.dar
 class WindowsTwoSidesScreen extends StatelessWidget {
   const WindowsTwoSidesScreen({
     required this.showInProgressIndicator,
-    required this.leftSide,
-    this.leftSideAnimation,
+    required this.rightSide,
+    this.rightSideAnimation,
     this.rightSideChild,
-    this.leftSideBlurred,
-    this.topOptionsBar,
+    this.rightSideBlurred,
+    this.optionsBar,
     Key? key,
   }) : super(key: key);
 
-  final Animation<double>? leftSideAnimation;
+  final Animation<double>? rightSideAnimation;
   final bool showInProgressIndicator;
-  final bool? leftSideBlurred;
+  final bool? rightSideBlurred;
   final Widget? rightSideChild;
-  final Widget leftSide;
-  final Widget? topOptionsBar;
+  final Widget rightSide;
+  final Widget? optionsBar;
 
   @override
   Widget build(BuildContext context) {
     return TwoSidesScreenLayout(
-      leftSideAnimation: leftSideAnimation,
-      leftSideBlurred: leftSideBlurred ?? showInProgressIndicator,
-      leftSide: leftSide,
-      rightSide: Hero(
+      rightSideAnimation: rightSideAnimation,
+      rightSideBlurred: rightSideBlurred ?? showInProgressIndicator,
+      rightSide: rightSide,
+      rightSideFlex: context.isTablet ? 2 : 1,
+      leftSide: Hero(
         tag: 'appName',
         child: Acrylic(
           child: Stack(
@@ -41,29 +43,32 @@ class WindowsTwoSidesScreen extends StatelessWidget {
                   color: context.colorScheme.primaryContainer,
                   alignment: Alignment.center,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      const Spacer(),
                       AppNameText(
-                        fontSize: 44,
-                        fontColor: context.isDarkMode
-                            ? context.colorScheme.primary
-                            : context.colorScheme.primary,
+                        fontSize: context.isDesktop ? 50 : 36,
+                        fontColor: context.colorScheme.primary,
                       ),
-                      if (rightSideChild != null) rightSideChild!,
+                      if (rightSideChild != null) ...[
+                        const Spacer(),
+                        rightSideChild!
+                      ],
                       if (showInProgressIndicator) ...[
-                        const SizedBox(height: 20),
+                        const Spacer(),
                         const LoadingIndicator(),
                       ],
+                      const Spacer(),
                     ],
                   ),
                 ),
               ),
-              if (topOptionsBar != null)
+              if (optionsBar != null)
                 Align(
                   alignment: context.isArabicLocale
-                      ? Alignment.topLeft
-                      : Alignment.topRight,
-                  child: topOptionsBar,
+                      ? Alignment.topRight
+                      : Alignment.bottomLeft,
+                  child: optionsBar,
                 ),
             ],
           ),

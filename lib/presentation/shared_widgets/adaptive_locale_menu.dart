@@ -16,6 +16,7 @@ class AdaptiveLocaleDropdown extends StatelessWidget {
 
   final DropdownMenuType type;
   final void Function(Locale locale) onChanged;
+
   void _onLocaleChanged(CustomDropdownMenuItem<Locale> item) {
     onChanged(item.value);
   }
@@ -23,7 +24,9 @@ class AdaptiveLocaleDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentLocale = context.locale;
-    final title = context.localizations?.selectAppLang ?? 'App Language';
+    final title = type == DropdownMenuType.menuOnly
+        ? currentLocale.languageCode
+        : context.localizations?.selectAppLang ?? 'App Language';
     final items = AppLocalizations.supportedLocales
         .map((e) => CustomDropdownMenuItem<Locale>(
               value: e,
@@ -38,7 +41,7 @@ class AdaptiveLocaleDropdown extends StatelessWidget {
         ? type == DropdownMenuType.menuOnly
             ? WindowsDropdownMenu<Locale>(
                 dropdownSize: dropdownSize,
-                title: context.localizations!.language,
+                title: title,
                 items: items,
                 selectedValue: currentLocale,
                 onChanged: _onLocaleChanged,

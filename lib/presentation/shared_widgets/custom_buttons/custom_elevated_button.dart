@@ -36,22 +36,14 @@ class CustomElevatedButton extends StatelessWidget {
           ),
         ),
         foregroundColor: MaterialStateProperty.all(
-          labelColor ?? (context.colorScheme.onPrimary),
-        ),
+            labelColor ?? (context.colorScheme.onPrimary)),
         shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
-      label: Text(
-        label,
-      ),
+      label: Text(label),
+      icon: Icon(iconData, size: 20),
       onPressed: onPressed,
-      icon: Icon(
-        iconData,
-        size: 20,
-      ),
     );
   }
 }

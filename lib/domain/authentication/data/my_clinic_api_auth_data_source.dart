@@ -1,15 +1,16 @@
 import 'package:clinic_v2/api/endpoints/auth_endpoints.dart';
 import 'package:clinic_v2/api/endpoints/user_endpoints.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
+import 'package:get_it/get_it.dart';
 
 import '../base/base_auth_data_source.dart';
 import '../base/base_auth_tokens_service.dart';
 import 'my_clinic_api_user.dart';
 
 class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
-  final BaseAuthTokensService _authTokensService;
+  const MyClinicApiAuthDataSource();
 
-  MyClinicApiAuthDataSource(this._authTokensService);
+  BaseAuthTokensService get _authTokensService => GetIt.I.get();
 
   @override
   Future<Result<MyClinicApiUser, BasicError>> login(

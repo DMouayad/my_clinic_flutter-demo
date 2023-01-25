@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 //
 import 'package:equatable/equatable.dart';
+
 //
 import 'package:clinic_v2/api/errors/api_exception_class.dart';
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
@@ -14,26 +16,38 @@ import 'error_exception_api_exception_proxy.dart';
 /// - converting [ApiExceptionClass] to app [ErrorException]
 class ErrorException extends Equatable {
   const ErrorException(this.name);
+
   final String name;
+
   String? getMessage(BuildContext context) => null;
 
   const factory ErrorException.noConnectionFound() = NoConnectionFoundException;
+
   const factory ErrorException.noAccessTokenFound() =
       NoAccessTokenFoundException;
+
   const factory ErrorException.cannotConnectToServer() =
       CannotConnectToServerException;
+
   const factory ErrorException.userUnauthorized() = _UserUnauthorizedException;
+
   const factory ErrorException.noRefreshTokenFound() =
       NoRefreshTokenFoundException;
+
   const factory ErrorException.emailAlreadyRegistered() =
       EmailAlreadyRegisteredException;
+
   const factory ErrorException.invalidEmailCredential() =
       InvalidEmailCredentialException;
+
   const factory ErrorException.invalidPasswordCredential() =
       InvalidPasswordCredentialException;
+
   const factory ErrorException.emailUnauthorizedToRegister() =
       EmailUnauthorizedToRegisterException;
+
   const factory ErrorException.invalidApiRequest() = InvalidApiRequestException;
+
   const factory ErrorException.failedToRefreshTokens() =
       FailedToRefreshAuthTokensException;
 
@@ -44,6 +58,7 @@ class ErrorException extends Equatable {
   factory ErrorException.roleNotFound() {
     return const ErrorException('RoleNotFound');
   }
+
   factory ErrorException.staffMemberAlreadyExists() {
     return const ErrorException('StaffMemberAlreadyExists');
   }
@@ -51,6 +66,7 @@ class ErrorException extends Equatable {
   factory ErrorException.userPreferencesAlreadyExists() {
     return const ErrorException('UserPreferencesAlreadyExists');
   }
+
   factory ErrorException.userDoesntMatchHisStaffMember() {
     return const ErrorException('UserDoesntMatchHisStaffMember');
   }
@@ -74,6 +90,7 @@ class NoAccessTokenFoundException extends ErrorException {
 
 class NoConnectionFoundException extends ErrorException {
   const NoConnectionFoundException() : super('NoInternetConnectionFound');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.noInternetConnection;
@@ -82,6 +99,7 @@ class NoConnectionFoundException extends ErrorException {
 
 class CannotConnectToServerException extends ErrorException {
   const CannotConnectToServerException() : super('CannotConnectToServer');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.cannotConnectToServer;
@@ -90,6 +108,7 @@ class CannotConnectToServerException extends ErrorException {
 
 class _UserUnauthorizedException extends ErrorException {
   const _UserUnauthorizedException() : super('UserUnauthorized');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.userUnauthorized;
@@ -102,6 +121,7 @@ class NoRefreshTokenFoundException extends ErrorException {
 
 class EmailAlreadyRegisteredException extends ErrorException {
   const EmailAlreadyRegisteredException() : super('EmailAlreadyRegistered');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.emailAlreadyExists;
@@ -110,6 +130,7 @@ class EmailAlreadyRegisteredException extends ErrorException {
 
 class InvalidEmailCredentialException extends ErrorException {
   const InvalidEmailCredentialException() : super('InvalidEmailCredential');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.emailAddressNotFound;
@@ -119,6 +140,7 @@ class InvalidEmailCredentialException extends ErrorException {
 class InvalidPasswordCredentialException extends ErrorException {
   const InvalidPasswordCredentialException()
       : super('InvalidPasswordCredential');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.passwordIsIncorrect;
@@ -128,6 +150,7 @@ class InvalidPasswordCredentialException extends ErrorException {
 class EmailUnauthorizedToRegisterException extends ErrorException {
   const EmailUnauthorizedToRegisterException()
       : super('EmailUnauthorizedToRegister');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.emailUnauthorizedToRegister;
@@ -136,6 +159,7 @@ class EmailUnauthorizedToRegisterException extends ErrorException {
 
 class InvalidApiRequestException extends ErrorException {
   const InvalidApiRequestException() : super('InvalidApiRequest');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.invalidApiRequest;
@@ -145,8 +169,18 @@ class InvalidApiRequestException extends ErrorException {
 class FailedToRefreshAuthTokensException extends ErrorException {
   const FailedToRefreshAuthTokensException()
       : super('FailedToRefreshAuthTokens');
+
   @override
   String getMessage(BuildContext context) {
     return context.localizations!.failedToAuthenticateUser;
+  }
+}
+
+class InvalidRefreshTokenException extends ErrorException {
+  const InvalidRefreshTokenException() : super('InvalidRefreshToken');
+
+  @override
+  String getMessage(BuildContext context) {
+    return context.localizations!.loginRequired;
   }
 }

@@ -9,6 +9,7 @@ class AdaptiveTextIconButton extends StatelessWidget {
   final Size? size;
   final Color? foregroundColor;
   final String tooltipMessage;
+  final EdgeInsets? margins;
 
   const AdaptiveTextIconButton({
     required this.label,
@@ -19,35 +20,40 @@ class AdaptiveTextIconButton extends StatelessWidget {
     this.labelColor,
     this.size,
     this.foregroundColor,
+    this.margins,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltipMessage,
-      child: TextButton.icon(
-        onPressed: onPressed,
-        label: Text(label),
-        icon: iconWidget,
-        style: ButtonStyle(
-          fixedSize: MaterialStateProperty.all(size),
-          foregroundColor: MaterialStateProperty.resolveWith((states) {
-            return foregroundColor;
-          }),
-          backgroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.pressed)) {
-              return foregroundColor?.withAlpha(40);
-            }
-            if (states.contains(MaterialState.hovered)) {
-              return foregroundColor?.withAlpha(30);
-            }
-          }),
-          textStyle: MaterialStateProperty.all(
-            context.textTheme.titleSmall?.copyWith(
-              color: labelColor,
-              fontSize: labelFontSize,
-              fontWeight: FontWeight.w500,
+    return Padding(
+      padding: margins ?? EdgeInsets.zero,
+      child: Tooltip(
+        message: tooltipMessage,
+        waitDuration: const Duration(milliseconds: 300),
+        child: TextButton.icon(
+          onPressed: onPressed,
+          label: Text(label),
+          icon: iconWidget,
+          style: ButtonStyle(
+            fixedSize: MaterialStateProperty.all(size),
+            foregroundColor: MaterialStateProperty.resolveWith((states) {
+              return foregroundColor ?? context.colorScheme.secondary;
+            }),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.pressed)) {
+                return foregroundColor?.withAlpha(40);
+              }
+              if (states.contains(MaterialState.hovered)) {
+                return foregroundColor?.withAlpha(30);
+              }
+            }),
+            textStyle: MaterialStateProperty.all(
+              context.textTheme.titleSmall?.copyWith(
+                color: labelColor,
+                fontSize: labelFontSize,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),

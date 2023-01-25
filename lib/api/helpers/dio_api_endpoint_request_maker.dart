@@ -1,6 +1,7 @@
 import 'package:clinic_v2/domain/authentication/base/base_auth_tokens_service.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
+
 //
 import 'package:clinic_v2/api/models/api_endpoint_result.dart';
 import 'package:clinic_v2/api/errors/api_response_error.dart';
@@ -9,14 +10,16 @@ import 'package:clinic_v2/api/models/api_endpoint.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:clinic_v2/utils/extensions/dio_extension.dart';
 import 'package:clinic_v2/shared/services/logger_service.dart';
+import 'package:get_it/get_it.dart';
 
 import 'base_api_endpoint_request_maker.dart';
 
 class DioApiEndpointRequestMaker<T extends ApiEndpointResult>
     with DioHelper
     implements BaseApiEndpointRequestMaker<T> {
-  final BaseAuthTokensService _authTokensService;
-  DioApiEndpointRequestMaker(this._authTokensService);
+  BaseAuthTokensService get _authTokensService => GetIt.I.get();
+
+  DioApiEndpointRequestMaker();
 
   @override
   Future<Result<T, BasicError>> makeRequest(ApiEndpoint apiEndpoint) async {

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 //
 import 'package:animate_do/animate_do.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
+
 //
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 
@@ -18,6 +20,7 @@ class AdaptiveThemeSwitch extends StatefulWidget {
 
   final ThemeModeSwitchType switchType;
   final void Function(ThemeMode themeMode) onThemeChanged;
+
   @override
   State<AdaptiveThemeSwitch> createState() => _ThemeSettingsSwitchState();
 }
@@ -75,7 +78,7 @@ class _ThemeSettingsSwitchState extends State<AdaptiveThemeSwitch>
       },
       child: Icon(
         _getThemeModeIcon(context),
-        size: context.isDesktopPlatform ? 22 : null,
+        size: context.isDesktopPlatform ? 18 : null,
         color: context.colorScheme.onBackground,
       ),
     );

@@ -3,10 +3,7 @@ import '../user/user_was_verified_notification.dart';
 import 'socket_io_notification_handler.dart';
 
 class SocketIoAuthNotificationHandler extends BaseSocketIoNotificationHandler {
-  SocketIoAuthNotificationHandler({
-    required super.socket,
-    required super.channel,
-  });
+  SocketIoAuthNotificationHandler({required super.channel});
 
   @override
   void call(notificationsController) {

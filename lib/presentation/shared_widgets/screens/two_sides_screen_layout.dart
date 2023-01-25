@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 //
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:clinic_v2/presentation/shared_widgets/color_barrier.dart';
 
 class TwoSidesScreenLayout extends StatelessWidget {
   const TwoSidesScreenLayout({
-    required this.leftSide,
     required this.rightSide,
+    required this.leftSide,
     this.leftSideBlurred = false,
     this.rightSideBlurred = false,
     this.rightSideAnimation,
@@ -17,15 +18,16 @@ class TwoSidesScreenLayout extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final Widget leftSide;
   final Widget rightSide;
+  final Widget leftSide;
   final bool leftSideBlurred;
   final bool rightSideBlurred;
-  final Animation<double>? leftSideAnimation;
   final Animation<double>? rightSideAnimation;
+  final Animation<double>? leftSideAnimation;
   final int leftSideFlex;
   final int rightSideFlex;
   final Color? backgroundColor;
+
   @override
   Widget build(context) {
     return Material(

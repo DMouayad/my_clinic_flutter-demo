@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //
 import 'package:clinic_v2/shared/models/error/error_exception.dart';
 import 'package:clinic_v2/presentation/shared_widgets/error_card.dart';
@@ -20,10 +21,10 @@ class WindowsLoginScreen extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return WindowsTwoSidesScreen(
-          leftSideAnimation: animation,
+          rightSideAnimation: animation,
           showInProgressIndicator: state is LoginInProgress,
-          topOptionsBar: const BlocAppSettingsBar(),
-          leftSide: Column(
+          optionsBar: const BlocAppSettingsBar(),
+          rightSide: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
@@ -31,7 +32,7 @@ class WindowsLoginScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal:
-                        context.isDesktop ? context.horizontalMargins : 16,
+                    context.isDesktop ? context.horizontalMargins : 16,
                     vertical: context.screenHeight * .1,
                   ),
                   child: const LoginMessage(),
@@ -44,7 +45,7 @@ class WindowsLoginScreen extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.symmetric(
                         horizontal:
-                            context.isDesktop ? context.horizontalMargins : 0,
+                        context.isDesktop ? context.horizontalMargins : 0,
                       ),
                       child: const BlocLoginForm(),
                     ),
@@ -56,13 +57,7 @@ class WindowsLoginScreen extends StatelessWidget {
           rightSideChild: () {
             //TODO: SHOW ERROR
             String? errorText;
-            if (state is AuthHasNoLoggedInUser) {
-              if (state.error != null &&
-                  state.error?.exception
-                      is FailedToRefreshAuthTokensException) {
-                errorText = context.localizations!.failedToAuthenticateUser;
-              }
-            }
+
             if (state is LoginErrorState) {
               errorText = state.error.exception?.getMessage(context) ??
                   state.error.message;

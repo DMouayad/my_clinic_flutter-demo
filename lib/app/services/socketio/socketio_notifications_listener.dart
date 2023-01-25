@@ -1,3 +1,4 @@
+import 'package:clinic_v2/app/services/socketio/socketio_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
@@ -6,9 +7,9 @@ import 'package:clinic_v2/domain/notifications/data/socket_io/socket_io_notifica
 import '../../../domain/notifications/base/base_notification.dart';
 import '../../../domain/notifications/base/base_notifications_listener.dart';
 
-class SocketIoNotificationsListener extends BaseNotificationsListener<
-    BaseNotification, BaseSocketIoNotificationHandler> {
-  io.Socket get _socket => GetIt.I.get();
+class SocketIoNotificationsListener<T extends BaseSocketIoNotificationHandler>
+    extends BaseNotificationsListener<BaseNotification, T> {
+  io.Socket get _socket => GetIt.I.get<SocketIoProvider>().socket;
 
   @override
   Future<void> listenOnChannel(String channel) async {
@@ -39,16 +40,14 @@ class SocketIoNotificationsListener extends BaseNotificationsListener<
   }
 
   @override
-  Future<void> registerHandlers(
-      List<BaseSocketIoNotificationHandler> handlers) async {
+  Future<void> registerHandlers(List<T> handlers) async {
     for (var handler in handlers) {
       handler.call(notificationsController);
     }
   }
 
   @override
-  Future<void> unRegisterHandlers(
-      List<BaseSocketIoNotificationHandler> handlers) async {
+  Future<void> unRegisterHandlers(List<T> handlers) async {
     for (var handler in handlers) {
       handler.dispose();
     }

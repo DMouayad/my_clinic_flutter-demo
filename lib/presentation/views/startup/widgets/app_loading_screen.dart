@@ -1,8 +1,8 @@
-import 'package:clinic_v2/utils/extensions/context_extensions.dart';
-import 'package:flutter/material.dart';
 //
 import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/loading_indicator.dart';
+import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
+import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/two_sides_screen.dart';
 
 class LoadingAppScreen extends StatelessWidget {
@@ -10,25 +10,31 @@ class LoadingAppScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.isWindowsPlatform) return windowsBuilder(context);
+    if (context.isDesktop) return windowsBuilder(context);
     if (context.isMobile) return mobileScreenBuilder(context);
     if (context.isTablet) return tabletScreenBuilder(context);
     throw UnimplementedError();
   }
 
-  Widget mobileScreenBuilder(context) {
-    return Scaffold(
+  Widget mobileScreenBuilder(BuildContext context) {
+    return ScaffoldWithAppBar(
+      centerTitle: true,
+      title: AppNameText(
+        fontSize: 36,
+        fontColor: context.colorScheme.primary,
+      ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             LoadingIndicator(
               currentDotColor: context.colorScheme.primary!,
               defaultDotColor: context.colorScheme.primaryContainer!,
             ),
-            AppNameText(
-              fontSize: 32,
-              fontColor: context.colorScheme.primary,
+            const SizedBox(height: 20),
+            Text(
+              "Getting things ready...",
+              style: context.textTheme.bodyLarge,
             ),
           ],
         ),
@@ -38,9 +44,9 @@ class LoadingAppScreen extends StatelessWidget {
 
   Widget windowsBuilder(BuildContext context) {
     return WindowsTwoSidesScreen(
-      leftSideBlurred: false,
+      rightSideBlurred: false,
       showInProgressIndicator: false,
-      leftSide: Center(
+      rightSide: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

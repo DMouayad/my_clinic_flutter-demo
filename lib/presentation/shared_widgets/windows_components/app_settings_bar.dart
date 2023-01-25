@@ -1,3 +1,4 @@
+import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,10 +14,16 @@ class BlocAppSettingsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppSettingsBar(
       onLocaleChanged: (Locale locale) {
-        context.read<AppPreferencesCubit>().updateAppLocale(locale);
+        context.read<AppPreferencesCubit>().updateAppLocale(
+              locale,
+              currentTheme: context.themeMode,
+            );
       },
       onThemeModeChanged: (ThemeMode themeMode) {
-        context.read<AppPreferencesCubit>().updateAppTheme(themeMode);
+        context.read<AppPreferencesCubit>().updateAppTheme(
+              themeMode,
+              currentLocale: context.locale,
+            );
       },
     );
   }

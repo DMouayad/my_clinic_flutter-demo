@@ -20,7 +20,6 @@ class ApiResponseError extends BasicError {
       final errorMap = response.get('error') as Map<String, dynamic>?;
       final apiExceptionClass = errorMap?['exception'] as String?;
       ErrorException? errorException;
-
       if (apiExceptionClass != null) {
         errorException = ErrorException.fromApiException(
           ApiExceptionClass.values

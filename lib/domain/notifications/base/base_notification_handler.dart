@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'base_notification.dart';
 
-abstract class BaseNotificationHandler<T extends BaseNotification> {
+abstract class BaseNotificationHandler {
   const BaseNotificationHandler();
 
-  void call(StreamController<T> notificationsController);
+  void call(StreamController<BaseNotification> notificationsController);
 
   void dispose();
 }

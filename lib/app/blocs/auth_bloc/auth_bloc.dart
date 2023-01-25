@@ -24,6 +24,8 @@ part 'auth_events_helper.dart';
 
 part 'states/auth_init_state.dart';
 
+part 'states/auth_reset_state.dart';
+
 part 'states/logout_state.dart';
 
 /// Manages
@@ -45,7 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
         if (event.user != null) {
           emit(AuthHasLoggedInUser(event.user!));
         } else if (state is! AuthHasNoLoggedInUser) {
-          const AuthHasNoLoggedInUser();
+          emit(const AuthHasNoLoggedInUser());
         }
       },
     );
@@ -81,6 +83,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> with AuthEventsHelper {
     on<LogoutRequested>((event, emit) async {
       if (state is! LogoutInProgress) emit(const LogoutInProgress());
       await getLogoutState(authRepository).then((state) => emit(state));
+    });
+    on<ResetAuthState>((event, emit) async {
+      (await authRepository.resetAuth()).fold(
+        ifFailure: (error) => emit(AuthStateResetFailed(error)),
+      );
     });
   }
 

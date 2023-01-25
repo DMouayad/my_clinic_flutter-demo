@@ -4,13 +4,11 @@ import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import '../custom_buttons/filled_buttons.dart';
 import 'adaptive_dialog.dart';
 
-Future<T?> showAdaptiveAlertDialog<T>({
+Future<T?> showAdaptiveErrorDialog<T>({
   required BuildContext context,
   required String titleText,
   Widget? content,
   String? contentText,
-  String? confirmText,
-  String? cancelText,
   Color? titleTextColor,
 }) async {
   return await showDialog(
@@ -19,8 +17,8 @@ Future<T?> showAdaptiveAlertDialog<T>({
       return AdaptiveDialog(
         title: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.error_outline_rounded,
@@ -30,7 +28,8 @@ Future<T?> showAdaptiveAlertDialog<T>({
               const SizedBox(height: 20),
               Text(
                 titleText,
-                style: TextStyle(color: titleTextColor),
+                style: TextStyle(
+                    color: titleTextColor ?? context.colorScheme.errorColor),
               ),
             ],
           ),
@@ -38,19 +37,11 @@ Future<T?> showAdaptiveAlertDialog<T>({
         contentText: contentText,
         content: content,
         actions: [
-          if (confirmText != null)
-            AdaptiveFilledButton(
-              backgroundColor: context.colorScheme.errorColor,
-              labelColor: context.colorScheme.onError,
-              label: confirmText,
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
           AdaptiveFilledButton(
             backgroundColor: context.colorScheme.secondaryContainer,
             labelColor: context.colorScheme.onBackground,
-            label: cancelText ?? context.localizations!.cancel,
+            label: context.localizations!.ok,
+            fillWidth: true,
             onPressed: () {
               Navigator.of(context).pop(false);
             },

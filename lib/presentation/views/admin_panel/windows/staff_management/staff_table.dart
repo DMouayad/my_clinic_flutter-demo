@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+
 //
 import 'package:clinic_v2/app/blocs/staff_bloc/staff_bloc.dart';
-//
+import 'package:clinic_v2/presentation/shared_widgets/simple_card.dart';
 import 'package:clinic_v2/shared/models/paginated_api_resource/paginated_api_resource.dart';
 import 'package:clinic_v2/domain/staff_member/base/base_staff_member.dart';
 import 'package:clinic_v2/presentation/shared_widgets/color_barrier.dart';
@@ -14,12 +16,14 @@ import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'add_staff_member_button.dart';
 import 'custom_dialogs.dart';
 
+/// Displays -in a table- the data provided in the [dataResource].
+///
+///
 class StaffDataTable extends StatefulWidget {
   const StaffDataTable({
     required this.dataResource,
     required this.onItemsPerPageChanged,
     required this.onPageChanged,
-    required this.existingEmailsList,
     required this.onSort,
     Key? key,
   }) : super(key: key);
@@ -27,7 +31,7 @@ class StaffDataTable extends StatefulWidget {
   final Future<PaginatedResource<BaseStaffMember>> dataResource;
   final void Function(int nextPageFirstIndex) onPageChanged;
   final void Function(int? rowsCount) onItemsPerPageChanged;
-  final List<String> existingEmailsList;
+
   final void Function(List<String> sortedBy) onSort;
 
   @override
@@ -64,41 +68,48 @@ class _StaffDataTableState extends State<StaffDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    return BuilderWithWidgetInfo(
-      builder: (context, widgetInfo) {
-        return FutureBuilder(
-          future: widget.dataResource,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox.shrink();
-            }
-            final itemsPerPage = snapshot.data!.paginationInfo.perPage;
-            return SizedBox.expand(
-              child: Material(
-                elevation: 1,
-                shadowColor: context.fluentTheme.shadowColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                type: MaterialType.card,
-                color: context.isDarkMode
-                    ? context.colorScheme.secondaryContainer
-                    : context.colorScheme.surface,
-                child: AsyncPaginatedDataTable2(
+    return FutureBuilder(
+      future: widget.dataResource,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox.shrink();
+        }
+        final itemsPerPage = snapshot.data!.paginationInfo.perPage;
+        return SizedBox.expand(
+          child: Material(
+            elevation: 1,
+            shadowColor: context.fluentTheme.shadowColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            type: MaterialType.card,
+            color: context.isDarkMode
+                ? context.colorScheme.secondaryContainer
+                : context.colorScheme.surface,
+            child: BuilderWithWidgetInfo(
+              builder: (context, widgetInfo) {
+                return AsyncPaginatedDataTable2(
                   showFirstLastButtons: true,
+                  errorBuilder: (error) {
+                    print(error.runtimeType);
+                    return SimpleCard(child: Text("error happened"));
+                  },
                   pageSyncApproach: PageSyncApproach.goToFirst,
                   wrapInCard: false,
                   minWidth: 900,
-                  lmRatio: 1.4,
+                  // lmRatio: 1.4,
+                  smRatio: 0.5,
                   headingRowColor: MaterialStateProperty.all(
                     context.colorScheme.primaryContainer,
                   ),
                   actions: [
                     AddStaffMemberButton(
                       parentWidgetSize: widgetInfo.widgetSize,
-                      existingStaffMembers: widget.existingEmailsList,
+                      existingStaffMembers:
+                          snapshot.data!.data.map((e) => e.email).toList(),
                     ),
                   ],
+                  // dataRowHeight: ,
                   header: const _TableHeader(),
                   rowsPerPage: itemsPerPage,
                   availableRowsPerPage: [
@@ -143,10 +154,10 @@ class _StaffDataTableState extends State<StaffDataTable> {
                       label: Text(context.localizations!.options),
                     ),
                   ],
-                ),
-              ),
-            );
-          },
+                );
+              },
+            ),
+          ),
         );
       },
     );
@@ -207,6 +218,7 @@ class StaffMembersDataSource extends AsyncDataTableSource {
     this.context,
     this.dataResource,
   );
+
   Future<PaginatedResource<BaseStaffMember>> dataResource;
   final BuildContext context;
 
@@ -225,9 +237,10 @@ class StaffMembersDataSource extends AsyncDataTableSource {
 
   @override
   int get selectedRowCount => 0;
+
   DataCell _customCell(String text) {
     return DataCell(
-      Text(
+      AutoSizeText(
         text,
         style: context.textTheme.titleSmall?.copyWith(
           color: context.colorScheme.onBackground,
@@ -248,7 +261,9 @@ class StaffMembersDataSource extends AsyncDataTableSource {
             if (states.contains(MaterialState.hovered)) {
               return context.colorScheme.surface;
             }
-            return context.colorScheme.backgroundColor;
+            return context.isDarkMode
+                ? context.colorScheme.backgroundColor
+                : context.colorScheme.surface;
           }),
           cells: [
             _customCell(e.email),
@@ -279,45 +294,52 @@ class _StaffMemberOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CustomIconButton(
-          tooltipMessage: context.localizations!.edit,
-          icon: Icon(
-            Icons.edit_outlined,
-            size: 18,
-            color: context.colorScheme.onPrimaryContainer,
+        Flexible(
+          child: CustomIconButton(
+            tooltipMessage: context.localizations!.edit,
+            icon: Icon(
+              Icons.edit_outlined,
+              size: 18,
+              color: context.colorScheme.onPrimaryContainer,
+            ),
+            onPressed: () {
+              showWindowsEditStaffMemberDialog(
+                context,
+                staffMember: staffMember,
+                existingStaffMembers: existingStaffMembers,
+              );
+            },
           ),
-          onPressed: () {
-            showWindowsEditStaffMemberDialog(
-              context,
-              staffMember: staffMember,
-              existingStaffMembers: existingStaffMembers,
-            );
-          },
         ),
-        CustomIconButton(
-          tooltipMessage: context.localizations!.delete,
-          icon: Icon(
-            Icons.remove,
-            color: Colors.red.shade400,
+        Flexible(
+          child: CustomIconButton(
+            tooltipMessage: context.localizations!.delete,
+            icon: Icon(
+              Icons.delete_outline_outlined,
+              color: Colors.red.shade400,
+            ),
+            onPressed: () async {
+              //TODO: IF DELETED STAFF EMAIL BELONGS TO A DENTIST,
+              //ASK IF HIS PATIENTS SHOULD BE ASSIGNED TO ANOTHER ONE/OR CREATE
+              // A NEW STAFF EMAIL BEFORE DELETING IF NO DENTIST ACCOUNTS FOUND
+              final deleteConfirmed = await showAdaptiveAlertDialog<bool>(
+                context: context,
+                titleText: context.localizations!.deleteStaffMemberDialogTitle,
+                confirmText: context.localizations!.delete,
+                contentText: context
+                    .localizations!.deleteStaffMemberDialogContent
+                    .replaceFirst('toDelete', staffMember.email),
+              );
+              if (deleteConfirmed ?? false) {
+                context
+                    .read<StaffBloc>()
+                    .add(DeleteStaffMember(staffMember.id));
+              }
+            },
           ),
-          onPressed: () async {
-            //TODO: IF DELETED STAFF EMAIL BELONGS TO A DENTIST,
-            // ASK IF HIS PATIENTS SHOULD BE ASSIGNED TO ANOTHER ONE/OR CREATE
-            // A NEW STAFF EMAIL BEFORE DELETING IF NO DENTIST ACCOUNTS FOUND
-            final deleteConfirmed = await showAdaptiveAlertDialog<bool>(
-              context: context,
-              titleText: context.localizations!.deleteStaffMemberDialogTitle,
-              confirmText: context.localizations!.delete,
-              contentText: context.localizations!.deleteStaffMemberDialogContent
-                  .replaceFirst('toDelete', staffMember.email),
-            );
-            if (deleteConfirmed ?? false) {
-              context.read<StaffBloc>().add(DeleteStaffMember(staffMember.id));
-            }
-          },
         ),
       ],
     );

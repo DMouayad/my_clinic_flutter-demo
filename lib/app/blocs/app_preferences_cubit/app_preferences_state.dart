@@ -11,6 +11,18 @@ class AppPreferencesInitial extends AppPreferencesState {
   const AppPreferencesInitial();
 }
 
+class UpdatingUserPreferencesInProgress extends AppPreferencesState {
+  const UpdatingUserPreferencesInProgress();
+}
+
+class UserPreferencesUpdatedSuccessfully extends AppPreferencesState {}
+
+class UpdatingUserPreferencesFailed extends AppPreferencesState {
+  final BasicError error;
+
+  const UpdatingUserPreferencesFailed(this.error);
+}
+
 abstract class AppPreferencesStateWithData extends AppPreferencesState {
   const AppPreferencesStateWithData(this.themeMode, this.locale);
 

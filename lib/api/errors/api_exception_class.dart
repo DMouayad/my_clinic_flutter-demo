@@ -1,5 +1,4 @@
-/// List of the exceptions which can be returned from the MyClinic API
-/// with an error response
+/// the exceptions which can be returned from the MyClinic API
 enum ApiExceptionClass {
   userNotFound("UserNotFoundException"),
   cannotDeleteOnlyAdminStaffMember("DeletingOnlyAdminStaffMemberException"),
@@ -11,8 +10,10 @@ enum ApiExceptionClass {
   emailUnauthorizedToRegister("EmailUnauthorizedToRegisterException"),
   invalidEmailCredential("InvalidEmailCredentialException"),
   invalidPasswordCredential("InvalidPasswordCredentialException"),
+  invalidRefreshToken("InvalidRefreshTokenException"),
   validationError("CustomValidationException");
 
   final String name;
+
   const ApiExceptionClass(this.name);
 }

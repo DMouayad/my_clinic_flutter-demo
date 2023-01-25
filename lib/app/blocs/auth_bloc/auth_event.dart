@@ -31,9 +31,14 @@ class AuthInitRequested extends AuthEvent {
 
 class AuthStatusCheckRequested extends AuthEvent {
   final BaseServerUser? user;
+
   const AuthStatusCheckRequested(this.user);
 }
 
 class LogoutRequested extends AuthEvent {
   const LogoutRequested();
+}
+
+class ResetAuthState extends AuthEvent {
+  const ResetAuthState();
 }

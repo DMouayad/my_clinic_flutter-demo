@@ -11,9 +11,13 @@ class FormHelper {
   late final TextEditingController? _phoneNoController;
 
   TextEditingController get passwordController => _passwordController;
+
   TextEditingController? get usernameController => _usernameController;
+
   TextEditingController? get emailController => _emailController;
+
   TextEditingController? get phoneNoController => _phoneNoController;
+
   GlobalKey<FormState> get formKey => _formKey;
 
   FormHelper({required bool isLoginForm}) {

@@ -1,19 +1,17 @@
-import 'package:clinic_v2/presentation/shared_widgets/buttons/logout_button.dart';
 import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter_bloc/flutter_bloc.dart';
 //
+import 'package:clinic_v2/presentation/shared_widgets/buttons/logout_button.dart';
 import 'package:clinic_v2/app/blocs/progress_indicator_bloc/progress_indicator_bloc.dart';
 import 'package:clinic_v2/app/blocs/staff_bloc/staff_bloc.dart';
-import 'package:clinic_v2/shared/models/result/result.dart';
-//
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/custom_nav_view/custom_nav_pane_item.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/custom_nav_view/windows_app_bar.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/custom_nav_view/windows_nav_view_with_pane.dart';
-import 'package:clinic_v2/presentation/shared_widgets/windows_components/processing_indicator.dart';
 
 import '../../../shared_widgets/buttons/settings_button.dart';
+import 'staff_management/staff_bloc_events_processing_indicator.dart';
 import 'staff_management/staff_management_screen.dart';
 
 class WindowsAdminPanelScreen extends StatelessWidget {
@@ -28,6 +26,7 @@ class WindowsAdminPanelScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProgressIndicatorBloc(),
       child: BlocListener<StaffBloc, StaffBlocState>(
+        listenWhen: (prev, next) => prev is! LoadingStaffMembers,
         listener: (context, state) {
           if (state is StaffBlocEventProcessing) {
             context.read<ProgressIndicatorBloc>().add(
@@ -36,7 +35,7 @@ class WindowsAdminPanelScreen extends StatelessWidget {
           }
           if (state is StaffBlocSuccess || state is StaffBlocErrorState) {
             context.read<ProgressIndicatorBloc>().add(
-                  const ResetIndicatorDurationRequested(Duration(seconds: 5)),
+                  const ResetIndicatorDurationRequested(Duration(seconds: 10)),
                 );
           }
         },
@@ -69,8 +68,7 @@ class WindowsAdminPanelScreen extends StatelessWidget {
                                 maxHeight: 70,
                               ),
                               margin: const EdgeInsets.only(top: 12),
-                              child:
-                                  const _StaffBlocEventsProcessingIndicator(),
+                              child: const StaffBlocEventsProcessingIndicator(),
                             );
                           }
                           return const SizedBox.shrink();
@@ -101,58 +99,5 @@ class WindowsAdminPanelScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _StaffBlocEventsProcessingIndicator extends StatelessWidget {
-  const _StaffBlocEventsProcessingIndicator({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return WindowsProcessingIndicator(
-      status: context
-          .read<StaffBloc>()
-          .stream
-          .takeWhile((s) => s is StaffBlocSuccess || s is StaffBlocErrorState)
-          .map<Result<VoidValue, BasicError>>((state) {
-        if (state is StaffBlocSuccess) {
-          return SuccessResult.voidResult();
-        } else {
-          return FailureResult(
-            (state as StaffBlocErrorState).error,
-          );
-        }
-      }),
-      indicatorStatesText: _getProcessingStatesText(context),
-    );
-  }
-
-  IndicatorStatesText _getProcessingStatesText(BuildContext context) {
-    switch (context.read<StaffBloc>().state.runtimeType) {
-      case AddingStaffMember:
-        return const IndicatorStatesText(
-          onProcessing: 'adding new staff member...',
-          onSuccess: 'staff member was added successfully',
-          onFailure: 'Failed to add staff member',
-        );
-      case DeletingStaffMember:
-        return const IndicatorStatesText(
-          onProcessing: 'Deleting staff member...',
-          onSuccess: 'staff member was deleted successfully',
-          onFailure: 'Failed to delete staff member',
-        );
-      case UpdatingStaffMember:
-        return const IndicatorStatesText(
-          onProcessing: 'Updating staff member...',
-          onSuccess: 'staff member was updated successfully',
-          onFailure: 'Failed to update staff member',
-        );
-      default:
-        return const IndicatorStatesText(
-          onProcessing: 'processing...',
-          onSuccess: 'request was completed successfully',
-          onFailure: 'Failed',
-        );
-    }
   }
 }

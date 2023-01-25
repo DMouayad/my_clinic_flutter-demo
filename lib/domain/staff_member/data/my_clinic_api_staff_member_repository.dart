@@ -1,4 +1,3 @@
-import 'package:clinic_v2/shared/models/paginated_api_resource/paginated_api_resource.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:clinic_v2/utils/enums.dart';
 
@@ -12,7 +11,6 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   }
 
   late final MyClinicApiStaffMemberDataSource _dataSource;
-  late PaginatedResource<MyClinicApiStaffMember>? _staffMemberResource;
 
   @override
   Future<Result<VoidValue, BasicError>> addStaffMember(
@@ -22,15 +20,15 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
     return await (await _dataSource.addStaffMember(email, userRole))
         .mapSuccessToVoidAsync(
       onSuccess: (newStaffMember) async {
-        if (_staffMemberResource != null) {
+        if (staffMembersResource != null) {
           List<MyClinicApiStaffMember> staffMemberList = List.from(
-            [..._staffMemberResource!.data, newStaffMember],
+            [...staffMembersResource!.data, newStaffMember],
           );
           staffMembersStreamController.add(
-            _staffMemberResource!.copyWith(
+            staffMembersResource!.copyWith(
               data: staffMemberList,
-              paginationInfo: _staffMemberResource!.paginationInfo.copyWith(
-                total: _staffMemberResource!.paginationInfo.total + 1,
+              paginationInfo: staffMembersResource!.paginationInfo.copyWith(
+                total: staffMembersResource!.paginationInfo.total + 1,
               ),
             ),
           );
@@ -46,15 +44,15 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
     return (await _dataSource.deleteStaffMember(id)).mapSuccessToVoid(
         onSuccess: (_) {
       final List<MyClinicApiStaffMember> currentStaffMembers =
-          List.from(_staffMemberResource!.data);
+          List.from(staffMembersResource!.data);
 
       currentStaffMembers.removeWhere((element) => element.id == id);
 
-      staffMembersStreamController.add(_staffMemberResource?.copyWith(
+      staffMembersStreamController.add(staffMembersResource?.copyWith(
         data: currentStaffMembers,
-        paginationInfo: _staffMemberResource!.paginationInfo.copyWith(
-          total: _staffMemberResource!.paginationInfo.total - 1,
-          to: _staffMemberResource!.paginationInfo.to - 1,
+        paginationInfo: staffMembersResource!.paginationInfo.copyWith(
+          total: staffMembersResource!.paginationInfo.total - 1,
+          to: staffMembersResource!.paginationInfo.to - 1,
         ),
       ));
     });
@@ -72,10 +70,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
       perPage: perPage,
     ))
         .mapSuccessToVoid(
-      onSuccess: (result) {
-        _staffMemberResource = result;
-        staffMembersStreamController.add(_staffMemberResource);
-      },
+      onSuccess: (result) => staffMembersStreamController.add(result),
     );
   }
 
@@ -88,7 +83,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
     return (await _dataSource.updateStaffMember(id, email, userRole))
         .mapSuccessToVoid(onSuccess: (_) {
       final List<MyClinicApiStaffMember> currentStaffMembers =
-          List.from(_staffMemberResource!.data);
+          List.from(staffMembersResource!.data);
 
       final staffMemberIndex =
           currentStaffMembers.indexWhere((element) => element.id == id);
@@ -96,7 +91,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
           .elementAt(staffMemberIndex)
           .copyWith(email: email, userRole: userRole);
       staffMembersStreamController
-          .add(_staffMemberResource?.copyWith(data: currentStaffMembers));
+          .add(staffMembersResource?.copyWith(data: currentStaffMembers));
     });
   }
 }

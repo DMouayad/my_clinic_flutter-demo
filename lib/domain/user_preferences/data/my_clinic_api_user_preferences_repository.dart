@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 //
 import 'package:clinic_v2/shared/models/result/result.dart';
 
@@ -11,6 +12,7 @@ class MyClinicApiUserPreferencesRepository
   MyClinicApiUserPreferencesRepository() {
     _dataSource = const MyClinicApiUserPreferencesDataSource();
   }
+
   late final MyClinicApiUserPreferencesDataSource _dataSource;
   MyClinicApiUserPreferences? _userPreferences;
 
@@ -23,7 +25,8 @@ class MyClinicApiUserPreferencesRepository
   ) async {
     return (await _dataSource.updateUserPreferences(locale: locale))
         .mapSuccessToVoid(
-      onSuccess: (result) => _userPreferences = preferences,
+      onSuccess: (result) => _userPreferences =
+          _userPreferences!.copyWith(localePreference: locale),
     );
   }
 
@@ -33,7 +36,8 @@ class MyClinicApiUserPreferencesRepository
   ) async {
     return (await _dataSource.updateUserPreferences(themeMode: themeMode))
         .mapSuccessToVoid(
-      onSuccess: (result) => _userPreferences = preferences,
+      onSuccess: (result) => _userPreferences =
+          _userPreferences!.copyWith(themePreference: themeMode),
     );
   }
 
@@ -45,7 +49,7 @@ class MyClinicApiUserPreferencesRepository
   }
 
   @override
-  MyClinicApiUserPreferences? get preferences => _userPreferences;
+  MyClinicApiUserPreferences? get userPreferences => _userPreferences;
 
   @override
   Future<Result<VoidValue, BasicError>> setUserPreferences(
@@ -53,7 +57,9 @@ class MyClinicApiUserPreferencesRepository
     Locale locale,
   ) async {
     return (await _dataSource.setUserPreferences(
-            themeMode: themeMode, locale: locale))
+      themeMode: themeMode,
+      locale: locale,
+    ))
         .mapSuccessToVoid(
       onSuccess: (_) {
         _userPreferences = MyClinicApiUserPreferences(
@@ -62,5 +68,10 @@ class MyClinicApiUserPreferencesRepository
         );
       },
     );
+  }
+
+  @override
+  set userPreferences(MyClinicApiUserPreferences? value) {
+    _userPreferences = value;
   }
 }

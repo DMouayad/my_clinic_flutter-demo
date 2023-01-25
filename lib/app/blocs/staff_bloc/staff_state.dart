@@ -1,4 +1,4 @@
-part of '../../../app/blocs/staff_bloc/staff_bloc.dart';
+part of 'staff_bloc.dart';
 
 abstract class StaffBlocState extends Equatable {
   const StaffBlocState();
@@ -18,14 +18,6 @@ class StaffMemberWasAdded extends StaffBlocSuccess {}
 class StaffMemberWasUpdated extends StaffBlocSuccess {}
 
 class StaffMemberWasDeleted extends StaffBlocSuccess {}
-// class StaffMembersWereUpdated extends StaffBlocState {
-//   final List<BaseStaffMember>? StaffMembers;
-//
-//   const StaffMembersWereUpdated(this.StaffMembers);
-//
-//   @override
-//   List<Object?> get props => [StaffMembers];
-// }
 
 abstract class StaffBlocEventProcessing extends StaffBlocState {
   const StaffBlocEventProcessing();
@@ -45,6 +37,7 @@ class DeletingStaffMember extends StaffBlocEventProcessing {
 
 class StaffMembersWereLoaded extends StaffBlocState {
   final PaginatedResource<BaseStaffMember>? staffMembers;
+
   const StaffMembersWereLoaded(this.staffMembers);
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/app/blocs/email_verification_cubit/email_verification_cubit.dart';
@@ -19,7 +20,7 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
       builder: (context, state) {
         return WindowsTwoSidesScreen(
           showInProgressIndicator: state is RequestingVerificationEmail,
-          topOptionsBar: Row(
+          optionsBar: Row(
             children: const [BlocAppSettingsBar(), LogoutIconButton()],
           ),
           rightSideChild: () {
@@ -45,7 +46,7 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
               );
             }
           }(),
-          leftSide: BuilderWithWidgetInfo(builder: (context, widgetInfo) {
+          rightSide: BuilderWithWidgetInfo(builder: (context, widgetInfo) {
             return Center(
               child: Column(
                 children: [
@@ -71,8 +72,11 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'verify your email with the verification link sent by email to "${(context.read<AuthBloc>().state as AuthHasLoggedInUser).currentUser.email}"\n'
-                          '\n\nif you did not receive an email click the button below to request a new verification link',
+                          'verify your email with the verification link sent by email to "${(context
+                              .read<AuthBloc>()
+                              .state as AuthHasLoggedInUser).currentUser
+                              .email}"\n'
+                              '\n\nif you did not receive an email click the button below to request a new verification link',
                           textAlign: TextAlign.center,
                           style: context.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.w500,

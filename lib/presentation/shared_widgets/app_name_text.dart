@@ -17,9 +17,9 @@ class AppNameText extends StatelessWidget {
     return Text(
       context.localizations!.myClinic,
       style: context.textTheme.headline6?.copyWith(
-        letterSpacing: 1.2,
+        letterSpacing: 1,
         fontSize: fontSize,
-        fontWeight: fontWeight ?? FontWeight.w500,
+        fontWeight: fontWeight ?? FontWeight.w400,
         color: fontColor ?? context.colorScheme.onBackground,
       ),
     );

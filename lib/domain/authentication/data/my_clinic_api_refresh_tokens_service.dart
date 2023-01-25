@@ -16,7 +16,8 @@ class MyClinicApiRefreshTokensService extends BaseRefreshAuthTokensService {
     return response.map(
       onSuccess: (result) => result.authTokens,
       onFailure: (error) => error.copyWith(
-        exception: const ErrorException.failedToRefreshTokens(),
+        exception:
+            error.exception ?? const ErrorException.failedToRefreshTokens(),
       ),
     );
   }

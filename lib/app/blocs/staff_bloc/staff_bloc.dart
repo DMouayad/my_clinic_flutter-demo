@@ -1,83 +1,42 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+//
+import 'package:clinic_v2/shared/models/base_event.dart';
+import 'package:clinic_v2/shared/services/logger_service.dart';
 import 'package:clinic_v2/domain/staff_member/base/base_staff_member.dart';
 import 'package:clinic_v2/domain/staff_member/base/base_staff_member_repository.dart';
 import 'package:clinic_v2/shared/models/api_request_metadata.dart';
 import 'package:clinic_v2/shared/models/paginated_api_resource/src/paginated_resource.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:clinic_v2/utils/enums.dart';
-import 'package:clinic_v2/shared/services/logger_service.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+part 'events/add_staff_member.dart';
+
+part 'events/fetch_staff_members.dart';
+
+part 'events/delete_staff_member.dart';
+
+part 'events/update_staff_member.dart';
+
+part 'events/staff_member_updated.dart';
+
+part 'events/sort_staff_members.dart';
 
 part 'staff_event.dart';
-part '../../../app/blocs/staff_bloc/staff_state.dart';
+
+part 'staff_state.dart';
 
 class StaffBloc extends Bloc<StaffBlocEvent, StaffBlocState> {
   final BaseStaffMemberRepository _repository;
 
   StaffBloc(this._repository) : super(StaffBlocInitialState()) {
-    _repository.staffMembersResource
+    _repository.staffMembersStream
         .listen((resource) => add(UpdateStaffMembersRequested(resource)));
 
-    on<UpdateStaffMembersRequested>((event, emit) {
-      if (state is StaffBlocEventProcessing) {
-        emit(_getRequestedEventSuccessState());
-      }
-      emit(StaffMembersWereLoaded(event.newStaffMembers));
+    on<StaffBlocEvent>((event, emit) async {
+      await event.handle(_repository, state, emit);
     });
-
-    on<AddStaffMember>((event, emit) async {
-      if (state is! StaffBlocEventProcessing) {
-        emit(const AddingStaffMember());
-      }
-      final result = await _repository.addStaffMember(event.email, event.role);
-      if (result.isFailure) {
-        emit(StaffBlocErrorState((result as FailureResult).error));
-      }
-    });
-
-    on<FetchStaffMembers>((event, emit) async {
-      if (state is! LoadingStaffMembers) {
-        emit(LoadingStaffMembers());
-      }
-      (await _repository.fetchStaffMembers(
-              page: event.page,
-              sortedBy: event.sortedBy,
-              perPage: event.perPage))
-          .fold(
-        ifFailure: (error) => emit(StaffBlocErrorState(error)),
-      );
-    });
-
-    on<DeleteStaffMember>((event, emit) async {
-      emit(const DeletingStaffMember());
-      (await _repository.deleteStaffMember(event.id)).fold(ifFailure: (error) {
-        emit(StaffBlocErrorState(error));
-      });
-    });
-
-    on<UpdateStaffMember>((event, emit) async {
-      emit(const UpdatingStaffMember());
-      (await _repository.updateStaffMember(
-        event.id,
-        event.email,
-        event.role,
-      ))
-          .fold(ifFailure: (error) {
-        emit(StaffBlocErrorState(error));
-      });
-    });
-  }
-  StaffBlocSuccess _getRequestedEventSuccessState() {
-    switch (state.runtimeType) {
-      case AddingStaffMember:
-        return StaffMemberWasAdded();
-      case UpdatingStaffMember:
-        return StaffMemberWasUpdated();
-      case DeletingStaffMember:
-        return StaffMemberWasDeleted();
-      default:
-        throw UnimplementedError();
-    }
   }
 
   @override

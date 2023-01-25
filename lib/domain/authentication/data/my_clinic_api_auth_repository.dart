@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:clinic_v2/app/services/socketio/socketio_provider.dart';
 import 'package:clinic_v2/domain/notifications/base/base_notification.dart';
 import 'package:clinic_v2/domain/notifications/base/base_notifications_listener.dart';
 import 'package:clinic_v2/domain/notifications/data/socket_io/socket_io_auth_notifications_handler.dart';
+import 'package:clinic_v2/domain/notifications/data/socket_io/socket_io_notification_handler.dart';
 import 'package:clinic_v2/domain/notifications/data/user/user_was_deleted.dart';
 import 'package:clinic_v2/domain/notifications/data/user/user_was_verified_notification.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
@@ -20,18 +20,17 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
 
   MyClinicApiUser? _currentUser;
 
-  BaseNotificationsListener get userNotificationsListener => GetIt.I.get();
+  BaseNotificationsListener get userNotificationsListener =>
+      GetIt.I.get<BaseNotificationsListener>();
 
   @override
   MyClinicApiUser? get currentUser => _currentUser;
   String? _userAuthNotificationChannel;
 
-  MyClinicApiAuthRepository({
-    required BaseAuthTokensService authTokensService,
-  }) {
+  MyClinicApiAuthRepository() {
     _usersStreamController = StreamController.broadcast();
 
-    _dataSource = MyClinicApiAuthDataSource(authTokensService);
+    _dataSource = const MyClinicApiAuthDataSource();
 
     userNotificationsListener.ensureInitialized();
     userNotificationsListener.notifications.listen(_handleNotifications);
@@ -44,27 +43,24 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
         print("Connecting to user channel $_userAuthNotificationChannel");
         userNotificationsListener
             .listenOnChannel(_userAuthNotificationChannel!);
-        userNotificationsListener.registerHandlers([
-          SocketIoAuthNotificationHandler(
-            channel: _userAuthNotificationChannel!,
-            socket: SocketIoProvider().socket,
-          ),
-        ]);
+        userNotificationsListener.registerHandlers(
+            _getNotificationsHandlers(_userAuthNotificationChannel!));
       } else {
         // dispose of the socketIO connection
         if (_userAuthNotificationChannel != null) {
-          userNotificationsListener.unRegisterHandlers([
-            SocketIoAuthNotificationHandler(
-              channel: _userAuthNotificationChannel!,
-              socket: SocketIoProvider().socket,
-            )
-          ]);
+          userNotificationsListener.unRegisterHandlers(
+              _getNotificationsHandlers(_userAuthNotificationChannel!));
         }
         _userAuthNotificationChannel = null;
       }
     }
 
     usersStream.listen(onUserStreamData);
+  }
+
+  List<BaseSocketIoNotificationHandler> _getNotificationsHandlers(
+      String channel) {
+    return [SocketIoAuthNotificationHandler(channel: channel)];
   }
 
   /// handles coming notifications(events) from server
@@ -124,7 +120,8 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
 
   @override
   Future<Result<VoidValue, BasicError>> requestPasswordReset(
-      String emailAddress) {
+    String emailAddress,
+  ) {
     // TODO: implement requestPasswordReset
     throw UnimplementedError();
   }
@@ -141,5 +138,18 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
         _usersStreamController.add(user);
       },
     );
+  }
+
+  @override
+  Future<Result<VoidValue, BasicError>> resetAuth() async {
+    final success =
+        await GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
+    if (success) {
+      // tell the listeners that auth state was reset and current user is null
+      _usersStreamController.add(null);
+      return SuccessResult.voidResult();
+    } else {
+      return FailureResult.withMessage("Failed to reset auth");
+    }
   }
 }

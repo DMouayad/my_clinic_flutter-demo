@@ -4,7 +4,6 @@ import 'package:clinic_v2/api/helpers/dio_api_endpoint_request_maker.dart';
 import 'package:clinic_v2/api/utils/api_keys.dart';
 import 'package:clinic_v2/api/utils/enums.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
-import 'package:clinic_v2/app/services_providers/auth_tokens_service_provider.dart';
 
 export 'package:clinic_v2/api/utils/enums.dart';
 
@@ -30,7 +29,7 @@ abstract class ApiEndpoint<T extends ApiEndpointResult> {
   // the http client that performs http requests to the server
   // all [ApiEndpoint] classes will use this by default
   BaseApiEndpointRequestMaker<T> get _requestMaker =>
-      DioApiEndpointRequestMaker(AuthTokensServiceProvider.instance.service);
+      DioApiEndpointRequestMaker();
 
   Future<Result<T, BasicError>> request() async =>
       await _requestMaker.makeRequest(this);

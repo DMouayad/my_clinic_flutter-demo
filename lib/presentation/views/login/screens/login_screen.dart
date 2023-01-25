@@ -1,6 +1,7 @@
 import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
+
 //
 import '../../../../presentation/views/login/components/bloc_login_form.dart';
 import '../../../../presentation/views/login/components/login_message.dart';
@@ -28,13 +29,15 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: context.horizontalMargins),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.horizontalMargins,
+                vertical: 20,
+              ),
               child: const LoginMessage(),
             ),
-            // SizedBox(
-            //   height: context.screenHeight * .1,
-            // ),
+            SizedBox(
+              height: context.screenHeight * .1,
+            ),
             const BlocLoginForm(),
           ],
         ),

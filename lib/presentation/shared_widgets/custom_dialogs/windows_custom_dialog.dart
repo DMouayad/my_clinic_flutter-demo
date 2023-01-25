@@ -29,7 +29,7 @@ class WindowsCustomDialog extends StatelessWidget {
     return BuilderWithWidgetInfo(builder: (context, widgetInfo) {
       return fluent_ui.ContentDialog(
         constraints: () {
-          const defaultConstraints = BoxConstraints(maxWidth: 368);
+          const defaultConstraints = BoxConstraints(maxWidth: 390);
           if (constraintsBuilder != null) {
             return constraintsBuilder!(widgetInfo) ?? defaultConstraints;
           }

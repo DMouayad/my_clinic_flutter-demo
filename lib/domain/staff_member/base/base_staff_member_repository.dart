@@ -6,25 +6,40 @@ import 'package:clinic_v2/utils/enums.dart';
 import '../../../domain/staff_member/base/base_staff_member.dart';
 
 abstract class BaseStaffMemberRepository {
+  BaseStaffMemberRepository() {
+    _staffMembersStreamController = StreamController.broadcast()
+      ..stream.listen((data) {
+        _staffMembersResource = data;
+      });
+  }
+
   StreamController<PaginatedResource<BaseStaffMember>?>
       get staffMembersStreamController => _staffMembersStreamController;
-  final StreamController<PaginatedResource<BaseStaffMember>?>
-      _staffMembersStreamController = StreamController();
+  late final StreamController<PaginatedResource<BaseStaffMember>?>
+      _staffMembersStreamController;
 
-  Stream<PaginatedResource<BaseStaffMember>?> get staffMembersResource =>
+  Stream<PaginatedResource<BaseStaffMember>?> get staffMembersStream =>
       _staffMembersStreamController.stream;
+
+  PaginatedResource<BaseStaffMember>? _staffMembersResource;
+
+  PaginatedResource<BaseStaffMember>? get staffMembersResource =>
+      _staffMembersResource;
 
   Future<Result<VoidValue, BasicError>> addStaffMember(
       String email, UserRole userRole);
+
   Future<Result<VoidValue, BasicError>> fetchStaffMembers({
     int? page,
     int? perPage,
     List<String>? sortedBy,
   });
+
   Future<Result<VoidValue, BasicError>> updateStaffMember(
     int id, [
     String? email,
     UserRole? userRole,
   ]);
+
   Future<Result<VoidValue, BasicError>> deleteStaffMember(int id);
 }

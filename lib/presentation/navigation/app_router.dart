@@ -14,8 +14,13 @@ import 'package:clinic_v2/utils/extensions/map_extensions.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
+  /// Redirects the current user after logging in.
+  ///
+  /// Destination screen determined by: the user's role and whether if his email was verified or not.
   static void redirectUser(
-      BaseServerUser user, GlobalKey<NavigatorState> navigatorKey) {
+    BaseServerUser user,
+    GlobalKey<NavigatorState> navigatorKey,
+  ) {
     if (user.isVerified) {
       if (user.role == UserRole.admin) {
         navigatorKey.currentState?.pushNamedAndRemoveUntil(
