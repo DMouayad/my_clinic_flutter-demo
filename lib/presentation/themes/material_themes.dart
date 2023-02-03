@@ -131,6 +131,7 @@ class MaterialAppThemes {
   static ThemeData lightTheme = ThemeData.light().copyWith(
     brightness: Brightness.light,
     useMaterial3: true,
+
     //
     scaffoldBackgroundColor: _lightModeBackgroundColor,
     appBarTheme: AppBarTheme(
@@ -238,6 +239,5 @@ class MaterialAppThemes {
 
   static const _darkModeBackgroundColor = Color(0xFF272f33);
   static const _lightModeBackgroundColor = Color(0xFFffffff);
-  // static const _lightModeBackgroundColor = Color(0xFFF8FBFB);
-
+// static const _lightModeBackgroundColor = Color(0xFFF8FBFB);
 }

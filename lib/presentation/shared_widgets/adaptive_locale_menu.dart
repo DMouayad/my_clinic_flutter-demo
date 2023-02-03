@@ -1,11 +1,9 @@
-import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-import '../../presentation/shared_widgets/dropdown_menus/android_dropdown_menu.dart';
-import '../../presentation/shared_widgets/dropdown_menus/windows_dropdown_menu.dart';
-import '../../presentation/shared_widgets/dropdown_menus/windows_tile_with_dropdown_menu.dart';
-
+//
+import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import '../../presentation/shared_widgets/dropdown_menus/utils.dart';
+import 'dropdown_menus/adaptive_dropdown.dart';
 
 class AdaptiveLocaleDropdown extends StatelessWidget {
   const AdaptiveLocaleDropdown({
@@ -35,37 +33,20 @@ class AdaptiveLocaleDropdown extends StatelessWidget {
               leading: const Icon(Icons.language_outlined),
             ))
         .toList();
-    const dropdownSize = Size.fromWidth(150);
+    final dropdownSize = context.isMobile
+        ? const Size.fromWidth(double.infinity)
+        : const Size.fromWidth(150);
 
-    return context.isDesktopPlatform
-        ? type == DropdownMenuType.menuOnly
-            ? WindowsDropdownMenu<Locale>(
-                dropdownSize: dropdownSize,
-                title: title,
-                items: items,
-                selectedValue: currentLocale,
-                onChanged: _onLocaleChanged,
-                tooltipMessage: context.localizations!.selectAppLang,
-              )
-            : WindowsTileWithDropdownMenu<Locale>(
-                title: title,
-                selectedValue: currentLocale,
-                dropdownSize: dropdownSize,
-                tileLabel: context.localizations!.language,
-                tooltipMessage: context.localizations!.selectAppLang,
-                onChanged: _onLocaleChanged,
-                items: items,
-                tileLeadingIconData: FontAwesome5Solid.globe,
-              )
-        : AndroidDropdownMenu<Locale>(
-            dropdownSize: dropdownSize,
-            type: type,
-            tooltipMessage: context.localizations!.selectAppLang,
-            selectedValue: currentLocale,
-            tileLeadingIconData: Icons.language_outlined,
-            title: title,
-            items: items,
-            onChanged: _onLocaleChanged,
-          );
+    return AdaptiveDropdown<Locale>(
+      type: type,
+      dropdownSize: dropdownSize,
+      title: title,
+      items: items,
+      tileLabel: context.localizations!.language,
+      selectedValue: currentLocale,
+      onChanged: _onLocaleChanged,
+      tooltipMessage: context.localizations!.selectAppLang,
+      tileLeadingIconData: FontAwesome5Solid.globe,
+    );
   }
 }

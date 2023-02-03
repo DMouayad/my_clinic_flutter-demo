@@ -13,8 +13,8 @@ import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/custom_icon
 import 'package:clinic_v2/presentation/shared_widgets/custom_dialogs/show_alert_dialog.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 
-import 'add_staff_member_button.dart';
 import 'custom_dialogs.dart';
+import 'add_staff_member_button.dart';
 
 /// Displays -in a table- the data provided in the [dataResource].
 ///
@@ -91,8 +91,7 @@ class _StaffDataTableState extends State<StaffDataTable> {
                 return AsyncPaginatedDataTable2(
                   showFirstLastButtons: true,
                   errorBuilder: (error) {
-                    print(error.runtimeType);
-                    return SimpleCard(child: Text("error happened"));
+                    return const SimpleCard(child: Text("error happened"));
                   },
                   pageSyncApproach: PageSyncApproach.goToFirst,
                   wrapInCard: false,
@@ -306,7 +305,7 @@ class _StaffMemberOptions extends StatelessWidget {
               color: context.colorScheme.onPrimaryContainer,
             ),
             onPressed: () {
-              showWindowsEditStaffMemberDialog(
+              showEditStaffMemberDialog(
                 context,
                 staffMember: staffMember,
                 existingStaffMembers: existingStaffMembers,

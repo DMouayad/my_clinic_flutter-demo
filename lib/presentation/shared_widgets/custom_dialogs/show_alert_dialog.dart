@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
-import '../custom_buttons/filled_buttons.dart';
 import 'adaptive_dialog.dart';
 
 Future<T?> showAdaptiveAlertDialog<T>({
@@ -12,11 +11,45 @@ Future<T?> showAdaptiveAlertDialog<T>({
   String? confirmText,
   String? cancelText,
   Color? titleTextColor,
+  bool useRootNavigator = true,
 }) async {
+  List<Widget> _getActions(BuildContext context) {
+    List<Widget> actions = [
+      TextButton(
+        child: Text(
+          cancelText ?? context.localizations!.cancel,
+          style: context.textTheme.titleSmall?.copyWith(
+            color: context.colorScheme.onBackground,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop(false);
+        },
+      ),
+      if (confirmText != null)
+        TextButton(
+          child: Text(
+            confirmText,
+            style: context.textTheme.titleSmall?.copyWith(
+              color: context.colorScheme.errorColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+        ),
+    ];
+    return context.isWindowsPlatform ? actions.reversed.toList() : actions;
+  }
+
   return await showDialog(
     context: context,
+    useRootNavigator: useRootNavigator,
     builder: (context) {
       return AdaptiveDialog(
+        type: DialogType.alert,
         title: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,32 +63,17 @@ Future<T?> showAdaptiveAlertDialog<T>({
               const SizedBox(height: 20),
               Text(
                 titleText,
-                style: TextStyle(color: titleTextColor),
+                style: TextStyle(
+                  color: titleTextColor,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
         ),
         contentText: contentText,
         content: content,
-        actions: [
-          if (confirmText != null)
-            AdaptiveFilledButton(
-              backgroundColor: context.colorScheme.errorColor,
-              labelColor: context.colorScheme.onError,
-              label: confirmText,
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-          AdaptiveFilledButton(
-            backgroundColor: context.colorScheme.secondaryContainer,
-            labelColor: context.colorScheme.onBackground,
-            label: cancelText ?? context.localizations!.cancel,
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-          ),
-        ],
+        actions: _getActions(context),
       );
     },
   );

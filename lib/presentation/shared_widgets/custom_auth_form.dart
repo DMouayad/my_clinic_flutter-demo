@@ -15,11 +15,11 @@ class CustomAuthForm extends StatefulWidget {
   }) : super(key: key);
 
   final void Function(
-      String email,
-      String password,
-      String? phoneNumber,
-      String? username,
-      ) onSubmit;
+    String email,
+    String password,
+    String? phoneNumber,
+    String? username,
+  ) onSubmit;
   final bool isLoginForm;
 
   @override
@@ -50,7 +50,6 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-
             if (!widget.isLoginForm) ...[
               InputTextField(
                 controller: _formHelper.usernameController,
@@ -58,6 +57,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 validator: (value) {
                   return _formHelper.usernameValidator(value, context);
                 },
+                textInputAction: TextInputAction.next,
                 hintText: context.localizations?.username,
                 textStyle: context.textTheme.bodyText1?.copyWith(
                   fontSize: 18,
@@ -69,6 +69,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 controller: _formHelper.phoneNoController,
                 prefixIcon: Icons.phone,
                 textDirection: TextDirection.ltr,
+                textInputAction: TextInputAction.next,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
@@ -92,6 +93,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               validator: (value) {
                 return _formHelper.emailValidator(value, context);
               },
+              keyboardType: TextInputType.emailAddress,
               hintText: context.localizations?.email,
               textStyle: context.textTheme.bodyText1?.copyWith(
                 fontSize: 18,
@@ -116,14 +118,16 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               },
               obscure: true,
             ),
-            SizedBox(height: context.screenHeight * .14),
+            SizedBox(
+              height: context.screenHeight * .12,
+            ),
             SubmitButton(
               expandInWidth: true,
               text: widget.isLoginForm
                   ? context.localizations!.login
                   : context.localizations!.signUp,
               iconData:
-              widget.isLoginForm ? Icons.login : Icons.app_registration,
+                  widget.isLoginForm ? Icons.login : Icons.app_registration,
               onPressed: () {
                 setState(() => _formHelper.validateInput());
                 if (_formHelper.inputIsValid) {
@@ -151,10 +155,9 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(
-                      AppRoutes.signUpScreen,
-                    ),
+                onPressed: () => Navigator.of(context).pushNamed(
+                  AppRoutes.signUpScreen,
+                ),
                 child: Text(
                   context.localizations!.createAccount,
                   style: context.textTheme.subtitle2?.copyWith(

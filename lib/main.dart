@@ -32,8 +32,10 @@ import 'domain/authentication/data/my_clinic_api_auth_repository.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //
-  await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(400, 700));
+  if (Platform.isWindows) {
+    await windowManager.ensureInitialized();
+    await windowManager.setMinimumSize(const Size(400, 700));
+  }
 
   // states that Logger is working
   Log.v("Logger started | ${DateTime.now()}");
@@ -131,7 +133,6 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
           localeListResolutionCallback: localeResolutionCallBack,
           localizationsDelegates: const [
             ...AppLocalizations.localizationsDelegates,
-            // fluent_ui.Deleg,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
         );
@@ -180,7 +181,10 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
 }
 
 mixin _ClinicAppHelper {
-  Widget appBuilder(BuildContext context, Widget? app) {
+  Widget appBuilder(
+    BuildContext context,
+    Widget? app,
+  ) {
     if (context.read<AppPreferencesCubit>().state is AppPreferencesInitial) {
       context.read<AppPreferencesCubit>().setInitialAppPreferences(
             context.themeMode,

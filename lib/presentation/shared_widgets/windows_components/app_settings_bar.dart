@@ -40,34 +40,38 @@ class AppSettingsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 2,
-        ),
-        margin: const EdgeInsets.symmetric(
-          horizontal: 12.0,
-          vertical: 8,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AdaptiveLocaleDropdown(
-              type: DropdownMenuType.menuOnly,
-              onChanged: (Locale locale) {
-                onLocaleChanged(locale);
-              },
-            ),
-            const SizedBox(width: 8),
-            AdaptiveThemeSwitch(
-              switchType: ThemeModeSwitchType.icon,
-              onThemeChanged: (ThemeMode themeMode) {
-                onThemeModeChanged(themeMode);
-              },
-            ),
-          ],
+    return Material(
+      type: MaterialType.transparency,
+      child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 2,
+          ),
+          margin: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8,
+          ),
+          child: Flex(
+            direction: Axis.horizontal,
+            // mainAxisSize: MainAxisSize.min,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AdaptiveLocaleDropdown(
+                type: DropdownMenuType.menuOnly,
+                onChanged: (Locale locale) {
+                  onLocaleChanged(locale);
+                },
+              ),
+              const SizedBox(width: 12),
+              AdaptiveThemeSwitch(
+                switchType: ThemeModeSwitchType.icon,
+                onThemeChanged: (ThemeMode themeMode) {
+                  onThemeModeChanged(themeMode);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

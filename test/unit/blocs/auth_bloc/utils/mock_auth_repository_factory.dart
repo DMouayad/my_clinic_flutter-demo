@@ -1,5 +1,5 @@
+import 'package:clinic_v2/domain/authentication/base/base_auth_repository.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
-import 'package:clinic_v2/app/features/authentication/domain/base_auth_repository.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

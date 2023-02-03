@@ -55,82 +55,73 @@ class ScaffoldWithAppBar extends StatelessWidget {
   final bool showLoadingIndicator;
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Scaffold(
-          extendBodyBehindAppBar: true,
-          backgroundColor:
-              scaffoldBackgroundColor ?? context.colorScheme.backgroundColor,
-          floatingActionButton: floatingActionButton,
-          persistentFooterButtons: persistentFooterButtons,
-          appBar: AppBar(
-            automaticallyImplyLeading: showLeading,
-            leading: () {
-              if (showLeading) {
-                final hasRouteParent = Navigator.of(context).canPop();
-                return leading ??
-                    (hasRouteParent ? const CustomBackButton() : null);
-              }
-            }(),
-            backgroundColor:
-                appBarBackgroundColor ?? context.colorScheme.backgroundColor,
-            centerTitle: centerTitle,
-            foregroundColor: context.colorScheme.onBackground,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(appBarBorderRadius ?? 0),
-              ),
-            ),
-            leadingWidth: 48,
-            title: () {
-              if (!showBottomTitle) {
-                return title ??
-                    Text(
-                      titleText!,
-                      style: context.textTheme.headline6?.copyWith(
-                        fontSize: titleFontSize,
-                        color: titleFontColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    );
-              }
-            }(),
-            actions: actions,
-            bottom: showBottomTitle
-                ? _AppBarBottomTitle(
-                    preferredSize: const Size(double.infinity, 50),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: context.horizontalMargins),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: title ??
-                                AutoSizeText(
-                                  titleText!,
-                                  textAlign: TextAlign.start,
-                                  style: context.textTheme.headline6?.copyWith(
-                                    fontSize: titleFontSize,
-                                    color: titleFontColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : appBarBottom,
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      backgroundColor:
+          scaffoldBackgroundColor ?? context.colorScheme.backgroundColor,
+      floatingActionButton: floatingActionButton,
+      persistentFooterButtons: persistentFooterButtons,
+      appBar: AppBar(
+        automaticallyImplyLeading: showLeading,
+        leading: () {
+          if (showLeading) {
+            final hasRouteParent = Navigator.of(context).canPop();
+            return leading ??
+                (hasRouteParent ? const CustomBackButton() : null);
+          }
+        }(),
+        backgroundColor:
+            appBarBackgroundColor ?? context.colorScheme.backgroundColor,
+        centerTitle: centerTitle,
+        foregroundColor: context.colorScheme.onBackground,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(appBarBorderRadius ?? 0),
           ),
-          body: bodyWithSafeArea ? SafeArea(child: body) : body,
         ),
-        if (showLoadingIndicator) ...[
-          const BlurredColorBarrier(),
-          const LoadingIndicator(),
-        ],
-      ],
+        leadingWidth: 48,
+        title: () {
+          if (!showBottomTitle) {
+            return title ??
+                Text(
+                  titleText!,
+                  style: context.textTheme.headline6?.copyWith(
+                    fontSize: titleFontSize,
+                    color: titleFontColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+          }
+        }(),
+        actions: actions,
+        bottom: showBottomTitle
+            ? _AppBarBottomTitle(
+                preferredSize: const Size(double.infinity, 50),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: context.horizontalMargins),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: title ??
+                            AutoSizeText(
+                              titleText!,
+                              textAlign: TextAlign.start,
+                              style: context.textTheme.headline6?.copyWith(
+                                fontSize: titleFontSize,
+                                color: titleFontColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : appBarBottom,
+      ),
+      body: bodyWithSafeArea ? SafeArea(child: body) : body,
     );
   }
 }

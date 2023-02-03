@@ -52,7 +52,6 @@ class AppRouter {
         final error = passedError is BasicError ? passedError : BasicError();
         return StartupFailurePage(
           error: error,
-          onRetry: (settings.arguments as Map).get('onRetry'),
         ).route;
       case AppRoutes.loginScreen:
         return LoginPage().route;

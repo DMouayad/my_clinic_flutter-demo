@@ -1,29 +1,25 @@
-import 'package:clinic_v2/utils/extensions/context_extensions.dart';
-import 'package:fluent_ui/fluent_ui.dart' as fluent_ui;
 import 'package:flutter/material.dart';
 
-import '../../../presentation/shared_widgets/custom_dialogs/adaptive_dialog.dart';
+import '../loading_indicator.dart';
+import 'adaptive_dialog.dart';
 
 Future<T?> showAdaptiveProgressDialog<T>({
   required BuildContext context,
   Widget? content,
   String? contentText,
-  bool dismissible = false,
+  bool useRootNavigator = true,
 }) async {
   return await showDialog(
     context: context,
-    barrierDismissible: dismissible,
+    barrierDismissible: false,
+    useRootNavigator: useRootNavigator,
     builder: (context) {
-      return AdaptiveDialog(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            if (content != null) content,
-            if (contentText != null) Text(contentText),
-            context.isWindowsPlatform
-                ? fluent_ui.ProgressRing()
-                : CircularProgressIndicator(),
-          ],
+      return WillPopScope(
+        onWillPop: () async => true,
+        child: AdaptiveDialog(
+          type: DialogType.progress,
+          titleText: contentText,
+          content: const Center(child: LoadingIndicator()),
         ),
       );
     },

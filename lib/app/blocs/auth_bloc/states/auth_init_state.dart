@@ -7,3 +7,7 @@ class AuthInitFailed extends AuthErrorState {
 class AuthInitInProgress extends AuthState {
   const AuthInitInProgress();
 }
+
+class AuthInitRetryInProgress extends AuthState {
+  const AuthInitRetryInProgress();
+}

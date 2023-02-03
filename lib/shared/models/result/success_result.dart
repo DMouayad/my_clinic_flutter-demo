@@ -2,6 +2,7 @@ part of result;
 
 class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   final V value;
+
   const SuccessResult(this.value) : super._();
 
   /// Indicates a successful execution of a function which has return type of `void`.

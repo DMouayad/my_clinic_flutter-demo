@@ -18,7 +18,9 @@ class AdaptiveThemeModeDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return AdaptiveDropdown<ThemeMode>(
       type: type,
-      dropdownSize: const Size.fromWidth(150),
+      dropdownSize: context.isMobile
+          ? const Size.fromWidth(double.infinity)
+          : const Size.fromWidth(150),
       selectedValue: context.themeMode,
       title: context.localizations!.selectThemeMode,
       tooltipMessage: context.localizations!.selectThemeMode,

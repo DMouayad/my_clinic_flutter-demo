@@ -3,22 +3,16 @@ import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/loading_indicator.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
-import 'package:clinic_v2/presentation/shared_widgets/windows_components/two_sides_screen.dart';
+import 'package:clinic_v2/presentation/shared_widgets/screens/two_sides_screen_layout.dart';
 
-class LoadingAppScreen extends StatelessWidget {
-  const LoadingAppScreen({Key? key}) : super(key: key);
+class MobileAppStartupScreen extends StatelessWidget {
+  const MobileAppStartupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (context.isDesktop) return windowsBuilder(context);
-    if (context.isMobile) return mobileScreenBuilder(context);
-    if (context.isTablet) return tabletScreenBuilder(context);
-    throw UnimplementedError();
-  }
-
-  Widget mobileScreenBuilder(BuildContext context) {
     return ScaffoldWithAppBar(
       centerTitle: true,
+      showLeading: false,
       title: AppNameText(
         fontSize: 36,
         fontColor: context.colorScheme.primary,
@@ -35,25 +29,6 @@ class LoadingAppScreen extends StatelessWidget {
             Text(
               "Getting things ready...",
               style: context.textTheme.bodyLarge,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget windowsBuilder(BuildContext context) {
-    return WindowsTwoSidesScreen(
-      rightSideBlurred: false,
-      showInProgressIndicator: false,
-      rightSide: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const LoadingIndicator(),
-            const SizedBox(height: 24),
-            Text(
-              context.localizations!.loading,
             ),
           ],
         ),
@@ -97,6 +72,29 @@ class LoadingAppScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class WideAppStartupScreen extends StatelessWidget {
+  const WideAppStartupScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TwoSidesScreenLayout.withAppLogo(
+      rightSideBlurred: false,
+      rightSide: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const LoadingIndicator(),
+            const SizedBox(height: 24),
+            Text(
+              context.localizations!.loading,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -19,12 +19,10 @@ class AddStaffMemberButton extends StatelessWidget {
       label: context.localizations!.add.toUpperCase(),
       tooltipMessage: "add staff member",
       onPressed: () async {
-        if (context.isWindowsPlatform) {
-          await showWindowsAddStaffDialog(
-            context,
-            existingStaffMembers: existingStaffMembers,
-          );
-        }
+        await showAddStaffDialog(
+          context,
+          existingStaffMembers: existingStaffMembers,
+        );
       },
       iconWidget: Icon(
         Icons.add,

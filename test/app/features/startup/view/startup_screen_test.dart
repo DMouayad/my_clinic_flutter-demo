@@ -1,5 +1,5 @@
 import 'package:clinic_v2/app/features/auth/auth_bloc/auth_bloc.dart';
-import 'package:clinic_v2/app/features/auth/login/view/screens/login_screen.dart';
+import 'package:clinic_v2/app/features/auth/login/view/screens/mobile_login_screen.dart';
 import 'package:clinic_v2/app/features/home_screen/view/home_screen.dart';
 import 'package:clinic_v2/app/features/startup/cubit/startup_bloc.dart';
 import 'package:clinic_v2/app/features/startup/view/startup_screen.dart';

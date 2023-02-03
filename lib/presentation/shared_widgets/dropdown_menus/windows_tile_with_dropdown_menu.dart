@@ -21,19 +21,20 @@ class WindowsTileWithDropdownMenu<T> extends BaseDropdownMenu<T> {
 
   @override
   Widget build(BuildContext context) {
+    final dropDownMenuSize = Size(context.screenWidth * .3, 66);
     return WindowsTile(
       tileLabel: tileLabel!,
       subtitleText: title,
       leading: tileLeadingIconData != null ? Icon(tileLeadingIconData) : null,
-      childSize: dropdownSize ?? Size(context.screenWidth * .3, 66),
+      childSize: dropdownSize ?? dropDownMenuSize,
       child: FluentTheme(
         data: context.fluentTheme.copyWith(),
         child: Container(
           constraints: BoxConstraints.loose(
-            dropdownSize ?? Size(context.screenWidth * .3, 66),
+            dropdownSize ?? dropDownMenuSize,
           ),
-          padding:
-              dropdownPadding ?? const EdgeInsets.symmetric(horizontal: 12),
+          padding: dropdownPadding ??
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: ComboBox<CustomDropdownMenuItem<T>>(
             popupColor: Colors.transparent,
             value: items.firstWhere((e) => e.value == selectedValue),

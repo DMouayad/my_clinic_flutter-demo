@@ -5,13 +5,11 @@ import 'package:clinic_v2/shared/models/base_event.dart';
 import 'package:clinic_v2/shared/models/error/basic_error.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
 import 'package:clinic_v2/shared/services/logger_service.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
 
 //
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-//
-import 'package:clinic_v2/shared/models/result/result.dart';
 
 part 'states/auth_state.dart';
 
@@ -39,6 +37,8 @@ part 'events/auth_status_check_requested.dart';
 
 part 'events/reset_auth_state.dart';
 
+part 'events/auth_init_retry_requested.dart';
+
 /// Manages
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final BaseAuthRepository authRepository;
@@ -48,9 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.authRepository, {this.shouldLogTransitions = true})
       : super(const AuthInitial()) {
     _usersStreamSub = authRepository.usersStream.listen((user) {
-      if (state is! AuthInitFailed) {
-        add(AuthStatusCheckRequested(user));
-      }
+      add(AuthStatusCheckRequested(user));
     });
     on<AuthEvent>(
         (event, emit) async => await event.handle(authRepository, state, emit));

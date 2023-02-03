@@ -1,19 +1,17 @@
 import 'package:clinic_v2/presentation/navigation/navigation.dart';
-import 'package:flutter/material.dart';
+import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 
-import '../../../../presentation/views/home/view/home_screen.dart';
+import 'home_screen.dart';
 
 class HomePage extends AppPage {
   HomePage()
       : super(
           routeSettings: const RouteSettings(name: AppRoutes.homeScreen),
-          pageScreensBuilder: (
+          pageScreenBuilder: (
             BuildContext context,
             Animation<double> animation,
             Animation<double> secondaryAnimation,
           ) =>
-              const PageScreensBuilder(
-            defaultScreen: HomeScreen(),
-          ),
+              const ContextBuilder(defaultChild: HomeScreen()),
         );
 }

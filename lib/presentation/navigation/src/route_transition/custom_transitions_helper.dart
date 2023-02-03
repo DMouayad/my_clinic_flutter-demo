@@ -8,6 +8,7 @@ import 'transition_type.dart';
 mixin CustomRouteTransitionsHelper {
   static const Curve _kDefaultCurve = Curves.easeOut;
   static const Curve _kDefaultReverseCurve = Curves.easeOut;
+
   @protected
   Widget buildTransition(
     BuildContext context,
@@ -17,6 +18,8 @@ mixin CustomRouteTransitionsHelper {
     RouteTransitionType transitionType = RouteTransitionType.platformDefault,
   }) {
     switch (transitionType) {
+      case RouteTransitionType.none:
+        return page;
       case RouteTransitionType.fade:
         return _fade(page, animation);
       case RouteTransitionType.fadeThrough:
@@ -49,8 +52,6 @@ mixin CustomRouteTransitionsHelper {
           type: SharedAxisTransitionType.vertical,
         );
 
-      case RouteTransitionType.none:
-        return page;
       case RouteTransitionType.slideFromTop:
         return _slide(page, animation, startOffset: const Offset(0, 1));
       case RouteTransitionType.slideFromFromBottom:
@@ -137,6 +138,7 @@ class _DefaultRouteTransitionBuilder extends PageRoute<dynamic>
   final Widget routeContent;
 
   _DefaultRouteTransitionBuilder(this.routeContent);
+
   @override
   Widget buildContent(BuildContext context) {
     return routeContent;

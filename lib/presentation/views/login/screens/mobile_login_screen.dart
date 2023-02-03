@@ -2,12 +2,13 @@ import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
 
-//
-import '../../../../presentation/views/login/components/bloc_login_form.dart';
-import '../../../../presentation/views/login/components/login_message.dart';
+import '../components/bloc_login_form.dart';
+import '../components/login_message.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+//
+
+class MobileLoginScreen extends StatelessWidget {
+  const MobileLoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

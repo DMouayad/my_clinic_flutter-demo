@@ -1,4 +1,6 @@
+import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 //
 import 'package:clinic_v2/app/blocs/email_verification_cubit/email_verification_cubit.dart';
 import 'package:clinic_v2/domain/authentication/base/base_auth_repository.dart';
@@ -9,13 +11,13 @@ class VerificationNoticePage extends AppPage {
   VerificationNoticePage()
       : super(
           routeSettings: const RouteSettings(name: AppRoutes.signUpScreen),
-          pageTransitions: const RouteTransitionBuilder(
-            tablet: RouteTransitionType.none,
-            windows: RouteTransitionType.none,
+          pageTransitionBuilder: const ContextBuilder(
+            tabletScreenChild: RouteTransitionType.none,
+            windowsChild: RouteTransitionType.none,
           ),
-          pageScreensBuilder: (context, animation, secondaryAnimation) {
-            return PageScreensBuilder(
-              windowsScreen: BlocProvider(
+          pageScreenBuilder: (context, animation, secondaryAnimation) {
+            return ContextBuilder(
+              windowsChild: BlocProvider(
                 create: (context) =>
                     EmailVerificationCubit(context.read<BaseAuthRepository>()),
                 child: const WindowsVerificationNoticeScreen(),

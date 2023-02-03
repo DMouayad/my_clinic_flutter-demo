@@ -13,8 +13,7 @@ class CustomNavPaneItem extends PaneItem {
           icon: Icon(iconData, size: 22),
           body: Container(
             constraints: const BoxConstraints.expand(),
-            margin: EdgeInsets.fromLTRB(
-                context.isLTR ? 30 : 0, 10, context.isLTR ? 0 : 30, 0),
+            // margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
             padding: contentPadding ??
                 const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(

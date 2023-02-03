@@ -1,3 +1,4 @@
+import 'package:clinic_v2/presentation/shared_widgets/screens/two_sides_screen_layout.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 //
@@ -9,7 +10,6 @@ import 'package:clinic_v2/presentation/shared_widgets/error_card.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
 import 'package:clinic_v2/presentation/shared_widgets/simple_card.dart';
 import 'package:clinic_v2/presentation/shared_widgets/windows_components/app_settings_bar.dart';
-import 'package:clinic_v2/presentation/shared_widgets/windows_components/two_sides_screen.dart';
 
 class WindowsVerificationNoticeScreen extends StatelessWidget {
   const WindowsVerificationNoticeScreen({Key? key}) : super(key: key);
@@ -18,12 +18,12 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EmailVerificationCubit, EmailVerificationState>(
       builder: (context, state) {
-        return WindowsTwoSidesScreen(
-          showInProgressIndicator: state is RequestingVerificationEmail,
+        return TwoSidesScreenLayout.withAppLogo(
+          rightSideBlurred: state is RequestingVerificationEmail,
           optionsBar: Row(
             children: const [BlocAppSettingsBar(), LogoutIconButton()],
           ),
-          leftSideChild: () {
+          leftSideContent: () {
             if (state is VerificationEmailRequestFailed) {
               return ErrorCard(
                 errorText: state.error.exception?.getMessage(context),
@@ -36,7 +36,7 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
                 ),
                 child: SimpleCard(
                   child: ListTile(
-                    leading: Icon(Icons.check_circle_outline),
+                    leading: const Icon(Icons.check_circle_outline),
                     title: Text(
                       "Verification email was sent",
                       style: context.textTheme.bodyLarge,

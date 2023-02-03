@@ -1,5 +1,6 @@
 import 'package:clinic_v2/shared/models/auth_tokens.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 //
 import '../base/base_auth_tokens_service.dart';
 
@@ -10,7 +11,9 @@ class SecureStorageAuthTokensService extends BaseAuthTokensService {
 
   @override
   Future<PersonalAccessToken?> getAccessToken() async {
-    final storedTokenJson = await _storage.read(key: accessTokenKey);
+    final storedTokenJson = await _storage.read(
+      key: accessTokenKey,
+    );
     if (storedTokenJson != null) {
       return PersonalAccessToken.fromJson(storedTokenJson);
     }

@@ -17,10 +17,7 @@ class AdaptiveDropdown<T> extends BaseDropdownMenu<T> {
     super.tileLabel,
     super.tileLeadingIconData,
     Key? key,
-  })  : assert(type == DropdownMenuType.tileWithMenu &&
-            tileLabel != null &&
-            tileLeadingIconData != null),
-        super(key: key);
+  }) : super(key: key);
 
   final DropdownMenuType type;
 

@@ -12,6 +12,7 @@ mixin DioHelper {
       validateStatus: (_) => true,
       baseUrl: ApiKeys.baseUrl,
       responseType: ResponseType.json,
+      // connectTimeout: 5000,
       headers: {'accept': 'application/json'},
       contentType: ContentType.json.toString(),
     );
