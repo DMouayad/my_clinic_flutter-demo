@@ -14,4 +14,9 @@ class LoginApiEndpoint extends ApiEndpoint<LoginEndpointResult> {
             'password': password,
           },
         );
+
+  @override
+  LoginEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return LoginEndpointResult.fromMap(map);
+  }
 }

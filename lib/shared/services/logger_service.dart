@@ -1,5 +1,5 @@
 import 'package:clinic_v2/api/models/api_endpoint.dart';
-import 'package:clinic_v2/utils/extensions/dio_extension.dart';
+import 'package:clinic_v2/api/models/base_http_client.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logger/logger.dart';
@@ -91,9 +91,9 @@ class Log {
       ''');
   }
 
-  static void logDioResponse(dio.Response response) {
+  static void logHttpResponse(BaseHttpClientResponse response) {
     to.i('''<Dio Response>
-        <requested uri: ${response.realUri}>
+        <requested uri: ${response.uri}>
         <status: ${response.statusCode}>   <success: ${response.isSuccess}>
       ''');
   }

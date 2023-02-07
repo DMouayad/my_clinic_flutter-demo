@@ -1,6 +1,6 @@
 part of staff_member_api_endpoints;
 
-class UpdateStaffMemberApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+class UpdateStaffMemberApiEndpoint extends ApiEndpointWithEmptyResult {
   UpdateStaffMemberApiEndpoint({
     required int id,
     String? newEmail,

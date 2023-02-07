@@ -1,6 +1,6 @@
 part of user_endpoints_results;
 
-class FetchUserEndpointResult extends ApiEndpointResult {
+class FetchUserEndpointResult extends BaseApiEndpointResult {
   final ApiResponseUserData userWithRoleAndPrefs;
 
   const FetchUserEndpointResult({required this.userWithRoleAndPrefs});

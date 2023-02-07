@@ -10,7 +10,7 @@ class MyClinicApiUserPreferencesDataSource
   const MyClinicApiUserPreferencesDataSource();
 
   @override
-  Future<Result<MyClinicApiUserPreferences, BasicError>>
+  Future<Result<MyClinicApiUserPreferences, AppError>>
       fetchUserPreferences() async {
     final response = await FetchUserPreferencesApiEndpoint().request();
     return response.mapSuccess(
@@ -19,7 +19,7 @@ class MyClinicApiUserPreferencesDataSource
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateUserPreferences({
+  Future<Result<VoidValue, AppError>> updateUserPreferences({
     ThemeMode? themeMode,
     Locale? locale,
   }) async {
@@ -31,7 +31,7 @@ class MyClinicApiUserPreferencesDataSource
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> setUserPreferences(
+  Future<Result<VoidValue, AppError>> setUserPreferences(
       {required ThemeMode themeMode, required Locale locale}) async {
     return (await CreateUserPreferencesApiEndpoint(
       locale: locale.languageCode,

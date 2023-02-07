@@ -9,4 +9,9 @@ class FetchUserPreferencesApiEndpoint
           includeDeviceId: true,
           includeAccessToken: true,
         );
+
+  @override
+  FetchUserPreferencesEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return FetchUserPreferencesEndpointResult.fromMap(map);
+  }
 }

@@ -31,4 +31,9 @@ class FetchStaffMembersApiEndpoint
         params.entries.map((e) => '${e.key}=${e.value}').join('&');
     return '/staff-members-all-data?$paramsString';
   }
+
+  @override
+  FetchStaffMembersEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return FetchStaffMembersEndpointResult.fromMap(map);
+  }
 }

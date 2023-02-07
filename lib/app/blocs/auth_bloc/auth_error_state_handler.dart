@@ -30,7 +30,7 @@ class _AuthErrorStateHandlerState extends State<AuthErrorStateHandler> {
             showAdaptiveErrorDialog(
               context: context,
               titleText: getErrorDialogTitle(state, context),
-              contentText: state.error.exception?.getMessage(context),
+              contentText: state.error.appException?.getMessage(context),
             ).then((value) => dialogIsVisible = false);
           }
           if (state is AuthInitRetryInProgress) {

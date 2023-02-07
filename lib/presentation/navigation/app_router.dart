@@ -49,7 +49,7 @@ class AppRouter {
 
       case AppRoutes.failedToStartAppScreen:
         final passedError = (settings.arguments as Map).get('error');
-        final error = passedError is BasicError ? passedError : BasicError();
+        final error = passedError is AppError ? passedError : AppError();
         return StartupFailurePage(
           error: error,
         ).route;

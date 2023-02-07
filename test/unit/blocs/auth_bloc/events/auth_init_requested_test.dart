@@ -30,8 +30,8 @@ void main() {
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-                const ErrorException.noAccessTokenFound()),
+            result: FailureResult.withAppException(
+                const AppException.noAccessTokenFound()),
           ),
         );
       },
@@ -54,8 +54,8 @@ void main() {
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-                const ErrorException.noRefreshTokenFound()),
+            result: FailureResult.withAppException(
+                const AppException.noRefreshTokenFound()),
           ),
         );
       },
@@ -67,8 +67,8 @@ void main() {
             <AuthState>[
               const AuthInitInProgress(),
               AuthHasNoLoggedInUser(
-                error: BasicError(
-                    exception: const ErrorException.noRefreshTokenFound()),
+                error: AppError(
+                    appException: const AppException.noRefreshTokenFound()),
               ),
             ],
           ),
@@ -81,8 +81,8 @@ void main() {
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-                const ErrorException.failedToRefreshTokens()),
+            result: FailureResult.withAppException(
+                const AppException.failedToRefreshTokens()),
           ),
         );
       },
@@ -94,8 +94,8 @@ void main() {
             <AuthState>[
               const AuthInitInProgress(),
               AuthHasNoLoggedInUser(
-                error: BasicError(
-                    exception: const ErrorException.failedToRefreshTokens()),
+                error: AppError(
+                    appException: const AppException.failedToRefreshTokens()),
               ),
             ],
           ),
@@ -108,7 +108,7 @@ void main() {
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromDioError(
+            result: FailureResult.withDioError(
               DioErrorFactory()
                   .setupWith(errorType: DioErrorType.connectTimeout)
                   .create(),
@@ -124,9 +124,9 @@ void main() {
             <AuthState>[
               const AuthInitInProgress(),
               AuthInitFailed(
-                BasicError(
+                AppError(
                   message: '',
-                  exception: ErrorException(DioErrorType.connectTimeout.name),
+                  appException: AppException(DioErrorType.connectTimeout.name),
                 ),
               ),
             ],

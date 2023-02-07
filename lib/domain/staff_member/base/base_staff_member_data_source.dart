@@ -6,19 +6,19 @@ import '../../../domain/staff_member/base/base_staff_member.dart';
 
 abstract class BaseStaffMemberDataSource<T extends BaseStaffMember> {
   const BaseStaffMemberDataSource();
-  Future<Result<T, BasicError>> addStaffMember(
+  Future<Result<T, AppError>> addStaffMember(
     String email,
     UserRole userRole,
   );
-  Future<Result<PaginatedResource<T>, BasicError>> fetchStaffMembers({
+  Future<Result<PaginatedResource<T>, AppError>> fetchStaffMembers({
     int? page,
     int? perPage,
     List<String>? sortedBy,
   });
-  Future<Result<VoidValue, BasicError>> updateStaffMember(
+  Future<Result<VoidValue, AppError>> updateStaffMember(
     int id, [
     String? email,
     UserRole? userRole,
   ]);
-  Future<Result<VoidValue, BasicError>> deleteStaffMember(int id);
+  Future<Result<VoidValue, AppError>> deleteStaffMember(int id);
 }

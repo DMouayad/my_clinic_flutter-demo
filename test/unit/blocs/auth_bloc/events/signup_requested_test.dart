@@ -81,13 +81,13 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [SignUpInProgress, EmailNotAuthorizedToRegister, AuthHasNoLoggedInUser]
-          after [SignUpRequested] and received [FailureResult] with [ErrorException.emailUnauthorizedToRegister]
+          after [SignUpRequested] and received [FailureResult] with [AppException.emailUnauthorizedToRegister]
            ''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           registerResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-                const ErrorException.emailUnauthorizedToRegister()),
+            result: FailureResult.withAppException(
+                const AppException.emailUnauthorizedToRegister()),
           ),
         );
       },
@@ -105,13 +105,13 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [SignUpInProgress, EmailAlreadySignedUp, AuthHasNoLoggedInUser]
-          after [SignUpRequested] and received [FailureResult] with [ErrorException.emailAlreadyRegistered]
+          after [SignUpRequested] and received [FailureResult] with [AppException.emailAlreadyRegistered]
            ''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           registerResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-                const ErrorException.emailAlreadyRegistered()),
+            result: FailureResult.withAppException(
+                const AppException.emailAlreadyRegistered()),
           ),
         );
       },
@@ -128,11 +128,11 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [SignUpInProgress, LoginErrorState, AuthHasNoLoggedInUser]
-          after [LoginRequested] and received [FailureResult.fromDioError]''',
+          after [LoginRequested] and received [FailureResult.withDioError]''',
       setup: (repoFactory, _) {
         return repoFactory.setupWith(
             registerResult: MockAuthRepoMethodResult(
-          result: FailureResult.fromDioError(
+          result: FailureResult.withDioError(
             DioErrorFactory()
                 .setupWith(errorType: DioErrorType.connectTimeout)
                 .create(),
@@ -144,9 +144,9 @@ void main() {
         return [
           const SignUpInProgress(),
           LoginErrorState(
-            BasicError(
+            AppError(
                 message: '',
-                exception: ErrorException(DioErrorType.connectTimeout.name)),
+                appException: AppException(DioErrorType.connectTimeout.name)),
           ),
           const AuthHasNoLoggedInUser(),
         ];

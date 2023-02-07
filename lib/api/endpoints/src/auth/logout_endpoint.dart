@@ -1,6 +1,6 @@
 part of api_auth_endpoints;
 
-class LogoutApiEndpoint extends ApiEndpoint<EmptyApiEndpointResult> {
+class LogoutApiEndpoint extends ApiEndpointWithEmptyResult {
   LogoutApiEndpoint()
       : super(
           method: RequestMethod.POST,

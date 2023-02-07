@@ -2,7 +2,7 @@ library auth_endpoints_results;
 
 import 'dart:convert';
 
-import '../../models/api_endpoint_result.dart';
+import '../../models/base_api_endpoint_result.dart';
 import 'package:clinic_v2/api/models/response_user_data.dart';
 import 'package:clinic_v2/shared/models/auth_tokens.dart';
 

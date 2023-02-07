@@ -34,7 +34,7 @@ class AndroidDropdownMenu<T> extends BaseDropdownMenu<T> {
         elevation: 4,
         dropdownColor: context.colorScheme.backgroundColor,
         iconEnabledColor: context.colorScheme.onPrimaryContainer,
-        style: context.textTheme.subtitle1?.copyWith(
+        style: context.textTheme.titleMedium?.copyWith(
           color: context.colorScheme.onPrimary,
         ),
         value: items.firstWhere((e) => e.value == selectedValue),
@@ -43,7 +43,7 @@ class AndroidDropdownMenu<T> extends BaseDropdownMenu<T> {
                   value: item,
                   child: Text(
                     item.text,
-                    style: context.textTheme.bodyText1?.copyWith(
+                    style: context.textTheme.bodyLarge?.copyWith(
                       color: context.colorScheme.onBackground,
                     ),
                   ),

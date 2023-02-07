@@ -31,10 +31,10 @@ class SignUpRequested extends AuthEvent {
     final signUpState = signUpResponse.mapTo(
       onSuccess: (_) => const SignUpSuccess(),
       onFailure: (error) {
-        if (error.exception is EmailUnauthorizedToRegisterException) {
+        if (error.appException == AppException.emailUnauthorizedToRegister) {
           return EmailNotAuthorizedToRegister();
         }
-        if (error.exception is EmailAlreadyRegisteredException) {
+        if (error.appException == AppException.emailAlreadyRegistered) {
           return EmailAlreadySignedUp();
         }
 

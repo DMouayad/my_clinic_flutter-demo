@@ -7,7 +7,7 @@ import 'startup_failure_wide_screen.dart';
 
 class StartupFailurePage extends AppPage {
   StartupFailurePage({
-    required BasicError error,
+    required AppError error,
   }) : super(
           routeSettings:
               const RouteSettings(name: AppRoutes.failedToStartAppScreen),

@@ -3,16 +3,15 @@ import 'package:clinic_v2/api/models/response_user_data.dart';
 import 'package:clinic_v2/shared/models/paginated_api_resource/src/pagination_info.dart';
 import 'package:clinic_v2/shared/models/paginated_api_resource/src/resource_pagination_links.dart';
 
-import '../../../models/api_endpoint_result.dart';
+import '../../../models/base_api_endpoint_result.dart';
 
-class FetchStaffMembersEndpointResult extends ApiEndpointResult {
+class FetchStaffMembersEndpointResult extends BaseApiEndpointResult {
   final List<ApiResponseStaffMemberData> staffMembersData;
   final PaginationInfo paginationInfo;
   final ResourcePaginationLinks paginationLinks;
 
-  factory FetchStaffMembersEndpointResult.fromApiResponse(
-      Map<String, dynamic> response) {
-    final staffMembersData = (response['data'] as List).map(
+  factory FetchStaffMembersEndpointResult.fromMap(Map<String, dynamic> map) {
+    final staffMembersData = (map['data'] as List).map(
       (map) {
         final userDataMap = map['user'] as Map<String, dynamic>?;
         if (userDataMap != null) {
@@ -33,8 +32,8 @@ class FetchStaffMembersEndpointResult extends ApiEndpointResult {
 
     return FetchStaffMembersEndpointResult(
       staffMembersData,
-      PaginationInfo.fromMap(response['meta']),
-      ResourcePaginationLinks.fromMap(response['links']),
+      PaginationInfo.fromMap(map['meta']),
+      ResourcePaginationLinks.fromMap(map['links']),
     );
   }
 

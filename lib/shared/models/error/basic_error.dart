@@ -1,20 +1,32 @@
 import 'dart:core';
+
 //
 import 'package:equatable/equatable.dart';
-//
-import 'error_exception.dart';
-export 'error_exception.dart';
 
-class BasicError extends Error with EquatableMixin {
+//
+import 'app_exception.dart';
+export 'app_exception.dart';
+
+class AppError extends Error with EquatableMixin {
   final String? message;
-  final ErrorException? exception;
+  final AppException? appException;
+
+  /// The exception that caused the error.
+  ///
+  /// usually not [null] when [appException] is [AppException.external]
+  final Exception? exception;
   final String? description;
   late final StackTrace st;
-  BasicError({
+
+  AppError({
     this.message,
-    this.exception,
+    this.appException,
     this.description,
-  }) : assert(message != null || exception != null || description != null) {
+    this.exception,
+  }) : assert(message != null ||
+            appException != null ||
+            description != null ||
+            exception != null) {
     st = StackTrace.current;
   }
 
@@ -22,24 +34,27 @@ class BasicError extends Error with EquatableMixin {
   String toString() {
     return ''' <$runtimeType>
                  message:     $message 
-                 exception:   ${exception?.name} 
+                 appException:   ${appException?.name} 
+                 exception:     $exception
                  description: $description ''';
   }
 
   @override
-  List<Object?> get props => [message, description, exception];
+  List<Object?> get props => [message, description, appException];
 
-  BasicError copyWith({
+  AppError copyWith({
     String? message,
-    ErrorException? exception,
+    AppException? appException,
+    Exception? exception,
     String? description,
   }) {
-    return BasicError(
+    return AppError(
       message: message ?? this.message,
+      appException: appException ?? this.appException,
       exception: exception ?? this.exception,
       description: description ?? this.description,
     );
   }
 }
 
-abstract class NoError extends BasicError {}
+abstract class NoError extends AppError {}

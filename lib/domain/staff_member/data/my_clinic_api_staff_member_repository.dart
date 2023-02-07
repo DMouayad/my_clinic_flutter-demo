@@ -13,7 +13,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   late final MyClinicApiStaffMemberDataSource _dataSource;
 
   @override
-  Future<Result<VoidValue, BasicError>> addStaffMember(
+  Future<Result<VoidValue, AppError>> addStaffMember(
     String email,
     UserRole userRole,
   ) async {
@@ -40,7 +40,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> deleteStaffMember(int id) async {
+  Future<Result<VoidValue, AppError>> deleteStaffMember(int id) async {
     return (await _dataSource.deleteStaffMember(id)).mapSuccessToVoid(
         onSuccess: (_) {
       final List<MyClinicApiStaffMember> currentStaffMembers =
@@ -59,7 +59,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> fetchStaffMembers({
+  Future<Result<VoidValue, AppError>> fetchStaffMembers({
     int? page,
     int? perPage,
     List<String>? sortedBy,
@@ -75,7 +75,7 @@ class MyClinicApiStaffMemberRepository extends BaseStaffMemberRepository {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateStaffMember(
+  Future<Result<VoidValue, AppError>> updateStaffMember(
     int id, [
     String? email,
     UserRole? userRole,

@@ -83,7 +83,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   Stream<MyClinicApiUser?> get usersStream => _usersStreamController.stream;
 
   @override
-  Future<Result<VoidValue, BasicError>> login({
+  Future<Result<VoidValue, AppError>> login({
     required String email,
     required String password,
   }) async {
@@ -95,7 +95,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> register({
+  Future<Result<VoidValue, AppError>> register({
     required String name,
     required String email,
     required String phoneNumber,
@@ -112,14 +112,14 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> logout() async {
+  Future<Result<VoidValue, AppError>> logout() async {
     return (await _dataSource.logout()).fold(
       ifSuccess: (_) => _usersStreamController.add(null),
     );
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> requestPasswordReset(
+  Future<Result<VoidValue, AppError>> requestPasswordReset(
     String emailAddress,
   ) {
     // TODO: implement requestPasswordReset
@@ -127,12 +127,12 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> requestVerificationEmail() async {
+  Future<Result<VoidValue, AppError>> requestVerificationEmail() async {
     return await _dataSource.sendVerificationEmail();
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> onInit() async {
+  Future<Result<VoidValue, AppError>> onInit() async {
     return (await _dataSource.loadUser()).mapSuccessToVoid(
       onSuccess: (user) {
         _usersStreamController.add(user);
@@ -141,7 +141,7 @@ class MyClinicApiAuthRepository implements BaseAuthRepository<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> resetAuth() async {
+  Future<Result<VoidValue, AppError>> resetAuth() async {
     final success =
         await GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
     if (success) {

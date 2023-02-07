@@ -26,20 +26,20 @@ abstract class BaseStaffMemberRepository {
   PaginatedResource<BaseStaffMember>? get staffMembersResource =>
       _staffMembersResource;
 
-  Future<Result<VoidValue, BasicError>> addStaffMember(
+  Future<Result<VoidValue, AppError>> addStaffMember(
       String email, UserRole userRole);
 
-  Future<Result<VoidValue, BasicError>> fetchStaffMembers({
+  Future<Result<VoidValue, AppError>> fetchStaffMembers({
     int? page,
     int? perPage,
     List<String>? sortedBy,
   });
 
-  Future<Result<VoidValue, BasicError>> updateStaffMember(
+  Future<Result<VoidValue, AppError>> updateStaffMember(
     int id, [
     String? email,
     UserRole? userRole,
   ]);
 
-  Future<Result<VoidValue, BasicError>> deleteStaffMember(int id);
+  Future<Result<VoidValue, AppError>> deleteStaffMember(int id);
 }

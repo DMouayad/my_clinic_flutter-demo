@@ -18,7 +18,7 @@ class UpdatingUserPreferencesInProgress extends AppPreferencesState {
 class UserPreferencesUpdatedSuccessfully extends AppPreferencesState {}
 
 class UpdatingUserPreferencesFailed extends AppPreferencesState {
-  final BasicError error;
+  final AppError error;
 
   const UpdatingUserPreferencesFailed(this.error);
 }

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:clinic_v2/api/helpers/api_endpoint_request_maker.dart';
+import 'package:clinic_v2/api/helpers/dio_http_client.dart';
 import 'package:clinic_v2/domain/authentication/base/base_auth_tokens_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -9,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:get_it/get_it.dart';
 
-// import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:clinic_v2/app/services/socketio/socketio_notifications_listener.dart';
 import 'package:clinic_v2/domain/notifications/base/base_notifications_listener.dart';
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
@@ -47,21 +48,15 @@ void main() async {
   GetIt.I.registerSingleton<BaseAuthTokensService>(
     SecureStorageAuthTokensService(MyClinicApiRefreshTokensService()),
   );
+  GetIt.I.registerSingleton<ApiEndpointRequestMaker>(
+      ApiEndpointRequestMaker(DioHttpClient()));
+
   // GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
   // GetIt.I.get<BaseAuthTokensService>().deleteRefreshToken();
-  runApp(
-    ClinicApp(
-      userPreferencesRepository: MyClinicApiUserPreferencesRepository(),
-      authRepository: MyClinicApiAuthRepository(),
-    ),
-  );
-  // doWhenWindowReady(() {
-  //   final initialSize = Size(600, 450);
-  //   appWindow.minSize = initialSize;
-  //   // appWindow.size = initialSize;
-  //   appWindow.alignment = Alignment.center;
-  //   appWindow.show();
-  // });
+  runApp(ClinicApp(
+    userPreferencesRepository: MyClinicApiUserPreferencesRepository(),
+    authRepository: MyClinicApiAuthRepository(),
+  ));
 }
 
 /// Main App widget

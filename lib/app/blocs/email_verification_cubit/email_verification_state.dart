@@ -19,7 +19,7 @@ class RequestingVerificationEmail extends EmailVerificationState {
 }
 
 class VerificationEmailRequestFailed extends EmailVerificationState {
-  final BasicError error;
+  final AppError error;
   const VerificationEmailRequestFailed(this.error);
   @override
   List<Object> get props => [error];

@@ -23,7 +23,7 @@ import 'package:mockito/mockito.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeResult_0<V extends Object, E extends _i1.BasicError>
+class _FakeResult_0<V extends Object, E extends _i1.AppError>
     extends _i2.SmartFake implements _i1.Result<V, E> {
   _FakeResult_0(
     Object parent,
@@ -46,15 +46,14 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
         returnValueForMissingStub: _i5.Stream<U?>.empty(),
       ) as _i5.Stream<U?>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> onInit() =>
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> onInit() =>
       (super.noSuchMethod(
         Invocation.method(
           #onInit,
           [],
         ),
-        returnValue:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #onInit,
@@ -62,17 +61,17 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #onInit,
             [],
           ),
         )),
-      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> register({
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> register({
     required String? email,
     required String? name,
     required String? phoneNumber,
@@ -89,9 +88,8 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
             #password: password,
           },
         ),
-        returnValue:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #register,
@@ -105,8 +103,8 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #register,
@@ -119,9 +117,9 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
             },
           ),
         )),
-      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> login({
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> login({
     required String? email,
     required String? password,
   }) =>
@@ -134,9 +132,8 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
             #password: password,
           },
         ),
-        returnValue:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #login,
@@ -148,8 +145,8 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #login,
@@ -160,18 +157,17 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
             },
           ),
         )),
-      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> requestPasswordReset(
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> requestPasswordReset(
           String? emailAddress) =>
       (super.noSuchMethod(
         Invocation.method(
           #requestPasswordReset,
           [emailAddress],
         ),
-        returnValue:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #requestPasswordReset,
@@ -179,25 +175,25 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #requestPasswordReset,
             [emailAddress],
           ),
         )),
-      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>
       requestVerificationEmail() => (super.noSuchMethod(
             Invocation.method(
               #requestVerificationEmail,
               [],
             ),
             returnValue:
-                _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+                _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                    _FakeResult_0<_i1.VoidValue, _i1.AppError>(
               this,
               Invocation.method(
                 #requestVerificationEmail,
@@ -205,25 +201,24 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
               ),
             )),
             returnValueForMissingStub:
-                _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+                _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                    _FakeResult_0<_i1.VoidValue, _i1.AppError>(
               this,
               Invocation.method(
                 #requestVerificationEmail,
                 [],
               ),
             )),
-          ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+          ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> logout() =>
+  _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> logout() =>
       (super.noSuchMethod(
         Invocation.method(
           #logout,
           [],
         ),
-        returnValue:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #logout,
@@ -231,13 +226,13 @@ class MockBaseAuthRepository<U extends _i3.BaseServerUser> extends _i2.Mock
           ),
         )),
         returnValueForMissingStub:
-            _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #logout,
             [],
           ),
         )),
-      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i5.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
 }

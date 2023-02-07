@@ -26,7 +26,7 @@ class WindowsVerificationNoticeScreen extends StatelessWidget {
           leftSideContent: () {
             if (state is VerificationEmailRequestFailed) {
               return ErrorCard(
-                errorText: state.error.exception?.getMessage(context),
+                errorText: state.error.appException?.getMessage(context),
               );
             }
             if (state is VerificationEmailWasSent) {

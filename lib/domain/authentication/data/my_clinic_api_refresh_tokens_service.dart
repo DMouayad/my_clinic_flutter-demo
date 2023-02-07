@@ -6,7 +6,7 @@ import '../base/base_refresh_auth_tokens_service.dart';
 
 class MyClinicApiRefreshTokensService extends BaseRefreshAuthTokensService {
   @override
-  Future<Result<AuthTokens, BasicError>> refreshAuthTokens({
+  Future<Result<AuthTokens, AppError>> refreshAuthTokens({
     required String refreshToken,
   }) async {
     final response = await RefreshAccessTokenEndpoint(
@@ -16,8 +16,8 @@ class MyClinicApiRefreshTokensService extends BaseRefreshAuthTokensService {
     return response.map(
       onSuccess: (result) => result.authTokens,
       onFailure: (error) => error.copyWith(
-        exception:
-            error.exception ?? const ErrorException.failedToRefreshTokens(),
+        appException:
+            error.appException ?? const AppException.failedToRefreshTokens(),
       ),
     );
   }

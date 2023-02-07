@@ -10,8 +10,8 @@ abstract class BaseAuthDataSource<T extends BaseServerUser> {
     required String password,
   });
   Future<Result> login(String email, String password);
-  Future<Result<T?, BasicError>> loadUser();
-  Future<Result<VoidValue, BasicError>> logout();
-  Future<Result<VoidValue, BasicError>> requestPasswordReset(String email);
-  Future<Result<VoidValue, BasicError>> sendVerificationEmail();
+  Future<Result<T?, AppError>> loadUser();
+  Future<Result<VoidValue, AppError>> logout();
+  Future<Result<VoidValue, AppError>> requestPasswordReset(String email);
+  Future<Result<VoidValue, AppError>> sendVerificationEmail();
 }

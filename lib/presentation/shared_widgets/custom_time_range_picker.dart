@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 //
 import 'package:time_range_picker/time_range_picker.dart';
+
 //
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:clinic_v2/presentation/themes/material_themes.dart';
@@ -50,7 +52,7 @@ Future<void> showCustomTimeRangePicker(
           primaryColor: context.colorScheme.primary!,
           // when darkMode is off: this will be the background color of the
           // [timeRangePicker] header
-          backgroundColor: context.colorScheme.primary,
+          // backgroundColor: context.colorScheme.primary,
         ),
         child: timeRangePicker,
       );

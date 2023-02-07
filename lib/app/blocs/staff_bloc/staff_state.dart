@@ -52,7 +52,7 @@ class StaffMembersWereLoaded extends StaffBlocState {
 class LoadingStaffMembers extends StaffBlocState {}
 
 class StaffBlocErrorState extends StaffBlocState {
-  final BasicError error;
+  final AppError error;
 
   const StaffBlocErrorState(this.error);
 

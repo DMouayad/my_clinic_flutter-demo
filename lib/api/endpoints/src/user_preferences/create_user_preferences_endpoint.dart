@@ -1,7 +1,6 @@
 part of user_preferences_endpoints;
 
-class CreateUserPreferencesApiEndpoint
-    extends ApiEndpoint<EmptyApiEndpointResult> {
+class CreateUserPreferencesApiEndpoint extends ApiEndpointWithEmptyResult {
   CreateUserPreferencesApiEndpoint({
     required String locale,
     required String theme,

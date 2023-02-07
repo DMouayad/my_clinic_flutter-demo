@@ -73,7 +73,7 @@ class UserPreferencesListItem extends StatelessWidget {
       ),
       title: Text(
         itemData.name,
-        style: context.textTheme.subtitle1?.copyWith(
+        style: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
           fontSize: context.isTablet ? 14 : null,
         ),

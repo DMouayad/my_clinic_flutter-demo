@@ -1,7 +1,6 @@
 part of api_auth_endpoints;
 
-class RequestEmailVerificationApiEndpoint
-    extends ApiEndpoint<EmptyApiEndpointResult> {
+class RequestEmailVerificationApiEndpoint extends ApiEndpointWithEmptyResult {
   RequestEmailVerificationApiEndpoint()
       : super(
           method: RequestMethod.POST,

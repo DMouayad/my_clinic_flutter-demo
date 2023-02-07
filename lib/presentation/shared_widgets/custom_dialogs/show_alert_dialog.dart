@@ -13,7 +13,7 @@ Future<T?> showAdaptiveAlertDialog<T>({
   Color? titleTextColor,
   bool useRootNavigator = true,
 }) async {
-  List<Widget> _getActions(BuildContext context) {
+  List<Widget> getActions(BuildContext context) {
     List<Widget> actions = [
       TextButton(
         child: Text(
@@ -73,7 +73,7 @@ Future<T?> showAdaptiveAlertDialog<T>({
         ),
         contentText: contentText,
         content: content,
-        actions: _getActions(context),
+        actions: getActions(context),
       );
     },
   );

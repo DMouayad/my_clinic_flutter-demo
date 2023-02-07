@@ -49,7 +49,7 @@ class SectionCard extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: context.textTheme.subtitle1?.copyWith(
+                style: context.textTheme.titleMedium?.copyWith(
                   color: titleIsColored
                       ? context.colorScheme.primary
                       : context.colorScheme.onPrimaryContainer,

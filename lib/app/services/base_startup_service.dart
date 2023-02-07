@@ -15,7 +15,7 @@ abstract class BaseStartupService {
 
   /// Performs initialization logic
   ///
-  Future<Result<VoidValue, BasicError>?> init();
+  Future<Result<VoidValue, AppError>?> init();
 
   void retryToInit();
   void addStartupStreamEvent(Result event) {

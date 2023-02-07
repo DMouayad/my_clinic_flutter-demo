@@ -18,4 +18,9 @@ class RegisterApiEndpoint extends ApiEndpoint<RegisterEndpointResult> {
             'password': password,
           },
         );
+
+  @override
+  RegisterEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return RegisterEndpointResult.fromMap(map);
+  }
 }

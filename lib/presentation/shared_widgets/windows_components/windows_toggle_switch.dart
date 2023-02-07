@@ -20,7 +20,7 @@ class WindowsToggleSwitch extends StatelessWidget {
         checked
             ? context.localizations!.enabled
             : context.localizations!.disabled,
-        style: context.textTheme.bodyText2?.copyWith(
+        style: context.textTheme.bodyMedium?.copyWith(
           color: context.colorScheme.onBackground,
         ),
       ),

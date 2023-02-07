@@ -2,88 +2,95 @@ part of result;
 
 /// Used as a return type for an unsuccessful execution of a function.
 ///
-///  contains the `error` which have occurred. The variable `error` must be of the type [BasicError].
+/// [AppError] `error` should specifies the failure reason.
 
-class FailureResult<NoValue extends NoValueObtained,
-    ErrorType extends BasicError> extends Result<NoValue, ErrorType> {
+class FailureResult<NoValue extends NoValueObtained, ErrorType extends AppError>
+    extends Result<NoValue, ErrorType> {
   final ErrorType error;
+
   FailureResult(this.error) : super._();
 
-  factory FailureResult.fromException(Exception e) {
-    return FailureResult(BasicError(
+  factory FailureResult.withException(Exception e) {
+    return FailureResult(AppError(
       message: e.toString(),
-      exception: ErrorException(e.runtimeType.toString()),
+      appException: AppException.external,
+      exception: e,
     ) as ErrorType);
   }
+
   factory FailureResult.withMessage(String message) {
     return FailureResult(
-      BasicError(message: message) as ErrorType,
+      AppError(message: message) as ErrorType,
     );
   }
-  factory FailureResult.fromDioError(DioError e) {
-    ErrorException getErrorException() {
+
+  factory FailureResult.withDioError(DioError e) {
+    AppException getErrorException() {
       if (e.error is SocketException) {
-        return const ErrorException.noConnectionFound();
+        return const AppException.noConnectionFound();
       }
-      return ErrorException(e.type.name);
+      return AppException.external;
     }
 
     return FailureResult(
-      BasicError(
+      AppError(
         message: e.message,
-        exception: getErrorException(),
-        // description: {'request options': e.requestOptions}.toString(),
+        appException: getErrorException(),
+        description:
+            {'Error type': e.type, 'exception': e.error.runtimeType}.toString(),
       ) as ErrorType,
     );
   }
-  factory FailureResult.fromErrorException(ErrorException errorException) {
-    return FailureResult(BasicError(exception: errorException) as ErrorType);
+
+  factory FailureResult.withAppException(AppException appException) {
+    return FailureResult(AppError(appException: appException) as ErrorType);
   }
+
   @override
   String toString() {
     return 'FailureResult: $error';
   }
 
   @override
-  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends BasicError>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends AppError>(
       Future<U> Function(NoValue value) transform) async {
     return FailureResult(error as F);
   }
 
   @override
-  Result<U, F> mapSuccess<U extends Object, F extends BasicError>(
+  Result<U, F> mapSuccess<U extends Object, F extends AppError>(
       U Function(NoValue value) transform) {
     return FailureResult(error as F);
   }
 
   @override
-  Result<U, F> mapFailure<U extends Object, F extends BasicError>(
+  Result<U, F> mapFailure<U extends Object, F extends AppError>(
       F Function(ErrorType error) transform) {
     return FailureResult(transform(error));
   }
 
   @override
-  Future<Result<U, F>> mapFailureAsync<U extends Object, F extends BasicError>(
+  Future<Result<U, F>> mapFailureAsync<U extends Object, F extends AppError>(
       Future<F> Function(ErrorType error) transform) async {
     return FailureResult(await transform(error));
   }
 
   @override
-  Result<U, F> flatMapSuccess<U extends Object, F extends BasicError>(
+  Result<U, F> flatMapSuccess<U extends Object, F extends AppError>(
       Result<U, F> Function(NoValue value) transform) {
     return FailureResult(error as F);
   }
 
   @override
   Future<Result<U, F>>
-      flatMapSuccessAsync<U extends Object, F extends BasicError>(
+      flatMapSuccessAsync<U extends Object, F extends AppError>(
     Future<Result<U, F>> Function(NoValue value) transform,
   ) async {
     return FailureResult(error as F);
   }
 
   @override
-  Result<U, F> flatMapFailure<U extends Object, F extends BasicError>(
+  Result<U, F> flatMapFailure<U extends Object, F extends AppError>(
     Result<U, F> Function(ErrorType error) transform,
   ) {
     return transform(error);
@@ -91,7 +98,7 @@ class FailureResult<NoValue extends NoValueObtained,
 
   @override
   Future<Result<U, F>>
-      flatMapFailureAsync<U extends Object, F extends BasicError>(
+      flatMapFailureAsync<U extends Object, F extends AppError>(
     Future<Result<U, F>> Function(ErrorType error) transform,
   ) async {
     return await transform(error);
@@ -112,7 +119,7 @@ class FailureResult<NoValue extends NoValueObtained,
   }
 
   @override
-  Result<T, F> flatMap<T extends Object, F extends BasicError>({
+  Result<T, F> flatMap<T extends Object, F extends AppError>({
     required Result<T, F> Function(NoValue value) onSuccess,
     required Result<T, F> Function(ErrorType error) onFailure,
   }) {
@@ -120,7 +127,7 @@ class FailureResult<NoValue extends NoValueObtained,
   }
 
   @override
-  Future<Result<T, F>> flatMapAsync<T extends Object, F extends BasicError>({
+  Future<Result<T, F>> flatMapAsync<T extends Object, F extends AppError>({
     required Future<Result<T, F>> Function(NoValue value) onSuccess,
     required Future<Result<T, F>> Function(ErrorType error) onFailure,
   }) async {
@@ -128,7 +135,7 @@ class FailureResult<NoValue extends NoValueObtained,
   }
 
   @override
-  Result<T, F> map<T extends Object, F extends BasicError>({
+  Result<T, F> map<T extends Object, F extends AppError>({
     required T Function(NoValue value) onSuccess,
     required F Function(ErrorType error) onFailure,
   }) {
@@ -136,7 +143,7 @@ class FailureResult<NoValue extends NoValueObtained,
   }
 
   @override
-  Future<Result<T, F>> mapAsync<T extends Object, F extends BasicError>({
+  Future<Result<T, F>> mapAsync<T extends Object, F extends AppError>({
     required Future<T> Function(NoValue value) onSuccess,
     required Future<F> Function(ErrorType error) onFailure,
   }) async {

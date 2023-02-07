@@ -29,11 +29,11 @@ class LoginRequested extends AuthEvent {
     return loginResponse.mapTo(
       onSuccess: (_) => const LoginSuccess(),
       onFailure: (error) {
-        if (error.exception ==
-            const ErrorException.invalidPasswordCredential()) {
+        if (error.appException ==
+            const AppException.invalidPasswordCredential()) {
           return LoginPasswordIsIncorrect();
         }
-        if (error.exception == const ErrorException.invalidEmailCredential()) {
+        if (error.appException == const AppException.invalidEmailCredential()) {
           return LoginEmailNotFound();
         }
         return LoginErrorState(error);

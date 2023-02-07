@@ -13,7 +13,6 @@ dependencies:
   animations: ^2.0.7
   app_settings: null
   auto_size_text: ^3.0.0
-  # bitsdojo_window: ^0.1.1
   cupertino_icons: ^1.0.2
   time_range_picker: ^2.1.0
   dot_navigation_bar: null
@@ -37,7 +36,6 @@ dependencies:
   window_manager: ^0.2.1
   dio: ^4.0.6
   flutter_secure_storage: 5.0.2
-  #  drift: ^2.1.0
   path: ^1.8.0
   path_provider: ^2.0.11
   #  sqlite3_flutter_libs: ^0.5.9

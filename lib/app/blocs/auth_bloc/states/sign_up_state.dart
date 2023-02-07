@@ -21,8 +21,8 @@ class SignUpSuccess extends SignUpState {
 class EmailNotAuthorizedToRegister extends SignUpErrorState {
   EmailNotAuthorizedToRegister()
       : super(
-          BasicError(
-            exception: const ErrorException.emailUnauthorizedToRegister(),
+          AppError(
+            appException: const AppException.emailUnauthorizedToRegister(),
           ),
         );
 }
@@ -30,8 +30,8 @@ class EmailNotAuthorizedToRegister extends SignUpErrorState {
 class EmailAlreadySignedUp extends SignUpErrorState {
   EmailAlreadySignedUp()
       : super(
-          BasicError(
-            exception: const ErrorException.emailAlreadyRegistered(),
+          AppError(
+            appException: const AppException.emailAlreadyRegistered(),
           ),
         );
 }

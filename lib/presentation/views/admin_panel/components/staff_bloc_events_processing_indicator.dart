@@ -16,7 +16,7 @@ class StaffBlocEventsProcessingIndicator extends StatelessWidget {
           .stream
           .takeWhile((state) =>
               state is StaffBlocErrorState || state is StaffBlocSuccess)
-          .map<Result<VoidValue, BasicError>>((state) {
+          .map<Result<VoidValue, AppError>>((state) {
         if (state is StaffBlocSuccess) {
           return SuccessResult.voidResult();
         } else {

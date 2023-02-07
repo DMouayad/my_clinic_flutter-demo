@@ -48,7 +48,7 @@ abstract class BaseAuthTokensService {
     await saveAccessToken(authTokens.accessToken);
   }
 
-  Future<Result<String, BasicError>> getValidAccessToken() async {
+  Future<Result<String, AppError>> getValidAccessToken() async {
     final accessToken = await getAccessToken();
     if (accessToken != null) {
       // return the access token if was not expired
@@ -66,19 +66,19 @@ abstract class BaseAuthTokensService {
             (result) => result.accessToken.token,
           );
         } else {
-          return FailureResult.fromErrorException(
-            const ErrorException.noRefreshTokenFound(),
+          return FailureResult.withAppException(
+            const AppException.noRefreshTokenFound(),
           );
         }
       }
     } else {
-      return FailureResult.fromErrorException(
-        const ErrorException.noAccessTokenFound(),
+      return FailureResult.withAppException(
+        const AppException.noAccessTokenFound(),
       );
     }
   }
 
-  Future<Result<AuthTokens, BasicError>> refreshAuthTokens(
+  Future<Result<AuthTokens, AppError>> refreshAuthTokens(
     String refreshToken,
   ) async {
     final refreshTokensResponse = await refreshTokensService.refreshAuthTokens(
@@ -90,7 +90,7 @@ abstract class BaseAuthTokensService {
   }
 }
 
-class TokenNotFoundError extends BasicError {
+class TokenNotFoundError extends AppError {
   final String tokenKey;
 
   TokenNotFoundError(this.tokenKey);

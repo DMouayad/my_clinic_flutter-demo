@@ -31,7 +31,7 @@ class ShowSettingsDialogButton extends StatelessWidget {
           showAdaptiveErrorDialog(
             context: context,
             titleText: "Failed to Save your changes",
-            contentText: state.error.exception?.getMessage(context),
+            contentText: state.error.appException?.getMessage(context),
           );
         }
         if (state is UpdatingUserPreferencesInProgress) {

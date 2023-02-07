@@ -6,26 +6,25 @@ abstract class BaseAuthRepository<U extends BaseServerUser> {
 
   U? get currentUser;
 
-  Future<Result<VoidValue, BasicError>> onInit();
+  Future<Result<VoidValue, AppError>> onInit();
 
-  Future<Result<VoidValue, BasicError>> register({
+  Future<Result<VoidValue, AppError>> register({
     required String email,
     required String name,
     required String phoneNumber,
     required String password,
   });
 
-  Future<Result<VoidValue, BasicError>> login({
+  Future<Result<VoidValue, AppError>> login({
     required String email,
     required String password,
   });
 
-  Future<Result<VoidValue, BasicError>> requestPasswordReset(
-      String emailAddress);
+  Future<Result<VoidValue, AppError>> requestPasswordReset(String emailAddress);
 
-  Future<Result<VoidValue, BasicError>> requestVerificationEmail();
+  Future<Result<VoidValue, AppError>> requestVerificationEmail();
 
-  Future<Result<VoidValue, BasicError>> logout();
+  Future<Result<VoidValue, AppError>> logout();
 
-  Future<Result<VoidValue, BasicError>> resetAuth();
+  Future<Result<VoidValue, AppError>> resetAuth();
 }

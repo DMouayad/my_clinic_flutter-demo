@@ -13,53 +13,53 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends BasicError>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends AppError>(
     Future<U> Function(V value) transform,
   ) async {
     return SuccessResult(await transform(value));
   }
 
   @override
-  Result<U, F> mapSuccess<U extends Object, F extends BasicError>(
+  Result<U, F> mapSuccess<U extends Object, F extends AppError>(
       U Function(V value) transform) {
     return SuccessResult(transform(value));
   }
 
   @override
-  Result<U, F> mapFailure<U extends Object, F extends BasicError>(
+  Result<U, F> mapFailure<U extends Object, F extends AppError>(
       F Function(E error) transform) {
     return SuccessResult(value as U);
   }
 
   @override
-  Future<Result<U, F>> mapFailureAsync<U extends Object, F extends BasicError>(
+  Future<Result<U, F>> mapFailureAsync<U extends Object, F extends AppError>(
       Future<F> Function(E error) transform) async {
     return SuccessResult(value as U);
   }
 
   @override
-  Result<U, F> flatMapSuccess<U extends Object, F extends BasicError>(
+  Result<U, F> flatMapSuccess<U extends Object, F extends AppError>(
       Result<U, F> Function(V value) transform) {
     return transform(value);
   }
 
   @override
   Future<Result<U, F>>
-      flatMapSuccessAsync<U extends Object, F extends BasicError>(
+      flatMapSuccessAsync<U extends Object, F extends AppError>(
     Future<Result<U, F>> Function(V value) transform,
   ) async {
     return await transform(value);
   }
 
   @override
-  Result<U, F> flatMapFailure<U extends Object, F extends BasicError>(
+  Result<U, F> flatMapFailure<U extends Object, F extends AppError>(
       Result<U, F> Function(E error) transform) {
     return SuccessResult(value as U);
   }
 
   @override
   Future<Result<U, F>>
-      flatMapFailureAsync<U extends Object, F extends BasicError>(
+      flatMapFailureAsync<U extends Object, F extends AppError>(
           Future<Result<U, F>> Function(E error) transform) async {
     return SuccessResult(value as U);
   }
@@ -82,7 +82,7 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Result<U, F> flatMap<U extends Object, F extends BasicError>({
+  Result<U, F> flatMap<U extends Object, F extends AppError>({
     required Result<U, F> Function(V value) onSuccess,
     required Result<U, F> Function(E error) onFailure,
   }) {
@@ -90,7 +90,7 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Future<Result<U, F>> flatMapAsync<U extends Object, F extends BasicError>({
+  Future<Result<U, F>> flatMapAsync<U extends Object, F extends AppError>({
     required Future<Result<U, F>> Function(V value) onSuccess,
     required Future<Result<U, F>> Function(E error) onFailure,
   }) async {
@@ -98,7 +98,7 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Result<U, F> map<U extends Object, F extends BasicError>({
+  Result<U, F> map<U extends Object, F extends AppError>({
     required U Function(V value) onSuccess,
     required F Function(E error) onFailure,
   }) {
@@ -106,7 +106,7 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Future<Result<U, F>> mapAsync<U extends Object, F extends BasicError>({
+  Future<Result<U, F>> mapAsync<U extends Object, F extends AppError>({
     required Future<U> Function(V value) onSuccess,
     required Future<F> Function(E error) onFailure,
   }) async {

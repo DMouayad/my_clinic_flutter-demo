@@ -1,6 +1,6 @@
 part of user_preferences_endpoints_results;
 
-class FetchUserPreferencesEndpointResult extends ApiEndpointResult {
+class FetchUserPreferencesEndpointResult extends BaseApiEndpointResult {
   final String locale;
   final String theme;
 

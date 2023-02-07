@@ -70,12 +70,12 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [LoginInProgress, LoginEmailNotFound, AuthHasNoLoggedInUser]
-          after [LoginRequested] with [ErrorException.invalidEmailCredential()] returned by the repository''',
+          after [LoginRequested] with [AppException.invalidEmailCredential()] returned by the repository''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           loginResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-              const ErrorException.invalidEmailCredential(),
+            result: FailureResult.withAppException(
+              const AppException.invalidEmailCredential(),
             ),
             returnAfter: returnResultAfter,
             streamUserAfter: streamUserAfter,
@@ -98,13 +98,13 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [LoginInProgress, LoginPasswordIsIncorrect, AuthHasNoLoggedInUser]
-          after [LoginRequested] with [FailureResult] with [ErrorException.invalidPasswordCredential()]
+          after [LoginRequested] with [FailureResult] with [AppException.invalidPasswordCredential()]
           returned by the repository''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           loginResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromErrorException(
-              const ErrorException.invalidPasswordCredential(),
+            result: FailureResult.withAppException(
+              const AppException.invalidPasswordCredential(),
             ),
             streamUserAfter: streamUserAfter,
             returnAfter: returnResultAfter,
@@ -124,11 +124,11 @@ void main() {
     authBlocEventTestCase(
       desc:
           '''should emit [LoginInProgress, LoginErrorState, AuthHasNoLoggedInUser]
-          after [LoginRequested] with [FailureResult.fromDioError] returned by the repository''',
+          after [LoginRequested] with [FailureResult.withDioError] returned by the repository''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           loginResult: MockAuthRepoMethodResult(
-            result: FailureResult.fromDioError(
+            result: FailureResult.withDioError(
               DioErrorFactory()
                   .setupWith(errorType: DioErrorType.connectTimeout)
                   .create(),
@@ -143,9 +143,9 @@ void main() {
         return [
           const LoginInProgress(),
           LoginErrorState(
-            BasicError(
+            AppError(
                 message: '',
-                exception: ErrorException(DioErrorType.connectTimeout.name)),
+                appException: AppException(DioErrorType.connectTimeout.name)),
           ),
           const AuthHasNoLoggedInUser(),
         ];

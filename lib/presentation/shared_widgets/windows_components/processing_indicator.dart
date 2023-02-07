@@ -28,7 +28,7 @@ class WindowsProcessingIndicator extends StatefulWidget {
   }) : super(key: key);
 
   final IndicatorStatesText indicatorStatesText;
-  final Stream<Result<VoidValue, BasicError>> status;
+  final Stream<Result<VoidValue, AppError>> status;
   final void Function()? onTap;
 
   @override
@@ -110,7 +110,7 @@ class _WindowsProcessingIndicatorState extends State<WindowsProcessingIndicator>
             showAdaptiveErrorDialog(
               context: context,
               titleText: widget.indicatorStatesText.onFailure,
-              contentText: result.error.exception?.getMessage(context),
+              contentText: result.error.appException?.getMessage(context),
             );
           }
         },

@@ -8,4 +8,9 @@ class FetchUserEndpoint extends ApiEndpoint<FetchUserEndpointResult> {
           includeAccessToken: true,
           includeDeviceId: true,
         );
+
+  @override
+  FetchUserEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return FetchUserEndpointResult.fromMap(map);
+  }
 }

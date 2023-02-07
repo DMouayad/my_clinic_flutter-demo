@@ -29,7 +29,7 @@ class WideLoginScreen extends StatelessWidget {
             String? errorText;
 
             if (state is LoginErrorState) {
-              errorText = state.error.exception?.getMessage(context) ??
+              errorText = state.error.appException?.getMessage(context) ??
                   state.error.message;
             }
             if (errorText != null) {

@@ -1,6 +1,6 @@
 part of auth_endpoints_results;
 
-class RegisterEndpointResult implements ApiEndpointResult {
+class RegisterEndpointResult implements BaseApiEndpointResult {
   final AuthTokens authTokens;
 
   final ApiResponseUserData userWithRole;

@@ -59,7 +59,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 },
                 textInputAction: TextInputAction.next,
                 hintText: context.localizations?.username,
-                textStyle: context.textTheme.bodyText1?.copyWith(
+                textStyle: context.textTheme.bodyLarge?.copyWith(
                   fontSize: 18,
                 ),
                 suffixIconColor: context.colorScheme.errorColor,
@@ -79,7 +79,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 maxLength: 22,
                 keyboardType: TextInputType.phone,
                 hintText: context.localizations?.phoneNo,
-                textStyle: context.textTheme.bodyText1?.copyWith(
+                textStyle: context.textTheme.bodyLarge?.copyWith(
                   fontSize: 18,
                 ),
                 suffixIconColor: context.colorScheme.errorColor,
@@ -95,7 +95,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
               },
               keyboardType: TextInputType.emailAddress,
               hintText: context.localizations?.email,
-              textStyle: context.textTheme.bodyText1?.copyWith(
+              textStyle: context.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
               ),
               suffixIconColor: context.colorScheme.errorColor,
@@ -109,7 +109,7 @@ class _CustomAuthFormState extends State<CustomAuthForm> {
                 return _formHelper.passwordValidator(value, context);
               },
               hintText: context.localizations?.password,
-              textStyle: context.textTheme.bodyText1?.copyWith(
+              textStyle: context.textTheme.bodyLarge?.copyWith(
                 fontSize: 18,
               ),
               onEditingComplete: () {

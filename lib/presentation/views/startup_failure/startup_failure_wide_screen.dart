@@ -14,7 +14,7 @@ import 'components/startup_retry_button.dart';
 class AppStartupFailureWideScreen extends StatelessWidget {
   const AppStartupFailureWideScreen(this.error, {super.key});
 
-  final BasicError error;
+  final AppError error;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class AppStartupFailureWideScreen extends StatelessWidget {
 
 class _ScreenContent extends StatelessWidget {
   const _ScreenContent(this.error, {Key? key}) : super(key: key);
-  final BasicError error;
+  final AppError error;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _ScreenContent extends StatelessWidget {
           child: Flash(
             duration: const Duration(seconds: 4),
             child: Icon(
-              error.exception == const ErrorException.noConnectionFound()
+              error.appException == const AppException.noConnectionFound()
                   ? Icons.signal_wifi_bad_sharp
                   : Icons.error_outline,
               size: 50,
@@ -60,10 +60,10 @@ class _ScreenContent extends StatelessWidget {
         const Spacer(flex: 1),
         ErrorCard(
           color: context.colorScheme.errorColor,
-          errorText: error.exception?.getMessage(context) ??
+          errorText: error.appException?.getMessage(context) ??
               context.localizations!.failedToAuthenticateUser,
         ),
-        if (error.exception is InvalidRefreshTokenException) ...[
+        if (error.appException == AppException.invalidRefreshToken) ...[
           const SizedBox(height: 30),
           const ResetAuthButton(),
           const Spacer(flex: 2),

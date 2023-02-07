@@ -36,7 +36,7 @@ class AdaptiveSwitchTile extends StatelessWidget {
         value
             ? context.localizations!.enabled
             : context.localizations!.disabled,
-        style: context.textTheme.bodyText2?.copyWith(
+        style: context.textTheme.bodyMedium?.copyWith(
           color: context.colorScheme.primary,
         ),
       ),
@@ -52,7 +52,7 @@ class AdaptiveSwitchTile extends StatelessWidget {
       value: value,
       title: Text(
         description,
-        style: context.textTheme.subtitle1,
+        style: context.textTheme.titleMedium,
       ),
       // contentPadding: const EdgeInsets.symmetric(horizontal: 0),
       secondary: icon,
@@ -60,7 +60,7 @@ class AdaptiveSwitchTile extends StatelessWidget {
         value
             ? context.localizations!.enabled
             : context.localizations!.disabled,
-        style: context.textTheme.bodyText2?.copyWith(
+        style: context.textTheme.bodyMedium?.copyWith(
           color: context.colorScheme.primary,
         ),
       ),

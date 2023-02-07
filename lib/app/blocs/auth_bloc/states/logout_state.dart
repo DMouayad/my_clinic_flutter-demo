@@ -10,7 +10,7 @@ class LogoutSuccess extends AuthState {
 
 class LogoutFailed extends AuthState {
   const LogoutFailed(this.error);
-  final BasicError error;
+  final AppError error;
 
   @override
   List<Object> get props => [error];

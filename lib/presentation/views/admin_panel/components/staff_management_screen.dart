@@ -133,7 +133,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
 }
 
 class _ErrorFetchingStaffMembersWidget extends StatelessWidget {
-  final BasicError error;
+  final AppError error;
 
   const _ErrorFetchingStaffMembersWidget(
     this.error, {
@@ -147,7 +147,7 @@ class _ErrorFetchingStaffMembersWidget extends StatelessWidget {
       children: [
         ErrorCard(
           errorText:
-              "Failed to load staff members list.\n${error.exception?.getMessage(context)}",
+              "Failed to load staff members list.\n${error.appException?.getMessage(context)}",
         ),
         const SizedBox(height: 30),
         CustomOutlinedButton(

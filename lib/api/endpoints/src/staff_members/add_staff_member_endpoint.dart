@@ -12,4 +12,9 @@ class AddStaffMemberApiEndpoint
           includeDeviceId: true,
           includeAccessToken: true,
         );
+
+  @override
+  AddStaffMemberEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return AddStaffMemberEndpointResult.fromMap(map);
+  }
 }

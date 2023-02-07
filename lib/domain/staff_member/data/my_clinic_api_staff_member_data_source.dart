@@ -12,7 +12,7 @@ class MyClinicApiStaffMemberDataSource
   const MyClinicApiStaffMemberDataSource();
 
   @override
-  Future<Result<MyClinicApiStaffMember, BasicError>> addStaffMember(
+  Future<Result<MyClinicApiStaffMember, AppError>> addStaffMember(
       String email, UserRole userRole) async {
     return (await AddStaffMemberApiEndpoint(
       email: email,
@@ -25,13 +25,13 @@ class MyClinicApiStaffMemberDataSource
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> deleteStaffMember(int id) async {
+  Future<Result<VoidValue, AppError>> deleteStaffMember(int id) async {
     return (await DeleteStaffMemberApiEndpoint(id: id).request())
         .mapSuccessToVoid();
   }
 
   @override
-  Future<Result<PaginatedResource<MyClinicApiStaffMember>, BasicError>>
+  Future<Result<PaginatedResource<MyClinicApiStaffMember>, AppError>>
       fetchStaffMembers({
     int? page,
     int? perPage,
@@ -53,7 +53,7 @@ class MyClinicApiStaffMemberDataSource
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateStaffMember(
+  Future<Result<VoidValue, AppError>> updateStaffMember(
     int id, [
     String? email,
     UserRole? userRole,

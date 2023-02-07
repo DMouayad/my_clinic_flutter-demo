@@ -29,7 +29,7 @@ abstract class _BaseTextButton extends StatelessWidget {
             color: labelColor,
             fontWeight: FontWeight.bold,
           )
-        : context.textTheme.subtitle1?.copyWith(
+        : context.textTheme.titleMedium?.copyWith(
             fontSize: labelFontSize,
             color: labelColor,
             fontWeight: FontWeight.bold,

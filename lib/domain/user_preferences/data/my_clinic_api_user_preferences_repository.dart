@@ -20,7 +20,7 @@ class MyClinicApiUserPreferencesRepository
   Future onInit() async => null;
 
   @override
-  Future<Result<VoidValue, BasicError>> updateUserLocalePreference(
+  Future<Result<VoidValue, AppError>> updateUserLocalePreference(
     Locale locale,
   ) async {
     return (await _dataSource.updateUserPreferences(locale: locale))
@@ -31,7 +31,7 @@ class MyClinicApiUserPreferencesRepository
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> updateUserThemePreference(
+  Future<Result<VoidValue, AppError>> updateUserThemePreference(
     ThemeMode themeMode,
   ) async {
     return (await _dataSource.updateUserPreferences(themeMode: themeMode))
@@ -42,7 +42,7 @@ class MyClinicApiUserPreferencesRepository
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> loadUserPreferences() async {
+  Future<Result<VoidValue, AppError>> loadUserPreferences() async {
     return (await _dataSource.fetchUserPreferences()).mapSuccessToVoid(
       onSuccess: (result) => _userPreferences = result,
     );
@@ -52,7 +52,7 @@ class MyClinicApiUserPreferencesRepository
   MyClinicApiUserPreferences? get userPreferences => _userPreferences;
 
   @override
-  Future<Result<VoidValue, BasicError>> setUserPreferences(
+  Future<Result<VoidValue, AppError>> setUserPreferences(
     ThemeMode themeMode,
     Locale locale,
   ) async {

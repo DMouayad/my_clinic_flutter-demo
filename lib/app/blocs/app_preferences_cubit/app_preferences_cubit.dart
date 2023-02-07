@@ -61,7 +61,7 @@ class AppPreferencesCubit extends Cubit<AppPreferencesState> {
   }
 
   Future<void> _processUpdatingUserPrefs(
-    Result<VoidValue, BasicError> result,
+    Result<VoidValue, AppError> result,
     AppPreferences newState,
   ) async {
     emit(const UpdatingUserPreferencesInProgress());

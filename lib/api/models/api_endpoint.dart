@@ -1,13 +1,14 @@
-import 'package:clinic_v2/api/models/api_endpoint_result.dart';
-import 'package:clinic_v2/api/helpers/base_api_endpoint_request_maker.dart';
-import 'package:clinic_v2/api/helpers/dio_api_endpoint_request_maker.dart';
+import 'package:clinic_v2/api/helpers/json_response_decoder.dart';
+import 'package:clinic_v2/api/models/base_api_endpoint_result.dart';
+import 'package:clinic_v2/api/helpers/api_endpoint_request_maker.dart';
 import 'package:clinic_v2/api/utils/api_keys.dart';
 import 'package:clinic_v2/api/utils/enums.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
+import 'package:get_it/get_it.dart';
 
 export 'package:clinic_v2/api/utils/enums.dart';
 
-abstract class ApiEndpoint<T extends ApiEndpointResult> {
+abstract class ApiEndpoint<T extends BaseApiEndpointResult> {
   final String url;
   final RequestMethod method;
   final Map<String, dynamic>? data;
@@ -26,11 +27,17 @@ abstract class ApiEndpoint<T extends ApiEndpointResult> {
 
   String get fullUrl => ApiKeys.baseUrl + url;
 
-  // the http client that performs http requests to the server
-  // all [ApiEndpoint] classes will use this by default
-  BaseApiEndpointRequestMaker<T> get _requestMaker =>
-      DioApiEndpointRequestMaker();
+  // Helper service that handles http requests
+  ApiEndpointRequestMaker get _requestMaker => GetIt.I.get();
 
-  Future<Result<T, BasicError>> request() async =>
-      await _requestMaker.makeRequest(this);
+  T resultFromMap(Map<String, dynamic> map);
+
+  Result<T, AppError> resultFromJson(dynamic json) {
+    return JsonResponseDecoder.decode(json)
+        .mapSuccess((map) => resultFromMap(map));
+  }
+
+  /// Performs an HTTP request to this endpoint with the specified parameters
+  Future<Result<T, AppError>> request() async =>
+      await _requestMaker.requestApiEndpoint(this);
 }

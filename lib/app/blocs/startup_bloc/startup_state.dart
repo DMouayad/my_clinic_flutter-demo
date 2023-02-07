@@ -11,7 +11,7 @@ class StartupInProgress extends StartupState {}
 class StartupSuccess extends StartupState {}
 
 class StartupFailure extends StartupState {
-  final BasicError error;
+  final AppError error;
 
   const StartupFailure(this.error);
   @override

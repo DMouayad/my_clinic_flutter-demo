@@ -32,7 +32,7 @@ class DoneButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               label ?? 'Done',
-              style: context.textTheme.bodyText1?.copyWith(
+              style: context.textTheme.bodyLarge?.copyWith(
                 color: context.colorScheme.onPrimary,
               ),
             ),

@@ -32,7 +32,7 @@ class MockAuthRepositoryFactory {
     _repository = repository;
     _currentUser = null;
   }
-  Future<Result<VoidValue, BasicError>> _processMethodCall(
+  Future<Result<VoidValue, AppError>> _processMethodCall(
     MockAuthRepoMethodResult<VoidValue>? result,
     String resultName,
   ) async {
@@ -118,7 +118,7 @@ class MockAuthRepoMethodResult<ResultType extends Object> {
   final MockBaseServerUser? userAfterExecution;
   final Duration streamUserAfter;
   final Duration returnAfter;
-  final Result<ResultType, BasicError> result;
+  final Result<ResultType, AppError> result;
 
   const MockAuthRepoMethodResult({
     required this.result,

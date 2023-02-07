@@ -25,7 +25,7 @@ import 'package:mockito/mockito.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeResult_0<V extends Object, E extends _i1.BasicError>
+class _FakeResult_0<V extends Object, E extends _i1.AppError>
     extends _i2.SmartFake implements _i1.Result<V, E> {
   _FakeResult_0(
     Object parent,
@@ -72,7 +72,7 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
         returnValueForMissingStub: _i6.Future<dynamic>.value(),
       ) as _i6.Future<dynamic>);
   @override
-  _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> setUserPreferences(
+  _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> setUserPreferences(
     _i7.ThemeMode? themeMode,
     _i3.Locale? locale,
   ) =>
@@ -84,9 +84,8 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
             locale,
           ],
         ),
-        returnValue:
-            _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #setUserPreferences,
@@ -97,8 +96,8 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #setUserPreferences,
@@ -108,17 +107,16 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
             ],
           ),
         )),
-      ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>> loadUserPreferences() =>
+  _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> loadUserPreferences() =>
       (super.noSuchMethod(
         Invocation.method(
           #loadUserPreferences,
           [],
         ),
-        returnValue:
-            _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+        returnValue: _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #loadUserPreferences,
@@ -126,52 +124,51 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
           ),
         )),
         returnValueForMissingStub:
-            _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+            _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
           this,
           Invocation.method(
             #loadUserPreferences,
             [],
           ),
         )),
-      ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+      ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>
-      updateUserThemePreference(_i7.ThemeMode? themeMode) =>
-          (super.noSuchMethod(
-            Invocation.method(
-              #updateUserThemePreference,
-              [themeMode],
-            ),
-            returnValue:
-                _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
-              this,
-              Invocation.method(
-                #updateUserThemePreference,
-                [themeMode],
-              ),
-            )),
-            returnValueForMissingStub:
-                _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
-              this,
-              Invocation.method(
-                #updateUserThemePreference,
-                [themeMode],
-              ),
-            )),
-          ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+  _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>> updateUserThemePreference(
+          _i7.ThemeMode? themeMode) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateUserThemePreference,
+          [themeMode],
+        ),
+        returnValue: _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+            _FakeResult_0<_i1.VoidValue, _i1.AppError>(
+          this,
+          Invocation.method(
+            #updateUserThemePreference,
+            [themeMode],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                _FakeResult_0<_i1.VoidValue, _i1.AppError>(
+          this,
+          Invocation.method(
+            #updateUserThemePreference,
+            [themeMode],
+          ),
+        )),
+      ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
   @override
-  _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>
+  _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>
       updateUserLocalePreference(_i3.Locale? locale) => (super.noSuchMethod(
             Invocation.method(
               #updateUserLocalePreference,
               [locale],
             ),
             returnValue:
-                _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+                _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                    _FakeResult_0<_i1.VoidValue, _i1.AppError>(
               this,
               Invocation.method(
                 #updateUserLocalePreference,
@@ -179,13 +176,13 @@ class MockBaseUserPreferencesRepository<T extends _i4.BaseUserPreferences>
               ),
             )),
             returnValueForMissingStub:
-                _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>.value(
-                    _FakeResult_0<_i1.VoidValue, _i1.BasicError>(
+                _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>.value(
+                    _FakeResult_0<_i1.VoidValue, _i1.AppError>(
               this,
               Invocation.method(
                 #updateUserLocalePreference,
                 [locale],
               ),
             )),
-          ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.BasicError>>);
+          ) as _i6.Future<_i1.Result<_i1.VoidValue, _i1.AppError>>);
 }

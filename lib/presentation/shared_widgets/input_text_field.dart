@@ -102,7 +102,7 @@ class _InputTextFieldState extends State<InputTextField> {
         onEditingComplete: widget.onEditingComplete,
         inputFormatters: widget.inputFormatters,
         textInputAction: widget.textInputAction,
-        style: widget.textStyle ?? context.textTheme.bodyText1,
+        style: widget.textStyle ?? context.textTheme.bodyLarge,
         autovalidateMode:
             widget.autovalidateMode ?? AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
@@ -119,7 +119,7 @@ class _InputTextFieldState extends State<InputTextField> {
             // color: prefixIconColor ?? Get.theme.colorScheme.secondary,
           ),
           hintText: widget.hintText,
-          hintStyle: context.textTheme.bodyText1?.copyWith(
+          hintStyle: context.textTheme.bodyMedium?.copyWith(
             color: context.colorScheme.onPrimaryContainer?.withOpacity(.7),
           ),
           enabledBorder: kOutlinedBorder,
@@ -135,7 +135,7 @@ class _InputTextFieldState extends State<InputTextField> {
             borderSide: BorderSide(color: context.colorScheme.errorColor!),
           ),
           focusedErrorBorder: kOutlinedBorder,
-          errorStyle: context.textTheme.bodyText2?.copyWith(
+          errorStyle: context.textTheme.bodyMedium?.copyWith(
             color: context.colorScheme.errorColor!,
             fontWeight: FontWeight.w500,
           ),

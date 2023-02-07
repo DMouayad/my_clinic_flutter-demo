@@ -10,16 +10,16 @@ abstract class BaseUserPreferencesRepository<T extends BaseUserPreferences> {
 
   set userPreferences(T? value);
 
-  Future<Result<VoidValue, BasicError>> setUserPreferences(
+  Future<Result<VoidValue, AppError>> setUserPreferences(
       ThemeMode themeMode, Locale locale);
 
-  Future<Result<VoidValue, BasicError>> loadUserPreferences();
+  Future<Result<VoidValue, AppError>> loadUserPreferences();
 
-  Future<Result<VoidValue, BasicError>> updateUserThemePreference(
+  Future<Result<VoidValue, AppError>> updateUserThemePreference(
     ThemeMode themeMode,
   );
 
-  Future<Result<VoidValue, BasicError>> updateUserLocalePreference(
+  Future<Result<VoidValue, AppError>> updateUserLocalePreference(
     Locale locale,
   );
 }

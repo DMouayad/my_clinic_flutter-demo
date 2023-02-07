@@ -41,7 +41,7 @@ class CustomOutlinedButton extends StatelessWidget {
       ),
       label: Text(
         label,
-        style: context.textTheme.bodyText2?.copyWith(
+        style: context.textTheme.bodyMedium?.copyWith(
           color: context.colorScheme.onPrimaryContainer,
         ),
       ),

@@ -10,10 +10,10 @@ import 'user_preferences_repository_mock_factory.mocks.dart';
 
 class UserPreferencesRepositoryMockFactory {
   final MockBaseUserPreferencesRepository _repository;
-  late final Result<VoidValue, BasicError> setUserPrefsResult;
-  late final Result<VoidValue, BasicError> loadUserPrefsResult;
-  late final Result<VoidValue, BasicError> updateUserLocalePreferenceResult;
-  late final Result<VoidValue, BasicError> updateUserThemePreferenceResult;
+  late final Result<VoidValue, AppError> setUserPrefsResult;
+  late final Result<VoidValue, AppError> loadUserPrefsResult;
+  late final Result<VoidValue, AppError> updateUserLocalePreferenceResult;
+  late final Result<VoidValue, AppError> updateUserThemePreferenceResult;
 
   late ThemeMode _themeMode;
   late Locale _locale;
@@ -26,10 +26,10 @@ class UserPreferencesRepositoryMockFactory {
     this._repository, {
     ThemeMode? themeMode,
     Locale? locale,
-    Result<VoidValue, BasicError>? setUserPrefsResult,
-    Result<VoidValue, BasicError>? loadUserPrefsResult,
-    Result<VoidValue, BasicError>? updateUserLocalePreferenceResult,
-    Result<VoidValue, BasicError>? updateUserThemePreferenceResult,
+    Result<VoidValue, AppError>? setUserPrefsResult,
+    Result<VoidValue, AppError>? loadUserPrefsResult,
+    Result<VoidValue, AppError>? updateUserLocalePreferenceResult,
+    Result<VoidValue, AppError>? updateUserThemePreferenceResult,
   }) {
     _themeMode = themeMode ?? ThemeMode.dark;
     _locale = locale ?? const Locale('en');
@@ -45,10 +45,10 @@ class UserPreferencesRepositoryMockFactory {
   UserPreferencesRepositoryMockFactory setupWith({
     ThemeMode? themeMode,
     Locale? locale,
-    Result<VoidValue, BasicError>? loadUserPrefsResult,
-    Result<VoidValue, BasicError>? setUserPrefsResult,
-    Result<VoidValue, BasicError>? updateUserLocalePreferenceResult,
-    Result<VoidValue, BasicError>? updateUserThemePreferenceResult,
+    Result<VoidValue, AppError>? loadUserPrefsResult,
+    Result<VoidValue, AppError>? setUserPrefsResult,
+    Result<VoidValue, AppError>? updateUserLocalePreferenceResult,
+    Result<VoidValue, AppError>? updateUserThemePreferenceResult,
   }) {
     return UserPreferencesRepositoryMockFactory._(
       _repository,

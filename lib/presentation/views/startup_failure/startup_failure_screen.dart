@@ -9,7 +9,7 @@ import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/presentation/shared_widgets/scaffold_with_appbar.dart';
 
 class AppStartupFailureScreen extends StatelessWidget {
-  final BasicError error;
+  final AppError error;
 
   const AppStartupFailureScreen(
     this.error, {
@@ -33,7 +33,7 @@ class AppStartupFailureScreen extends StatelessWidget {
           Flash(
             duration: const Duration(seconds: 4),
             child: Icon(
-              error.exception == const ErrorException.noConnectionFound()
+              error.appException == const AppException.noConnectionFound()
                   ? Icons.signal_wifi_bad_sharp
                   : Icons.error_outline,
               size: 50,

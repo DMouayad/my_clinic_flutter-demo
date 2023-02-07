@@ -1,8 +1,5 @@
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
-import 'package:flutter/material.dart';
 
-import 'package:clinic_v2/utils/extensions/context_extensions.dart';
-import '../custom_buttons/filled_buttons.dart';
 import 'adaptive_dialog.dart';
 
 Future<T?> showAdaptiveErrorDialog<T>({
@@ -39,7 +36,7 @@ Future<T?> showAdaptiveErrorDialog<T>({
         actions: [
           TextButton(
             style: ButtonStyle(
-              maximumSize: MaterialStateProperty.all(Size.fromWidth(100)),
+              maximumSize: MaterialStateProperty.all(const Size.fromWidth(100)),
             ),
             child: Text(context.localizations!.ok),
             onPressed: () {

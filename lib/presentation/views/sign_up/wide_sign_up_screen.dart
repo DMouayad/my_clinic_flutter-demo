@@ -36,7 +36,7 @@ class WideSignUpScreen extends StatelessWidget {
           leftSideContent: () {
             if (state is SignUpErrorState) {
               return ErrorCard(
-                  errorText: state.error.exception?.getMessage(context) ??
+                  errorText: state.error.appException?.getMessage(context) ??
                       "Signing up failed, please try again");
             }
           }(),

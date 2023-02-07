@@ -29,7 +29,7 @@ class AuthHasLoggedInUser extends AuthState {
 }
 
 class AuthHasNoLoggedInUser extends AuthState {
-  final BasicError? error;
+  final AppError? error;
   const AuthHasNoLoggedInUser({this.error});
 
   @override
@@ -37,7 +37,7 @@ class AuthHasNoLoggedInUser extends AuthState {
 }
 
 class AuthErrorState extends AuthState {
-  final BasicError error;
+  final AppError error;
   const AuthErrorState(this.error);
 
   @override

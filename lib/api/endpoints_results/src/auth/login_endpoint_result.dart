@@ -1,6 +1,6 @@
 part of auth_endpoints_results;
 
-class LoginEndpointResult implements ApiEndpointResult {
+class LoginEndpointResult extends BaseApiEndpointResult {
   final ApiResponseUserData userWithRoleAndPrefs;
 
   final AuthTokens authTokens;
@@ -12,10 +12,6 @@ class LoginEndpointResult implements ApiEndpointResult {
 
   Map<String, dynamic> get userWithRoleAndPrefsMap =>
       userWithRoleAndPrefs.toMap();
-
-  factory LoginEndpointResult.fromJson(String json) {
-    return LoginEndpointResult.fromMap(jsonDecode(json));
-  }
 
   factory LoginEndpointResult.fromMap(Map<String, dynamic> map) {
     return LoginEndpointResult(

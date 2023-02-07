@@ -13,7 +13,7 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   BaseAuthTokensService get _authTokensService => GetIt.I.get();
 
   @override
-  Future<Result<MyClinicApiUser, BasicError>> login(
+  Future<Result<MyClinicApiUser, AppError>> login(
       String email, String password) async {
     final response =
         await LoginApiEndpoint(email: email, password: password).request();
@@ -28,7 +28,7 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<MyClinicApiUser, BasicError>> register({
+  Future<Result<MyClinicApiUser, AppError>> register({
     required String username,
     required String email,
     required String phoneNumber,
@@ -50,7 +50,7 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> logout() async {
+  Future<Result<VoidValue, AppError>> logout() async {
     return await (await LogoutApiEndpoint().request()).mapSuccessToVoidAsync(
         onSuccess: (_) async {
       await _authTokensService.deleteRefreshToken();
@@ -59,19 +59,19 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> requestPasswordReset(String email) {
+  Future<Result<VoidValue, AppError>> requestPasswordReset(String email) {
     // TODO: implement requestPasswordReset
     throw UnimplementedError();
   }
 
   @override
-  Future<Result<VoidValue, BasicError>> sendVerificationEmail() async {
+  Future<Result<VoidValue, AppError>> sendVerificationEmail() async {
     return (await RequestEmailVerificationApiEndpoint().request())
         .mapSuccessToVoid();
   }
 
   @override
-  Future<Result<MyClinicApiUser?, BasicError>> loadUser() async {
+  Future<Result<MyClinicApiUser?, AppError>> loadUser() async {
     if ((await _authTokensService.getAccessToken()) == null) {
       return const SuccessResult(null);
     } else {

@@ -1,8 +1,12 @@
 library api_auth_endpoints;
+
 import 'package:clinic_v2/api/endpoints_results/src/auth_endpoints_results.dart';
 
-import 'package:clinic_v2/api/models/api_endpoint_result.dart';
+import 'package:clinic_v2/api/models/base_api_endpoint_result.dart';
 import 'package:clinic_v2/api/models/api_endpoint.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
+
+import 'src/base_api_endpoint_with_empty_result.dart';
 
 part 'src/auth/logout_endpoint.dart';
 part 'src/auth/login_endpoint.dart';

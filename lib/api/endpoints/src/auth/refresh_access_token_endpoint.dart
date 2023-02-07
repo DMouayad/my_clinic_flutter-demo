@@ -11,4 +11,9 @@ class RefreshAccessTokenEndpoint
           includeDeviceId: true,
           headers: {'Authorization': 'Bearer $refreshToken'},
         );
+
+  @override
+  RefreshAccessTokenEndpointResult resultFromMap(Map<String, dynamic> map) {
+    return RefreshAccessTokenEndpointResult.fromMap(map);
+  }
 }

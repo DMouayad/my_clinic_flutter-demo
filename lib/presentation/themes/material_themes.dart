@@ -208,7 +208,7 @@ class MaterialAppThemes {
         color: Color(0xFFe4e9eb),
         fontWeight: FontWeight.w500,
       ),
-      // subtitle1: const TextStyle(
+      // titleMedium: const TextStyle(
       //   fontFamily: 'inter',
       //   fontSize: 16,
       //   color: Color(0xFF0f1413),
