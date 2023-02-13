@@ -27,7 +27,7 @@ class FailureResult<NoValue extends NoValueObtained, ErrorType extends AppError>
   factory FailureResult.withDioError(DioError e) {
     AppException getErrorException() {
       if (e.error is SocketException) {
-        return const AppException.noConnectionFound();
+        return AppException.noConnectionFound;
       }
       return AppException.external;
     }

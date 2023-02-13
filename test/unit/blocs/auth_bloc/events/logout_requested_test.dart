@@ -35,7 +35,7 @@ void main() {
         return repoFactory.setupWith(
           logoutResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-              const AppException.cannotConnectToServer(),
+              AppException.cannotConnectToServer,
             ),
           ),
         );
@@ -45,7 +45,7 @@ void main() {
         return <AuthState>[
           // const LogoutInProgress(),
           LogoutFailed(
-            AppError(appException: const AppException.cannotConnectToServer()),
+            AppError(appException: AppException.cannotConnectToServer),
           ),
         ];
       },

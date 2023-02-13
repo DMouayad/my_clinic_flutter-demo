@@ -8,12 +8,14 @@ class CustomIconButton extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     required this.tooltipMessage,
+    this.iconSize,
     Key? key,
   }) : super(key: key);
 
   final void Function() onPressed;
   final Widget icon;
   final String tooltipMessage;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomIconButton extends StatelessWidget {
         icon: icon,
         onPressed: onPressed,
         style: fluent_ui.ButtonStyle(
-          iconSize: fluent_ui.ButtonState.all(20),
+          iconSize: fluent_ui.ButtonState.all(iconSize ?? 20),
         ),
       ),
     );
@@ -48,6 +50,7 @@ class CustomIconButton extends StatelessWidget {
           tooltip: tooltipMessage,
           icon: icon,
           onPressed: onPressed,
+          iconSize: iconSize,
         ),
       ),
     );

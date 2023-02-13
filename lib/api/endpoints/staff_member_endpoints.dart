@@ -1,8 +1,9 @@
 library staff_member_api_endpoints;
 
 import 'package:clinic_v2/api/endpoints_results/endpoints_results.dart';
-import 'package:clinic_v2/api/models/base_api_endpoint_result.dart';
 import 'package:clinic_v2/api/models/api_endpoint.dart';
+import 'package:clinic_v2/api/utils/json_response_decoder.dart';
+import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:clinic_v2/utils/enums.dart';
 
 import 'src/base_api_endpoint_with_empty_result.dart';

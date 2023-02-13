@@ -16,7 +16,7 @@ class LoginApiEndpoint extends ApiEndpoint<LoginEndpointResult> {
         );
 
   @override
-  LoginEndpointResult resultFromMap(Map<String, dynamic> map) {
+  LoginEndpointResult resultFromApiResponseMap(map) {
     return LoginEndpointResult.fromMap(map);
   }
 }

@@ -54,12 +54,13 @@ class ShowSettingsDialogButton extends StatelessWidget {
                 type: DialogType.general,
                 titleText: context.localizations!.settings,
                 content: ListView(
+                  shrinkWrap: true,
                   children: [
                     const SizedBox(height: 20),
                     AdaptiveThemeModeDropdown(
                       type: DropdownMenuType.tileWithMenu,
                       onChanged: (themeMode) {
-                        context.read<AppPreferencesCubit>().updateAppTheme(
+                        context.read<AppPreferencesCubit>().setAppThemeMode(
                               themeMode,
                               currentLocale: context.locale,
                             );
@@ -72,7 +73,7 @@ class ShowSettingsDialogButton extends StatelessWidget {
                     AdaptiveLocaleDropdown(
                       type: DropdownMenuType.tileWithMenu,
                       onChanged: (locale) {
-                        context.read<AppPreferencesCubit>().updateAppLocale(
+                        context.read<AppPreferencesCubit>().setAppLocale(
                               locale,
                               currentTheme: context.themeMode,
                             );

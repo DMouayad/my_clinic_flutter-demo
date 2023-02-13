@@ -1,7 +1,7 @@
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 
-import '../../../../presentation/shared_widgets/windows_components/custom_nav_view/windows_nav_view.dart';
+import 'windows_nav_view.dart';
 
 class WindowsNavViewWithPane extends StatefulWidget {
   const WindowsNavViewWithPane({

@@ -7,8 +7,8 @@ import '../../../../helpers/dio_error_factory.dart';
 import '../auth_bloc_event_test_case.dart';
 import 'package:mockito/mockito.dart';
 
-import '../utils/base_auth_repository.mocks.dart';
 import '../utils/mock_auth_repository_factory.dart';
+import '../utils/mock_auth_repository_factory.mocks.dart';
 
 void main() {
   const Duration returnResultAfter = Duration(milliseconds: 200);
@@ -75,7 +75,7 @@ void main() {
         return repoFactory.setupWith(
           loginResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-              const AppException.invalidEmailCredential(),
+              AppException.invalidEmailCredential,
             ),
             returnAfter: returnResultAfter,
             streamUserAfter: streamUserAfter,
@@ -104,7 +104,7 @@ void main() {
         return repoFactory.setupWith(
           loginResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-              const AppException.invalidPasswordCredential(),
+              AppException.invalidPasswordCredential,
             ),
             streamUserAfter: streamUserAfter,
             returnAfter: returnResultAfter,
@@ -144,8 +144,9 @@ void main() {
           const LoginInProgress(),
           LoginErrorState(
             AppError(
-                message: '',
-                appException: AppException(DioErrorType.connectTimeout.name)),
+              message: '',
+              appException: AppException.external,
+            ),
           ),
           const AuthHasNoLoggedInUser(),
         ];

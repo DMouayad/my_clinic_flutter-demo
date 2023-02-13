@@ -30,8 +30,8 @@ void main() {
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
-            result: FailureResult.withAppException(
-                const AppException.noAccessTokenFound()),
+            result:
+                FailureResult.withAppException(AppException.noAccessTokenFound),
           ),
         );
       },
@@ -55,7 +55,7 @@ void main() {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-                const AppException.noRefreshTokenFound()),
+                AppException.noRefreshTokenFound),
           ),
         );
       },
@@ -66,9 +66,8 @@ void main() {
           emitsInOrder(
             <AuthState>[
               const AuthInitInProgress(),
-              AuthHasNoLoggedInUser(
-                error: AppError(
-                    appException: const AppException.noRefreshTokenFound()),
+              AuthInitFailed(
+                AppError(appException: AppException.noRefreshTokenFound),
               ),
             ],
           ),
@@ -82,7 +81,7 @@ void main() {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-                const AppException.failedToRefreshTokens()),
+                AppException.failedToRefreshTokens),
           ),
         );
       },
@@ -93,9 +92,8 @@ void main() {
           emitsInOrder(
             <AuthState>[
               const AuthInitInProgress(),
-              AuthHasNoLoggedInUser(
-                error: AppError(
-                    appException: const AppException.failedToRefreshTokens()),
+              AuthInitFailed(
+                AppError(appException: AppException.failedToRefreshTokens),
               ),
             ],
           ),
@@ -103,8 +101,8 @@ void main() {
       },
     );
     authBlocEventTestCase(
-      desc: '''should emit [AuthInitFailed]
-           when a [FailureResult] returned by [authInit]''',
+      desc:
+          '''should emit [AuthInitFailed] when a [FailureResult] returned by [authInit]''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
           initResult: MockAuthRepoMethodResult(
@@ -126,7 +124,9 @@ void main() {
               AuthInitFailed(
                 AppError(
                   message: '',
-                  appException: AppException(DioErrorType.connectTimeout.name),
+                  appException: AppException.external,
+                  description:
+                      '{Error type: DioErrorType.connectTimeout, exception: Null}',
                 ),
               ),
             ],

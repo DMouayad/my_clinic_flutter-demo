@@ -40,14 +40,14 @@ class ApiResponseError extends AppError {
   }) {
     if (apiExceptionClass != null) {
       return AppException.fromApiException(
-        ApiExceptionClass.values.firstWhere((c) => c.name == apiExceptionClass,
-            orElse: () {
+        ApiExceptionClass.values.firstWhere(
+            (c) => c.exceptionClass == apiExceptionClass, orElse: () {
           throw UnimplementedError(
               'no ApiExceptionClass was found for $apiExceptionClass');
         }),
       );
     } else if (status == HttpStatus.unauthorized) {
-      return const AppException.userUnauthorized();
+      return AppException.userUnauthorized;
     }
     return null;
   }

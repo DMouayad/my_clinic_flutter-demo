@@ -21,10 +21,9 @@ class WideLoginScreen extends StatelessWidget {
           rightSideAnimation: animation,
           rightSideBlurred: state is LoginInProgress,
           autoShowBackButton: false,
+          rightSideScrollable: true,
           optionsBar: const BlocAppSettingsBar(),
-          rightSide: context.isWindowsPlatform
-              ? _WindowsRightSide()
-              : _AndroidRightSide(),
+          rightSide: const _RightSide(),
           leftSideContent: () {
             String? errorText;
 
@@ -42,7 +41,9 @@ class WideLoginScreen extends StatelessWidget {
   }
 }
 
-class _WindowsRightSide extends StatelessWidget {
+class _RightSide extends StatelessWidget {
+  const _RightSide();
+
   @override
   Widget build(BuildContext context) {
     return Flex(
@@ -52,55 +53,16 @@ class _WindowsRightSide extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              context.isDesktop ? context.horizontalMargins : 16,
+              context.horizontalMargins,
               context.screenHeight * .1,
-              context.isDesktop ? context.horizontalMargins : 16,
+              context.horizontalMargins,
               0,
             ),
             child: const LoginMessage(),
           ),
         ),
-        // SizedBox(height: context.screenHeight * .1),
         const Expanded(flex: 2, child: BlocLoginForm()),
       ],
     );
-  }
-}
-
-class _AndroidRightSide extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    if (context.isPortraitMode) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Spacer(),
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22),
-            child: LoginMessage(),
-          )),
-          Expanded(flex: 3, child: BlocLoginForm()),
-          Spacer(),
-        ],
-      );
-    } else {
-      return CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            backgroundColor: context.colorScheme.backgroundColor,
-            expandedHeight: context.screenHeight * .2,
-            title: const LoginMessage(),
-          ),
-          const SliverFillViewport(
-            viewportFraction: .7,
-            delegate: SliverChildListDelegate.fixed([
-              BlocLoginForm(),
-            ]),
-          ),
-        ],
-      );
-    }
   }
 }

@@ -20,7 +20,7 @@ class RegisterApiEndpoint extends ApiEndpoint<RegisterEndpointResult> {
         );
 
   @override
-  RegisterEndpointResult resultFromMap(Map<String, dynamic> map) {
+  RegisterEndpointResult resultFromApiResponseMap(map) {
     return RegisterEndpointResult.fromMap(map);
   }
 }

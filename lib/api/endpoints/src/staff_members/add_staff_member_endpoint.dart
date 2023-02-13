@@ -14,7 +14,7 @@ class AddStaffMemberApiEndpoint
         );
 
   @override
-  AddStaffMemberEndpointResult resultFromMap(Map<String, dynamic> map) {
+  AddStaffMemberEndpointResult resultFromApiResponseMap(map) {
     return AddStaffMemberEndpointResult.fromMap(map);
   }
 }

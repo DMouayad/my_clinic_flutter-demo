@@ -14,13 +14,13 @@ class BlocAppSettingsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppSettingsBar(
       onLocaleChanged: (Locale locale) {
-        context.read<AppPreferencesCubit>().updateAppLocale(
+        context.read<AppPreferencesCubit>().setAppLocale(
               locale,
               currentTheme: context.themeMode,
             );
       },
       onThemeModeChanged: (ThemeMode themeMode) {
-        context.read<AppPreferencesCubit>().updateAppTheme(
+        context.read<AppPreferencesCubit>().setAppThemeMode(
               themeMode,
               currentLocale: context.locale,
             );
@@ -54,8 +54,6 @@ class AppSettingsBar extends StatelessWidget {
           ),
           child: Flex(
             direction: Axis.horizontal,
-            // mainAxisSize: MainAxisSize.min,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AdaptiveLocaleDropdown(
                 type: DropdownMenuType.menuOnly,
@@ -63,7 +61,7 @@ class AppSettingsBar extends StatelessWidget {
                   onLocaleChanged(locale);
                 },
               ),
-              const SizedBox(width: 12),
+              const Spacer(),
               AdaptiveThemeSwitch(
                 switchType: ThemeModeSwitchType.icon,
                 onThemeChanged: (ThemeMode themeMode) {

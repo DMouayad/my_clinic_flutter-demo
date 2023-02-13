@@ -10,7 +10,7 @@ class FetchUserEndpoint extends ApiEndpoint<FetchUserEndpointResult> {
         );
 
   @override
-  FetchUserEndpointResult resultFromMap(Map<String, dynamic> map) {
+  FetchUserEndpointResult resultFromApiResponseMap(map) {
     return FetchUserEndpointResult.fromMap(map);
   }
 }

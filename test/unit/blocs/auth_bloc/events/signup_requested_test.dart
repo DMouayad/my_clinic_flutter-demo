@@ -6,8 +6,8 @@ import 'package:mockito/mockito.dart';
 
 import '../../../../helpers/dio_error_factory.dart';
 import '../auth_bloc_event_test_case.dart';
-import '../utils/base_auth_repository.mocks.dart';
 import '../utils/mock_auth_repository_factory.dart';
+import '../utils/mock_auth_repository_factory.mocks.dart';
 
 void main() {
   group("SignUpRequested event tests", () {
@@ -87,7 +87,7 @@ void main() {
         return repoFactory.setupWith(
           registerResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-                const AppException.emailUnauthorizedToRegister()),
+                AppException.emailUnauthorizedToRegister),
           ),
         );
       },
@@ -111,7 +111,7 @@ void main() {
         return repoFactory.setupWith(
           registerResult: MockAuthRepoMethodResult(
             result: FailureResult.withAppException(
-                const AppException.emailAlreadyRegistered()),
+                AppException.emailAlreadyRegistered),
           ),
         );
       },
@@ -145,8 +145,9 @@ void main() {
           const SignUpInProgress(),
           LoginErrorState(
             AppError(
-                message: '',
-                appException: AppException(DioErrorType.connectTimeout.name)),
+              message: '',
+              appException: AppException.external,
+            ),
           ),
           const AuthHasNoLoggedInUser(),
         ];

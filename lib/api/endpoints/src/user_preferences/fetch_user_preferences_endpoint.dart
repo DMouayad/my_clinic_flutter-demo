@@ -11,7 +11,7 @@ class FetchUserPreferencesApiEndpoint
         );
 
   @override
-  FetchUserPreferencesEndpointResult resultFromMap(Map<String, dynamic> map) {
+  FetchUserPreferencesEndpointResult resultFromApiResponseMap(map) {
     return FetchUserPreferencesEndpointResult.fromMap(map);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:clinic_v2/main.dart';
 import 'package:clinic_v2/shared/models/error/basic_error.dart';
 import 'package:clinic_v2/utils/enums.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
@@ -17,24 +18,21 @@ class AppRouter {
   /// Redirects the current user after logging in.
   ///
   /// Destination screen determined by: the user's role and whether if his email was verified or not.
-  static void redirectUser(
-    BaseServerUser user,
-    GlobalKey<NavigatorState> navigatorKey,
-  ) {
+  static void redirectUser(BaseServerUser user) {
     if (user.isVerified) {
       if (user.role == UserRole.admin) {
-        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
           AppRoutes.adminPanelScreen,
           (route) => false,
         );
       } else {
-        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
           AppRoutes.homeScreen,
           (route) => false,
         );
       }
     } else {
-      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      ClinicApp.navigatorKey.currentState?.pushNamedAndRemoveUntil(
         AppRoutes.verificationNoticeScreen,
         (route) => false,
       );

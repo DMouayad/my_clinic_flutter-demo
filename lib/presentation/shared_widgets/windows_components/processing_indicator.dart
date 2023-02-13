@@ -122,7 +122,7 @@ class _WindowsProcessingIndicatorState extends State<WindowsProcessingIndicator>
               return status == IndicatorStatus.processing
                   ? context.colorScheme.primaryContainer!
                   : status == IndicatorStatus.success
-                      ? context.fluentTheme.accentColor.lighter
+                      ? context.colorScheme.primary?.withOpacity(.8)
                       : fluent_ui.Colors.red.dark;
             }(),
           ),

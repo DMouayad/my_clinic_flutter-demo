@@ -49,10 +49,7 @@ class MyClinicApiUserPreferencesRepository
   }
 
   @override
-  MyClinicApiUserPreferences? get userPreferences => _userPreferences;
-
-  @override
-  Future<Result<VoidValue, AppError>> setUserPreferences(
+  Future<Result<VoidValue, AppError>> createUserPreferences(
     ThemeMode themeMode,
     Locale locale,
   ) async {
@@ -62,16 +59,19 @@ class MyClinicApiUserPreferencesRepository
     ))
         .mapSuccessToVoid(
       onSuccess: (_) {
-        _userPreferences = MyClinicApiUserPreferences(
+        setUserPreferences(MyClinicApiUserPreferences(
           themePreference: themeMode,
           localePreference: locale,
-        );
+        ));
       },
     );
   }
 
   @override
-  set userPreferences(MyClinicApiUserPreferences? value) {
+  MyClinicApiUserPreferences? getUserPreferences() => _userPreferences;
+
+  @override
+  void setUserPreferences(MyClinicApiUserPreferences? value) {
     _userPreferences = value;
   }
 }

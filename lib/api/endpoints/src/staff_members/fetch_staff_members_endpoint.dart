@@ -33,7 +33,14 @@ class FetchStaffMembersApiEndpoint
   }
 
   @override
-  FetchStaffMembersEndpointResult resultFromMap(Map<String, dynamic> map) {
+  Result<FetchStaffMembersEndpointResult, AppError> resultFromJson(
+      dynamic json) {
+    return JsonResponseDecoder.decodeApiResponse(json)
+        .mapSuccess((map) => resultFromApiResponseMap(map));
+  }
+
+  @override
+  FetchStaffMembersEndpointResult resultFromApiResponseMap(map) {
     return FetchStaffMembersEndpointResult.fromMap(map);
   }
 }

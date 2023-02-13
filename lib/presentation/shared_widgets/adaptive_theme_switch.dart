@@ -52,6 +52,7 @@ class _ThemeSettingsSwitchState extends State<AdaptiveThemeSwitch>
         : CustomIconButton(
             icon: _animatedThemeIcon(context),
             onPressed: _onThemeModeChanged,
+            iconSize: 18,
             tooltipMessage: context.isDarkMode
                 ? context.localizations!.enableLightTheme
                 : context.localizations!.enableDarkTheme,

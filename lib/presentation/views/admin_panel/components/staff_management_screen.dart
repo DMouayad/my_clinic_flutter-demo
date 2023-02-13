@@ -135,10 +135,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
 class _ErrorFetchingStaffMembersWidget extends StatelessWidget {
   final AppError error;
 
-  const _ErrorFetchingStaffMembersWidget(
-    this.error, {
-    super.key,
-  });
+  const _ErrorFetchingStaffMembersWidget(this.error);
 
   @override
   Widget build(BuildContext context) {

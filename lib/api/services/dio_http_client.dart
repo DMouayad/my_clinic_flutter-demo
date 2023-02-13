@@ -68,7 +68,13 @@ class DioHttpClient extends BaseHttpClient {
               extra: response.extra,
               redirects: response.redirects,
               isRedirect: response.isRedirect,
-            ));
+            ))
+        .catchError((error) {
+      if (error is DioError) {
+        throw error.error;
+      }
+      throw error;
+    });
   }
 }
 

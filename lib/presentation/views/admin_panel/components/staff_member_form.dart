@@ -31,6 +31,7 @@ class _StaffMemberFormState extends State<StaffMemberForm> {
   late final TextEditingController emailController;
   final GlobalKey<FormState> _formKey = GlobalKey();
   late final String? initialEmailAddress;
+
   @override
   void initState() {
     initialEmailAddress = widget.email;
@@ -52,6 +53,7 @@ class _StaffMemberFormState extends State<StaffMemberForm> {
     return Stack(
       children: [
         ListView(
+          shrinkWrap: true,
           children: [
             WindowsTileWithDropdownMenu<UserRole>(
               tileLabel: context.localizations!.roleOrPrivileges,

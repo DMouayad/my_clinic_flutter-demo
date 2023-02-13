@@ -1,12 +1,14 @@
-import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
-import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/custom_back_button.dart';
 import 'package:flutter/material.dart';
 
 //
+import 'package:clinic_v2/presentation/shared_widgets/custom_buttons/custom_back_button.dart';
+import 'package:clinic_v2/presentation/shared_widgets/app_name_text.dart';
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 import 'package:clinic_v2/presentation/shared_widgets/color_barrier.dart';
 
 import '../loading_indicator.dart';
+
+part 'two_sides_screen_layout_with_logo.dart';
 
 class TwoSidesScreenLayout extends StatelessWidget {
   factory TwoSidesScreenLayout.withAppLogo({
@@ -15,22 +17,10 @@ class TwoSidesScreenLayout extends StatelessWidget {
     Animation<double>? rightSideAnimation,
     Widget? optionsBar,
     Widget? leftSideContent,
-    bool rightSideScrollable = false,
-    bool autoShowBackButton = true,
-  }) {
-    return TwoSidesScreenLayout(
-      rightSideAnimation: rightSideAnimation,
-      rightSideBlurred: rightSideBlurred,
-      rightSide: rightSide,
-      rightSideScrollable: rightSideScrollable,
-      autoShowBackButton: autoShowBackButton,
-      leftSide: _LeftSideWithAppLogo(
-        showInProgressIndicator: rightSideBlurred,
-        leftSideChild: leftSideContent,
-        optionsBar: optionsBar,
-      ),
-    );
-  }
+    int leftSideFlex,
+    bool rightSideScrollable,
+    bool autoShowBackButton,
+  }) = TwoSidesScreenLayoutWithAppLogo;
 
   const TwoSidesScreenLayout({
     required this.rightSide,
@@ -39,11 +29,13 @@ class TwoSidesScreenLayout extends StatelessWidget {
     this.rightSideBlurred = false,
     this.rightSideScrollable = false,
     this.autoShowBackButton = true,
+    this.hideLeftSideOnPortraitTablet = true,
     this.rightSideAnimation,
     this.leftSideAnimation,
     this.backgroundColor,
     this.leftSideFlex = 1,
     this.rightSideFlex = 1,
+    this.portraitTabletLayoutFooter,
     Key? key,
   }) : super(key: key);
 
@@ -58,18 +50,17 @@ class TwoSidesScreenLayout extends StatelessWidget {
   final Color? backgroundColor;
   final bool rightSideScrollable;
   final bool autoShowBackButton;
+  final bool hideLeftSideOnPortraitTablet;
+  final Widget? portraitTabletLayoutFooter;
 
   @override
   Widget build(context) {
-    if (context.isPortraitTablet) {
-      return _buildScrollableVerticalSides(context);
-    }
-    if (context.isDesktop || context.isLandScapeTablet) {
-      return Material(
-        color: context.colorScheme.backgroundColor,
-        child: Flex(
-          direction: context.isPortraitTablet ? Axis.vertical : Axis.horizontal,
-          children: [
+    return Material(
+      color: context.colorScheme.backgroundColor,
+      child: Flex(
+        direction: context.isPortraitTablet ? Axis.vertical : Axis.horizontal,
+        children: [
+          if (!(hideLeftSideOnPortraitTablet && context.isPortraitTablet))
             Expanded(
               flex: leftSideFlex,
               child: leftSideAnimation != null
@@ -83,86 +74,76 @@ class TwoSidesScreenLayout extends StatelessWidget {
                       sideIsBlurred: leftSideBlurred,
                     ),
             ),
+          Expanded(
+            flex: context.screenWidth > 1200 ? 1 : 2,
+            child: SafeArea(
+              child: rightSideAnimation != null
+                  ? _buildSideWithTransition(
+                      animation: rightSideAnimation!,
+                      widget: _getRightSide(rightSide, context),
+                      sideIsBlurred: rightSideBlurred,
+                    )
+                  : _buildSide(
+                      sideContent: _getRightSide(rightSide, context),
+                      sideIsBlurred: rightSideBlurred,
+                    ),
+            ),
+          ),
+          if (context.isPortraitTablet && portraitTabletLayoutFooter != null)
             Expanded(
-              flex: context.screenWidth > 1200 ? 1 : 2,
-              child: SafeArea(
-                child: rightSideAnimation != null
-                    ? _buildSideWithTransition(
-                        animation: rightSideAnimation!,
-                        widget: _getRightSide(rightSide, context),
-                        sideIsBlurred: rightSideBlurred,
-                      )
-                    : _buildSide(
-                        sideContent: _getRightSide(rightSide, context),
-                        sideIsBlurred: rightSideBlurred,
-                      ),
-              ),
+              flex: 0,
+              child: portraitTabletLayoutFooter!,
             ),
-          ],
-        ),
-      );
-    }
-    throw UnimplementedError();
-  }
-
-  Widget _buildScrollableVerticalSides(BuildContext context) {
-    return Material(
-      color: context.colorScheme.backgroundColor,
-      child: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar.medium(
-              backgroundColor: context.colorScheme.backgroundColor,
-              expandedHeight: context.screenHeight * .2,
-              centerTitle: true,
-              elevation: 0,
-              title: AppNameText(
-                fontSize: 42,
-                fontColor: context.colorScheme.primary,
-              ),
-            ),
-            SliverFillRemaining(
-              fillOverscroll: true,
-              child: rightSide,
-              // hasScrollBody: false,
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
   Widget _getRightSide(Widget rightSide, BuildContext context) {
-    if (autoShowBackButton && rightSideScrollable) {
+    if (rightSideScrollable) {
       return CustomScrollView(
+        physics:
+            rightSideScrollable ? null : const NeverScrollableScrollPhysics(),
         slivers: [
           SliverAppBar.medium(
             backgroundColor: context.colorScheme.backgroundColor,
-            // expandedHeight: context.screenHeight * .2,
-            leading: const CustomBackButton(),
-            title: const SizedBox.shrink(),
+            surfaceTintColor: context.colorScheme.backgroundColor,
+            expandedHeight:
+                context.screenHeight * (context.screenHeight > 800 ? .2 : .1),
+            automaticallyImplyLeading: false,
+            leading: autoShowBackButton ? const CustomBackButton() : null,
+            title: context.isPortraitTablet
+                ? AppNameText(
+                    fontSize: context.isDesktop ? 50 : 36,
+                    fontColor: context.colorScheme.primary,
+                  )
+                : const SizedBox.shrink(),
           ),
           SliverFillRemaining(
-            fillOverscroll: true,
             child: rightSide,
           ),
         ],
       );
-    } else if (autoShowBackButton && !rightSideScrollable) {
+    } else {
       return Scaffold(
         backgroundColor: context.colorScheme.backgroundColor,
         appBar: AppBar(
           backgroundColor: context.colorScheme.backgroundColor,
           automaticallyImplyLeading: false,
           elevation: 0,
-          leading:
-              Navigator.of(context).canPop() ? const CustomBackButton() : null,
-          title: const SizedBox.shrink(),
+          leading: (Navigator.of(context).canPop() && autoShowBackButton)
+              ? const CustomBackButton()
+              : null,
+          title: context.isPortraitTablet
+              ? AppNameText(
+                  fontSize: context.isDesktop ? 50 : 36,
+                  fontColor: context.colorScheme.primary,
+                )
+              : const SizedBox.shrink(),
         ),
         body: rightSide,
       );
     }
-    return rightSide;
   }
 
   Widget _buildSide({
@@ -196,65 +177,6 @@ class TwoSidesScreenLayout extends StatelessWidget {
           sideContent: widget,
           sideIsBlurred: sideIsBlurred,
         ),
-      ),
-    );
-  }
-}
-
-class _LeftSideWithAppLogo extends StatelessWidget {
-  final bool showInProgressIndicator;
-  final Widget? leftSideChild;
-
-  final Widget? optionsBar;
-
-  const _LeftSideWithAppLogo({
-    this.showInProgressIndicator = false,
-    this.leftSideChild,
-    this.optionsBar,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Hero(
-      tag: 'appName',
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              constraints: const BoxConstraints.expand(),
-              color: context.colorScheme.primaryContainer,
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  AppNameText(
-                    fontSize: context.isDesktop ? 50 : 36,
-                    fontColor: context.colorScheme.primary,
-                  ),
-                  if (leftSideChild != null) ...[
-                    const Spacer(),
-                    leftSideChild!
-                  ],
-                  if (showInProgressIndicator) ...[
-                    const Spacer(),
-                    const LoadingIndicator(),
-                  ],
-                  const Spacer(),
-                ],
-              ),
-            ),
-          ),
-          if (optionsBar != null)
-            Align(
-              alignment: context.isArabicLocale
-                  ? Alignment.topRight
-                  : Alignment.bottomLeft,
-              child: optionsBar,
-            ),
-        ],
       ),
     );
   }

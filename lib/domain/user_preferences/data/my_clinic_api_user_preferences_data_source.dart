@@ -31,8 +31,10 @@ class MyClinicApiUserPreferencesDataSource
   }
 
   @override
-  Future<Result<VoidValue, AppError>> setUserPreferences(
-      {required ThemeMode themeMode, required Locale locale}) async {
+  Future<Result<VoidValue, AppError>> setUserPreferences({
+    required ThemeMode themeMode,
+    required Locale locale,
+  }) async {
     return (await CreateUserPreferencesApiEndpoint(
       locale: locale.languageCode,
       theme: themeMode.name,

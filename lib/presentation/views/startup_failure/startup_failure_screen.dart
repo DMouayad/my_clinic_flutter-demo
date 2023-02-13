@@ -33,7 +33,7 @@ class AppStartupFailureScreen extends StatelessWidget {
           Flash(
             duration: const Duration(seconds: 4),
             child: Icon(
-              error.appException == const AppException.noConnectionFound()
+              error.appException == AppException.noConnectionFound
                   ? Icons.signal_wifi_bad_sharp
                   : Icons.error_outline,
               size: 50,

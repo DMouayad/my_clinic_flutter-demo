@@ -4,9 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 //
 import 'package:clinic_v2/utils/extensions/context_extensions.dart';
 
-import '../../presentation/shared_widgets/color_barrier.dart';
 import '../../presentation/shared_widgets/custom_buttons/custom_back_button.dart';
-import '../../presentation/shared_widgets/loading_indicator.dart';
 
 class ScaffoldWithAppBar extends StatelessWidget {
   const ScaffoldWithAppBar({

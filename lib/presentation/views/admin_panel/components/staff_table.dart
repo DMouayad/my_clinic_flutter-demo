@@ -78,7 +78,7 @@ class _StaffDataTableState extends State<StaffDataTable> {
         return SizedBox.expand(
           child: Material(
             elevation: 1,
-            shadowColor: context.fluentTheme.shadowColor,
+            shadowColor: context.colorScheme.shadowColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

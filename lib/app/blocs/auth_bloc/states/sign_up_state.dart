@@ -22,7 +22,7 @@ class EmailNotAuthorizedToRegister extends SignUpErrorState {
   EmailNotAuthorizedToRegister()
       : super(
           AppError(
-            appException: const AppException.emailUnauthorizedToRegister(),
+            appException: AppException.emailUnauthorizedToRegister,
           ),
         );
 }
@@ -31,7 +31,7 @@ class EmailAlreadySignedUp extends SignUpErrorState {
   EmailAlreadySignedUp()
       : super(
           AppError(
-            appException: const AppException.emailAlreadyRegistered(),
+            appException: AppException.emailAlreadyRegistered,
           ),
         );
 }

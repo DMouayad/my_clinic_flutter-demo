@@ -1,4 +1,3 @@
-import 'package:clinic_v2/presentation/shared_widgets/custom_dialogs/show_alert_dialog.dart';
 import 'package:clinic_v2/presentation/shared_widgets/custom_dialogs/show_error_dialog.dart';
 import 'package:clinic_v2/presentation/shared_widgets/custom_dialogs/show_progress_dialog.dart';
 import 'package:clinic_v2/presentation/shared_widgets/material_with_utils.dart';
@@ -53,6 +52,12 @@ class _AuthErrorStateHandlerState extends State<AuthErrorStateHandler> {
             showAdaptiveProgressDialog(
               context: context,
               contentText: context.localizations!.signUpInProgress,
+            ).then((value) => dialogIsVisible = false);
+          } else if (state is LogoutInProgress) {
+            dialogIsVisible = true;
+            showAdaptiveProgressDialog(
+              context: context,
+              contentText: context.localizations!.loggingOut,
             ).then((value) => dialogIsVisible = false);
           }
         }

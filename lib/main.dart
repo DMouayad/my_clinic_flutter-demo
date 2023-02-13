@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:clinic_v2/api/helpers/api_endpoint_request_maker.dart';
-import 'package:clinic_v2/api/helpers/dio_http_client.dart';
 import 'package:clinic_v2/domain/authentication/base/base_auth_tokens_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +14,9 @@ import 'package:clinic_v2/domain/notifications/base/base_notifications_listener.
 import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/presentation/navigation/app_router.dart';
 import 'package:clinic_v2/presentation/themes/material_themes.dart';
-import 'app/blocs/auth_bloc/auth_states_handler.dart';
+import 'api/services/api_endpoint_request_maker.dart';
+import 'api/services/dio_http_client.dart';
+import 'app/blocs/auth_bloc/auth_user_listener.dart';
 import 'app/services/socketio/socketio_provider.dart';
 import 'domain/authentication/data/my_clinic_api_refresh_tokens_service.dart';
 import 'domain/authentication/data/secure_storage_auth_tokens_service.dart';
@@ -42,34 +42,32 @@ void main() async {
   Log.v("Logger started | ${DateTime.now()}");
   Log.v("App is running on ${Platform.operatingSystemVersion}");
 
+  _injectDependencies();
+
+  // GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
+  // GetIt.I.get<BaseAuthTokensService>().deleteRefreshToken();
+  runApp(const ClinicApp());
+}
+
+void _injectDependencies() {
   GetIt.I.registerSingleton(SocketIoProvider());
   GetIt.I.registerSingleton<BaseNotificationsListener>(
       SocketIoNotificationsListener());
   GetIt.I.registerSingleton<BaseAuthTokensService>(
     SecureStorageAuthTokensService(MyClinicApiRefreshTokensService()),
   );
-  GetIt.I.registerSingleton<ApiEndpointRequestMaker>(
-      ApiEndpointRequestMaker(DioHttpClient()));
-
-  // GetIt.I.get<BaseAuthTokensService>().deleteAccessToken();
-  // GetIt.I.get<BaseAuthTokensService>().deleteRefreshToken();
-  runApp(ClinicApp(
-    userPreferencesRepository: MyClinicApiUserPreferencesRepository(),
-    authRepository: MyClinicApiAuthRepository(),
-  ));
+  GetIt.I.registerSingleton(ApiEndpointRequestMaker(DioHttpClient()));
+  GetIt.I.registerSingleton<BaseUserPreferencesRepository>(
+      MyClinicApiUserPreferencesRepository());
+  GetIt.I.registerSingleton<BaseAuthRepository>(MyClinicApiAuthRepository());
 }
 
 /// Main App widget
 class ClinicApp extends StatelessWidget {
   const ClinicApp({
-    required this.authRepository,
-    required this.userPreferencesRepository,
     Key? key,
     this.home,
   }) : super(key: key);
-
-  final BaseUserPreferencesRepository userPreferencesRepository;
-  final BaseAuthRepository authRepository;
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -77,29 +75,27 @@ class ClinicApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (_) => authRepository,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (_) => AppPreferencesCubit(userPreferencesRepository),
-          ),
-          BlocProvider(
-            create: (context) => AuthBloc(context.read<BaseAuthRepository>())
-              ..add(const AuthInitRequested()),
-          ),
-        ],
-        child: context.isWindowsPlatform
-            ? _WindowsApp(navigatorKey, home: home)
-            : _AndroidApp(navigatorKey, home: home),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => AppPreferencesCubit(GetIt.I.get()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AuthBloc(GetIt.I.get())..add(const AuthInitRequested()),
+        ),
+      ],
+      child: AuthUserListener(
+        context.isWindowsPlatform
+            ? _WindowsApp(home: home)
+            : _AndroidApp(home: home),
       ),
     );
   }
 }
 
-class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
-  const _WindowsApp(this.navigatorKey, {this.home, Key? key}) : super(key: key);
-  final GlobalKey<NavigatorState> navigatorKey;
+class _WindowsApp extends StatelessWidget {
+  const _WindowsApp({this.home, Key? key}) : super(key: key);
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -114,14 +110,13 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
         return fluent_ui.FluentApp(
           title: 'MyClinic',
           debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
+          navigatorKey: ClinicApp.navigatorKey,
           theme: FluentAppThemes.lightTheme,
           darkTheme: FluentAppThemes.defaultDarkTheme,
           themeMode: (state is AppPreferencesStateWithData)
               ? state.themeMode
               : ThemeMode.system,
           home: home,
-          builder: appBuilder,
           initialRoute: AppRoutes.startupScreen,
           locale: (state is AppPreferencesStateWithData) ? state.locale : null,
           onGenerateRoute: AppRouter.onGenerateRoute,
@@ -136,9 +131,8 @@ class _WindowsApp extends StatelessWidget with _ClinicAppHelper {
   }
 }
 
-class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
-  const _AndroidApp(this.navigatorKey, {this.home, Key? key}) : super(key: key);
-  final GlobalKey<NavigatorState> navigatorKey;
+class _AndroidApp extends StatelessWidget {
+  const _AndroidApp({this.home, Key? key}) : super(key: key);
 
   /// ### used only for testing purposes
   final Widget? home;
@@ -152,7 +146,7 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
       builder: (context, state) {
         return MaterialApp(
           title: 'MyClinic',
-          navigatorKey: navigatorKey,
+          navigatorKey: ClinicApp.navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: MaterialAppThemes.lightTheme,
           darkTheme: MaterialAppThemes.defaultDarkTheme,
@@ -161,7 +155,6 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
               : ThemeMode.system,
           home: home,
           initialRoute: AppRoutes.startupScreen,
-          builder: appBuilder,
           locale: (state is AppPreferencesStateWithData) ? state.locale : null,
           onGenerateRoute: AppRouter.onGenerateRoute,
           localeListResolutionCallback: localeResolutionCallBack,
@@ -175,32 +168,17 @@ class _AndroidApp extends StatelessWidget with _ClinicAppHelper {
   }
 }
 
-mixin _ClinicAppHelper {
-  Widget appBuilder(
-    BuildContext context,
-    Widget? app,
-  ) {
-    if (context.read<AppPreferencesCubit>().state is AppPreferencesInitial) {
-      context.read<AppPreferencesCubit>().setInitialAppPreferences(
-            context.themeMode,
-            context.locale,
-          );
-    }
-    return AuthStatesHandler(app!);
-  }
-
-  Locale localeResolutionCallBack(
-    List<Locale>? deviceLocales,
-    Iterable<Locale> supportedLocales,
-  ) {
-    final supportedLocalesCodes = supportedLocales.map((e) => e.languageCode);
-    if (deviceLocales != null) {
-      for (var locale in deviceLocales) {
-        if (supportedLocalesCodes.contains(locale.languageCode)) {
-          return Locale(locale.languageCode);
-        }
+Locale localeResolutionCallBack(
+  List<Locale>? deviceLocales,
+  Iterable<Locale> supportedLocales,
+) {
+  final supportedLocalesCodes = supportedLocales.map((e) => e.languageCode);
+  if (deviceLocales != null) {
+    for (var locale in deviceLocales) {
+      if (supportedLocalesCodes.contains(locale.languageCode)) {
+        return Locale(locale.languageCode);
       }
     }
-    return supportedLocales.first;
   }
+  return supportedLocales.first;
 }

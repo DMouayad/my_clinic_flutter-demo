@@ -1,4 +1,4 @@
-part of '../../../../../app/blocs/auth_bloc/auth_bloc.dart';
+part of '../auth_bloc.dart';
 
 class LogoutInProgress extends AuthState {
   const LogoutInProgress();

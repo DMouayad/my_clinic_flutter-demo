@@ -67,14 +67,11 @@ abstract class BaseAuthTokensService {
           );
         } else {
           return FailureResult.withAppException(
-            const AppException.noRefreshTokenFound(),
-          );
+              AppException.noRefreshTokenFound);
         }
       }
     } else {
-      return FailureResult.withAppException(
-        const AppException.noAccessTokenFound(),
-      );
+      return FailureResult.withAppException(AppException.noAccessTokenFound);
     }
   }
 

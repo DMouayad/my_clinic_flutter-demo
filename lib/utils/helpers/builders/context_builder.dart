@@ -4,7 +4,8 @@ class ContextBuilder<T extends Object> {
   /// Used by Default
   final T? defaultChild;
 
-  // Platform Adaptive
+  // Platform Adaptive//
+  //
   /// Used If `(context.isWindowsPlatform && context.isMobile)` is true.
   ///
   /// If its `null`, `windowsChild` will be returned

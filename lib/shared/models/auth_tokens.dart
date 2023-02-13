@@ -35,6 +35,7 @@ class PersonalAccessToken {
     required this.token,
     this.expiresAt,
   });
+
   factory PersonalAccessToken.fromJson(String json) =>
       PersonalAccessToken.fromMap(jsonDecode(json));
 
@@ -44,7 +45,9 @@ class PersonalAccessToken {
       expiresAt: DateTime.tryParse(map['expires_at']),
     );
   }
+
   String toJson() => jsonEncode(toMap());
+
   Map<String, dynamic> toMap() {
     return {
       'token': token,

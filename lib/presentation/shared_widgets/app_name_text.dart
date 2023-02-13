@@ -16,11 +16,11 @@ class AppNameText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       context.localizations!.myClinic,
-      style: context.textTheme.headline6?.copyWith(
+      style: context.textTheme.headlineMedium?.copyWith(
         letterSpacing: 1,
         fontSize: fontSize,
         fontWeight: fontWeight ?? FontWeight.w400,
-        color: fontColor ?? context.colorScheme.onBackground,
+        color: fontColor ?? context.colorScheme.primary,
       ),
     );
   }

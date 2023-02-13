@@ -5,8 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
+import 'mock_auth_repository_factory.mocks.dart';
 @GenerateNiceMocks([MockSpec<BaseAuthRepository>()])
-import 'base_auth_repository.mocks.dart';
 import 'mock_server_user_factory.dart';
 import 'mock_base_server_user.dart';
 

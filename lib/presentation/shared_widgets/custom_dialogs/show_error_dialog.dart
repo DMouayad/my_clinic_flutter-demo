@@ -26,7 +26,7 @@ Future<T?> showAdaptiveErrorDialog<T>({
             Text(
               titleText,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: context.textTheme.titleMedium?.copyWith(
                   color: titleTextColor ?? context.colorScheme.errorColor),
             ),
           ],

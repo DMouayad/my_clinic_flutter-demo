@@ -2,8 +2,8 @@ import 'package:clinic_v2/app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
 import 'package:flutter_test/flutter_test.dart' as test;
 import 'package:meta/meta.dart';
-import 'utils/base_auth_repository.mocks.dart';
 import 'utils/mock_auth_repository_factory.dart';
+import 'utils/mock_auth_repository_factory.mocks.dart';
 import 'utils/mock_server_user_factory.dart';
 
 @isTest

@@ -6,12 +6,14 @@ import '../../../domain/user_preferences/base/base_user_preferences.dart';
 abstract class BaseUserPreferencesRepository<T extends BaseUserPreferences> {
   Future onInit() async => null;
 
-  T? get userPreferences;
+  T? getUserPreferences();
 
-  set userPreferences(T? value);
+  void setUserPreferences(T? value);
 
-  Future<Result<VoidValue, AppError>> setUserPreferences(
-      ThemeMode themeMode, Locale locale);
+  Future<Result<VoidValue, AppError>> createUserPreferences(
+    ThemeMode themeMode,
+    Locale locale,
+  );
 
   Future<Result<VoidValue, AppError>> loadUserPreferences();
 

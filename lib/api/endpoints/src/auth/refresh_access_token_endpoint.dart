@@ -13,7 +13,7 @@ class RefreshAccessTokenEndpoint
         );
 
   @override
-  RefreshAccessTokenEndpointResult resultFromMap(Map<String, dynamic> map) {
+  RefreshAccessTokenEndpointResult resultFromApiResponseMap(map) {
     return RefreshAccessTokenEndpointResult.fromMap(map);
   }
 }

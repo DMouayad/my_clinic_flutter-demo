@@ -18,28 +18,29 @@ class SignUpPage extends AppPage {
           ),
           pageScreenBuilder: (context, animation, secondaryAnimation) {
             return ContextBuilder(
-              mobileScreenChild:
-                  _buildScreen(const MobileSignUpScreen(), context),
-              wideScreenChild:
+              mobileScreenChild: AuthErrorStateHandler(
+                  child: _buildScreen(const MobileSignUpScreen(), context)),
+              tabletScreenChild: AuthErrorStateHandler(
+                  child: _buildScreen(
+                      WideSignUpScreen(animation: animation), context)),
+              desktopScreenChild:
                   _buildScreen(WideSignUpScreen(animation: animation), context),
             );
           },
         );
 
   static Widget _buildScreen(Widget screen, BuildContext context) {
-    return AuthErrorStateHandler(
-      child: WillPopScope(
-        onWillPop: () async {
-          return await showAdaptiveAlertDialog<bool>(
-                context: context,
-                titleText: context.localizations!.exitSignUpDialogTitle,
-                contentText: context.localizations!.exitSignUpDialogMessage,
-                confirmText: context.localizations!.exit,
-              ) ??
-              false;
-        },
-        child: screen,
-      ),
+    return WillPopScope(
+      onWillPop: () async {
+        return await showAdaptiveAlertDialog<bool>(
+              context: context,
+              titleText: context.localizations!.exitSignUpDialogTitle,
+              contentText: context.localizations!.exitSignUpDialogMessage,
+              confirmText: context.localizations!.exit,
+            ) ??
+            false;
+      },
+      child: screen,
     );
   }
 }

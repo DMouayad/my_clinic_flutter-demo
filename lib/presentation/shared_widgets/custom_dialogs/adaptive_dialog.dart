@@ -58,6 +58,9 @@ class AdaptiveDialog extends StatelessWidget {
       } else {
         if (type == DialogType.alert || type == DialogType.error) {
           return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            actionsPadding: const EdgeInsets.all(18),
             backgroundColor: context.colorScheme.backgroundColor,
             title: _getTitle(context),
             content: _getContent(context),
@@ -66,18 +69,24 @@ class AdaptiveDialog extends StatelessWidget {
           );
         } else {
           return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             backgroundColor: context.colorScheme.backgroundColor,
             child: SizedBox(
-              width: context.screenWidth * .7,
-              child: ListView(
-                shrinkWrap: true,
+              width: context.screenWidth * .6,
+              height: context.screenHeight * .7,
+              child: Padding(
                 padding: contentPadding,
-                children: [
-                  if (_getTitle(context) != null) _getTitle(context)!,
-                  const SizedBox(height: 20),
-                  if (_getContent(context) != null) _getContent(context)!,
-                  if (_getActions(context) != null) ..._getActions(context)!,
-                ],
+                child: Flex(
+                  direction: Axis.vertical,
+                  children: [
+                    if (_getTitle(context) != null) _getTitle(context)!,
+                    const SizedBox(height: 20),
+                    if (_getContent(context) != null)
+                      Expanded(child: _getContent(context)!),
+                    if (_getActions(context) != null) ..._getActions(context)!,
+                  ],
+                ),
               ),
             ),
           );
@@ -92,12 +101,7 @@ class AdaptiveDialog extends StatelessWidget {
         content: content,
         constraints: BoxConstraints.tight(
           Size(
-            widgetInfo.widgetSize.width *
-                (context.isTablet
-                    ? .7
-                    : context.isMobile
-                        ? .8
-                        : .5),
+            widgetInfo.widgetSize.width * .5,
             widgetInfo.widgetSize.height * .7,
           ),
         ),
@@ -133,7 +137,7 @@ class AdaptiveDialog extends StatelessWidget {
             ? Text(
                 titleText!,
                 textAlign: TextAlign.center,
-                style: context.textTheme.headlineMedium?.copyWith(
+                style: context.textTheme.titleLarge?.copyWith(
                   color:
                       titleTextColor ?? context.colorScheme.onPrimaryContainer,
                 ),

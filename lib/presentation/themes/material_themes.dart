@@ -24,7 +24,8 @@ class MaterialAppThemes {
 
   static ThemeData of(BuildContext context) =>
       context.isDarkMode ? defaultDarkTheme : lightTheme;
-  static final ThemeData defaultDarkTheme = ThemeData.dark().copyWith(
+  static final ThemeData defaultDarkTheme =
+      ThemeData.dark(useMaterial3: true).copyWith(
     // Colors //
     brightness: Brightness.dark,
     colorScheme: AppColorScheme.darkColorScheme,
@@ -69,9 +70,7 @@ class MaterialAppThemes {
       ),
       labelColor: Color(0xFFd4d5d6),
     ),
-// typography: Typography.material2021(
-//   black: TextTheme()
-// ),
+
     // default Text Theme //
     textTheme: const TextTheme(
       headlineLarge: TextStyle(fontFamily: 'inter', color: Color(0xFFe4e9eb)),
@@ -128,10 +127,10 @@ class MaterialAppThemes {
 
   static const lightSysOverlayStyle = SystemUiOverlayStyle.light;
 
+  // ====================LIGHT THEME===================== //
   static ThemeData lightTheme = ThemeData.light().copyWith(
     brightness: Brightness.light,
     useMaterial3: true,
-
     //
     scaffoldBackgroundColor: _lightModeBackgroundColor,
     appBarTheme: AppBarTheme(

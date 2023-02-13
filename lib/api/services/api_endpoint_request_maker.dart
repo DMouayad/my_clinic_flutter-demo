@@ -41,6 +41,8 @@ class ApiEndpointRequestMaker {
         apiEndpoint: apiEndpoint,
         accessToken: accessToken,
       );
+      // if the request was performed then the response should be
+      // visible in the log, else, an exception happened
       Log.logHttpResponse(response);
       if (response.isSuccess) {
         if (T is EmptyApiEndpointResult) {
@@ -50,12 +52,12 @@ class ApiEndpointRequestMaker {
       } else {
         return FailureResult(ApiResponseError.fromResponse(response.data));
       }
-    } on SocketException {
-      return FailureResult.withAppException(
-        const AppException.noConnectionFound(),
-      );
+    } on SocketException catch (e) {
+      return FailureResult(AppError(
+        appException: AppException.noConnectionFound,
+        exception: e,
+      ));
     } on Exception catch (e) {
-      Log.e(e);
       return FailureResult.withException(e);
     }
   }

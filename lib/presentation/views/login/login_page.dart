@@ -13,13 +13,13 @@ class LoginPage extends AppPage {
             tabletScreenChild: RouteTransitionType.platformDefault,
             windowsChild: RouteTransitionType.none,
           ),
-          // transitionDuration: const Duration(milliseconds: 1000),
           pageScreenBuilder: (context, animation, secondaryAnimation) {
             return ContextBuilder(
               mobileScreenChild:
                   const AuthErrorStateHandler(child: MobileLoginScreen()),
-              wideScreenChild: AuthErrorStateHandler(
+              tabletScreenChild: AuthErrorStateHandler(
                   child: WideLoginScreen(animation: animation)),
+              desktopScreenChild: WideLoginScreen(animation: animation),
             );
           },
         );

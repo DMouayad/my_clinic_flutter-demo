@@ -10,7 +10,11 @@ class AuthInitRequested extends AuthEvent {
 
     final authInitState = (await repository.onInit()).mapTo(
       onSuccess: (_) => null,
-      onFailure: (error) => AuthInitFailed(error),
+      onFailure: (error) {
+        if (error.appException != AppException.noAccessTokenFound) {
+          return AuthInitFailed(error);
+        }
+      },
     );
     if (authInitState != null) {
       emit(authInitState);
