@@ -5,7 +5,7 @@ class AuthInitRetryRequested extends AuthEvent {
 
   @override
   Future<void> handle(
-    BaseAuthRepository<BaseServerUser> repository,
+    BaseAuthRepository repository,
     AuthState state,
     Emitter<AuthState> emit,
   ) async {

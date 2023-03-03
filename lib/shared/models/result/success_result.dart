@@ -13,14 +13,14 @@ class SuccessResult<V extends Object?, E extends NoError> extends Result<V, E> {
   }
 
   @override
-  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends AppError>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object?, F extends AppError>(
     Future<U> Function(V value) transform,
   ) async {
     return SuccessResult(await transform(value));
   }
 
   @override
-  Result<U, F> mapSuccess<U extends Object, F extends AppError>(
+  Result<U, F> mapSuccess<U extends Object?, F extends AppError>(
       U Function(V value) transform) {
     return SuccessResult(transform(value));
   }

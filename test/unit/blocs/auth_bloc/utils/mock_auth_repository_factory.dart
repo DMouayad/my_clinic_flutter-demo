@@ -1,129 +1,59 @@
 import 'package:clinic_v2/domain/authentication/base/base_auth_repository.dart';
 import 'package:clinic_v2/shared/models/result/result.dart';
-import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 
-import 'mock_auth_repository_factory.mocks.dart';
-@GenerateNiceMocks([MockSpec<BaseAuthRepository>()])
-import 'mock_server_user_factory.dart';
-import 'mock_base_server_user.dart';
+import 'mock_async_result.dart';
+import 'fake_server_user.dart';
+import 'mock_auth_data_source_factory.dart';
+import 'mock_auth_data_source_factory.mocks.dart';
 
-class MockAuthRepositoryFactory {
-  late final MockBaseAuthRepository _repository;
-  BaseServerUser? _currentUser;
-  final MockAuthRepoMethodResult<VoidValue>? initResult;
-  final MockAuthRepoMethodResult<VoidValue>? loginResult;
-  final MockAuthRepoMethodResult<VoidValue>? registerResult;
-  final MockAuthRepoMethodResult<VoidValue>? logoutResult;
+class FakeAuthRepository
+    extends BaseAuthRepository<MockBaseAuthDataSource, FakeServerUser> {
+  FakeAuthRepository(super.dataSource);
+}
 
-  factory MockAuthRepositoryFactory() {
-    return MockAuthRepositoryFactory._(repository: MockBaseAuthRepository());
-  }
-  MockBaseAuthRepository get repository => _repository;
-  MockAuthRepositoryFactory._({
-    required MockBaseAuthRepository repository,
+class FakeAuthRepositoryFactory {
+  final AuthRepoMockAsyncResult<VoidValue>? initResult;
+  final AuthRepoMockAsyncResult<VoidValue>? loginResult;
+  final AuthRepoMockAsyncResult<VoidValue>? registerResult;
+  final AuthRepoMockAsyncResult<VoidValue>? logoutResult;
+  final AuthRepoMockAsyncResult<VoidValue>? requestVerificationEmail;
+
+  FakeAuthRepositoryFactory({
     this.initResult,
     this.loginResult,
     this.registerResult,
     this.logoutResult,
+    this.requestVerificationEmail,
+  });
+
+  FakeAuthRepository create() {
+    final dataSource = MockAuthDataSourceFactory()
+        .setupWith(
+          loadUserResult: initResult?.toRegular(),
+          registerResult: registerResult?.toRegular(),
+          loginResult: loginResult?.toRegular(),
+          logoutResult: logoutResult?.toRegular(),
+          sendVerificationEmailResult: requestVerificationEmail?.toRegular(),
+        )
+        .create();
+
+    return FakeAuthRepository(dataSource);
+  }
+
+  FakeAuthRepositoryFactory setupWith({
+    AuthRepoMockAsyncResult<VoidValue>? initResult,
+    AuthRepoMockAsyncResult<VoidValue>? loginResult,
+    AuthRepoMockAsyncResult<VoidValue>? registerResult,
+    AuthRepoMockAsyncResult<VoidValue>? logoutResult,
+    AuthRepoMockAsyncResult<VoidValue>? requestVerificationEmail,
   }) {
-    _repository = repository;
-    _currentUser = null;
-  }
-  Future<Result<VoidValue, AppError>> _processMethodCall(
-    MockAuthRepoMethodResult<VoidValue>? result,
-    String resultName,
-  ) async {
-    result ??= MockAuthRepoMethodResult(result: SuccessResult.voidResult());
-    final stubResult =
-        await Future.delayed(result.returnAfter, () => result!.result);
-    return stubResult;
-  }
-
-  MockBaseAuthRepository create() {
-    when(_repository.onInit()).thenAnswer((_) async {
-      return await _processMethodCall(initResult, 'authInit');
-    });
-
-    when(_repository.login(
-      email: anyNamed("email"),
-      password: anyNamed("password"),
-    )).thenAnswer((_) async => await _processMethodCall(loginResult, 'login'));
-    when(_repository.register(
-      email: anyNamed('email'),
-      name: anyNamed('name'),
-      phoneNumber: anyNamed('phoneNumber'),
-      password: anyNamed('password'),
-    )).thenAnswer(
-        (_) async => await _processMethodCall(registerResult, 'register'));
-
-    when(_repository.logout()).thenAnswer(
-        (_) async => await _processMethodCall(logoutResult, 'logout'));
-    when(_repository.usersStream).thenAnswer(
-      (_) {
-        final MockServerUserFactory userFactory = MockServerUserFactory();
-        final users = <Future<BaseServerUser?>>[];
-
-        if (initResult != null) {
-          users.add(_getResultUser(initResult!, userFactory));
-        }
-
-        if (registerResult != null) {
-          users.add(_getResultUser(registerResult!, userFactory));
-        }
-        if (loginResult != null) {
-          users.add(_getResultUser(loginResult!, userFactory));
-        }
-        if (logoutResult != null) {
-          users.add(_getResultUser(logoutResult!, userFactory));
-        }
-        return Stream.fromFutures(users);
-      },
-    );
-    when(_repository.currentUser).thenReturn(() {
-      return _currentUser;
-    }());
-    return _repository;
-  }
-
-  Future<BaseServerUser?> _getResultUser(
-    MockAuthRepoMethodResult result,
-    MockServerUserFactory userFactory,
-  ) async {
-    return Future.delayed(result.streamUserAfter, () {
-      _currentUser = result.userAfterExecution;
-      return _currentUser;
-    });
-  }
-
-  MockAuthRepositoryFactory setupWith({
-    MockAuthRepoMethodResult<VoidValue>? initResult,
-    MockAuthRepoMethodResult<VoidValue>? loginResult,
-    MockAuthRepoMethodResult<VoidValue>? registerResult,
-    MockAuthRepoMethodResult<VoidValue>? logoutResult,
-  }) {
-    return MockAuthRepositoryFactory._(
-      repository: _repository,
+    return FakeAuthRepositoryFactory(
       initResult: initResult ?? this.initResult,
       loginResult: loginResult ?? this.loginResult,
       registerResult: registerResult ?? this.registerResult,
       logoutResult: logoutResult ?? this.logoutResult,
+      requestVerificationEmail:
+          requestVerificationEmail ?? this.requestVerificationEmail,
     );
   }
-}
-
-class MockAuthRepoMethodResult<ResultType extends Object> {
-  final MockBaseServerUser? userAfterExecution;
-  final Duration streamUserAfter;
-  final Duration returnAfter;
-  final Result<ResultType, AppError> result;
-
-  const MockAuthRepoMethodResult({
-    required this.result,
-    this.userAfterExecution,
-    this.returnAfter = const Duration(milliseconds: 300),
-    this.streamUserAfter = const Duration(milliseconds: 500),
-  });
 }

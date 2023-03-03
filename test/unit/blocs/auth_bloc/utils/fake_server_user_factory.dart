@@ -4,9 +4,9 @@ import 'package:clinic_v2/utils/enums.dart';
 import 'package:clinic_v2/domain/user_preferences/base/base_user_preferences.dart';
 import 'package:faker_dart/faker_dart.dart';
 
-import 'mock_base_server_user.dart';
+import 'fake_server_user.dart';
 
-class MockServerUserFactory {
+class FakeServerUserFactory {
   int? id;
   String? phoneNumber;
   String? name;
@@ -15,14 +15,14 @@ class MockServerUserFactory {
   DateTime? emailVerifiedAt;
   BaseUserPreferences? preferences;
 
-  factory MockServerUserFactory() {
-    return MockServerUserFactory._(faker: Faker.instance);
+  factory FakeServerUserFactory() {
+    return FakeServerUserFactory._(faker: Faker.instance);
   }
   final Faker _faker;
 
-  MockBaseServerUser create() {
+  FakeServerUser create() {
     final rnd = Random();
-    return MockBaseServerUser(
+    return FakeServerUser(
       id: id ?? rnd.nextInt(9999),
       name: name ?? _faker.name.fullName(),
       email: email ?? _faker.internet.email(),
@@ -34,7 +34,7 @@ class MockServerUserFactory {
     );
   }
 
-  MockServerUserFactory withAttributes({
+  FakeServerUserFactory withAttributes({
     int? id,
     String? phoneNumber,
     String? name,
@@ -43,7 +43,7 @@ class MockServerUserFactory {
     DateTime? emailVerifiedAt,
     BaseUserPreferences? preferences,
   }) {
-    return MockServerUserFactory._(
+    return FakeServerUserFactory._(
       id: id ?? this.id,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       name: name ?? this.name,
@@ -55,7 +55,7 @@ class MockServerUserFactory {
     );
   }
 
-  MockServerUserFactory._({
+  FakeServerUserFactory._({
     this.id,
     this.phoneNumber,
     this.name,

@@ -4,8 +4,8 @@ import 'package:clinic_v2/domain/authentication/data/my_clinic_api_user.dart';
 
 import '../../../domain/staff_member/base/base_staff_member.dart';
 
-class MyClinicApiStaffMember extends BaseStaffMember<MyClinicApiUser> {
-  const MyClinicApiStaffMember({
+class ApiStaffMember extends BaseStaffMember<ApiUser> {
+  const ApiStaffMember({
     required super.id,
     required super.email,
     required super.userRole,
@@ -13,29 +13,29 @@ class MyClinicApiStaffMember extends BaseStaffMember<MyClinicApiUser> {
     super.user,
   });
 
-  factory MyClinicApiStaffMember.fromApiResponse(
+  factory ApiStaffMember.fromApiResponse(
     ApiResponseStaffMemberData staffMemberData,
   ) {
-    return MyClinicApiStaffMember(
+    return ApiStaffMember(
       id: staffMemberData.id,
       email: staffMemberData.email,
       createdAt: staffMemberData.createdAt,
       userRole: UserRole.values.byName(staffMemberData.roleSlug),
       user: staffMemberData.userData != null
-          ? MyClinicApiUser.fromApiResponse(staffMemberData.userData!)
+          ? ApiUser.fromApiResponse(staffMemberData.userData!)
           : null,
     );
   }
 
   @override
-  MyClinicApiStaffMember copyWith({
+  ApiStaffMember copyWith({
     int? id,
     String? email,
     UserRole? userRole,
     DateTime? createdAt,
-    MyClinicApiUser? user,
+    ApiUser? user,
   }) {
-    return MyClinicApiStaffMember(
+    return ApiStaffMember(
       id: id ?? this.id,
       email: email ?? this.email,
       userRole: userRole ?? this.userRole,

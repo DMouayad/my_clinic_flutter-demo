@@ -7,20 +7,19 @@ import 'package:clinic_v2/utils/enums.dart';
 import '../base/base_staff_member_data_source.dart';
 import 'my_clinic_api_staff_member.dart';
 
-class MyClinicApiStaffMemberDataSource
-    extends BaseStaffMemberDataSource<MyClinicApiStaffMember> {
-  const MyClinicApiStaffMemberDataSource();
+class ApiStaffMemberDataSource
+    extends BaseStaffMemberDataSource<ApiStaffMember> {
+  const ApiStaffMemberDataSource();
 
   @override
-  Future<Result<MyClinicApiStaffMember, AppError>> addStaffMember(
+  Future<Result<ApiStaffMember, AppError>> addStaffMember(
       String email, UserRole userRole) async {
     return (await AddStaffMemberApiEndpoint(
       email: email,
       role: userRole,
     ).request())
         .mapSuccess(
-      (result) =>
-          MyClinicApiStaffMember.fromApiResponse(result.staffMemberData),
+      (result) => ApiStaffMember.fromApiResponse(result.staffMemberData),
     );
   }
 
@@ -31,7 +30,7 @@ class MyClinicApiStaffMemberDataSource
   }
 
   @override
-  Future<Result<PaginatedResource<MyClinicApiStaffMember>, AppError>>
+  Future<Result<PaginatedResource<ApiStaffMember>, AppError>>
       fetchStaffMembers({
     int? page,
     int? perPage,
@@ -45,7 +44,7 @@ class MyClinicApiStaffMemberDataSource
     return response.mapSuccess((result) {
       return PaginatedResource(
           data: result.staffMembersData
-              .map((e) => MyClinicApiStaffMember.fromApiResponse(e))
+              .map((e) => ApiStaffMember.fromApiResponse(e))
               .toList(),
           paginationInfo: result.paginationInfo,
           paginationLinks: result.paginationLinks);

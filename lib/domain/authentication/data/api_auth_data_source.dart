@@ -7,14 +7,16 @@ import '../base/base_auth_data_source.dart';
 import '../base/base_auth_tokens_service.dart';
 import 'my_clinic_api_user.dart';
 
-class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
-  const MyClinicApiAuthDataSource();
+class ApiAuthDataSource implements BaseAuthDataSource<ApiUser> {
+  const ApiAuthDataSource();
 
   BaseAuthTokensService get _authTokensService => GetIt.I.get();
 
   @override
-  Future<Result<MyClinicApiUser, AppError>> login(
-      String email, String password) async {
+  Future<Result<ApiUser, AppError>> login({
+    required String email,
+    required String password,
+  }) async {
     final response =
         await LoginApiEndpoint(email: email, password: password).request();
 
@@ -22,13 +24,13 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
       (result) async {
         // save returned auth tokens to storage
         await _authTokensService.saveAuthTokens(result.authTokens);
-        return MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs);
+        return ApiUser.fromApiResponse(result.userWithRoleAndPrefs);
       },
     );
   }
 
   @override
-  Future<Result<MyClinicApiUser, AppError>> register({
+  Future<Result<ApiUser, AppError>> register({
     required String username,
     required String email,
     required String phoneNumber,
@@ -44,7 +46,7 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
     return await response.mapSuccessAsync(
       (result) async {
         await _authTokensService.saveAuthTokens(result.authTokens);
-        return MyClinicApiUser.fromApiResponse(result.userWithRole);
+        return ApiUser.fromApiResponse(result.userWithRole);
       },
     );
   }
@@ -71,13 +73,12 @@ class MyClinicApiAuthDataSource implements BaseAuthDataSource<MyClinicApiUser> {
   }
 
   @override
-  Future<Result<MyClinicApiUser?, AppError>> loadUser() async {
+  Future<Result<ApiUser?, AppError>> loadUser() async {
     if ((await _authTokensService.getAccessToken()) == null) {
       return const SuccessResult(null);
     } else {
       return (await FetchUserEndpoint().request()).mapSuccess(
-        (result) =>
-            MyClinicApiUser.fromApiResponse(result.userWithRoleAndPrefs),
+        (result) => ApiUser.fromApiResponse(result.userWithRoleAndPrefs),
       );
     }
   }

@@ -44,7 +44,7 @@ import 'base_repository_factory.dart';
 /// ```
 ///
 
-abstract class BlocTestCase<S, B extends BlocBase<S>, R,
+abstract class BlocTestCase<B extends BlocBase<S>, S, R,
     F extends BaseRepositoryFactory<R>> {
   final String description;
   final F Function(F factory)? setupRepository;
@@ -56,13 +56,13 @@ abstract class BlocTestCase<S, B extends BlocBase<S>, R,
   final dynamic Function(B bloc, R repository)? verify;
   final Duration? waitAfterAct;
   final S Function()? seed;
+  F repositoryFactory;
 
   B createBloc(R repository);
 
-  F get repositoryFactory;
-
-  const BlocTestCase(
+  BlocTestCase(
     this.description, {
+    required this.repositoryFactory,
     this.setupRepository,
     this.act,
     this.expect,

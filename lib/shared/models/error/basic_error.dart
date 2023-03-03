@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'app_exception.dart';
 export 'app_exception.dart';
 
+/// App Context Error
 class AppError extends Error with EquatableMixin {
   final String? message;
   final AppException? appException;
@@ -40,7 +41,7 @@ class AppError extends Error with EquatableMixin {
   }
 
   @override
-  List<Object?> get props => [message, description, appException];
+  List<Object?> get props => [message, description, appException, exception];
 
   AppError copyWith({
     String? message,
@@ -57,4 +58,5 @@ class AppError extends Error with EquatableMixin {
   }
 }
 
+/// Used to represents the type of error in a [SuccessResult]
 abstract class NoError extends AppError {}

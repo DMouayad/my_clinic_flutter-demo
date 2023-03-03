@@ -24,9 +24,17 @@ abstract class BaseNotificationsListener<T extends BaseNotification,
 
   bool get isListening;
 
-  Future<void> registerHandlers(List<H> handlers);
+  Future<void> registerHandlers(List<H> handlers, String channel) async {
+    for (var handler in handlers) {
+      handler.call(notificationsController, channel);
+    }
+  }
 
-  Future<void> unRegisterHandlers(List<H> handlers);
+  Future<void> unRegisterHandlers(List<H> handlers, String channel) async {
+    for (var handler in handlers) {
+      handler.dispose(channel);
+    }
+  }
 
   Future<void> listenOnChannel(String channel);
 

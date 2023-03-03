@@ -7,8 +7,8 @@ class LoginRequested extends AuthEvent {
   const LoginRequested(this.email, this.password);
 
   @override
-  Future<void> handle(BaseAuthRepository<BaseServerUser> repository,
-      AuthState state, Emitter<AuthState> emit) async {
+  Future<void> handle(BaseAuthRepository repository, AuthState state,
+      Emitter<AuthState> emit) async {
     if (state != const LoginInProgress()) emit(const LoginInProgress());
     await getLoginState(
       repository,

@@ -21,7 +21,7 @@ void main() {
 
     AppPreferencesCubitTestCase(
       '''should emit [AppPreferences] if current user's [BaseUserPreferences] is
-       not null and call [repository.setUserPreferences] with these preferences''',
+       not null and should call [repository.setUserPreferences] with these preferences''',
       act: (cubit) {
         cubit.processUserPreferences(
           userPrefs,
@@ -41,7 +41,7 @@ void main() {
     )();
     AppPreferencesCubitTestCase(
       '''should emit [AppPreferences] with current app [Locale] and [ThemeMode]
-       if current user's [BaseUserPreferences] is null and call
+       if current user's [BaseUserPreferences] is null and should call
         [repository.createUserPreferences] with these preferences''',
       setupRepository: (factory) => factory.setupWith(
         createUserPrefsResult: SuccessResult.voidResult(),

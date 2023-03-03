@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:clinic_v2/domain/authentication/base/base_auth_tokens_service.dart';
+import 'package:clinic_v2/domain/authentication/data/api_auth_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -20,6 +21,7 @@ import 'app/blocs/auth_bloc/auth_user_listener.dart';
 import 'app/services/socketio/socketio_provider.dart';
 import 'domain/authentication/data/my_clinic_api_refresh_tokens_service.dart';
 import 'domain/authentication/data/secure_storage_auth_tokens_service.dart';
+import 'domain/notifications/data/socket_io/socket_io_auth_notifications_handler.dart';
 import 'utils/extensions/context_extensions.dart';
 import 'app/blocs/app_preferences_cubit/app_preferences_cubit.dart';
 import 'domain/authentication/base/base_auth_repository.dart';
@@ -28,7 +30,7 @@ import 'domain/user_preferences/data/my_clinic_api_user_preferences_repository.d
 import 'presentation/navigation/src/routes.dart';
 import 'presentation/themes/fluent_themes.dart';
 import 'shared/services/logger_service.dart';
-import 'domain/authentication/data/my_clinic_api_auth_repository.dart';
+import 'domain/authentication/data/api_auth_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,12 +56,15 @@ void _injectDependencies() {
   GetIt.I.registerSingleton<BaseNotificationsListener>(
       SocketIoNotificationsListener());
   GetIt.I.registerSingleton<BaseAuthTokensService>(
-    SecureStorageAuthTokensService(MyClinicApiRefreshTokensService()),
+    SecureStorageAuthTokensService(ApiRefreshTokensService()),
   );
   GetIt.I.registerSingleton(ApiEndpointRequestMaker(DioHttpClient()));
   GetIt.I.registerSingleton<BaseUserPreferencesRepository>(
-      MyClinicApiUserPreferencesRepository());
-  GetIt.I.registerSingleton<BaseAuthRepository>(MyClinicApiAuthRepository());
+      ApiUserPreferencesRepository());
+  GetIt.I.registerSingleton<BaseAuthRepository>(ApiAuthRepository(
+    const ApiAuthDataSource(),
+    notificationsHandlers: [SocketIoAuthNotificationHandler()],
+  ));
 }
 
 /// Main App widget

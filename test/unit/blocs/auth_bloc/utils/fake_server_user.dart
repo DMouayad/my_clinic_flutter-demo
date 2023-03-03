@@ -2,7 +2,7 @@ import 'package:clinic_v2/utils/enums.dart';
 import 'package:clinic_v2/domain/authentication/base/base_server_user.dart';
 import 'package:clinic_v2/domain/user_preferences/base/base_user_preferences.dart';
 
-class MockBaseServerUser implements BaseServerUser {
+class FakeServerUser implements BaseServerUser {
   @override
   final DateTime? emailVerifiedAt;
   @override
@@ -41,7 +41,7 @@ class MockBaseServerUser implements BaseServerUser {
   @override
   bool? get stringify => true;
 
-  const MockBaseServerUser({
+  const FakeServerUser({
     this.emailVerifiedAt,
     required this.id,
     required this.phoneNumber,

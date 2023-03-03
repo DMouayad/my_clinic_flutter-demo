@@ -3,7 +3,7 @@ import 'package:clinic_v2/shared/models/result/result.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../auth_bloc_event_test_case.dart';
-import '../utils/mock_auth_repository_factory.dart';
+import '../utils/mock_async_result.dart';
 
 void main() {
   group('LogoutRequested event tests', () {
@@ -13,14 +13,14 @@ void main() {
        event was added and received [SuccessResult] from the repository""",
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          logoutResult: MockAuthRepoMethodResult(
+          logoutResult: AuthRepoMockAsyncResult(
             result: SuccessResult.voidResult(),
             userAfterExecution: null,
           ),
         );
       },
       act: (bloc) => bloc.add(const LogoutRequested()),
-      expectedStates: (repository, bloc, _) {
+      expectedStates: (_) {
         return const <AuthState>[
           LogoutInProgress(),
           LogoutSuccess(),
@@ -33,7 +33,7 @@ void main() {
        event was added and received [FailureResult] from the repository""",
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          logoutResult: MockAuthRepoMethodResult(
+          logoutResult: AuthRepoMockAsyncResult(
             result: FailureResult.withAppException(
               AppException.cannotConnectToServer,
             ),
@@ -41,7 +41,7 @@ void main() {
         );
       },
       act: (bloc) => bloc.add(const LogoutRequested()),
-      expectedStates: (repository, bloc, _) {
+      expectedStates: (_) {
         return <AuthState>[
           // const LogoutInProgress(),
           LogoutFailed(

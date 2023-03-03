@@ -7,14 +7,14 @@ import 'my_clinic_api_user_preferences_data_source.dart';
 import 'my_clinic_api_user_preferences.dart';
 import '../base/base_user_preferences_repository.dart';
 
-class MyClinicApiUserPreferencesRepository
-    implements BaseUserPreferencesRepository<MyClinicApiUserPreferences> {
-  MyClinicApiUserPreferencesRepository() {
-    _dataSource = const MyClinicApiUserPreferencesDataSource();
+class ApiUserPreferencesRepository
+    implements BaseUserPreferencesRepository<ApiUserPreferences> {
+  ApiUserPreferencesRepository() {
+    _dataSource = const ApiUserPreferencesDataSource();
   }
 
-  late final MyClinicApiUserPreferencesDataSource _dataSource;
-  MyClinicApiUserPreferences? _userPreferences;
+  late final ApiUserPreferencesDataSource _dataSource;
+  ApiUserPreferences? _userPreferences;
 
   @override
   Future onInit() async => null;
@@ -59,7 +59,7 @@ class MyClinicApiUserPreferencesRepository
     ))
         .mapSuccessToVoid(
       onSuccess: (_) {
-        setUserPreferences(MyClinicApiUserPreferences(
+        setUserPreferences(ApiUserPreferences(
           themePreference: themeMode,
           localePreference: locale,
         ));
@@ -68,10 +68,10 @@ class MyClinicApiUserPreferencesRepository
   }
 
   @override
-  MyClinicApiUserPreferences? getUserPreferences() => _userPreferences;
+  ApiUserPreferences? getUserPreferences() => _userPreferences;
 
   @override
-  void setUserPreferences(MyClinicApiUserPreferences? value) {
+  void setUserPreferences(ApiUserPreferences? value) {
     _userPreferences = value;
   }
 }

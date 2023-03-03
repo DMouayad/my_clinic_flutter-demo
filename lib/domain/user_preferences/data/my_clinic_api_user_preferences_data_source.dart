@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import '../base/base_user_preferences_data_source.dart';
 import 'my_clinic_api_user_preferences.dart';
 
-class MyClinicApiUserPreferencesDataSource
-    implements BaseUserPreferencesDataSource<MyClinicApiUserPreferences> {
-  const MyClinicApiUserPreferencesDataSource();
+class ApiUserPreferencesDataSource
+    implements BaseUserPreferencesDataSource<ApiUserPreferences> {
+  const ApiUserPreferencesDataSource();
 
   @override
-  Future<Result<MyClinicApiUserPreferences, AppError>>
-      fetchUserPreferences() async {
+  Future<Result<ApiUserPreferences, AppError>> fetchUserPreferences() async {
     final response = await FetchUserPreferencesApiEndpoint().request();
     return response.mapSuccess(
-      (result) => MyClinicApiUserPreferences.fromMap(result.toMap()),
+      (result) => ApiUserPreferences.fromMap(result.toMap()),
     );
   }
 

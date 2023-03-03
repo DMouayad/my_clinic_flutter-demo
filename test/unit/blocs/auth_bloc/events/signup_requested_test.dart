@@ -6,8 +6,8 @@ import 'package:mockito/mockito.dart';
 
 import '../../../../helpers/dio_error_factory.dart';
 import '../auth_bloc_event_test_case.dart';
+import '../utils/mock_async_result.dart';
 import '../utils/mock_auth_repository_factory.dart';
-import '../utils/mock_auth_repository_factory.mocks.dart';
 
 void main() {
   group("SignUpRequested event tests", () {
@@ -17,7 +17,7 @@ void main() {
       'name': 'testuser',
       'phoneNumber': '0123456789',
     };
-    void verifyRepositoryRegisterWasCalled(MockBaseAuthRepository repository) {
+    void verifyRepositoryRegisterWasCalled(FakeAuthRepository repository) {
       return verify(
         repository.register(
           email: signupData['email']!,
@@ -28,8 +28,7 @@ void main() {
       ).called(1);
     }
 
-    void verifyAfterExecution(
-        MockBaseAuthRepository repository, AuthBloc bloc) {
+    void verifyAfterExecution(FakeAuthRepository repository, AuthBloc bloc) {
       Future.delayed(const Duration(seconds: 3), () {
         verifyRepositoryRegisterWasCalled(repository);
       });
@@ -48,10 +47,10 @@ void main() {
       desc: "should emit [SignUpInProgress] after [SignUpRequested]",
       setup: (repoFactory, _) => repoFactory.setupWith(
         registerResult:
-            MockAuthRepoMethodResult(result: SuccessResult.voidResult()),
+            AuthRepoMockAsyncResult(result: SuccessResult.voidResult()),
       ),
       act: act,
-      expect: (repository, bloc, _) =>
+      expect: (userAfterEvents, emittedStates) =>
           expect(bloc.stream, emits(const SignUpInProgress())),
       verify: verifyAfterExecution,
     );
@@ -63,13 +62,13 @@ void main() {
       act: act,
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          registerResult: MockAuthRepoMethodResult(
+          registerResult: AuthRepoMockAsyncResult(
             result: SuccessResult.voidResult(),
             userAfterExecution: userFactory.create(),
           ),
         );
       },
-      expectedStates: (repository, bloc, userAfterEvents) {
+      expectedStates: (userAfterEvents) {
         return [
           const SignUpInProgress(),
           const SignUpSuccess(),
@@ -85,14 +84,14 @@ void main() {
            ''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          registerResult: MockAuthRepoMethodResult(
+          registerResult: AuthRepoMockAsyncResult(
             result: FailureResult.withAppException(
                 AppException.emailUnauthorizedToRegister),
           ),
         );
       },
       act: act,
-      expectedStates: (repository, bloc, _) {
+      expectedStates: (_) {
         return [
           const SignUpInProgress(),
           EmailNotAuthorizedToRegister(),
@@ -109,14 +108,14 @@ void main() {
            ''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          registerResult: MockAuthRepoMethodResult(
+          registerResult: AuthRepoMockAsyncResult(
             result: FailureResult.withAppException(
                 AppException.emailAlreadyRegistered),
           ),
         );
       },
       act: act,
-      expectedStates: (repository, bloc, _) {
+      expectedStates: (_) {
         return [
           const SignUpInProgress(),
           EmailAlreadySignedUp(),
@@ -131,7 +130,7 @@ void main() {
           after [LoginRequested] and received [FailureResult.withDioError]''',
       setup: (repoFactory, _) {
         return repoFactory.setupWith(
-            registerResult: MockAuthRepoMethodResult(
+            registerResult: AuthRepoMockAsyncResult(
           result: FailureResult.withDioError(
             DioErrorFactory()
                 .setupWith(errorType: DioErrorType.connectTimeout)
@@ -140,7 +139,7 @@ void main() {
         ));
       },
       act: act,
-      expect: (repository, bloc, _) {
+      expect: (userAfterEvents, emittedStates) {
         return [
           const SignUpInProgress(),
           LoginErrorState(

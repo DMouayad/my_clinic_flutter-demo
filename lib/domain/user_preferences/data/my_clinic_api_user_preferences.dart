@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:clinic_v2/utils/extensions/map_extensions.dart';
 import '../base/base_user_preferences.dart';
 
-class MyClinicApiUserPreferences extends BaseUserPreferences {
-  const MyClinicApiUserPreferences({
+class ApiUserPreferences extends BaseUserPreferences {
+  const ApiUserPreferences({
     int? id,
     int? userId,
     required ThemeMode themePreference,
@@ -21,8 +21,8 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
     return jsonEncode(toMap());
   }
 
-  factory MyClinicApiUserPreferences.fromJson(String json) {
-    return MyClinicApiUserPreferences.fromMap(jsonDecode(json));
+  factory ApiUserPreferences.fromJson(String json) {
+    return ApiUserPreferences.fromMap(jsonDecode(json));
   }
   Map<String, dynamic> toMap() {
     return {
@@ -33,8 +33,8 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
     };
   }
 
-  factory MyClinicApiUserPreferences.fromMap(Map<String, dynamic> map) {
-    return MyClinicApiUserPreferences(
+  factory ApiUserPreferences.fromMap(Map<String, dynamic> map) {
+    return ApiUserPreferences(
       id: map.get('id'),
       userId: map.get('user_id'),
       themePreference: ThemeMode.values.byName(map.get('theme')),
@@ -43,11 +43,11 @@ class MyClinicApiUserPreferences extends BaseUserPreferences {
   }
 
   @override
-  MyClinicApiUserPreferences copyWith({
+  ApiUserPreferences copyWith({
     ThemeMode? themePreference,
     Locale? localePreference,
   }) {
-    return MyClinicApiUserPreferences(
+    return ApiUserPreferences(
       id: id,
       userId: userId,
       themePreference: themePreference ?? this.themePreference,

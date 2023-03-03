@@ -64,7 +64,7 @@ void main() {
       verify: (cubit, repo) {
         verify(repo.updateUserLocalePreference(const Locale('en')));
       },
-      waitAfterAct: const Duration(seconds: 2),
+      waitAfterAct: const Duration(seconds: 1),
       expectedStates: (cubit, repo) => const [
         AppPreferences(currentUserThemeMode, Locale('ar')),
         UpdatingUserPreferencesInProgress(),
@@ -96,7 +96,7 @@ void main() {
         verify(repo.getUserPreferences());
         verifyNoMoreInteractions(repo);
       },
-      waitAfterAct: const Duration(seconds: 2),
+      waitAfterAct: const Duration(seconds: 1),
       expect: (_, repo) {
         expect(
             repo.getUserPreferences(),

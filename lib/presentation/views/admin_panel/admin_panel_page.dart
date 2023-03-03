@@ -37,7 +37,7 @@ class AdminPanelPage extends AppPage {
           ),
         );
         return StaffBloc(
-          MyClinicApiStaffMemberRepository(),
+          ApiStaffMemberRepository(),
         )..add(event);
       },
       child: BlocProvider(

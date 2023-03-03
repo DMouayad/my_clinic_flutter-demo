@@ -38,18 +38,4 @@ class SocketIoNotificationsListener<T extends BaseSocketIoNotificationHandler>
     _socket.emit('disconnect');
     _socket.dispose();
   }
-
-  @override
-  Future<void> registerHandlers(List<T> handlers) async {
-    for (var handler in handlers) {
-      handler.call(notificationsController);
-    }
-  }
-
-  @override
-  Future<void> unRegisterHandlers(List<T> handlers) async {
-    for (var handler in handlers) {
-      handler.dispose();
-    }
-  }
 }

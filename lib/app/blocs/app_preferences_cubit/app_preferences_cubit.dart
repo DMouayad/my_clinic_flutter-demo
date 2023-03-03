@@ -12,9 +12,10 @@ import 'package:clinic_v2/shared/services/logger_service.dart';
 
 part 'app_preferences_state.dart';
 
-/// Manages user userPreferences of the app's locale and themeMode.
-/// The purpose of this cubit is to provide the userPreferences
-/// based on user choices.
+/// Manages user's Preferences of app's [Locale]\language and [ThemeMode].
+/// Updates the app preferences based on user choices.
+/// Updates user preferences.
+///
 class AppPreferencesCubit extends Cubit<AppPreferencesState> {
   AppPreferencesCubit(this._repository, {this.shouldLogCubitChange = true})
       : super(const AppPreferencesInitial());
@@ -92,15 +93,10 @@ class AppPreferencesCubit extends Cubit<AppPreferencesState> {
     if (userPreferences != null) {
       _repository.setUserPreferences(userPreferences);
       emit(AppPreferences(
-        userPreferences.themePreference,
-        userPreferences.localePreference,
-      ));
+          userPreferences.themePreference, userPreferences.localePreference));
     } else {
       _repository.createUserPreferences(appThemeMode, appLocale);
-      emit(AppPreferences(
-        appThemeMode,
-        appLocale,
-      ));
+      emit(AppPreferences(appThemeMode, appLocale));
     }
   }
 

@@ -5,11 +5,11 @@ import '../../../shared/base_bloc_test_case.dart';
 import 'mock_user_preferences_repository_factory.dart';
 
 class AppPreferencesCubitTestCase extends BlocTestCase<
-    AppPreferencesState,
     AppPreferencesCubit,
+    AppPreferencesState,
     BaseUserPreferencesRepository,
     UserPreferencesRepositoryFactory> {
-  const AppPreferencesCubitTestCase(
+  AppPreferencesCubitTestCase(
     super.description, {
     super.expectedStates,
     super.seed,
@@ -18,14 +18,10 @@ class AppPreferencesCubitTestCase extends BlocTestCase<
     super.expect,
     super.waitAfterAct,
     super.setupRepository,
-  });
+  }) : super(repositoryFactory: UserPreferencesRepositoryFactory());
 
   @override
   AppPreferencesCubit createBloc(repository) {
     return AppPreferencesCubit(repository, shouldLogCubitChange: false);
   }
-
-  @override
-  UserPreferencesRepositoryFactory get repositoryFactory =>
-      UserPreferencesRepositoryFactory();
 }

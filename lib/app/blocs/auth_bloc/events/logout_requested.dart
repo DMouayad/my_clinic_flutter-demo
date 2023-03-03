@@ -4,8 +4,8 @@ class LogoutRequested extends AuthEvent {
   const LogoutRequested();
 
   @override
-  Future<void> handle(BaseAuthRepository<BaseServerUser> repository,
-      AuthState state, Emitter<AuthState> emit) async {
+  Future<void> handle(BaseAuthRepository repository, AuthState state,
+      Emitter<AuthState> emit) async {
     if (state is! LogoutInProgress) emit(const LogoutInProgress());
     final logoutState = (await repository.logout()).mapTo(
       onSuccess: (_) => const LogoutSuccess(),

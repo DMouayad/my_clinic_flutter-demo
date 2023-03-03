@@ -4,9 +4,7 @@ import 'package:clinic_v2/app/services/socketio/socketio_provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 abstract class BaseSocketIoNotificationHandler extends BaseNotificationHandler {
-  final String channel;
-
   Socket get socket => GetIt.I.get<SocketIoProvider>().socket;
 
-  const BaseSocketIoNotificationHandler({required this.channel});
+  const BaseSocketIoNotificationHandler();
 }

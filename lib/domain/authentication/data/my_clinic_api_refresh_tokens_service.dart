@@ -4,7 +4,7 @@ import 'package:clinic_v2/shared/models/result/result.dart';
 
 import '../base/base_refresh_auth_tokens_service.dart';
 
-class MyClinicApiRefreshTokensService extends BaseRefreshAuthTokensService {
+class ApiRefreshTokensService extends BaseRefreshAuthTokensService {
   @override
   Future<Result<AuthTokens, AppError>> refreshAuthTokens({
     required String refreshToken,

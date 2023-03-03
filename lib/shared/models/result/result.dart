@@ -45,11 +45,11 @@ abstract class Result<V extends Object?, E extends AppError> {
     Future<void> Function(E error)? ifFailure,
   });
 
-  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends AppError>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object?, F extends AppError>(
     Future<U> Function(V value) transform,
   );
 
-  Result<U, F> mapSuccess<U extends Object, F extends AppError>(
+  Result<U, F> mapSuccess<U extends Object?, F extends AppError>(
     U Function(V value) transform,
   );
   Result<VoidValue, E> mapSuccessToVoid({void Function(V value) onSuccess});

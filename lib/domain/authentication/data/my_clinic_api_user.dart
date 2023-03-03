@@ -7,8 +7,8 @@ import 'package:clinic_v2/utils/extensions/map_extensions.dart';
 
 import '../base/base_server_user.dart';
 
-class MyClinicApiUser implements BaseServerUser {
-  MyClinicApiUser({
+class ApiUser implements BaseServerUser {
+  ApiUser({
     required this.id,
     required this.name,
     required this.email,
@@ -33,7 +33,7 @@ class MyClinicApiUser implements BaseServerUser {
   @override
   final UserRole role;
   @override
-  final MyClinicApiUserPreferences? preferences;
+  final ApiUserPreferences? preferences;
   @override
   final int? appUserId;
   @override
@@ -56,12 +56,12 @@ class MyClinicApiUser implements BaseServerUser {
     };
   }
 
-  factory MyClinicApiUser.fromJson(String json) {
-    return MyClinicApiUser.fromMap(jsonDecode(json));
+  factory ApiUser.fromJson(String json) {
+    return ApiUser.fromMap(jsonDecode(json));
   }
 
-  factory MyClinicApiUser.fromMap(Map<String, dynamic> map) {
-    return MyClinicApiUser(
+  factory ApiUser.fromMap(Map<String, dynamic> map) {
+    return ApiUser(
       id: map['id'],
       name: map['name'],
       email: map['email'],
@@ -70,12 +70,12 @@ class MyClinicApiUser implements BaseServerUser {
       role: UserRole.values.byName(map['role']),
       appUserId: map.get('app_user_id'),
       emailVerifiedAt: DateTime.tryParse(map.get('email_verified_at')),
-      preferences: MyClinicApiUserPreferences.fromMap(map['preferences']),
+      preferences: ApiUserPreferences.fromMap(map['preferences']),
     );
   }
 
-  factory MyClinicApiUser.fromApiResponse(ApiResponseUserData data) {
-    return MyClinicApiUser(
+  factory ApiUser.fromApiResponse(ApiResponseUserData data) {
+    return ApiUser(
       id: data.id,
       name: data.name,
       phoneNumber: data.phoneNumber,
@@ -87,7 +87,7 @@ class MyClinicApiUser implements BaseServerUser {
       appUserId: data.appUserId,
       role: UserRole.values.byName(data.roleSlug),
       preferences: data.preferencesMap != null
-          ? MyClinicApiUserPreferences.fromMap(data.preferencesMap!)
+          ? ApiUserPreferences.fromMap(data.preferencesMap!)
           : null,
     );
   }
@@ -111,18 +111,18 @@ class MyClinicApiUser implements BaseServerUser {
   @override
   bool get isVerified => emailVerifiedAt != null;
 
-  MyClinicApiUser copyWith({
+  ApiUser copyWith({
     DateTime? emailVerifiedAt,
     int? id,
     String? phoneNumber,
     String? name,
     String? email,
     UserRole? role,
-    MyClinicApiUserPreferences? preferences,
+    ApiUserPreferences? preferences,
     int? appUserId,
     DateTime? createdAt,
   }) {
-    return MyClinicApiUser(
+    return ApiUser(
       emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
       id: id ?? this.id,
       phoneNumber: phoneNumber ?? this.phoneNumber,

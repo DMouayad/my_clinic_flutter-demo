@@ -5,73 +5,42 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helpers/dio_error_factory.dart';
 import '../auth_bloc_event_test_case.dart';
-import '../utils/mock_auth_repository_factory.dart';
+import '../utils/mock_async_result.dart';
 
 void main() {
   group('AuthInitRequested event tests', () {
     authBlocEventTestCase(
       desc: "should emit [AuthHasNoLoggedInUser] when no user was found",
       setup: (repoFactory, userFactory) => repoFactory.setupWith(
-          initResult: MockAuthRepoMethodResult(
-              result: SuccessResult.voidResult(), userAfterExecution: null)),
+          initResult: AuthRepoMockAsyncResult(
+        result: SuccessResult.voidResult(),
+        userAfterExecution: null,
+      )),
       act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) {
-        expect(
-          bloc.stream,
-          emitsInOrder(
-            const <AuthState>[AuthInitInProgress(), AuthHasNoLoggedInUser()],
-          ),
-        );
+      expectedStates: (_) {
+        return const <AuthState>[AuthInitInProgress(), AuthHasNoLoggedInUser()];
       },
     );
-    authBlocEventTestCase(
-      desc: '''should emit [AuthHasNoLoggedInUser] without an error
-           when a [FailureResult] returned with [NoAccessTokenFoundException]''',
-      setup: (repoFactory, userFactory) {
-        return repoFactory.setupWith(
-          initResult: MockAuthRepoMethodResult(
-            result:
-                FailureResult.withAppException(AppException.noAccessTokenFound),
-          ),
-        );
-      },
-      act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) {
-        expect(
-          bloc.stream,
-          emitsInOrder(
-            const <AuthState>[
-              AuthInitInProgress(),
-              AuthHasNoLoggedInUser(),
-            ],
-          ),
-        );
-      },
-    );
+
     authBlocEventTestCase(
       desc: '''should emit [AuthHasNoLoggedInUser] with an error
            when a [FailureResult] returned with [NoRefreshTokenFoundException]''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          initResult: MockAuthRepoMethodResult(
+          initResult: AuthRepoMockAsyncResult(
             result: FailureResult.withAppException(
                 AppException.noRefreshTokenFound),
           ),
         );
       },
       act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) {
-        expect(
-          bloc.stream,
-          emitsInOrder(
-            <AuthState>[
-              const AuthInitInProgress(),
-              AuthInitFailed(
-                AppError(appException: AppException.noRefreshTokenFound),
-              ),
-            ],
+      expectedStates: (_) {
+        return <AuthState>[
+          const AuthInitInProgress(),
+          AuthInitFailed(
+            AppError(appException: AppException.noRefreshTokenFound),
           ),
-        );
+        ];
       },
     );
     authBlocEventTestCase(
@@ -79,25 +48,20 @@ void main() {
            when a [FailureResult] returned with [FailedToRefreshAuthTokensException]''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          initResult: MockAuthRepoMethodResult(
+          initResult: AuthRepoMockAsyncResult(
             result: FailureResult.withAppException(
                 AppException.failedToRefreshTokens),
           ),
         );
       },
       act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) {
-        expect(
-          bloc.stream,
-          emitsInOrder(
-            <AuthState>[
-              const AuthInitInProgress(),
-              AuthInitFailed(
-                AppError(appException: AppException.failedToRefreshTokens),
-              ),
-            ],
+      expectedStates: (_) {
+        return <AuthState>[
+          const AuthInitInProgress(),
+          AuthInitFailed(
+            AppError(appException: AppException.failedToRefreshTokens),
           ),
-        );
+        ];
       },
     );
     authBlocEventTestCase(
@@ -105,7 +69,7 @@ void main() {
           '''should emit [AuthInitFailed] when a [FailureResult] returned by [authInit]''',
       setup: (repoFactory, userFactory) {
         return repoFactory.setupWith(
-          initResult: MockAuthRepoMethodResult(
+          initResult: AuthRepoMockAsyncResult(
             result: FailureResult.withDioError(
               DioErrorFactory()
                   .setupWith(errorType: DioErrorType.connectTimeout)
@@ -115,49 +79,34 @@ void main() {
         );
       },
       act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) {
-        expect(
-          bloc.stream,
-          emitsInOrder(
-            <AuthState>[
-              const AuthInitInProgress(),
-              AuthInitFailed(
-                AppError(
-                  message: '',
-                  appException: AppException.external,
-                  description:
-                      '{Error type: DioErrorType.connectTimeout, exception: Null}',
-                ),
-              ),
-            ],
+      expectedStates: (_) {
+        return [
+          const AuthInitInProgress(),
+          AuthInitFailed(
+            AppError(
+              message: '',
+              appException: AppException.cannotConnectToServer,
+              description: DioErrorType.connectTimeout.toString(),
+            ),
           ),
-        );
+        ];
       },
     );
     authBlocEventTestCase(
       desc: "should emit [AuthHasLoggedInUser] when a user was found",
       setup: (repoFactory, userFactory) => repoFactory.setupWith(
-        initResult: MockAuthRepoMethodResult(
+        initResult: AuthRepoMockAsyncResult(
           result: SuccessResult.voidResult(),
           userAfterExecution: userFactory.create(),
         ),
       ),
       act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, userAfterEvents) {
-        expect(
-          bloc.stream,
-          emitsInOrder([
-            const AuthInitInProgress(),
-            AuthHasLoggedInUser(userAfterEvents.afterAuthInit!),
-          ]),
-        );
+      expectedStates: (userAfterEvents) {
+        return [
+          const AuthInitInProgress(),
+          AuthHasLoggedInUser(userAfterEvents.afterAuthInit!),
+        ];
       },
-    );
-    authBlocEventTestCase(
-      desc: "should emit [AuthInitInProgress] after [AuthInitRequested] event",
-      act: (bloc) => bloc.add(const AuthInitRequested()),
-      expect: (repository, bloc, _) =>
-          expect(bloc.stream, emits(const AuthInitInProgress())),
     );
   });
 }

@@ -29,15 +29,20 @@ class FailureResult<NoValue extends NoValueObtained, ErrorType extends AppError>
       if (e.error is SocketException) {
         return AppException.noConnectionFound;
       }
+      if (e.type == DioErrorType.connectTimeout ||
+          e.type == DioErrorType.sendTimeout ||
+          e.type == DioErrorType.receiveTimeout) {
+        return AppException.cannotConnectToServer;
+      }
       return AppException.external;
     }
 
     return FailureResult(
       AppError(
         message: e.message,
+        exception: e.error,
         appException: getErrorException(),
-        description:
-            {'Error type': e.type, 'exception': e.error.runtimeType}.toString(),
+        description: '${e.type}',
       ) as ErrorType,
     );
   }
@@ -52,13 +57,13 @@ class FailureResult<NoValue extends NoValueObtained, ErrorType extends AppError>
   }
 
   @override
-  Future<Result<U, F>> mapSuccessAsync<U extends Object, F extends AppError>(
+  Future<Result<U, F>> mapSuccessAsync<U extends Object?, F extends AppError>(
       Future<U> Function(NoValue value) transform) async {
     return FailureResult(error as F);
   }
 
   @override
-  Result<U, F> mapSuccess<U extends Object, F extends AppError>(
+  Result<U, F> mapSuccess<U extends Object?, F extends AppError>(
       U Function(NoValue value) transform) {
     return FailureResult(error as F);
   }

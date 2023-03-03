@@ -3,10 +3,10 @@ import '../user/user_was_verified_notification.dart';
 import 'socket_io_notification_handler.dart';
 
 class SocketIoAuthNotificationHandler extends BaseSocketIoNotificationHandler {
-  SocketIoAuthNotificationHandler({required super.channel});
+  SocketIoAuthNotificationHandler();
 
   @override
-  void call(notificationsController) {
+  void call(notificationsController, String channel) {
     socket.on('$channel:email-was-verified', (data) {
       notificationsController.add(UserWasVerifiedNotification.fromMap(data));
     });
@@ -17,7 +17,7 @@ class SocketIoAuthNotificationHandler extends BaseSocketIoNotificationHandler {
   }
 
   @override
-  void dispose() {
+  void dispose(String channel) {
     socket.on('$channel:email-was-verified', (data) {});
     socket.on('$channel:user-was-deleted', (data) {});
   }

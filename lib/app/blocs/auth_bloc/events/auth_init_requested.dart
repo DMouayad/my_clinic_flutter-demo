@@ -4,8 +4,8 @@ class AuthInitRequested extends AuthEvent {
   const AuthInitRequested();
 
   @override
-  Future<void> handle(BaseAuthRepository<BaseServerUser> repository,
-      AuthState state, Emitter<AuthState> emit) async {
+  Future<void> handle(BaseAuthRepository repository, AuthState state,
+      Emitter<AuthState> emit) async {
     if (state != const AuthInitInProgress()) emit(const AuthInitInProgress());
 
     final authInitState = (await repository.onInit()).mapTo(
