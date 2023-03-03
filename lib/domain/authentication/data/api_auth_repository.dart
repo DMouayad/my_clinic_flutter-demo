@@ -66,7 +66,7 @@ class ApiAuthRepository extends BaseAuthRepository<ApiAuthDataSource, ApiUser> {
         usersStreamController.add(currentUser);
       }
     } else if (notification is CurrentUserWasDeletedNotification) {
-      usersStreamController.add(null);
+      resetAuth();
     }
   }
 }
